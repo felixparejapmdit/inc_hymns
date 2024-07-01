@@ -357,22 +357,18 @@ document.getElementById('showMusicDetailsBtn').addEventListener('click', functio
 
                 let storedCurrentTime = 0; // Store the current time globally
                 function switchTrack(path) {
-                   
     const audioSource = document.getElementById('audioSource');
     const musicPlayer = document.getElementById('musicPlayer');
     
-    // Store the current time before switching tracks
-    storedCurrentTime = musicPlayer.currentTime;
-
     // Set new audio source path
     audioSource.src = path;
     
     // Load the new audio source
     musicPlayer.load();
-    // Wait for the new audio source to load and start playing, then set the seek time
+    
+    // Wait for the new audio source to load and start playing
     musicPlayer.addEventListener('loadedmetadata', function() {
-      
-        musicPlayer.currentTime = storedCurrentTime; // Set the seek time to the stored value
+        musicPlayer.currentTime = 0; // Reset currentTime to 0
         musicPlayer.play(); // Start playing the new track
     });
 }
