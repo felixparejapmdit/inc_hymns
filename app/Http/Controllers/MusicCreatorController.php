@@ -41,36 +41,38 @@ public function index(Request $request)
     }
 
     public function store(Request $request)
-{
-    // Validate request data
-    $validatedData = $request->validate([
-        'name' => 'required|max:255',
-        'local' => 'nullable|string',
-        'district' => 'nullable|string',
-        'duty' => 'nullable|string',
-        'birthday' => 'nullable|date',
-        'music_background' => 'nullable|string',
-        'add_designation' => 'required|integer',
+    {
+        // Validate request data
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'local' => 'nullable|string',
+            'district' => 'nullable|string',
+            'duty' => 'nullable|string',
+            'birthday' => 'nullable|date',
+            'music_background' => 'nullable|string',
+            'add_designation' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
-    ]);
-
-    // Handle image upload
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('music_creators', 'public');
-        $validatedData['image'] = $imagePath;
+        ]);
+    
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('music_creators', 'public');
+            $validatedData['image'] = $imagePath; // Store the image path in the validated data
+        } else {
+            $validatedData['image'] = null; // Set image to null if no image is uploaded
+        }
+    
+        // Rename the 'add_designation' key to 'designation'
+        $validatedData['designation'] = $validatedData['add_designation'];
+        unset($validatedData['add_designation']);
+    
+        // Create new music creator
+        $musicCreator = MusicCreator::create($validatedData);
+    
+        ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
+    
+        return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
     }
-
-    // Rename the 'add_designation' key to 'designation'
-    $validatedData['designation'] = $validatedData['add_designation'];
-    unset($validatedData['add_designation']);
-
-    // Create new music creator
-    $musicCreator = MusicCreator::create($validatedData);
-
-    ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
-
-    return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
-}
 
 
     // Display the specified music creator

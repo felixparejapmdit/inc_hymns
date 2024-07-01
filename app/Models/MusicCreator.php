@@ -10,6 +10,7 @@ class MusicCreator extends Model
     protected $table = 'music_creators';
     protected $fillable = [
         'name',
+        'image',
         'local',
         'district',
         'duty',
