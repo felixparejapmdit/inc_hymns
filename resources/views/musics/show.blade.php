@@ -357,21 +357,21 @@ document.getElementById('showMusicDetailsBtn').addEventListener('click', functio
 
                 let storedCurrentTime = 0; // Store the current time globally
                 function switchTrack(path) {
-    const audioSource = document.getElementById('audioSource');
-    const musicPlayer = document.getElementById('musicPlayer');
-    
-    // Set new audio source pathhhhhhh
-    audioSource.src = path;
-    
-    // Load the new audio source
-    musicPlayer.load();
-    
-    // Wait for the new audio source to load and start playing
-    musicPlayer.addEventListener('loadedmetadata', function() {
-        musicPlayer.currentTime = 0; // Reset currentTime to 0
-        musicPlayer.play(); // Start playing the new track
-    });
-}
+                    const audioSource = document.getElementById('audioSource');
+                    const musicPlayer = document.getElementById('musicPlayer');
+                    
+                    // Set new audio source pathhhhhhh
+                    audioSource.src = path;
+                    
+                    // Load the new audio source
+                    musicPlayer.load();
+                    
+                    // Wait for the new audio source to load and start playing
+                    musicPlayer.addEventListener('loadedmetadata', function() {
+                        musicPlayer.currentTime = 0; // Reset currentTime to 0
+                        musicPlayer.play(); // Start playing the new track
+                    });
+                }
             </script>
 
 
