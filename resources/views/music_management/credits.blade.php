@@ -89,8 +89,13 @@
                             @foreach($credits as $index => $credit)
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-white' }} hover:bg-gray-200">
                                 <td style="width: 5%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ ($credits->currentPage() - 1) * $credits->perPage() + $loop->iteration }}</td>
-                                <td style="width: 30%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ $credit->name }}</td>
-                                <td style="width: 10%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ $credit->local }}</td>
+                                <td style="width: 30%;" class="px-6 py-4 whitespace-nowrap border text-center">
+                                    @if($credit->image)
+                                        <img src="{{ asset('storage/' . $credit->image) }}" alt="Image" class="w-10 h-10 rounded-full inline-block mr-2">
+                                    @endif
+                                    {{ $credit->name }}
+                                </td>
+                                                    <td style="width: 10%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ $credit->local }}</td>
                                 <td style="width: 10%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ $credit->district }}</td>
                                 <td style="width: 10%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ $credit->duty }}</td>
                                 <td style="width: 15%;" class="px-6 py-4 whitespace-nowrap border text-center">
@@ -165,6 +170,12 @@
                 <div class="modal-body">
                     <form action="{{ route('credits.store') }}" method="POST">
                         @csrf
+
+                        <div class="form-group">
+                        <label for="image">Image:</label>
+                        <input type="file" class="form-control" id="image" name="image">
+                    </div>
+
                         <div class="form-group">
                             <label for="name">Credit Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>
@@ -231,6 +242,12 @@
                             @method('PUT')
 
                             <input type="hidden" class="form-control" id="edit_id" name="edit_id" value="{{ $credit->id }}">
+
+                            <div class="form-group">
+                        <label for="edit_image">Image:</label>
+                        <input type="file" class="form-control" id="edit_image" name="edit_image" accept="image/*">
+                    </div>
+
                             <div class="form-group">
                                 <label for="edit_name">Credit Name:</label>
                                 

@@ -40,31 +40,38 @@ public function index(Request $request)
         return view('credits.create');
     }
 
-    // Store a newly created music creator in the database
     public function store(Request $request)
-    {
-        // Validate request data
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'local' => 'nullable|string',
-            'district' => 'nullable|string',
-            'duty' => 'nullable|string',
-            'birthday' => 'nullable|date',
-            'music_background' => 'nullable|string',
-            'add_designation' => 'required|integer',
-        ]);
-       
-         // Rename the 'add_designation' key to 'designation'
-        $validatedData['designation'] = $validatedData['add_designation'];
-        unset($validatedData['add_designation']);
-   
-        // Create new music creator
-        $musicCreator = MusicCreator::create($validatedData);
-        
-        ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
-        
-        return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
+{
+    // Validate request data
+    $validatedData = $request->validate([
+        'name' => 'required|max:255',
+        'local' => 'nullable|string',
+        'district' => 'nullable|string',
+        'duty' => 'nullable|string',
+        'birthday' => 'nullable|date',
+        'music_background' => 'nullable|string',
+        'add_designation' => 'required|integer',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
+    ]);
+
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('music_creators', 'public');
+        $validatedData['image'] = $imagePath;
     }
+
+    // Rename the 'add_designation' key to 'designation'
+    $validatedData['designation'] = $validatedData['add_designation'];
+    unset($validatedData['add_designation']);
+
+    // Create new music creator
+    $musicCreator = MusicCreator::create($validatedData);
+
+    ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
+
+    return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
+}
+
 
     // Display the specified music creator
     public function show(MusicCreator $creator)
@@ -97,10 +104,9 @@ public function index(Request $request)
         return view('creators.edit', compact('creator'));
     }
 
-    // Update the specified music creator in the database
     public function update(Request $request, MusicCreator $credit)
     {
-        
+      
         // Validate request data
         $validatedData = $request->validate([
             'edit_name' => 'required|max:255',
@@ -110,9 +116,15 @@ public function index(Request $request)
             'edit_birthday' => 'nullable|date',
             'edit_music_background' => 'nullable|string',
             'edit_designation' => 'required|integer',
+            'edit_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
         ]);
-
-        
+        dd($request);
+        // Handle image upload
+        if ($request->hasFile('edit_image')) {
+            $imagePath = $request->file('edit_image')->store('music_creators', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+ 
         $credit->update([
             'name' => $request->edit_name,
             'local' => $request->edit_local,
@@ -121,12 +133,14 @@ public function index(Request $request)
             'birthday' => $request->edit_birthday,
             'music_background' => $request->edit_music_background,
             'designation' => $request->edit_designation,
+            'image' => $validatedData['image'] ?? $credit->image,
         ]);
-        
+    
         ActivityLogHelper::log('updated', $credit->name, $credit->id,  'update the credit');
-
+    
         return redirect()->route('credits.index')->with('success', 'Music creator updated successfully!');
     }
+    
 
     // Delete the specified music creator from the database
     public function destroy(MusicCreator $credit)
