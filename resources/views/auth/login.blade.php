@@ -32,10 +32,13 @@
 
   /* Add responsive styles for buttons */
   .x-primary-button {
-    width: 100%; /* Set width to 100% for full-width buttons */
-    margin-top: 20px; /* Add margin for better spacing */
-  }
-
+  background-color: #007bff; /* Update the primary button background color */
+  color: #fff; /* Update the primary button text color */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
   /* Add media queries for different screen sizes */
   @media only screen and (max-width: 768px) {
     .left-aligned-div {
@@ -82,7 +85,7 @@
 </style>
 
 <!-- Session Status -->
-<div class="flex justify-center mb-4"> <!-- Add a container for the logo and h2 -->
+<div class="flex justify-center mb-1"> <!-- Add a container for the logo and h2 -->
   <img src="{{ asset('images/logo.png') }}" alt="INC Hymns Logo" width="100" height="100" class="mr-4"> <!-- Add the logo image -->
 
 </div>
