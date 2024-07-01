@@ -360,7 +360,7 @@ document.getElementById('showMusicDetailsBtn').addEventListener('click', functio
     const audioSource = document.getElementById('audioSource');
     const musicPlayer = document.getElementById('musicPlayer');
     
-    // Set new audio source path
+    // Set new audio source pathhhhhhh
     audioSource.src = path;
     
     // Load the new audio source
