@@ -9,6 +9,9 @@
     height: 100vh; /* Set height to 100vh for full-screen background */
   }
 
+  .bg-white{
+    background-color: transparent;
+  }
  /* Add responsive styles for form and layout */
  .left-aligned-div {
     max-width: 400px; /* Set max-width for form container */
@@ -81,10 +84,11 @@
 <!-- Session Status -->
 <div class="flex justify-center mb-4"> <!-- Add a container for the logo and h2 -->
   <img src="{{ asset('images/logo.png') }}" alt="INC Hymns Logo" width="100" height="100" class="mr-4"> <!-- Add the logo image -->
-  <h2 class="text-center" style="color:#0a2d2e;font-size:30px;">INC Hymns</h2>
+
 </div>
 
 <div class="left-aligned-div">
+<h2 style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;font-size:30px;">INC Hymns</h2>
   <form method="POST" action="{{ route('login') }}">
     @csrf
 
