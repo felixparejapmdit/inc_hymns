@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\MusicCreator;
 
 use App\Helpers\ActivityLogHelper;
+use Illuminate\Support\Facades\Storage;
+
 
 class MusicCreatorController extends Controller
 {
@@ -53,9 +55,10 @@ public function index(Request $request)
             'add_designation' => 'required|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
         ]);
-    
+       
         // Handle image upload
         if ($request->hasFile('image')) {
+          
             $imagePath = $request->file('image')->store('music_creators', 'public');
             $validatedData['image'] = $imagePath; // Store the image path in the validated data
         } else {
@@ -65,12 +68,12 @@ public function index(Request $request)
         // Rename the 'add_designation' key to 'designation'
         $validatedData['designation'] = $validatedData['add_designation'];
         unset($validatedData['add_designation']);
-    
+   // dd($request);
         // Create new music creator
         $musicCreator = MusicCreator::create($validatedData);
-    
+        
         ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
-    
+        //dd($validatedData);
         return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
     }
 
@@ -90,6 +93,7 @@ public function index(Request $request)
 
     return response()->json([
         'name' => $creator->name,
+        'image' => $creator->image,
         'local' => $creator->local,
         'district' => $creator->district,
         'duty' => $creator->duty,
@@ -108,7 +112,7 @@ public function index(Request $request)
 
     public function update(Request $request, MusicCreator $credit)
     {
-      
+        
         // Validate request data
         $validatedData = $request->validate([
             'edit_name' => 'required|max:255',
@@ -120,13 +124,20 @@ public function index(Request $request)
             'edit_designation' => 'required|integer',
             'edit_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
         ]);
-        dd($request);
-        // Handle image upload
-        if ($request->hasFile('edit_image')) {
-            $imagePath = $request->file('edit_image')->store('music_creators', 'public');
-            $validatedData['image'] = $imagePath;
-        }
- 
+      
+   // If a new image is provided, update it
+   if ($request->hasFile('edit_image')) {
+    // Delete the old image if it exists
+    if ($credit->image) {
+        Storage::disk('public')->delete($credit->image);
+    }
+
+        // Store the new image
+        $imagePath = $request->file('edit_image')->store('music_creators', 'public');
+        $validatedData['image'] = $imagePath;
+    } else {
+        $validatedData['image'] = $credit->image;
+    }
         $credit->update([
             'name' => $request->edit_name,
             'local' => $request->edit_local,
@@ -137,7 +148,8 @@ public function index(Request $request)
             'designation' => $request->edit_designation,
             'image' => $validatedData['image'] ?? $credit->image,
         ]);
-    
+       // dd($filename);
+       // dd($request);
         ActivityLogHelper::log('updated', $credit->name, $credit->id,  'update the credit');
     
         return redirect()->route('credits.index')->with('success', 'Music creator updated successfully!');

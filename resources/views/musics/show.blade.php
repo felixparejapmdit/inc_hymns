@@ -225,9 +225,17 @@ function displayCreatorDetails(creatorId, mouseX, mouseY) {
       const districtDisplay = data.district? data.district : 'N/A';
       const dutyDisplay = data.duty? data.duty : 'N/A';
 
+
+      let imageSource = '/images/blank_image.png';
+      
+     
+      if (data.image) {
+        imageSource = `/storage/${data.image}`;
+      }
+     // alert(imageSource);
       creatorDetails.innerHTML = `
         <h1><b>${nameDisplay}</b></h1>
-        <img src="/images/blank_image.png" alt="${nameDisplay}" style="max-width: 50%;">
+         <img src="${imageSource}" alt="${nameDisplay}" style="width:200px; height:200px;">
         <p>Local: ${localDisplay}</p>
         <p>District: ${districtDisplay}</p>
         <p>Duty: ${dutyDisplay}</p>

@@ -168,7 +168,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('credits.store') }}" method="POST">
+                    <form action="{{ route('credits.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">
@@ -236,7 +236,7 @@
                         </div>
                         <div class="modal-body">
                                 
-                        <form id="editForm" method="POST">
+                        <form id="editForm" method="POST" enctype="multipart/form-data">
 
                             @csrf
                             @method('PUT')
