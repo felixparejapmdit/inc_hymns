@@ -2,6 +2,7 @@
 <style>
   /* Add responsive background image */
   .bg-gray-100 {
+    /* background-image: url("{{ asset('images/login_bg.jpg') }}"); */
     
   background: linear-gradient(to bottom, #5eb8d3, #4975b4);
     background-size: 100% 100vh; /* Set background size to 100% width and 100vh height */
@@ -14,7 +15,6 @@
     background-color: transparent; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.0); /* Add subtle shadow for better depth */
 
-   
   }
  /* Add responsive styles for form and layout */
  .left-aligned-div {

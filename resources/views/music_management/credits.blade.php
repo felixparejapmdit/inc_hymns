@@ -174,7 +174,8 @@
                         <div class="form-group">
                         <label for="image">Image:</label>
                         <input type="file" class="form-control" id="image" name="image">
-                    </div>
+                        <img id="preview-image" src="#" alt="Preview Image" style="max-width: 100%; margin-top: 10px; display: none;">
+                        </div>
 
                         <div class="form-group">
                             <label for="name">Credit Name:</label>
@@ -222,7 +223,20 @@
             </div>
         </div>
     </div>
-
+    <script>
+    // JavaScript to display the selected or uploaded image
+    $(document).ready(function() {
+        $('#image').change(function() {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                $('#preview-image').attr('src', event.target.result);
+                $('#preview-image').show();
+            }
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
 
                 <!-- Edit Credit Modal -->
             <div class="modal fade" id="editCreditModal" tabindex="-1" role="dialog" aria-labelledby="editCreditModalLabel" aria-hidden="true">
@@ -246,6 +260,7 @@
                             <div class="form-group">
                         <label for="edit_image">Image:</label>
                         <input type="file" class="form-control" id="edit_image" name="edit_image" accept="image/*">
+                        
                     </div>
 
                             <div class="form-group">
