@@ -104,6 +104,11 @@
             document.getElementById(formId).submit();
         }
     }
+
+    // Function to trigger form submit when language dropdown changes
+    function triggerFormSubmit(event) {
+        document.getElementById("searchForm").submit();
+    }
 </script>
         </form>
 
