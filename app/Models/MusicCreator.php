@@ -35,9 +35,9 @@ class MusicCreator extends Model
         return $this->belongsToMany(Music::class, 'music_arranger', 'arranger_id', 'music_id');
     }
 
-      // Define relationship: MusicCreator has many musics
-      public function musics()
-      {
-          return $this->hasMany(Music::class);
-      }
+    // Define relationship: MusicCreator has many musics
+    public function musics()
+    {
+        return $this->hasMany(Music::class);
+    }
 }

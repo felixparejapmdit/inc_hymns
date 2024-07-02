@@ -2,29 +2,35 @@
 <style>
   /* Add responsive background image */
   .bg-gray-100 {
-    background-image: url("{{ asset('images/login_bg.jpg') }}");
-    background-size: cover;
-    background-position: center;
+    
+  background: linear-gradient(to bottom, #5eb8d3, #4975b4);
+    background-size: 100% 100vh; /* Set background size to 100% width and 100vh height */
+  background-position: center;
     background-repeat: no-repeat;
     height: 100vh; /* Set height to 100vh for full-screen background */
   }
 
   .bg-white{
-    background-color: transparent;
+    background-color: transparent; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.0); /* Add subtle shadow for better depth */
+
+   
   }
  /* Add responsive styles for form and layout */
  .left-aligned-div {
-    max-width: 400px; /* Set max-width for form container */
-    margin: 40px auto; /* Add margin for better spacing */
-    padding: 20px; /* Add padding for better spacing */
-    background-color: #fff; /* Add white background for better contrast */
-    border: 1px solid #ddd; /* Add border for better definition */
-    border-radius: 10px; /* Add rounded corners for better aesthetics */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better depth */
-    display: flex; /* Add flexbox to center elements */
-    flex-direction: column; /* Set flex direction to column */
-    align-items: center; /* Center elements horizontally */
-  }
+  max-width: 500px; /* Adjust max-width to 500px */
+  margin: 40px auto; /* Add margin for better spacing */
+  padding: 20px; /* Add padding for better spacing */
+  background-color: #fff; /* Add white background for better contrast */
+  border: 1px solid #ddd; /* Add border for better definition */
+  border-radius: 10px; /* Add rounded corners for better aesthetics */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for better depth */
+  display: flex; /* Add flexbox to center elements */
+  flex-direction: column; /* Set flex direction to column */
+  align-items: center; /* Center elements horizontally */
+  display: flex;
+  justify-content: left; /* Add this to left-align the container */
+}
   /* Add responsive styles for form elements */
   .block {
     width: 100%; /* Set width to 100% for full-width form elements */
@@ -42,7 +48,7 @@
   /* Add media queries for different screen sizes */
   @media only screen and (max-width: 768px) {
     .left-aligned-div {
-      max-width: 300px; /* Adjust max-width for smaller screens */
+      max-width: 400px; /* Adjust max-width for smaller screens */
     }
   }
 
