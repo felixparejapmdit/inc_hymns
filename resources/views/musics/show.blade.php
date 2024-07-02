@@ -104,6 +104,7 @@
         @endif
     </div>
 
+    @if (\App\Helpers\AccessRightsHelper::checkPermission('cmusic_view.credits') == 'inline')
     
    <!-- Lyricists -->
 <div class="mb-4">
@@ -153,6 +154,7 @@
     @endif
 </div>
 
+@endif
     <!-- Language -->
     <div class="mb-4">
         <p class="font-semibold text-lg">Language:</p>
@@ -191,6 +193,7 @@ li[data-creator-id]:hover {
     color:white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
   </style>
 
@@ -293,9 +296,41 @@ document.getElementById('showMusicDetailsBtn').addEventListener('click', functio
 
     <div class="music-player-details">
 
-    <style>
-       
-    </style>
+  <script>
+    // Get the audio element
+const audioElement = document.getElementById('musicPlayer');
+
+// Add an event listener to the contextmenu event
+audioElement.addEventListener('contextmenu', (event) => {
+  // Prevent the default context menu from appearing
+  event.preventDefault();
+
+  // Create a custom context menu
+  const contextMenu = document.createElement('menu');
+  contextMenu.id = 'customContextMenu';
+
+  // Add menu items (e.g., play, pause, etc.)
+  // You can add or remove items as per your requirements
+  const playMenuItem = document.createElement('menuitem');
+  playMenuItem.label = 'Play';
+  contextMenu.appendChild(playMenuItem);
+
+  const pauseMenuItem = document.createElement('menuitem');
+  pauseMenuItem.label = 'Pause';
+  contextMenu.appendChild(pauseMenuItem);
+
+  // Show the custom context menu
+  contextMenu.style.top = `${event.clientY}px`;
+  contextMenu.style.left = `${event.clientX}px`;
+  document.body.appendChild(contextMenu);
+
+  // Remove the custom context menu when it's no longer needed
+  document.addEventListener('click', () => {
+    document.body.removeChild(contextMenu);
+  });
+});
+
+</script>
            
 
             <div class="music-player" >
@@ -310,10 +345,13 @@ document.getElementById('showMusicDetailsBtn').addEventListener('click', functio
 
                 <div class="flex row mt-1 mb-0">
                     <!-- Audio player -->
-                    <audio id="musicPlayer" controls preload="auto" >
+                    <!-- <audio id="musicPlayer" controls preload="auto" > -->
+                    <audio id="musicPlayer" class="@if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download')!= 'inline') no-download @endif" controls preload="auto">
                         <!-- Include source elements -->
                         <source id="audioSource" src="#" type="audio/mpeg">
+
                     </audio>
+   
                     <!-- Tab Lyrics -->
                     <div class="tab-buttons">
                         
@@ -325,6 +363,11 @@ document.getElementById('showMusicDetailsBtn').addEventListener('click', functio
  <!-- JavaScript to handle dropdown and audio playback -->
  <script>
                 document.addEventListener('DOMContentLoaded', function() {
+
+                    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download') != 'inline')
+                        document.getElementById('musicPlayer').removeAttribute('download');
+                    @endif
+
                     const musicPlayer = document.getElementById('musicPlayer');
 
                     // Handle click events for tab buttons

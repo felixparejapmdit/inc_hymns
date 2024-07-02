@@ -53,7 +53,7 @@
         <!-- Search Input and Tabs -->
         <form action="{{ route('musics.index') }}" method="GET" class="mt-4 mb-4" >
             <div class="flex items-center justify-between mb-4">
-                <form method="GET" action="{{ route('musics.index') }}" method="GET" class="mt-4 mb-4">
+                <form id="searchForm" method="GET" action="{{ route('musics.index') }}" method="GET" class="mt-4 mb-4">
                 <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns ..." onkeypress="handleEnterKey(event)">
             
             <!-- Language Dropdown -->
@@ -235,6 +235,8 @@
 
         const categoryBoxes = document.querySelectorAll('.category-box');
 
+
+        
         categoryBoxes.forEach(box => {
             box.addEventListener('click', function() {
                 const categoryId = this.getAttribute('data-category-id');
@@ -256,6 +258,28 @@
                     document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
                 });
         }
+
+
+        document.getElementById('languageDropdown').addEventListener('change', function() {
+    const languageId = this.value;
+    fetchMusicsByLanguage(languageId);
+});
+
+function fetchMusicsByLanguage(languageId) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('language_id', languageId);
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const musicList = doc.getElementById('musicList');
+            document.getElementById('musicList').innerHTML = musicList.innerHTML;
+            document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+        });
+}
+
     });
 </script>
 
