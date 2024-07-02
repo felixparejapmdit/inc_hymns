@@ -124,15 +124,15 @@ class MusicController extends Controller
         $creators = MusicCreator::all();
         $arrangers = MusicCreator::whereHas('designations', function ($query) {
             $query->where('name', 'Arranger');
-        })->get();
-    
+        })->orderBy('name', 'asc')->get();
+        
         $composers = MusicCreator::whereHas('designations', function ($query) {
             $query->where('name', 'Composer');
-        })->get();
-    
+        })->orderBy('name', 'asc')->get();
+        
         $lyricists = MusicCreator::whereHas('designations', function ($query) {
             $query->where('name', 'Lyricist');
-        })->get();
+        })->orderBy('name', 'asc')->get();
 
         return view('musics.create', compact('churchHymns', 'categories', 'instrumentations', 'ensembleTypes', 'languages', 'creators','lyricists', 'arrangers', 'composers'));
     }
@@ -358,15 +358,15 @@ class MusicController extends Controller
 
         $arrangers = MusicCreator::whereHas('designations', function ($query) {
             $query->where('name', 'Arranger');
-        })->get();
-    
+        })->orderBy('name', 'asc')->get();
+        
         $composers = MusicCreator::whereHas('designations', function ($query) {
             $query->where('name', 'Composer');
-        })->get();
-    
+        })->orderBy('name', 'asc')->get();
+        
         $lyricists = MusicCreator::whereHas('designations', function ($query) {
             $query->where('name', 'Lyricist');
-        })->get();
+        })->orderBy('name', 'asc')->get();
 
         return view('musics.edit', compact('musics', 'churchHymns', 'categories', 'instrumentations', 'ensembleTypes', 'languages', 'creators','lyricists', 'arrangers', 'composers'));
     }
