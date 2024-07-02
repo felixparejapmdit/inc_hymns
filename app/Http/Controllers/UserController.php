@@ -22,7 +22,6 @@ class UserController extends Controller
         return view('users.create', compact('groups'));
     }
     
-
     public function store(Request $request)
     {
         $request->validate([
@@ -41,11 +40,11 @@ class UserController extends Controller
             'activated' => $request->has('login_enabled') ? 1 : 0,
         ]);
     
-        // Attach groups to the user
+        //Attach groups to the user
         if ($request->has('groups')) {
             $user->groups()->attach($request->groups);
         }
-    
+        
         ActivityLogHelper::log('created', $user->name, $user->id, 'add new user');
 
         return redirect()->route('groups.users', ['group' => $request->groups[0] ?? 1])->with('success', 'User created successfully.');

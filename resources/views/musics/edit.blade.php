@@ -416,7 +416,7 @@
                             </div>
                             <div id="lyricist-options-container" class="options-container">
                                 <!-- Lyricist options are populated by JavaScript -->
-                                @foreach($creators as $creator)
+                                @foreach($lyricists as $creator)
                                     <div class="option-item">
                                         <label>
                                             <input type="checkbox" value="{{ $creator->id }}" {{ $musics->lyricists->contains('id', $creator->id) ? 'checked' : '' }} onclick="handleDropdownSelection(this, 'edit_lyricist_id','selected_lyricist_ids')">
@@ -454,7 +454,7 @@
                                     </div>
                                     <div id="composer-options-container" class="options-container">
                                         <!-- Composer options are populated by JavaScript -->
-                                        @foreach($creators as $creator)
+                                        @foreach($composers as $creator)
                                             <div class="option-item">
                                                 <label>
                                                     <input type="checkbox" value="{{ $creator->id }}" {{ $musics->composers->contains('id', $creator->id) ? 'checked' : '' }} onclick="handleDropdownSelection(this, 'edit_composer_id','selected_composer_ids')">
@@ -487,7 +487,7 @@
                                     </div>
                                     <div id="arranger-options-container" class="options-container">
                                         <!-- Arranger options are populated by JavaScript -->
-                                        @foreach($creators as $creator)
+                                        @foreach($arrangers as $creator)
                                             <div class="option-item">
                                                 <label>
                                                     <input type="checkbox" value="{{ $creator->id }}" {{ $musics->arrangers->contains('id', $creator->id) ? 'checked' : '' }} onclick="handleDropdownSelection(this, 'edit_arranger_id','selected_arranger_ids')">

@@ -104,16 +104,10 @@
                                 <td style="width: 10%;" class="px-6 py-4 whitespace-nowrap border text-center">{{ $credit->music_background }}</td>
                            
                                 <td style="width: 8%;" class="px-6 py-4 whitespace-nowrap border text-center">
-                                    @if($credit->designation == 1)
-                                        Arranger
-                                    @elseif($credit->designation == 2)
-                                        Composer
-                                    @elseif($credit->designation == 3)
-                                        Lyricist
-                                    @else
-                                        -
-                                    @endif
-                                </td>
+                                @foreach($credit->designations as $designation)
+                                    {{ $designation->name }}<br>
+                                @endforeach
+                            </td>
 
                                 <td style="width: 15%;" class="px-6 py-4 whitespace-nowrap border text-center">
                                     @if (\App\Helpers\AccessRightsHelper::checkPermission('credits.edit') == 'inline')
@@ -207,7 +201,7 @@
                             <textarea type="text" class="form-control" id="music_background" name="music_background"></textarea>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="add_designation">Designation:</label>
                             <select required class="form-control" id="add_designation" name="add_designation" >
                                 <option value="0" selected disabled>Select Designation</option>
@@ -215,8 +209,15 @@
                                 <option value="2">Composer</option>
                                 <option value="3">Lyricist</option>
                             </select>
-                        </div>
-
+                        </div> -->
+                        <div class="form-group">
+                        <label for="add_designation">Designations:</label>
+                        <select multiple class="form-control" id="add_designation" name="add_designation[]" required>
+                            <option value="1">Arranger</option>
+                            <option value="2">Composer</option>
+                            <option value="3">Lyricist</option>
+                        </select>
+                    </div>
                         <button type="submit" class="btn btn-primary">Add Credit</button>
                     </form>
                 </div>
@@ -296,10 +297,18 @@
                                 <textarea type="text" class="form-control" id="edit_music_background" name="edit_music_background"></textarea>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="edit_designation">Designation:</label>
                                 <select required class="form-control" id="edit_designation" name="edit_designation" >
                                     <option value="0" selected disabled>Select Designation</option>
+                                    <option value="1">Arranger</option>
+                                    <option value="2">Composer</option>
+                                    <option value="3">Lyricist</option>
+                                </select>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="edit_designation">Designations:</label>
+                                <select multiple class="form-control" id="edit_designation" name="edit_designation[]" required>
                                     <option value="1">Arranger</option>
                                     <option value="2">Composer</option>
                                     <option value="3">Lyricist</option>
@@ -378,8 +387,15 @@
                     $('#edit_music_background').val(MusicBackground);
                     $('#edit_designation').val(Designation);
 
+                    // Pre-select the designations
+        var designationsArray = Designation.split(',').map(Number);
+        $('#edit_designation').val(designationsArray).change();
+
+        
                     // Set the Credit ID in the form action
                     $('#editForm').attr('action', "{{ route('credits.update', ':id') }}".replace(':id', CreditId));
+
+                   
                 });
 
                 // JavaScript for handling the delete modal

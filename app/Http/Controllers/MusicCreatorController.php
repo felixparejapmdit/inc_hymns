@@ -11,29 +11,32 @@ use Illuminate\Support\Facades\Storage;
 
 class MusicCreatorController extends Controller
 {
-// Display a listing of the music creators with search functionality
-public function index(Request $request)
-{
-    $query = $request->input('query');
-    
-    // If a search query is provided, filter the records
-    if ($query) {
-        $credits = MusicCreator::where('name', 'like', '%'. $query. '%')
-            ->orWhere('district', 'like', '%'. $query. '%')
-            ->orWhere('local', 'like', '%'. $query. '%')
-            ->orWhere('music_background', 'like', '%'. $query. '%')
-            ->orWhere('designation', 'like', '%'. $query. '%')
-            ->orderBy('name', 'asc') // Add this line to sort by name in ascending order
-            ->paginate(15)
-            ->withQueryString(); // Include query string in pagination links
-    } else {
-        // If no search query is provided, fetch all records
-        $credits = MusicCreator::orderBy('name', 'asc') // Add this line to sort by name in ascending order
-            ->paginate(15);
+    public function index(Request $request)
+    {
+        $query = $request->input('query');
+        
+        if ($query) {
+            $credits = MusicCreator::with('designations')
+                ->where('name', 'like', '%'. $query. '%')
+                ->orWhere('district', 'like', '%'. $query. '%')
+                ->orWhere('local', 'like', '%'. $query. '%')
+                ->orWhere('music_background', 'like', '%'. $query. '%')
+                ->orWhereHas('designations', function($q) use ($query) {
+                    $q->where('name', 'like', '%'. $query. '%');
+                })
+                ->orderBy('name', 'asc')
+                ->paginate(15)
+                ->withQueryString();
+        } else {
+            $credits = MusicCreator::with('designations')
+                ->orderBy('name', 'asc')
+                ->paginate(15);
+        }
+        
+        return view('music_management/credits', compact('credits'));
     }
     
-    return view('music_management/credits', compact('credits'));
-}
+
 
 
     // Show the form for creating a new music creator
@@ -52,7 +55,7 @@ public function index(Request $request)
             'duty' => 'nullable|string',
             'birthday' => 'nullable|date',
             'music_background' => 'nullable|string',
-            'add_designation' => 'required|integer',
+            'add_designation' => 'required|array',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
         ]);
        
@@ -68,10 +71,13 @@ public function index(Request $request)
         // Rename the 'add_designation' key to 'designation'
         $validatedData['designation'] = $validatedData['add_designation'];
         unset($validatedData['add_designation']);
-   // dd($request);
+
         // Create new music creator
         $musicCreator = MusicCreator::create($validatedData);
         
+         // Sync designations
+        $musicCreator->designations()->sync($validatedData['designation']);
+
         ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
         //dd($validatedData);
         return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
@@ -112,7 +118,7 @@ public function index(Request $request)
 
     public function update(Request $request, MusicCreator $credit)
     {
-        
+       // dd($request);
         // Validate request data
         $validatedData = $request->validate([
             'edit_name' => 'required|max:255',
@@ -121,7 +127,7 @@ public function index(Request $request)
             'edit_duty' => 'nullable|string',
             'edit_birthday' => 'nullable|date',
             'edit_music_background' => 'nullable|string',
-            'edit_designation' => 'required|integer',
+            'edit_designation' => 'required|array',
             'edit_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
         ]);
       
@@ -148,8 +154,10 @@ public function index(Request $request)
             'designation' => $request->edit_designation,
             'image' => $validatedData['image'] ?? $credit->image,
         ]);
-       // dd($filename);
        // dd($request);
+       // Sync designations
+        $credit->designations()->sync($request->edit_designation);
+        
         ActivityLogHelper::log('updated', $credit->name, $credit->id,  'update the credit');
     
         return redirect()->route('credits.index')->with('success', 'Music creator updated successfully!');

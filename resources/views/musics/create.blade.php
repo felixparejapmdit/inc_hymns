@@ -190,7 +190,7 @@
                                     </div>
                                     <div id="lyricist-options-container" class="options-container">
                                         <!-- Lyricist options are populated by JavaScript -->
-                                        @foreach($creators as $creator)
+                                        @foreach($lyricists as $creator)
                                             <div class="option-item">
                                                 <label>
                                                     <input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'lyricist_id', 'selected_lyricist_ids')">
@@ -217,7 +217,7 @@
         </div>
         <div id="composer-options-container" class="options-container">
             <!-- Composer options are populated by JavaScript -->
-            @foreach($creators as $creator)
+            @foreach($composers as $creator)
                 <div class="option-item">
                     <label>
                         
@@ -241,7 +241,7 @@
         </div>
         <div id="arranger-options-container" class="options-container">
             <!-- Arranger options are populated by JavaScript -->
-            @foreach($creators as $creator)
+            @foreach($arrangers as $creator)
                 <div class="option-item">
                     <label>
                         

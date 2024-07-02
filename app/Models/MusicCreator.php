@@ -16,7 +16,6 @@ class MusicCreator extends Model
         'duty',
         'birthday',
         'music_background',
-        'designation',
     ];
 
     // Define relationships
@@ -40,4 +39,11 @@ class MusicCreator extends Model
     {
         return $this->hasMany(Music::class);
     }
+
+    public function designations()
+    {
+        return $this->belongsToMany(Designation::class, 'creator_designation');
+    }
+
+
 }

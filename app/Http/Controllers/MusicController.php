@@ -41,8 +41,6 @@ class MusicController extends Controller
           ->orWhere('lyrics', 'like', '%' . $query . '%'); // Include lyrics in the search
     });
 }
-
-
      // Filter by selected categories
      if (!empty($categoryIds) && !in_array('All', $categoryIds)) {
          $queryBuilder->whereHas('categories', function ($query) use ($categoryIds) {
@@ -54,14 +52,20 @@ class MusicController extends Controller
      if ($churchHymnId) {
          $queryBuilder->where('church_hymn_id', $churchHymnId);
      }
-
     // Filter by language
     if ($languageId && $languageId !== 'All') {
         $queryBuilder->where('language_id', $languageId);
     }
+    else{
+        if($languageId == null)
+        {
+            // Add the condition to filter by language ID 1
+            $queryBuilder->where('language_id', 1);
+        }
+    }
 
-// Fetch all records if no search query is provided
-$musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
+    // Fetch all records if no search query is provided
+    $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
 
      // Fetch other data
      $churchHymns = ChurchHymn::all();
@@ -84,6 +88,19 @@ $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest
      $languages = Language::all();
      $creators = MusicCreator::all();
 
+
+     $arrangers = MusicCreator::whereHas('designations', function ($query) {
+        $query->where('name', 'Arranger');
+    })->get();
+
+    $composers = MusicCreator::whereHas('designations', function ($query) {
+        $query->where('name', 'Composer');
+    })->get();
+
+    $lyricists = MusicCreator::whereHas('designations', function ($query) {
+        $query->where('name', 'Lyricist');
+    })->get();
+
     // Get the logged-in user's group access rights
     $accessRights = GroupPermission::where('group_id', 1)
     ->where('category_id', 6)
@@ -93,7 +110,7 @@ $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest
     ->get();
     
     
-     return view('musics', compact('musics', 'churchHymns', 'categories', 'topCategories', 'instrumentations', 'ensemble_Types', 'languages', 'creators'));
+     return view('musics', compact('musics', 'churchHymns', 'categories', 'topCategories', 'instrumentations', 'ensemble_Types', 'languages', 'creators','lyricists', 'arrangers', 'composers'));
  }
 
     // Show the form for creating a new music entry
@@ -105,8 +122,19 @@ $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest
         $ensembleTypes = EnsembleType::all();
         $languages = Language::all();
         $creators = MusicCreator::all();
-        
-        return view('musics.create', compact('churchHymns', 'categories', 'instrumentations', 'ensembleTypes', 'languages', 'creators'));
+        $arrangers = MusicCreator::whereHas('designations', function ($query) {
+            $query->where('name', 'Arranger');
+        })->get();
+    
+        $composers = MusicCreator::whereHas('designations', function ($query) {
+            $query->where('name', 'Composer');
+        })->get();
+    
+        $lyricists = MusicCreator::whereHas('designations', function ($query) {
+            $query->where('name', 'Lyricist');
+        })->get();
+
+        return view('musics.create', compact('churchHymns', 'categories', 'instrumentations', 'ensembleTypes', 'languages', 'creators','lyricists', 'arrangers', 'composers'));
     }
 
     public function store(Request $request)
@@ -328,7 +356,19 @@ $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest
         $languages = Language::all();
         $creators = MusicCreator::all();
 
-        return view('musics.edit', compact('musics', 'churchHymns', 'categories', 'instrumentations', 'ensembleTypes', 'languages', 'creators'));
+        $arrangers = MusicCreator::whereHas('designations', function ($query) {
+            $query->where('name', 'Arranger');
+        })->get();
+    
+        $composers = MusicCreator::whereHas('designations', function ($query) {
+            $query->where('name', 'Composer');
+        })->get();
+    
+        $lyricists = MusicCreator::whereHas('designations', function ($query) {
+            $query->where('name', 'Lyricist');
+        })->get();
+
+        return view('musics.edit', compact('musics', 'churchHymns', 'categories', 'instrumentations', 'ensembleTypes', 'languages', 'creators','lyricists', 'arrangers', 'composers'));
     }
 
     
