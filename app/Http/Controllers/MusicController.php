@@ -77,8 +77,8 @@ $categories = Category::select('categories.*')
      ->orderBy('musics_count', 'desc')
      ->get();
 
-// Fetch top 10 categories with most musics
-$topCategories = Category::select('categories.*')
+    // Fetch top 10 categories with most musics
+    $topCategories = Category::select('categories.*')
                               ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
                               ->orderBy('name', 'asc')
                               ->orderBy('musics_count', 'desc')
