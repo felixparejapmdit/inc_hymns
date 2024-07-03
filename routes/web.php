@@ -66,6 +66,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Music Routes
 Route::get('/musics', [MusicController::class, 'index'])->name('musics.index');
+//Route::get('/musics/{churchHymnId}', [MusicController::class, 'index'])->name('musics.index');
+
 Route::get('/musics/create', [MusicController::class, 'create'])->name('musics.create');
 
 Route::post('/musics', [MusicController::class, 'store'])->name('musics.store');

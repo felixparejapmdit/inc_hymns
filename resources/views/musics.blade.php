@@ -55,7 +55,7 @@
             <div class="flex items-center justify-between mb-4">
                 <form id="searchForm" method="GET" action="{{ route('musics.index') }}" method="GET" class="mt-4 mb-4">
                 <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns ..." onkeypress="handleEnterKey(event)">
-            
+
             <!-- Language Dropdown -->
             <select name="language_id" id="languageDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
                 <option value="All" {{ request('language_id') == 'All' ? 'selected' : '' }}>All languages</option>
