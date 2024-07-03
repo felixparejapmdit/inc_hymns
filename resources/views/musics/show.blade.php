@@ -107,52 +107,64 @@
     @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.view_credits') == 'inline')
     
    <!-- Lyricists -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Lyricist:</p>
-        <ul class="list-disc list-inside" id="lyricistsList">
+<div class="mb-4">
+    <p class="font-semibold text-lg">Lyricist:</p>
+    <ul class="list-disc list-inside" id="lyricistsList">
+        @if ($music->lyricists->count() > 0)
             @foreach ($music->lyricists->take(3) as $lyricist)
                 <li data-creator-id="{{ $lyricist->id }}" data-music-id="{{ $music->id }}">{{ $lyricist->name }}</li>
             @endforeach
             @foreach ($music->lyricists->skip(3) as $lyricist)
                 <li class="hidden" data-creator-id="{{ $lyricist->id }}" data-music-id="{{ $music->id }}">{{ $lyricist->name }}</li>
             @endforeach
-        </ul>
-        @if ($music->lyricists->count() > 3)
-            <button onclick="toggleList('lyricistsList', this)">See More</button>
+        @else
+            <li>N/A</li>
         @endif
-    </div>
+    </ul>
+    @if ($music->lyricists->count() > 3)
+        <button onclick="toggleList('lyricistsList', this)">See More</button>
+    @endif
+</div>
 
-    <!-- Composer -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Composer:</p>
-        <ul class="list-disc list-inside" id="composerList">
+<!-- Composer -->
+<div class="mb-4">
+    <p class="font-semibold text-lg">Composer:</p>
+    <ul class="list-disc list-inside" id="composerList">
+        @if ($music->composers->count() > 0)
             @foreach ($music->composers->take(3) as $composer)
                 <li data-creator-id="{{ $composer->id }}" data-music-id="{{ $music->id }}">{{ $composer->name }}</li>
             @endforeach
             @foreach ($music->composers->skip(3) as $composer)
                 <li class="hidden" data-creator-id="{{ $composer->id }}" data-music-id="{{ $music->id }}">{{ $composer->name }}</li>
             @endforeach
-        </ul>
-        @if ($music->composers->count() > 3)
-            <button onclick="toggleList('composerList', this)">See More</button>
+        @else
+            <li>N/A</li>
         @endif
-    </div>
+    </ul>
+    @if ($music->composers->count() > 3)
+        <button onclick="toggleList('composerList', this)">See More</button>
+    @endif
+</div>
 
-    <!-- Arranger -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Arranger:</p>
+<!-- Arranger -->
+<div class="mb-4">
+    <p class="font-semibold text-lg">Arranger:</p>
     <ul class="list-disc list-inside" id="arrangerList">
+        @if ($music->arrangers->count() > 0)
             @foreach ($music->arrangers->take(3) as $arranger)
                 <li data-creator-id="{{ $arranger->id }}" data-music-id="{{ $music->id }}">{{ $arranger->name }}</li>
             @endforeach
             @foreach ($music->arrangers->skip(3) as $arranger)
                 <li class="hidden" data-creator-id="{{ $arranger->id }}" data-music-id="{{ $music->id }}">{{ $arranger->name }}</li>
             @endforeach
-        </ul>
-        @if ($music->arrangers->count() > 3)
-            <button onclick="toggleList('arrangerList', this)">See More</button>
+        @else
+            <li>N/A</li>
         @endif
-    </div>
+    </ul>
+    @if ($music->arrangers->count() > 3)
+        <button onclick="toggleList('arrangerList', this)">See More</button>
+    @endif
+</div>
 
 @endif
     <!-- Language -->

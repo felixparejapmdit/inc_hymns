@@ -67,18 +67,20 @@ class MusicController extends Controller
     // Fetch all records if no search query is provided
     $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
 
-     // Fetch other data
-     $churchHymns = ChurchHymn::all();
-     $categories = Category::all();
+// Fetch other data
+$churchHymns = ChurchHymn::all();
+$categories = Category::all();
 
-     $categories = Category::select('categories.*')
+$categories = Category::select('categories.*')
      ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
+     ->orderBy('name', 'asc')
      ->orderBy('musics_count', 'desc')
      ->get();
 
-     // Fetch top 10 categories with most musics
-     $topCategories = Category::select('categories.*')
+// Fetch top 10 categories with most musics
+$topCategories = Category::select('categories.*')
                               ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
+                              ->orderBy('name', 'asc')
                               ->orderBy('musics_count', 'desc')
                               ->limit(10)
                               ->get();
