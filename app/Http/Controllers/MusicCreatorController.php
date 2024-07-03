@@ -92,23 +92,22 @@ class MusicCreatorController extends Controller
 
     
     public function showinfo($id)
-{
-   
-    $creator = MusicCreator::find($id);
-   
-
-    return response()->json([
-        'name' => $creator->name,
-        'image' => $creator->image,
-        'local' => $creator->local,
-        'district' => $creator->district,
-        'duty' => $creator->duty,
-        'birthday' => $creator->birthday,
-        'usic_background' => $creator->music_background,
-        'designation' => $creator->designation,
-        'image_url' => $creator->image_url,
-    ]);
-}
+    {
+    
+        $creator = MusicCreator::find($id);
+    
+        return response()->json([
+            'name' => $creator->name,
+            'image' => $creator->image,
+            'local' => $creator->local,
+            'district' => $creator->district,
+            'duty' => $creator->duty,
+            'birthday' => $creator->birthday,
+            'usic_background' => $creator->music_background,
+            'designation' => $creator->designation,
+            'image_url' => $creator->image_url,
+        ]);
+    }
 
     // Show the form for editing the specified music creator
     public function edit(MusicCreator $creator)

@@ -104,7 +104,7 @@
         @endif
     </div>
 
-    @if (\App\Helpers\AccessRightsHelper::checkPermission('cmusic_view.credits') == 'inline')
+    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.view_credits') == 'inline')
     
    <!-- Lyricists -->
 <div class="mb-4">
@@ -345,13 +345,47 @@ audioElement.addEventListener('contextmenu', (event) => {
 
                 <div class="flex row mt-1 mb-0">
                     <!-- Audio player -->
-                    <!-- <audio id="musicPlayer" controls preload="auto" > -->
-                    <audio id="musicPlayer" class="@if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download')!= 'inline') no-download @endif" controls preload="auto">
+                    <audio id="musicPlayer" controls preload="auto" download="">
                         <!-- Include source elements -->
                         <source id="audioSource" src="#" type="audio/mpeg">
 
                     </audio>
-   
+                    <!-- Download button -->
+                    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download') == 'inline')
+                    <button id="downloadButton" class="btn btn-primary">Download</button>
+                    @endif
+                    <!-- JavaScript to handle download -->
+                    <script>
+                        document.getElementById('downloadButton').addEventListener('click', function() {
+                            const audioSource = document.getElementById('audioSource');
+                            const musicPlayer = document.getElementById('musicPlayer');
+
+                            // Get all tab buttons
+                            const tabButtons = document.querySelectorAll('.tab-button-mp3');
+
+                            // Function to get the active tab button
+                            function getActiveTabButton() {
+                            let activeTabButton = null;
+                            tabButtons.forEach((button) => {
+                                if (button.classList.contains('active')) {
+                                activeTabButton = button;
+                                }
+                            });
+                            return activeTabButton;
+                            }
+
+                            // Get the active tab button
+                            const activeTabButton = getActiveTabButton();
+
+                            const title = '{{ $music->title }}';
+                            const trackType = activeTabButton ? activeTabButton.textContent.trim() : '';
+
+                            const downloadLink = document.createElement('a');
+                            downloadLink.href = audioSource.src;
+                            downloadLink.download = `${title}_${trackType}`
+                            downloadLink.click();
+                        });
+                    </script>
                     <!-- Tab Lyrics -->
                     <div class="tab-buttons">
                         
@@ -363,10 +397,6 @@ audioElement.addEventListener('contextmenu', (event) => {
  <!-- JavaScript to handle dropdown and audio playback -->
  <script>
                 document.addEventListener('DOMContentLoaded', function() {
-
-                    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download') != 'inline')
-                        document.getElementById('musicPlayer').removeAttribute('download');
-                    @endif
 
                     const musicPlayer = document.getElementById('musicPlayer');
 
