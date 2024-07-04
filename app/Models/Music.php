@@ -68,5 +68,10 @@ class Music extends Model
     {
         return $this->belongsToMany(MusicCreator::class);
     }
+
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class, 'music_playlist');
+    }
     
 }

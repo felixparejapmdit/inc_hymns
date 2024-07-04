@@ -23,7 +23,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ApiDocumentationController;
 use App\Http\Controllers\ActivityLogController;
-
+use App\Http\Controllers\PlaylistController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 });
@@ -148,3 +148,8 @@ Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin
 
 Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity_logs.index');
 Route::get('activity-logs/{id}', [ActivityLogController::class, 'show'])->name('activity_logs.show');
+
+Route::post('/playlists', [PlaylistController::class, 'store'])->name('playlists.store');
+Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlists.index');
+Route::post('/playlists/{playlist}/add', [PlaylistController::class, 'addMusic'])->name('playlists.addMusic');
+Route::post('/playlists', [PlaylistController::class, 'create'])->name('playlists.create');

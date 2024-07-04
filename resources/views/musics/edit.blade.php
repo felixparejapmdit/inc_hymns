@@ -1,6 +1,52 @@
 <!-- Include CSS file in your Blade view -->
 <link href="{{ asset('css/dropdown.css') }}" rel="stylesheet">
 
+
+<style>
+    .btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem 0.5rem 0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+</style>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -12,13 +58,24 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                   
                 <!-- Edit Music Form -->
                 <form method="POST" action="{{ route('musics.update', ['music' => $musics->id]) }}" enctype="multipart/form-data">
 
                     @csrf
                     @method('PUT')
-                
+                  <!-- Buttons to submit or close modal -->
+                  <div class="flex justify-end">
+                  <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save Changes
+                        </button>
+                    
+                    </div>
                     <div class="flex flex-wrap">
+                       
                     <div class="w-full md:w-1/3 px-4">
                         <!-- Church Hymn -->
                         <div class="mb-4 mt-4">
@@ -523,12 +580,13 @@
 
                     <!-- Buttons to submit or close modal -->
                     <div class="flex justify-end">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Update
-                        </button>
-                        <button type="button" class="bg-gray-600 hover:bg-gray-800 text-black font-bold py-2 px-4 rounded ml-2 focus:outline-none focus:shadow-outline" onclick="closeAddMusicModal()">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
                             Cancel
                         </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save Changes
+                        </button>
+                      
                     </div>
 
                     <script>

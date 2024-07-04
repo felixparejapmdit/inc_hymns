@@ -1,6 +1,6 @@
 <!-- resources/views/musics.blade.php -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <!-- Include Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -37,6 +37,15 @@
     <div class="py-12">
       
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+       <!-- Add context menu container -->
+       <div id="contextMenu" class="hidden bg-white shadow-md p-4 rounded">
+            <h3 class="text-lg font-medium mb-2">Playlists</h3>
+            <ul id="playlistOptions" class="list-unstyled mb-2">
+                <!-- Playlist options will be populated here -->
+            </ul>
+            <button id="createPlaylistButton" class="btn btn-primary">Create New Playlist</button>
+        </div>
 
 
     <script>
@@ -347,6 +356,17 @@ function fetchMusicsByLanguage(languageId) {
                                 </button>
                             </form>
                         @endif
+                        <!-- Add playlist icon -->
+                        <!-- Add playlist icon -->
+                        @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.playlist') == 'inline')
+                            <button id="playlistButton{{ $music->id }}" class="btn btn-secondary playlist-button ml-1" data-music-id="{{ $music->id }}">
+                                <i class="fa-solid fa-sliders-h"></i>
+                            </button>
+                            <div id="contextMenu{{ $music->id }}" class="context-menu hidden">
+                                <button style="color:black;" class="add-new-playlist" data-music-id="{{ $music->id }}">Add to New Playlist</button>
+                                <ul></ul>
+                            </div>
+                        @endif
                     </div>
                 </td>
             @endif
@@ -355,6 +375,170 @@ function fetchMusicsByLanguage(languageId) {
     </tbody>
 </table>
 
+
+
+<style>
+    .context-menu {
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px; /* added border radius for a smoother look */
+  padding: 8px; /* added padding for better spacing */
+}
+
+.context-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.context-menu ul li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0; /* added border bottom for separation */
+}
+
+.context-menu ul li:last-child {
+  border-bottom: none; /* remove border bottom for the last item */
+}
+
+.context-menu ul li button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333; /* changed color to a darker gray for better contrast */
+  transition: background 0.2s ease; /* added transition for hover effect */
+}
+
+.context-menu ul li button:hover {
+  background: #f0f0f0; /* added hover effect */
+}
+
+.context-menu ul li button:focus {
+  outline: none; /* remove outline on focus */
+  box-shadow: 0 0 0 2px #ccc; /* added box shadow on focus */
+}
+
+.playlist-button {
+  margin-right: 10px; /* added margin right for better spacing */
+}
+
+.add-new-playlist {
+  margin-bottom: 10px; /* added margin bottom for better spacing */
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.playlist-button').forEach(button => {
+            button.addEventListener('click', function (event) {
+                const button = event.currentTarget;
+                const musicId = button.dataset.musicId;
+                const contextMenu = document.getElementById('contextMenu' + musicId);
+
+                // Hide any other open context menus
+                document.querySelectorAll('.context-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+
+                // Show the clicked context menu
+                contextMenu.classList.remove('hidden');
+                contextMenu.style.top = event.clientY + 'px';
+                contextMenu.style.left = event.clientX + 'px';
+
+                fetch('/playlists')
+                    .then(response => response.json())
+                    .then(data => {
+                        const existingPlaylists = data.playlists;
+
+                        let playlistOptions = '';
+                        existingPlaylists.forEach(playlist => {
+                            playlistOptions += `<li><button class="add-to-playlist" data-music-id="${musicId}" data-playlist-id="${playlist.id}">${playlist.name}</button></li>`;
+                        });
+                        const playlistList = contextMenu.querySelector('ul');
+                        playlistList.innerHTML = playlistOptions;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching playlists:', error);
+                    });
+
+                event.preventDefault();
+            });
+        });
+
+        document.querySelectorAll('.add-new-playlist').forEach(button => {
+    button.addEventListener('click', function (event) {
+        const musicId = event.target.dataset.musicId;
+        // Show a prompt to enter the new playlist name
+        const playlistName = prompt('Enter new playlist name:');
+        if (playlistName) {
+            // Send request to create new playlist and add music to it
+            fetch('/playlists', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    name: playlistName,
+                    music_id: musicId
+                })
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    alert('Music added to new playlist');
+                } else {
+                    alert('Failed to add music to playlist');
+                }
+            });
+        }
+        document.querySelectorAll('.context-menu').forEach(menu => {
+            menu.classList.add('hidden');
+        });
+        event.preventDefault();
+    });
+});
+
+
+        // Handle add to existing playlist button
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('add-to-playlist')) {
+                const musicId = event.target.dataset.musicId;
+                const playlistId = event.target.dataset.playlistId;
+                fetch(`/playlists/${playlistId}/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ music_id: musicId })
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        alert('Music added to playlist');
+                    } else {
+                        alert('Failed to add music to playlist');
+                    }
+                });
+
+                document.querySelectorAll('.context-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+                event.preventDefault();
+            }
+        });
+
+        // Hide context menu on outside click
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.playlist-button')) {
+                document.querySelectorAll('.context-menu').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+            }
+        });
+    });
+</script>
 
 <style>
     .hoverable:hover {

@@ -3,6 +3,52 @@
 <link href="{{ asset('css/dropdown.css') }}" rel="stylesheet">
 
 
+
+<style>
+    .btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem 0.5rem 0;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+</style>
 </head>
 <x-app-layout>
     <x-slot name="header">
@@ -13,10 +59,20 @@
     </x-slot>
 
     <div class="py-10 mt-4">
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-     
+        <!-- Buttons to submit or close modal -->
+                    <div class="flex justify-end">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save
+                        </button>
+                     
+                    </div>
                 <!-- Add Music Form -->
                 <form method="POST" action="{{ route('musics.store') }}" enctype="multipart/form-data">
                     @csrf
@@ -284,12 +340,13 @@
 
                 <!-- Buttons to submit or close modal -->
                     <div class="flex justify-end">
-                        <button type="submit" class="btn btn-primary">
-                            Add
-                        </button>
-                        <button type="button" class="bg-gray-600 hover:bg-gray-800 text-black font-bold py-2 px-4 rounded ml-2 focus:outline-none focus:shadow-outline" onclick="closeAddMusicModal()">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
                             Cancel
                         </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save
+                        </button>
+                       
                     </div>
 
             

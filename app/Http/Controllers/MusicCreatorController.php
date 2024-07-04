@@ -103,7 +103,7 @@ class MusicCreatorController extends Controller
             'district' => $creator->district,
             'duty' => $creator->duty,
             'birthday' => $creator->birthday,
-            'usic_background' => $creator->music_background,
+            'music_background' => $creator->music_background,
             'designation' => $creator->designation,
             'image_url' => $creator->image_url,
         ]);

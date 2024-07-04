@@ -199,7 +199,9 @@ body {
     </table>
 </div>
 
-
+<div class="flex mt-8 gap-4">
+asd
+                </div>
 
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
 
