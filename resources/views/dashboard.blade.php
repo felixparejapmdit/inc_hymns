@@ -199,9 +199,110 @@ body {
     </table>
 </div>
 
-<div class="flex mt-8 gap-4">
-asd
-                </div>
+
+<div class="flex mt-8 gap-4 w-full">
+    <div class="white-box w-full">
+        @foreach($playlists as $playlist)
+            <button class="accordion">{{$playlist->name}}</button>
+            <div class="panel">
+                <ul>
+                    @foreach($musicPlaylist as $music)
+                        @if($music->name == $playlist->name)
+                            <li>
+                                {{$music->title}} ({{$music->song_number}})
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
+        @endforeach
+    </div>
+</div>
+
+<style>
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mt-8 {
+    margin-top: 2rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.white-box {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active,.accordion:hover {
+    background-color: #ccc;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.panel li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.panel li:last-child {
+    border-bottom: none;
+}
+</style>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+
 
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
 

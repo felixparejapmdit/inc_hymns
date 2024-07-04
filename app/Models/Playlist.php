@@ -12,4 +12,8 @@ class Playlist extends Model
     {
         return $this->belongsToMany(Music::class, 'music_playlist');
     }
+    public function hymns()
+    {
+        return $this->belongsToMany(Music::class, 'music_playlist');
+    }
 }
