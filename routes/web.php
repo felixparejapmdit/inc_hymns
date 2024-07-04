@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 });
@@ -83,14 +83,11 @@ Route::get('/musics/{id}', [MusicController::class, 'show'])->name('musics.show'
 
 Route::get('/musicplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.musicPlayer');
 
-
 Route::get('mplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.mplayer');
 
 Route::get('/creators/{creatorId}', [MusicCreatorController::class, 'showinfo'])->name('creators.showinfo');
 
 Route::get('/musics/{musicId}/creators/{creatorId}', [MusicCreatorController::class, 'showinfo'])->name('musics.showinfo');
-
-
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
@@ -114,7 +111,6 @@ Route::post('api_documentations', [ApiDocumentationController::class, 'store'])-
 Route::get('api_documentations/{api_documentation}/edit', [ApiDocumentationController::class, 'edit'])->name('api_documentations.edit');
 Route::put('api_documentations/{api_documentation}', [ApiDocumentationController::class, 'update'])->name('api_documentations.update');
 Route::delete('api_documentations/{api_documentation}', [ApiDocumentationController::class, 'destroy'])->name('api_documentations.destroy');
-
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
     ->name('register'); // No middleware to allow access for both guests and authenticated users
@@ -148,10 +144,7 @@ Route::put('music_management/credits/{credit}', [MusicCreatorController::class, 
 
 Route::delete('music_management/credits/{credit}', [MusicCreatorController::class, 'destroy'])->name('credits.destroy');
 
-
-
 Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
-
 
 Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity_logs.index');
 Route::get('activity-logs/{id}', [ActivityLogController::class, 'show'])->name('activity_logs.show');
