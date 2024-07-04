@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2024 at 10:34 AM
+-- Generation Time: Jul 04, 2024 at 02:44 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -352,7 +352,344 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action`, `model`, `model_id`, `ch
 (304, 6, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-26 00:31:27', '2024-06-26 00:31:27'),
 (305, 6, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-26 00:31:27', '2024-06-26 00:31:27'),
 (306, 6, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-26 00:31:44', '2024-06-26 00:31:44'),
-(307, 6, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-26 00:31:45', '2024-06-26 00:31:45');
+(307, 6, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-26 00:31:45', '2024-06-26 00:31:45'),
+(308, 5, 'login', 'EVM', 5, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:09:31', '2024-06-27 03:09:31'),
+(309, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:10:01', '2024-06-27 03:10:01'),
+(310, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:10:01', '2024-06-27 03:10:01'),
+(311, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:10:23', '2024-06-27 03:10:23'),
+(312, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:10:23', '2024-06-27 03:10:23'),
+(313, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:10:50', '2024-06-27 03:10:50'),
+(314, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:10:51', '2024-06-27 03:10:51'),
+(315, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:11:32', '2024-06-27 03:11:32'),
+(316, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:11:33', '2024-06-27 03:11:33'),
+(317, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:13:00', '2024-06-27 03:13:00'),
+(318, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:13:01', '2024-06-27 03:13:01'),
+(319, 5, 'login', 'EVM', 5, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:13:56', '2024-06-27 03:13:56'),
+(320, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:14:16', '2024-06-27 03:14:16'),
+(321, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:14:16', '2024-06-27 03:14:16'),
+(322, 5, 'login', 'EVM', 5, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:17:53', '2024-06-27 03:17:53'),
+(323, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:18:11', '2024-06-27 03:18:11'),
+(324, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:18:12', '2024-06-27 03:18:12'),
+(325, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:20:27', '2024-06-27 03:20:27'),
+(326, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:20:27', '2024-06-27 03:20:27'),
+(327, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:21:17', '2024-06-27 03:21:17'),
+(328, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:21:17', '2024-06-27 03:21:17'),
+(329, 5, 'login', 'EVM', 5, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:23:48', '2024-06-27 03:23:48'),
+(330, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:24:25', '2024-06-27 03:24:25'),
+(331, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:24:25', '2024-06-27 03:24:25'),
+(332, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:26:00', '2024-06-27 03:26:00'),
+(333, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:26:01', '2024-06-27 03:26:01'),
+(334, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:27:04', '2024-06-27 03:27:04'),
+(335, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:27:04', '2024-06-27 03:27:04'),
+(336, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:27:36', '2024-06-27 03:27:36'),
+(337, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:29:01', '2024-06-27 03:29:01'),
+(338, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:29:01', '2024-06-27 03:29:01'),
+(339, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:31:17', '2024-06-27 03:31:17'),
+(340, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:31:17', '2024-06-27 03:31:17'),
+(341, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:32:53', '2024-06-27 03:32:53'),
+(342, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:32:53', '2024-06-27 03:32:53'),
+(343, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:34:48', '2024-06-27 03:34:48'),
+(344, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:34:48', '2024-06-27 03:34:48'),
+(345, 5, 'viewed', 'Kami\'y Iyong Dingin', 73, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:34:55', '2024-06-27 03:34:55'),
+(346, 5, 'viewed', 'Kami\'y Iyong Dingin', 73, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:34:55', '2024-06-27 03:34:55'),
+(347, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:36:35', '2024-06-27 03:36:35'),
+(348, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:36:36', '2024-06-27 03:36:36'),
+(349, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:31', '2024-06-27 03:38:31'),
+(350, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:31', '2024-06-27 03:38:31'),
+(351, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:40', '2024-06-27 03:38:40'),
+(352, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:41', '2024-06-27 03:38:41'),
+(353, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:46', '2024-06-27 03:38:46'),
+(354, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:46', '2024-06-27 03:38:46'),
+(355, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:51', '2024-06-27 03:38:51'),
+(356, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:51', '2024-06-27 03:38:51'),
+(357, 5, 'viewed', 'Sa Lugo Niya\'y Nabanal Ka Na', 76, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:54', '2024-06-27 03:38:54'),
+(358, 5, 'viewed', 'Sa Lugo Niya\'y Nabanal Ka Na', 76, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:54', '2024-06-27 03:38:54'),
+(359, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:57', '2024-06-27 03:38:57'),
+(360, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:38:57', '2024-06-27 03:38:57'),
+(361, 5, 'viewed', 'Ang Aking Panalangin', 78, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:39:00', '2024-06-27 03:39:00'),
+(362, 5, 'viewed', 'Ang Aking Panalangin', 78, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:39:00', '2024-06-27 03:39:00'),
+(363, 5, 'viewed', 'Bayan Mo\'y Sumusulong Dahil Po Sa Iyong Tulong', 80, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:39:06', '2024-06-27 03:39:06'),
+(364, 5, 'viewed', 'Bayan Mo\'y Sumusulong Dahil Po Sa Iyong Tulong', 80, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:39:06', '2024-06-27 03:39:06'),
+(365, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:39:26', '2024-06-27 03:39:26'),
+(366, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:39:26', '2024-06-27 03:39:26'),
+(367, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:49:00', '2024-06-27 03:49:00'),
+(368, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:49:01', '2024-06-27 03:49:01'),
+(369, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:27', '2024-06-27 03:59:27'),
+(370, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:28', '2024-06-27 03:59:28'),
+(371, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:32', '2024-06-27 03:59:32'),
+(372, 5, 'viewed', 'Huwag Iiwan Ang', 79, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:32', '2024-06-27 03:59:32'),
+(373, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:36', '2024-06-27 03:59:36'),
+(374, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:36', '2024-06-27 03:59:36'),
+(375, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:41', '2024-06-27 03:59:41'),
+(376, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:42', '2024-06-27 03:59:42'),
+(377, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:47', '2024-06-27 03:59:47'),
+(378, 5, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:47', '2024-06-27 03:59:47'),
+(379, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:49', '2024-06-27 03:59:49'),
+(380, 5, 'viewed', 'Sa Amin Ay Mabuti Ka Ama', 72, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:49', '2024-06-27 03:59:49'),
+(381, 5, 'viewed', 'Ang Aking Panalangin', 78, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:54', '2024-06-27 03:59:54'),
+(382, 5, 'viewed', 'Ang Aking Panalangin', 78, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 03:59:55', '2024-06-27 03:59:55'),
+(383, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:01:41', '2024-06-27 04:01:41'),
+(384, 5, 'viewed', 'Sa Lugo Niya\'y Nabanal Ka Na', 76, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:01:46', '2024-06-27 04:01:46'),
+(385, 5, 'viewed', 'Sa Lugo Niya\'y Nabanal Ka Na', 76, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:01:46', '2024-06-27 04:01:46'),
+(386, 5, 'viewed', 'Sa Lugo Niya\'y Nabanal Ka Na', 76, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:02:24', '2024-06-27 04:02:24'),
+(387, 5, 'viewed', 'Sa Lugo Niya\'y Nabanal Ka Na', 76, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:02:25', '2024-06-27 04:02:25'),
+(388, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:02:29', '2024-06-27 04:02:29'),
+(389, 5, 'viewed', 'Huwag Akong Limutin', 77, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:02:30', '2024-06-27 04:02:30'),
+(390, 5, 'viewed', 'O Ama', 81, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:02:33', '2024-06-27 04:02:33'),
+(391, 5, 'viewed', 'O Ama', 81, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:02:34', '2024-06-27 04:02:34'),
+(392, 5, 'viewed', 'Bayan Mo\'y Sumusulong Dahil Po Sa Iyong Tulong', 80, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:03:23', '2024-06-27 04:03:23'),
+(393, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:05:23', '2024-06-27 04:05:23'),
+(394, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:05:23', '2024-06-27 04:05:23'),
+(395, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:05:43', '2024-06-27 04:05:43'),
+(396, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:05:43', '2024-06-27 04:05:43'),
+(397, 5, 'login', 'EVM', 5, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-06-27 04:06:32', '2024-06-27 04:06:32'),
+(398, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-27 21:00:02', '2024-06-27 21:00:02'),
+(399, 5, 'login', 'EVM', 5, 'login user', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:00:23', '2024-06-27 21:00:23'),
+(400, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:01:40', '2024-06-27 21:01:40'),
+(401, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:01:41', '2024-06-27 21:01:41'),
+(402, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:01:48', '2024-06-27 21:01:48'),
+(403, 5, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:01:48', '2024-06-27 21:01:48'),
+(404, 6, 'login', 'ATG', 6, 'login user', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:02:23', '2024-06-27 21:02:23'),
+(405, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-06-27 21:02:48', '2024-06-27 21:02:48'),
+(406, 8, 'updated', 'PMD-IT', 1, 'update group', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-27 21:03:04', '2024-06-27 21:03:04'),
+(407, 7, 'login', 'GMG', 7, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-27 21:03:20', '2024-06-27 21:03:20'),
+(408, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 22:44:15', '2024-06-30 22:44:15');
+INSERT INTO `activity_logs` (`id`, `user_id`, `action`, `model`, `model_id`, `changes`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
+(409, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 22:44:20', '2024-06-30 22:44:20'),
+(410, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 22:44:20', '2024-06-30 22:44:20'),
+(411, 5, 'login', 'EVM', 5, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 22:45:52', '2024-06-30 22:45:52'),
+(412, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 22:50:44', '2024-06-30 22:50:44'),
+(413, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', '2024-06-30 22:59:21', '2024-06-30 22:59:21'),
+(414, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', '2024-06-30 22:59:22', '2024-06-30 22:59:22'),
+(415, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:15:38', '2024-06-30 23:15:38'),
+(416, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:15:43', '2024-06-30 23:15:43'),
+(417, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:15:43', '2024-06-30 23:15:43'),
+(418, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:15:49', '2024-06-30 23:15:49'),
+(419, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:15:50', '2024-06-30 23:15:50'),
+(420, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:35:10', '2024-06-30 23:35:10'),
+(421, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:38:07', '2024-06-30 23:38:07'),
+(422, 8, 'created', 'MusicCreator', 111, 'add new credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:38:32', '2024-06-30 23:38:32'),
+(423, 8, 'created', 'MusicCreator', 113, 'add new credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:41:01', '2024-06-30 23:41:01'),
+(424, 8, 'created', 'MusicCreator', 114, 'add new credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:41:21', '2024-06-30 23:41:21'),
+(425, 8, 'created', 'MusicCreator', 115, 'add new credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-06-30 23:41:48', '2024-06-30 23:41:48'),
+(426, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 00:13:52', '2024-07-01 00:13:52'),
+(427, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 17:12:00', '2024-07-01 17:12:00'),
+(428, 8, 'updated', 'Acierto', 3, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 17:12:21', '2024-07-01 17:12:21'),
+(429, 8, 'updated', 'Acierto', 3, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 17:12:49', '2024-07-01 17:12:49'),
+(430, 8, 'login', 'Admin', 8, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 17:41:08', '2024-07-01 17:41:08'),
+(431, 8, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 17:41:15', '2024-07-01 17:41:15'),
+(432, 8, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 17:41:16', '2024-07-01 17:41:16'),
+(433, 8, 'updated', 'Acierto', 3, 'update the credit', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 17:41:44', '2024-07-01 17:41:44'),
+(434, 8, 'updated', 'Acierto', 3, 'update the credit', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 17:42:07', '2024-07-01 17:42:07'),
+(435, 5, 'login', 'EVM', 5, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:01:29', '2024-07-01 18:01:29'),
+(436, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:01:33', '2024-07-01 18:01:33'),
+(437, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:01:33', '2024-07-01 18:01:33'),
+(438, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:01:49', '2024-07-01 18:01:49'),
+(439, 5, 'viewed', 'Sa Maluwalhating Tahanan', 75, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:01:50', '2024-07-01 18:01:50'),
+(440, 5, 'viewed', 'Bayan Mo\'y Sumusulong Dahil Po Sa Iyong Tulong', 80, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:02:43', '2024-07-01 18:02:43'),
+(441, 5, 'viewed', 'Bayan Mo\'y Sumusulong Dahil Po Sa Iyong Tulong', 80, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:02:43', '2024-07-01 18:02:43'),
+(442, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 18:02:48', '2024-07-01 18:02:48'),
+(443, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:03:10', '2024-07-01 18:03:10'),
+(444, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:03:10', '2024-07-01 18:03:10'),
+(445, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-07-01 18:05:44', '2024-07-01 18:05:44'),
+(446, 5, 'login', 'EVM', 5, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:06:51', '2024-07-01 18:06:51'),
+(447, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:08:48', '2024-07-01 18:08:48'),
+(448, 5, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:08:49', '2024-07-01 18:08:49'),
+(449, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:09:48', '2024-07-01 18:09:48'),
+(450, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:09:49', '2024-07-01 18:09:49'),
+(451, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 18:11:13', '2024-07-01 18:11:13'),
+(452, 8, 'login', 'Admin', 8, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:13:03', '2024-07-01 18:13:03'),
+(453, 8, 'updated', 'VIP', 2, 'update group', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:15:26', '2024-07-01 18:15:26'),
+(454, 5, 'login', 'EVM', 5, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:16:09', '2024-07-01 18:16:09'),
+(455, 8, 'login', 'Admin', 8, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:16:32', '2024-07-01 18:16:32'),
+(456, 8, 'updated', 'VIP', 2, 'update group', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:16:45', '2024-07-01 18:16:45'),
+(457, 5, 'login', 'EVM', 5, 'login user', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:17:27', '2024-07-01 18:17:27'),
+(458, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:17:46', '2024-07-01 18:17:46'),
+(459, 5, 'viewed', 'Ako Nawa Ay Patawarin', 69, 'view hymn', '172.18.127.46', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:17:46', '2024-07-01 18:17:46'),
+(460, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 18:29:39', '2024-07-01 18:29:39'),
+(461, 8, 'login', 'Admin', 8, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:30:41', '2024-07-01 18:30:41'),
+(462, 8, 'deleted', 'EVM', 5, 'delete the user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 18:31:02', '2024-07-01 18:31:02'),
+(463, 8, 'created', 'test', 16, 'add new user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 18:34:05', '2024-07-01 18:34:05'),
+(464, 16, 'login', 'test', 16, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 18:34:13', '2024-07-01 18:34:13'),
+(465, 8, 'updated', 'VIP', 2, 'update group', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 19:00:00', '2024-07-01 19:00:00'),
+(466, 8, 'created', 'EVM', 17, 'add new user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 19:00:28', '2024-07-01 19:00:28'),
+(467, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 19:20:56', '2024-07-01 19:20:56'),
+(468, 8, 'updated', 'Acierto', 3, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 19:22:18', '2024-07-01 19:22:18'),
+(469, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 19:25:03', '2024-07-01 19:25:03'),
+(470, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 19:25:03', '2024-07-01 19:25:03'),
+(471, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 19:25:52', '2024-07-01 19:25:52'),
+(472, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 19:25:52', '2024-07-01 19:25:52'),
+(473, 17, 'login', 'EVM', 17, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 19:27:43', '2024-07-01 19:27:43'),
+(474, 6, 'login', 'ATG', 6, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 19:28:08', '2024-07-01 19:28:08'),
+(475, 6, 'login', 'ATG', 6, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 19:28:42', '2024-07-01 19:28:42'),
+(476, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 20:04:52', '2024-07-01 20:04:52'),
+(477, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 20:04:52', '2024-07-01 20:04:52'),
+(478, 8, 'login', 'Admin', 8, 'login user', '172.18.125.64', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0', '2024-07-01 20:05:19', '2024-07-01 20:05:19'),
+(479, 17, 'login', 'EVM', 17, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 20:14:30', '2024-07-01 20:14:30'),
+(480, 17, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 20:14:38', '2024-07-01 20:14:38'),
+(481, 17, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 20:14:39', '2024-07-01 20:14:39'),
+(482, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 22:22:06', '2024-07-01 22:22:06'),
+(483, 8, 'updated', 'Ako Nawa Ay Patawarin', 69, 'update hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 22:22:17', '2024-07-01 22:22:17'),
+(484, 8, 'updated', 'Huwag Iiwan Ang', 79, 'update hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 22:22:44', '2024-07-01 22:22:44'),
+(485, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 22:38:40', '2024-07-01 22:38:40'),
+(486, 8, 'created', 'MusicCreator', 118, 'add new credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 23:31:19', '2024-07-01 23:31:19'),
+(487, 8, 'updated', 'test3', 118, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 23:32:46', '2024-07-01 23:32:46'),
+(488, 8, 'updated', 'test3', 118, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-01 23:48:17', '2024-07-01 23:48:17'),
+(489, 8, 'updated', 'test3', 118, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:30:33', '2024-07-02 00:30:33'),
+(490, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:32:40', '2024-07-02 00:32:40'),
+(491, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:32:40', '2024-07-02 00:32:40'),
+(492, 8, 'updated', 'test3', 118, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:36:13', '2024-07-02 00:36:13'),
+(493, 8, 'updated', 'Acierto', 3, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:41:11', '2024-07-02 00:41:11'),
+(494, 8, 'updated', 'test1', 111, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:42:34', '2024-07-02 00:42:34'),
+(495, 8, 'updated', 'test1', 111, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:43:26', '2024-07-02 00:43:26'),
+(496, 8, 'updated', 'test1', 111, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:43:45', '2024-07-02 00:43:45'),
+(497, 8, 'updated', 'Anthony Jumipit', 4, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 00:56:07', '2024-07-02 00:56:07'),
+(498, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 14:54:23', '2024-07-02 14:54:23'),
+(499, 4, 'login', 'Roland Kim Amaro123', 4, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 14:54:55', '2024-07-02 14:54:55'),
+(500, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:11:21', '2024-07-02 17:11:21'),
+(501, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:11:22', '2024-07-02 17:11:22'),
+(502, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:14:46', '2024-07-02 17:14:46'),
+(503, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:14:46', '2024-07-02 17:14:46'),
+(504, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:19', '2024-07-02 17:15:19'),
+(505, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:20', '2024-07-02 17:15:20'),
+(506, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:29', '2024-07-02 17:15:29'),
+(507, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:29', '2024-07-02 17:15:29'),
+(508, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:45', '2024-07-02 17:15:45'),
+(509, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:45', '2024-07-02 17:15:45'),
+(510, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:56', '2024-07-02 17:15:56'),
+(511, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:15:56', '2024-07-02 17:15:56'),
+(512, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:16:11', '2024-07-02 17:16:11'),
+(513, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:16:11', '2024-07-02 17:16:11'),
+(514, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:18:12', '2024-07-02 17:18:12'),
+(515, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:18:12', '2024-07-02 17:18:12'),
+(516, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:19:39', '2024-07-02 17:19:39'),
+(517, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:19:39', '2024-07-02 17:19:39'),
+(518, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:22:21', '2024-07-02 17:22:21'),
+(519, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:22:21', '2024-07-02 17:22:21'),
+(520, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:23:16', '2024-07-02 17:23:16'),
+(521, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:23:16', '2024-07-02 17:23:16'),
+(522, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:24:40', '2024-07-02 17:24:40'),
+(523, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:24:40', '2024-07-02 17:24:40'),
+(524, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:24:59', '2024-07-02 17:24:59'),
+(525, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:24:59', '2024-07-02 17:24:59'),
+(526, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:25:24', '2024-07-02 17:25:24'),
+(527, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:25:24', '2024-07-02 17:25:24'),
+(528, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:25:27', '2024-07-02 17:25:27'),
+(529, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:25:28', '2024-07-02 17:25:28'),
+(530, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:25:54', '2024-07-02 17:25:54'),
+(531, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:25:54', '2024-07-02 17:25:54'),
+(532, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:26:43', '2024-07-02 17:26:43'),
+(533, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:26:43', '2024-07-02 17:26:43'),
+(534, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:26:45', '2024-07-02 17:26:45'),
+(535, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:26:46', '2024-07-02 17:26:46'),
+(536, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:15', '2024-07-02 17:27:15'),
+(537, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:16', '2024-07-02 17:27:16'),
+(538, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:18', '2024-07-02 17:27:18'),
+(539, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:18', '2024-07-02 17:27:18'),
+(540, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:37', '2024-07-02 17:27:37'),
+(541, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:37', '2024-07-02 17:27:37'),
+(542, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:42', '2024-07-02 17:27:42'),
+(543, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:27:42', '2024-07-02 17:27:42'),
+(544, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:28:11', '2024-07-02 17:28:11'),
+(545, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:28:12', '2024-07-02 17:28:12'),
+(546, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:28:56', '2024-07-02 17:28:56'),
+(547, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:28:56', '2024-07-02 17:28:56'),
+(548, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:30:44', '2024-07-02 17:30:44'),
+(549, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:30:44', '2024-07-02 17:30:44'),
+(550, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:39:28', '2024-07-02 17:39:28'),
+(551, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:39:29', '2024-07-02 17:39:29'),
+(552, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:40:38', '2024-07-02 17:40:38'),
+(553, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:40:39', '2024-07-02 17:40:39'),
+(554, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:41:48', '2024-07-02 17:41:48'),
+(555, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:41:48', '2024-07-02 17:41:48'),
+(556, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:41:52', '2024-07-02 17:41:52'),
+(557, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:41:53', '2024-07-02 17:41:53'),
+(558, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:42:09', '2024-07-02 17:42:09'),
+(559, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:42:09', '2024-07-02 17:42:09'),
+(560, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:42:17', '2024-07-02 17:42:17'),
+(561, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:42:18', '2024-07-02 17:42:18'),
+(562, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:42:22', '2024-07-02 17:42:22'),
+(563, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:42:22', '2024-07-02 17:42:22'),
+(564, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:43:10', '2024-07-02 17:43:10'),
+(565, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:43:10', '2024-07-02 17:43:10'),
+(566, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:43:42', '2024-07-02 17:43:42'),
+(567, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:43:42', '2024-07-02 17:43:42'),
+(568, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:43:51', '2024-07-02 17:43:51'),
+(569, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:43:51', '2024-07-02 17:43:51'),
+(570, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:44:03', '2024-07-02 17:44:03'),
+(571, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:44:03', '2024-07-02 17:44:03'),
+(572, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:46:15', '2024-07-02 17:46:15'),
+(573, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:46:16', '2024-07-02 17:46:16'),
+(574, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:48:02', '2024-07-02 17:48:02'),
+(575, 4, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 17:48:02', '2024-07-02 17:48:02'),
+(576, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0', '2024-07-02 17:50:23', '2024-07-02 17:50:23'),
+(577, 8, 'created', 'Permission', 56, 'add new permission', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0', '2024-07-02 17:53:00', '2024-07-02 17:53:00'),
+(578, 4, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:13:49', '2024-07-02 18:13:49'),
+(579, 4, 'viewed', 'Jesus, Iyong Kaawaan, Palakasin Ako', 68, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:13:49', '2024-07-02 18:13:49'),
+(580, 4, 'viewed', 'O Ama', 81, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:28:00', '2024-07-02 18:28:00'),
+(581, 4, 'viewed', 'O Ama', 81, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:28:00', '2024-07-02 18:28:00'),
+(582, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:28:18', '2024-07-02 18:28:18'),
+(583, 8, 'viewed', 'O Ama', 81, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:28:22', '2024-07-02 18:28:22'),
+(584, 8, 'viewed', 'O Ama', 81, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:28:23', '2024-07-02 18:28:23'),
+(585, 8, 'updated', 'ADMIN', 4, 'update group', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:28:44', '2024-07-02 18:28:44'),
+(586, 8, 'updated', 'Permission', 56, 'update the permission', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:29:28', '2024-07-02 18:29:28'),
+(587, 8, 'viewed', 'O Ama', 81, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:29:42', '2024-07-02 18:29:42'),
+(588, 8, 'viewed', 'O Ama', 81, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:29:43', '2024-07-02 18:29:43'),
+(589, 8, 'updated', 'ADMIN', 4, 'update group', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:29:52', '2024-07-02 18:29:52'),
+(590, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:33:46', '2024-07-02 18:33:46'),
+(591, 8, 'created', 'Jake Alcantara', 18, 'add new user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 18:34:56', '2024-07-02 18:34:56'),
+(592, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 19:10:03', '2024-07-02 19:10:03'),
+(593, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 19:10:03', '2024-07-02 19:10:03'),
+(594, 8, 'created', 'Pasalamat', 5, 'add new Church Hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-02 19:17:24', '2024-07-02 19:17:24'),
+(595, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 14:35:16', '2024-07-03 14:35:16'),
+(596, 8, 'created', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'add new hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 14:36:27', '2024-07-03 14:36:27'),
+(597, 8, 'updated', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'update hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 14:38:00', '2024-07-03 14:38:00'),
+(598, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 14:38:02', '2024-07-03 14:38:02'),
+(599, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 14:38:02', '2024-07-03 14:38:02'),
+(600, 17, 'login', 'EVM', 17, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 21:58:54', '2024-07-03 21:58:54'),
+(601, 17, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 21:59:01', '2024-07-03 21:59:01'),
+(602, 17, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 21:59:01', '2024-07-03 21:59:01'),
+(603, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 21:59:32', '2024-07-03 21:59:32'),
+(604, 8, 'updated', 'VIP', 2, 'update group', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 21:59:42', '2024-07-03 21:59:42'),
+(605, 17, 'login', 'EVM', 17, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:00:23', '2024-07-03 22:00:23'),
+(606, 17, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:00:27', '2024-07-03 22:00:27'),
+(607, 17, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:00:27', '2024-07-03 22:00:27'),
+(608, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:00:44', '2024-07-03 22:00:44'),
+(609, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:01:22', '2024-07-03 22:01:22'),
+(610, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:01:23', '2024-07-03 22:01:23'),
+(611, 8, 'deleted', 'Christian Tolentino', 18, 'delete the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:04:15', '2024-07-03 22:04:15'),
+(612, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:04:23', '2024-07-03 22:04:23'),
+(613, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:04:24', '2024-07-03 22:04:24'),
+(614, 8, 'updated', 'Christian Tolentino', 109, 'update the credit', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:05:15', '2024-07-03 22:05:15'),
+(615, 8, 'updated', 'Ang Aming Pagsisikapan', 74, 'update hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:05:23', '2024-07-03 22:05:23');
+INSERT INTO `activity_logs` (`id`, `user_id`, `action`, `model`, `model_id`, `changes`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
+(616, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:05:28', '2024-07-03 22:05:28'),
+(617, 8, 'updated', 'Ang Aming Pagsisikapan', 74, 'update hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:06:30', '2024-07-03 22:06:30'),
+(618, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:06:35', '2024-07-03 22:06:35'),
+(619, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:06:36', '2024-07-03 22:06:36'),
+(620, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:06:37', '2024-07-03 22:06:37'),
+(621, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:06:38', '2024-07-03 22:06:38'),
+(622, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:08:41', '2024-07-03 22:08:41'),
+(623, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:08:42', '2024-07-03 22:08:42'),
+(624, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:14:23', '2024-07-03 22:14:23'),
+(625, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:14:24', '2024-07-03 22:14:24'),
+(626, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:15:42', '2024-07-03 22:15:42'),
+(627, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:15:43', '2024-07-03 22:15:43'),
+(628, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:16:35', '2024-07-03 22:16:35'),
+(629, 8, 'viewed', 'Ang Aming Pagsisikapan', 74, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:16:38', '2024-07-03 22:16:38'),
+(630, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:33:28', '2024-07-03 22:33:28'),
+(631, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 22:33:29', '2024-07-03 22:33:29'),
+(632, 8, 'created', 'Permission', 57, 'add new permission', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 23:21:24', '2024-07-03 23:21:24'),
+(633, 8, 'updated', 'ADMIN', 4, 'update group', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 23:21:33', '2024-07-03 23:21:33'),
+(634, 8, 'login', 'Admin', 8, 'login user', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-03 23:22:37', '2024-07-03 23:22:37'),
+(635, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-04 02:46:51', '2024-07-04 02:46:51'),
+(636, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-04 02:46:51', '2024-07-04 02:46:51'),
+(637, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-04 02:49:33', '2024-07-04 02:49:33'),
+(638, 8, 'viewed', 'DARATING DIN ANG KAGALAKAN', 71, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-04 02:49:33', '2024-07-04 02:49:33'),
+(639, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-04 03:00:32', '2024-07-04 03:00:32'),
+(640, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36', '2024-07-04 03:00:32', '2024-07-04 03:00:32'),
+(641, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-07-04 03:06:15', '2024-07-04 03:06:15'),
+(642, 8, 'viewed', 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', 82, 'view hymn', '172.18.125.134', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15', '2024-07-04 03:06:15', '2024-07-04 03:06:15');
 
 -- --------------------------------------------------------
 
@@ -458,7 +795,60 @@ INSERT INTO `church_hymns` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'AWS', NULL, NULL),
 (2, 'CWS', NULL, NULL),
 (3, 'EM', NULL, NULL),
-(4, 'Wedding', NULL, NULL);
+(4, 'Wedding', NULL, NULL),
+(5, 'Pasalamat', '2024-07-02 19:17:24', '2024-07-02 19:17:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `creator_designation`
+--
+
+CREATE TABLE `creator_designation` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `music_creator_id` bigint(20) UNSIGNED NOT NULL,
+  `designation_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `creator_designation`
+--
+
+INSERT INTO `creator_designation` (`id`, `music_creator_id`, `designation_id`, `created_at`, `updated_at`) VALUES
+(4, 118, 1, NULL, NULL),
+(6, 1, 1, NULL, NULL),
+(7, 3, 1, NULL, NULL),
+(10, 111, 3, NULL, NULL),
+(11, 4, 1, NULL, NULL),
+(12, 4, 2, NULL, NULL),
+(13, 4, 3, NULL, NULL),
+(14, 109, 1, NULL, NULL),
+(15, 109, 2, NULL, NULL),
+(16, 109, 3, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `designations`
+--
+
+CREATE TABLE `designations` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `designations`
+--
+
+INSERT INTO `designations` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Arranger', NULL, NULL),
+(2, 'Composer', NULL, NULL),
+(3, 'Lyricist', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -520,56 +910,6 @@ CREATE TABLE `group_permissions` (
 --
 
 INSERT INTO `group_permissions` (`group_id`, `permission_id`, `category_id`, `accessrights`, `created_at`, `updated_at`) VALUES
-(4, 1, 1, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 2, 1, 0, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 3, 1, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 4, 1, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 38, 1, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 5, 6, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 6, 6, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 7, 6, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 8, 6, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 9, 6, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 43, 6, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 10, 12, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 11, 12, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 12, 12, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 14, 16, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 15, 16, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 16, 16, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 18, 21, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 19, 21, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 20, 21, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 22, 26, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 23, 26, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 24, 26, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 26, 31, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 27, 31, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 28, 31, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 30, 36, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 31, 36, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 32, 36, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 34, 41, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 35, 41, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 36, 41, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 47, 41, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 39, 48, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 40, 48, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 48, 48, 0, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 44, 54, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 45, 54, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 46, 54, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 13, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 17, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 21, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 25, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 29, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 33, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 49, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 50, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 51, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 52, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
-(4, 53, 58, 1, '2024-06-12 23:17:12', '2024-06-12 23:17:12'),
 (3, 1, 1, 0, '2024-06-12 23:17:25', '2024-06-12 23:17:25'),
 (3, 2, 1, 0, '2024-06-12 23:17:25', '2024-06-12 23:17:25'),
 (3, 3, 1, 0, '2024-06-12 23:17:25', '2024-06-12 23:17:25'),
@@ -620,55 +960,6 @@ INSERT INTO `group_permissions` (`group_id`, `permission_id`, `category_id`, `ac
 (3, 51, 58, 0, '2024-06-12 23:17:25', '2024-06-12 23:17:25'),
 (3, 52, 58, 0, '2024-06-12 23:17:25', '2024-06-12 23:17:25'),
 (3, 53, 58, 1, '2024-06-12 23:17:25', '2024-06-12 23:17:25'),
-(2, 1, 1, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 2, 1, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 3, 1, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 4, 1, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 5, 6, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 6, 6, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 7, 6, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 8, 6, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 9, 6, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 43, 6, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 10, 12, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 11, 12, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 12, 12, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 14, 16, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 15, 16, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 16, 16, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 18, 21, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 19, 21, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 20, 21, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 22, 26, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 23, 26, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 24, 26, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 26, 31, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 27, 31, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 28, 31, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 30, 36, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 31, 36, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 32, 36, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 34, 41, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 35, 41, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 36, 41, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 47, 41, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 39, 48, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 40, 48, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 48, 48, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 44, 54, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 45, 54, 1, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 46, 54, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 13, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 17, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 21, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 25, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 29, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 33, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 49, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 50, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 51, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 52, 58, 0, '2024-06-13 22:26:59', '2024-06-13 22:26:59'),
-(2, 53, 58, 0, '2024-06-13 22:27:00', '2024-06-13 22:27:00'),
 (1, 1, 1, 0, '2024-06-13 22:27:58', '2024-06-13 22:27:58'),
 (1, 2, 1, 1, '2024-06-13 22:27:58', '2024-06-13 22:27:58'),
 (1, 3, 1, 0, '2024-06-13 22:27:58', '2024-06-13 22:27:58'),
@@ -766,7 +1057,108 @@ INSERT INTO `group_permissions` (`group_id`, `permission_id`, `category_id`, `ac
 (5, 50, 58, 0, '2024-06-24 21:46:14', '2024-06-24 21:46:14'),
 (5, 51, 58, 0, '2024-06-24 21:46:14', '2024-06-24 21:46:14'),
 (5, 52, 58, 0, '2024-06-24 21:46:14', '2024-06-24 21:46:14'),
-(5, 53, 58, 0, '2024-06-24 21:46:14', '2024-06-24 21:46:14');
+(5, 53, 58, 0, '2024-06-24 21:46:14', '2024-06-24 21:46:14'),
+(2, 1, 1, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 2, 1, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 3, 1, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 4, 1, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 5, 6, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 6, 6, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 7, 6, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 8, 6, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 9, 6, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 43, 6, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 10, 12, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 11, 12, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 12, 12, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 56, 12, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 14, 16, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 15, 16, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 16, 16, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 18, 21, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 19, 21, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 20, 21, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 22, 26, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 23, 26, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 24, 26, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 26, 31, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 27, 31, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 28, 31, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 30, 36, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 31, 36, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 32, 36, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 34, 41, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 35, 41, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 36, 41, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 47, 41, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 39, 48, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 40, 48, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 48, 48, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 44, 54, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 45, 54, 1, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 46, 54, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 13, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 17, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 21, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 25, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 29, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 33, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 49, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 50, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 51, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 52, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(2, 53, 58, 0, '2024-07-03 21:59:53', '2024-07-03 21:59:53'),
+(4, 1, 1, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 2, 1, 0, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 3, 1, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 4, 1, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 5, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 6, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 7, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 8, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 9, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 43, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 57, 6, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 10, 12, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 11, 12, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 12, 12, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 56, 12, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 14, 16, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 15, 16, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 16, 16, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 18, 21, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 19, 21, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 20, 21, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 22, 26, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 23, 26, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 24, 26, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 26, 31, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 27, 31, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 28, 31, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 30, 36, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 31, 36, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 32, 36, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 34, 41, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 35, 41, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 36, 41, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 47, 41, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 39, 48, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 40, 48, 1, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 48, 48, 0, '2024-07-03 23:21:46', '2024-07-03 23:21:46'),
+(4, 44, 54, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 45, 54, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 46, 54, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 13, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 17, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 21, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 25, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 29, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 33, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 49, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 50, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 51, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 52, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47'),
+(4, 53, 58, 1, '2024-07-03 23:21:47', '2024-07-03 23:21:47');
 
 -- --------------------------------------------------------
 
@@ -855,7 +1247,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2024_04_21_044619_modify_musics_table', 4),
 (19, '2024_06_04_062006_create_permissions_table', 5),
 (20, '2024_06_11_160951_create_activity_logs_table', 6),
-(21, '2024_06_12_034720_add_lyrics_to_musics_table', 7);
+(21, '2024_06_12_034720_add_lyrics_to_musics_table', 7),
+(22, '2024_07_02_064447_create_designations_table', 8),
+(23, '2024_07_02_064530_create_creator_designation_table', 8),
+(24, '2024_07_04_083920_create_playlists_table', 9),
+(25, '2024_07_04_083921_create_music_playlist_table', 9);
 
 -- --------------------------------------------------------
 
@@ -887,8 +1283,8 @@ CREATE TABLE `musics` (
 --
 
 INSERT INTO `musics` (`id`, `church_hymn_id`, `title`, `song_number`, `music_score_path`, `lyrics_path`, `vocals_mp3_path`, `organ_mp3_path`, `preludes_mp3_path`, `language_id`, `verses_used`, `created_by`, `updated_by`, `created_at`, `updated_at`, `lyrics`) VALUES
-(68, 1, 'Jesus, Iyong Kaawaan, Palakasin Ako', '526', 'music_files/526.pdf', 'music_files/526 Lyrics Only.pdf', 'music_files/526.mp3', NULL, 'music_files/P526.mp3', 1, 'asd', 1, 1, '2024-06-05 19:34:57', '2024-06-13 22:05:14', '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nO,\nAng\n2. \n1. \n\n\n\n\n\nkung\nhi\nI\nrap\nkaw\nnang\nang\nma\n\n\n\n\n\n\n\n\n\n\n\nsa\nbu\n\'ki\'y\nhay di\nla\n\n\n\n\n\n\n\n\n\n\ngi\nto sa\nnang\nda\nsa\nig\nsa\n\n\n\n\n\n\n\n\n\n\n\ndig;\nma,\n\n\n\n\n- - - - -\n- - - -\n-\n\n\n\n\n\n\n\n\n\n\nAng ma\nHin\n\n\n\n\n\nra\ndi\nmi\nma\nkong\ni\nti\ni\n\n\n\n\n\n\n\n\n\n\n\ni\nwa\nsin,\nsan, lung\na\n\n\n\n\n\n\n\n\n\n\nkot\nking ma\nat\nba\nli ga\nba\n\n\n\n\n\n\n\n\n\nlig\nta;\n\n\n\n\n\n- - - -\n-- - - - - -\n- - - -\n-\n\n\n\n\n\n\n\n\n\n\n\nAng\nNgu-nit\n\n\n\n\n\n\n\n\n\n\n\n\n\na\npag\nking\nsu\nma\nnod\nka\npo\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\nka\nsa\nya\nIyo\nang\nay\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npi\nma\nnag\ni\nda\nta\nra\nta\n\n\n\n\n\n\n\n\n \n\n\n\na\ngu\nnan\nyod\n\n\n\n\n\n\n- - - - - -\n- - -\n- - -\n- - - -\nIntroduction\npage 1 of 2\nprinted 10/22/2023\nUnison\nST\nJESUS, IYONG KAAWAAN, PALAKASIN AKO\n526\nCopyright © 2023 Iglesia Ni Cristo (Church Of Christ). All Rights Reserved.\nPMD\n\n\n\n\n\n\n\n\n\n\n\n\nKung I\nPag\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkaw\nkat,\nang\nJe\na\nsus,\na\nhan\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nla\nda\nlay\nKang\nsa\na\n \n\n\n\n\n\n\n\n\n\n\n\n\n\n \n\nIyong\nko\na\nay\nbang\ntu\nling\nlu\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkod.\nngan.\n\n\n\n- - - - -\n- - - - - -\n-\n\n\n\n\n\n\n\nJe\n\n\n\n\n\n\n\n\n\n\n\n\nsus, Iyong ka a\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nwa an, pa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nla ka sin a\n\n\n\n\n \n\n\nko,\n\n\n- - - - - - - -\n\n\n\n\n\n\n\n\nLa\n\n\n\n\n\n\n\n\n\n\n\ngi Mong sak lo\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlo han a\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkong a li pin\n\n\n\n\n\n\n\n\n\n\n\nMo,\n\n\n- - - - - - -\n\n\n\n\n\n\n\nAt\n\n\n\n\n\n\n\n\n\n\n\n\n\nang a king pag\n\n\n\n\n\n\n\n\n\n\na sa ay\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIyong pag ti ba\n\n\n\n\n\n\n\n\n\n\n\n\n\nyin\n\n\n- -- -- -\n\n\n\n\n\n\n\n\nNang\n\n\n\n\n\n\n\n\n\n\n\n\n\nu pang ma ti\n\n\n\n\n\n\n\n\n\n\n\n\nis ko ang\n\n\n\n\n\n\n\n\n\n\n\n\n\nmg a hi la\n\n\n\n\n\n\n\n\n\n\nhil.\n\n\n- - - - - -\nRefrain\npage 2 of 2\nSATB\nCopyright © 2023 Iglesia Ni Cristo (Church Of Christ). All Rights Reserved.\nJESUS, IYONG KAAWAAN, PALAKASIN AKO\n526\nprinted 10/22/2023\n2.\n2.'),
-(69, 1, 'Ako Nawa Ay Patawarin', '10', 'music_files/10.pdf', 'music_files/Ako Nawa Ay Patawarin.pdf', 'music_files/010.mp3', NULL, 'music_files/P010.mp3', 1, NULL, 9, 9, '2024-06-13 19:26:59', '2024-06-13 22:10:28', NULL),
+(68, 1, 'Jesus, Iyong Kaawaan, Palakasin Ako', '526', 'music_files/526.pdf', 'music_files/526 Lyrics Only.pdf', 'music_files/526.mp3', NULL, 'music_files/P526.mp3', 2, 'asd', 1, 1, '2024-06-05 19:34:57', '2024-06-13 22:05:14', ''),
+(69, 1, 'Ako Nawa Ay Patawarin', '10', 'music_files/10.pdf', 'music_files/Ako Nawa Ay Patawarin.pdf', 'music_files/010.mp3', NULL, 'music_files/P010.mp3', 2, NULL, 9, 9, '2024-06-13 19:26:59', '2024-07-01 22:22:17', NULL),
 (71, 1, 'DARATING DIN ANG KAGALAKAN', '456', 'music_files/FILIPINO_HYMNS_AWS_1_526_551_594forprinting_23October2023_526.pdf', 'music_files/456.pdf', 'music_files/456.mp3', 'music_files/456 organ.mp3', 'music_files/P456.mp3', 1, 'sadf', 8, 8, '2024-06-13 21:58:01', '2024-06-13 21:58:01', NULL),
 (72, 1, 'Sa Amin Ay Mabuti Ka Ama', '16', 'music_files/16.pdf', 'music_files/Sa Amin Ay Mabuti Ka Ama.pdf', 'music_files/016.mp3', NULL, 'music_files/P016.mp3', 1, NULL, 9, 9, '2024-06-13 22:35:10', '2024-06-13 22:35:10', NULL),
 (73, 1, 'Kami\'y Iyong Dingin', '20', 'music_files/20.pdf', 'music_files/Kami\'y Iyong Dinggin.pdf', 'music_files/020.mp3', NULL, 'music_files/P020.mp3', 1, NULL, 9, 9, '2024-06-13 22:40:39', '2024-06-13 22:40:39', NULL),
@@ -897,9 +1293,10 @@ INSERT INTO `musics` (`id`, `church_hymn_id`, `title`, `song_number`, `music_sco
 (76, 1, 'Sa Lugo Niya\'y Nabanal Ka Na', '40', 'music_files/40.pdf', 'music_files/Sa Dugo Niya\'y Nabanal Ka Na.pdf', 'music_files/P040.mp3', NULL, 'music_files/040.mp3', 1, NULL, 9, 9, '2024-06-13 23:02:47', '2024-06-13 23:02:47', NULL),
 (77, 1, 'Huwag Akong Limutin', '83', 'music_files/83.pdf', 'music_files/Huwag Akong Limutin.pdf', 'music_files/083.mp3', NULL, 'music_files/P083.mp3', 1, NULL, 9, 9, '2024-06-13 23:07:18', '2024-06-13 23:07:18', NULL),
 (78, 2, 'Ang Aking Panalangin', '20', 'music_files/PNK_020 - Ang Aking Panalangin_8Jan2016.pdf', 'music_files/Ang Aking Panalangin.pdf', 'music_files/C020.mp3', NULL, 'music_files/P-C020.mp3', 1, NULL, 9, 9, '2024-06-13 23:20:03', '2024-06-13 23:20:03', NULL),
-(79, 2, 'Huwag Iiwan Ang', '3', 'music_files/PNK_003 - Huwag Iiwan Ang Pagsamba 20Jan2016__.pdf', 'music_files/Huwag Iiwan Ang Pagsamba.pdf', 'music_files/C003.mp3', NULL, 'music_files/P-C003.mp3', 1, NULL, 9, 9, '2024-06-13 23:28:29', '2024-06-13 23:28:29', NULL),
+(79, 2, 'Huwag Iiwan Ang', '3', 'music_files/PNK_003 - Huwag Iiwan Ang Pagsamba 20Jan2016__.pdf', 'music_files/Huwag Iiwan Ang Pagsamba.pdf', 'music_files/C003.mp3', NULL, 'music_files/P-C003.mp3', 1, NULL, 9, 9, '2024-06-13 23:28:29', '2024-07-01 22:22:44', NULL),
 (80, 1, 'Bayan Mo\'y Sumusulong Dahil Po Sa Iyong Tulong', '335', 'music_files/335_05Jun2024_v2.pdf', NULL, 'music_files/Bayan Mo\'y Sumusulong Dahil Sa Iyong Tulong.mp3', NULL, NULL, 1, NULL, 9, 9, '2024-06-24 04:03:32', '2024-06-24 04:03:32', NULL),
-(81, 1, 'O Ama', '174', 'music_files/174_05June2024 - Score.pdf', NULL, 'music_files/174_12Feb2024.v2.mp3', NULL, NULL, 1, NULL, 11, 11, '2024-06-24 23:31:20', '2024-06-24 23:31:20', NULL);
+(81, 1, 'O Ama', '174', 'music_files/174_05June2024 - Score.pdf', NULL, 'music_files/174_12Feb2024.v2.mp3', NULL, NULL, 1, NULL, 11, 11, '2024-06-24 23:31:20', '2024-06-24 23:31:20', NULL),
+(82, 1, 'Ipaglalaban Ang Pananampalataya, Manghahawak Sa  Mga Aral Mo, Ama', NULL, NULL, 'music_files/Lyrics_Ipaglalaban Ang Pananampalataya.pdf', 'music_files/20240702_Ipaglalaban_Ang_Pananampalataya,_Manghahawak_Sa_Mga_Aral.mp3', 'music_files/O_Ipaglalaban_Ang_Pananampalataya,_Manghahawak_Sa_Mga_Aral_Mo,_Ama.mp3', NULL, 1, 'test', 8, 8, '2024-07-03 14:36:27', '2024-07-03 14:38:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -927,7 +1324,9 @@ INSERT INTO `music_arranger` (`id`, `music_id`, `arranger_id`, `created_at`, `up
 (149, 71, 2, NULL, NULL),
 (150, 71, 4, NULL, NULL),
 (151, 80, 52, NULL, NULL),
-(152, 81, 5, NULL, NULL);
+(152, 81, 5, NULL, NULL),
+(153, 82, 1, NULL, NULL),
+(154, 74, 109, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -960,7 +1359,8 @@ INSERT INTO `music_category` (`music_id`, `category_id`) VALUES
 (79, 21),
 (80, 21),
 (81, 7),
-(81, 30);
+(81, 30),
+(82, 1);
 
 -- --------------------------------------------------------
 
@@ -988,11 +1388,12 @@ INSERT INTO `music_composer` (`id`, `music_id`, `composer_id`, `created_at`, `up
 (114, 71, 3, NULL, NULL),
 (115, 72, 65, NULL, NULL),
 (116, 73, 36, NULL, NULL),
-(117, 74, 18, NULL, NULL),
 (118, 76, 84, NULL, NULL),
 (119, 77, 4, NULL, NULL),
 (120, 78, 29, NULL, NULL),
-(121, 81, 14, NULL, NULL);
+(121, 81, 14, NULL, NULL),
+(122, 82, 4, NULL, NULL),
+(123, 74, 109, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1003,12 +1404,13 @@ INSERT INTO `music_composer` (`id`, `music_id`, `composer_id`, `created_at`, `up
 CREATE TABLE `music_creators` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `local` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `district` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `duty` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
   `birthday` datetime DEFAULT NULL,
-  `music_background` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `designation` int(1) NOT NULL,
+  `music_background` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `designation` int(1) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1017,114 +1419,119 @@ CREATE TABLE `music_creators` (
 -- Dumping data for table `music_creators`
 --
 
-INSERT INTO `music_creators` (`id`, `name`, `local`, `district`, `duty`, `birthday`, `music_background`, `designation`, `created_at`, `updated_at`) VALUES
-(1, 'Albert Lapuz', 'sagana', 'central', 'Choir Director', '1988-02-07 00:00:00', 'asd', 1, NULL, '2024-05-20 23:44:24'),
-(2, 'Alejandro M. Pangulayan', NULL, NULL, '', NULL, NULL, 1, NULL, '2024-05-07 15:38:43'),
-(3, 'Acierto', 'test', 'test', 'test', NULL, 'test', 1, NULL, '2024-06-24 19:47:51'),
-(4, 'Anthony Jumipit', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(5, 'Antonio T. de Guzman Jr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(6, 'Arman Santos', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(7, 'Ariel del Rosario', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(8, 'Arnel Deseo Jr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(9, 'Benito M. Pangulayan', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(10, 'Bienvenido C. Santiago', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(11, 'Brandon Rosquites', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(12, 'Carlo Joshua Pineda', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(13, 'Catherine Wetzstein', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(14, 'Cesar Camacho', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(15, 'Cesar Feliciano', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(16, 'Charlyn Rugayan', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(17, 'Christian Sioson', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(18, 'Christian Tolentino', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(19, 'Christine Balbuena', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(20, 'Clifford Kent N. Calaguas', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(21, 'Crisnie C. Villastique', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(22, 'Danilo C. Pantollano', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(23, 'Darren Rubic', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(24, 'Darryl Paloay', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(25, 'Darvin Patio', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(26, 'David M. Magracia', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(27, 'Darl Patrick Macanas', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(28, 'Deborah Potes', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(29, 'Denniel D. Castro', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(30, 'Dennis Zason', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(31, 'Dominador Santos', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(32, 'Donald Pareña', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(33, 'Donald R. Parena', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(34, 'Ed Manguiat', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(35, 'Ednalyn Cayabvab', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(36, 'Eileen A. Pingol', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(37, 'Eileen L. Apostol', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(38, 'Eugen Magbanua', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(39, 'Emiliano P. Magtuto Sr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(40, 'Eric Don Velasco', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(41, 'Ernie Magtuto', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(42, 'EVM', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(43, 'Fausto T. Perez', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(44, 'Fe De Santis', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(45, 'Fritz Donnel Basit', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(46, 'Gabriel Along', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(47, 'Gabriel Jason De Borja', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(48, 'Gabriel Nabong', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(49, 'Gail Antolin', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(50, 'Garwin V. Cruz', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(51, 'Gelo Cruz', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(52, 'Gemma Minna M. de Guzman', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(53, 'Gerardo Roldan', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(54, 'Hermes Villados', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(55, 'Hermis Villados', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(56, 'Honesto Engay Jr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(57, 'James Hermoso', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(58, 'Jane Manahan', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(59, 'Jedernil Hidrosolo', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(60, 'Jefraem Manalo', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(61, 'Joesel Zosimo', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(62, 'Joan Solitario', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(63, 'Johenes Maghuyop Ill', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(64, 'Joon de Guia', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(65, 'Jose A. Mena Jr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(66, 'Jose Marco Valerio', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(67, 'JR Francisco', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(68, 'Katherine Ebido', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(69, 'Katherine Ebido', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(70, 'Kimo Oades', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(71, 'Lenzer Labuguen', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(72, 'Lynn V. Manalo', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(73, 'Marvin Soriano', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(74, 'May Felix', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(75, 'Michael A. Solitario', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(76, 'Michelle Vasquez', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(77, 'Mike Velasco', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(78, 'Nenita Dejan', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(79, 'Nenita Rosanes', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(80, 'Nesson Aguilar', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(81, 'Ramon C. Reyes', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(82, 'Randolf del Rosario', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(83, 'Reynaldo Gendrano', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(84, 'Rhodora A. Megia', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(85, 'Robert Smith', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(86, 'Rod Y. Ramos', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(87, 'Rodolfo C. Sanchez', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(88, 'Rogel P. Flores', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(89, 'Romeo Flores Sr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(90, 'Romeo V. Mangandi', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(91, 'Ronald M. Gabatino', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(92, 'Ryan Jomillo', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(93, 'Ryan Solitario', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(94, 'Sanrex Tinda', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(95, 'Santos Cordez', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(96, 'Serafin David Jr.', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(97, 'Tom Catangay', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(98, 'Vince Eduard Quinitio', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(99, 'Virginia Debatian', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(100, 'Von Joshua Flores', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(101, 'Willy Rivera', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(102, 'Zap Rexton Lazaro', NULL, NULL, '', '0000-00-00 00:00:00', NULL, 0, NULL, NULL),
-(106, 'Eugene Eustaquio', 'Templo', 'Central', 'Ministerial Worker', '1984-02-02 00:00:00', 'Master in Music', 2, '2024-06-24 04:08:53', '2024-06-24 04:08:53'),
-(107, 'Eugene Eustaquio', 'Templo', 'Central', 'Ministerial Worker', '1984-02-02 00:00:00', 'Master in Music', 3, '2024-06-24 04:10:26', '2024-06-24 04:10:26'),
-(108, 'Eugene Eustaquio', 'Templo', 'Central', 'Ministerial Worker', '1984-02-02 00:00:00', 'Master in Music', 1, '2024-06-24 04:10:47', '2024-06-24 04:10:47'),
-(109, 'Christian Tolentino', 'Templo', 'Central', 'Choir Director; Organist', '1987-12-18 00:00:00', 'Certified Royal College of Organist', 2, '2024-06-24 04:12:20', '2024-06-24 04:12:20'),
-(110, 'Pilar Manalo-Danao', 'Templo', 'Central', '1st Overall Choir Director', NULL, 'Bachelor of Music', 3, '2024-06-24 23:33:50', '2024-06-24 23:33:50');
+INSERT INTO `music_creators` (`id`, `name`, `image`, `local`, `district`, `duty`, `birthday`, `music_background`, `designation`, `created_at`, `updated_at`) VALUES
+(1, 'Albert Lapuz', '', 'sagana', 'central', 'Choir Director', '1988-02-07 00:00:00', 'asd', NULL, NULL, '2024-05-20 23:44:24'),
+(2, 'Alejandro M. Pangulayan', '', NULL, NULL, '', NULL, NULL, NULL, NULL, '2024-05-07 15:38:43'),
+(3, 'Acierto', 'music_creators/6z03nVSJjoAtE9plPAyWh7U1nTRl7CUA4zqCeV7M.png', 'test', 'test', 'test', '1987-11-09 00:00:00', '- Master in Music \r\nMajor in Conducting \r\nRangsit Conservatory of Music – THAILAND\r\n\r\n- Bachelor of Music \r\nMajor in Vocal Performance - Mahidol University, THAILAND\r\n\r\n- Certified Teacher of SOMATIC Voice Work - The Contemporary Commercial Music Vocal Pedagogy - Shenandoah University, Virginia, USA', NULL, '2024-07-01 23:31:19', '2024-07-02 00:41:11'),
+(4, 'Anthony Jumipit', '', 'ta', 'tres', 'asd', NULL, 'asd', NULL, NULL, '2024-07-02 00:56:07'),
+(5, 'Antonio T. de Guzman Jr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(6, 'Arman Santos', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(7, 'Ariel del Rosario', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(8, 'Arnel Deseo Jr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(9, 'Benito M. Pangulayan', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(10, 'Bienvenido C. Santiago', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(11, 'Brandon Rosquites', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(12, 'Carlo Joshua Pineda', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(13, 'Catherine Wetzstein', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(14, 'Cesar Camacho', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(15, 'Cesar Feliciano', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(16, 'Charlyn Rugayan', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(17, 'Christian Sioson', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(19, 'Christine Balbuena', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(20, 'Clifford Kent N. Calaguas', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(21, 'Crisnie C. Villastique', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(22, 'Danilo C. Pantollano', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(23, 'Darren Rubic', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(24, 'Darryl Paloay', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(25, 'Darvin Patio', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(26, 'David M. Magracia', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(27, 'Darl Patrick Macanas', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(28, 'Deborah Potes', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(29, 'Denniel D. Castro', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(30, 'Dennis Zason', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(31, 'Dominador Santos', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(32, 'Donald Pareña', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(33, 'Donald R. Parena', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(34, 'Ed Manguiat', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(35, 'Ednalyn Cayabvab', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(36, 'Eileen A. Pingol', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(37, 'Eileen L. Apostol', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(38, 'Eugen Magbanua', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(39, 'Emiliano P. Magtuto Sr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(40, 'Eric Don Velasco', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(41, 'Ernie Magtuto', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(42, 'EVM', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(43, 'Fausto T. Perez', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(44, 'Fe De Santis', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(45, 'Fritz Donnel Basit', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(46, 'Gabriel Along', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(47, 'Gabriel Jason De Borja', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(48, 'Gabriel Nabong', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(49, 'Gail Antolin', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(50, 'Garwin V. Cruz', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(51, 'Gelo Cruz', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(52, 'Gemma Minna M. de Guzman', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(53, 'Gerardo Roldan', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(54, 'Hermes Villados', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(55, 'Hermis Villados', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(56, 'Honesto Engay Jr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(57, 'James Hermoso', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(58, 'Jane Manahan', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(59, 'Jedernil Hidrosolo', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(60, 'Jefraem Manalo', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(61, 'Joesel Zosimo', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(62, 'Joan Solitario', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(63, 'Johenes Maghuyop Ill', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(64, 'Joon de Guia', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(65, 'Jose A. Mena Jr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(66, 'Jose Marco Valerio', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(67, 'JR Francisco', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(68, 'Katherine Ebido', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(69, 'Katherine Ebido', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(70, 'Kimo Oades', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(71, 'Lenzer Labuguen', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(72, 'Lynn V. Manalo', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(73, 'Marvin Soriano', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(74, 'May Felix', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(75, 'Michael A. Solitario', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(76, 'Michelle Vasquez', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(77, 'Mike Velasco', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(78, 'Nenita Dejan', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(79, 'Nenita Rosanes', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(80, 'Nesson Aguilar', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(81, 'Ramon C. Reyes', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(82, 'Randolf del Rosario', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(83, 'Reynaldo Gendrano', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(84, 'Rhodora A. Megia', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(85, 'Robert Smith', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(86, 'Rod Y. Ramos', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(87, 'Rodolfo C. Sanchez', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(88, 'Rogel P. Flores', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(89, 'Romeo Flores Sr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(90, 'Romeo V. Mangandi', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(91, 'Ronald M. Gabatino', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(92, 'Ryan Jomillo', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(93, 'Ryan Solitario', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(94, 'Sanrex Tinda', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(95, 'Santos Cordez', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(96, 'Serafin David Jr.', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(97, 'Tom Catangay', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(98, 'Vince Eduard Quinitio', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(99, 'Virginia Debatian', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(100, 'Von Joshua Flores', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(101, 'Willy Rivera', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(102, 'Zap Rexton Lazaro', '', NULL, NULL, '', '0000-00-00 00:00:00', NULL, NULL, NULL, NULL),
+(106, 'Eugene Eustaquio', '', 'Templo', 'Central', 'Ministerial Worker', '1984-02-02 00:00:00', 'Master in Music', NULL, '2024-06-24 04:08:53', '2024-06-24 04:08:53'),
+(107, 'Eugene Eustaquio', '', 'Templo', 'Central', 'Ministerial Worker', '1984-02-02 00:00:00', 'Master in Music', NULL, '2024-06-24 04:10:26', '2024-06-24 04:10:26'),
+(108, 'Eugene Eustaquio', '', 'Templo', 'Central', 'Ministerial Worker', '1984-02-02 00:00:00', 'Master in Music', NULL, '2024-06-24 04:10:47', '2024-06-24 04:10:47'),
+(109, 'Christian Tolentino', '', 'Templo', 'Central', 'Choir Director; Organist', '1987-12-18 00:00:00', 'Certified Royal College of Organist', NULL, '2024-06-24 04:12:20', '2024-07-03 22:05:15'),
+(110, 'Pilar Manalo-Danao', '', 'Templo', 'Central', '1st Overall Choir Director', NULL, 'Bachelor of Music', NULL, '2024-06-24 23:33:50', '2024-06-24 23:33:50'),
+(111, 'test1', '', 'test1', 'test1', 'test1', NULL, 'test1', NULL, NULL, '2024-06-30 23:38:32'),
+(112, 'test1', '', 'test1', 'test1', 'test1', NULL, 'test1', NULL, '2024-06-30 23:39:21', '2024-06-30 23:39:21'),
+(113, 'test1', '', 'test1', 'test1', 'test1', NULL, 'test1', NULL, '2024-06-30 23:41:01', '2024-06-30 23:41:01'),
+(114, 'test1', '', 'test1', 'test1', 'test1', NULL, 'test1', NULL, '2024-06-30 23:41:21', '2024-06-30 23:41:21'),
+(115, 'test2', '', 'test2', 'test2', 'test2', NULL, 'test2', NULL, '2024-06-30 23:41:48', '2024-06-30 23:41:48'),
+(118, 'test3', NULL, 'test3', 'test3', 'test3', NULL, 'test3', NULL, '2024-07-01 23:31:19', '2024-07-01 23:31:19');
 
 -- --------------------------------------------------------
 
@@ -1156,7 +1563,8 @@ INSERT INTO `music_ensemble_type` (`music_id`, `ensemble_type_id`) VALUES
 (80, 1),
 (80, 3),
 (81, 1),
-(81, 3);
+(81, 3),
+(82, 1);
 
 -- --------------------------------------------------------
 
@@ -1187,7 +1595,8 @@ INSERT INTO `music_instrumentation` (`music_id`, `instrumentation_id`) VALUES
 (78, 1),
 (79, 1),
 (80, 1),
-(81, 1);
+(81, 1),
+(82, 1);
 
 -- --------------------------------------------------------
 
@@ -1210,7 +1619,38 @@ CREATE TABLE `music_lyricist` (
 INSERT INTO `music_lyricist` (`id`, `music_id`, `lyricist_id`, `created_at`, `updated_at`) VALUES
 (95, 68, 1, NULL, NULL),
 (98, 71, 6, NULL, NULL),
-(99, 80, 32, NULL, NULL);
+(99, 80, 32, NULL, NULL),
+(100, 82, 4, NULL, NULL),
+(101, 74, 109, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `music_playlist`
+--
+
+CREATE TABLE `music_playlist` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `music_id` bigint(20) UNSIGNED NOT NULL,
+  `playlist_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `music_playlist`
+--
+
+INSERT INTO `music_playlist` (`id`, `music_id`, `playlist_id`, `created_at`, `updated_at`) VALUES
+(1, 82, 3, NULL, NULL),
+(2, 82, 4, NULL, NULL),
+(3, 82, 5, NULL, NULL),
+(4, 74, 3, NULL, NULL),
+(5, 82, 3, NULL, NULL),
+(6, 82, 4, NULL, NULL),
+(7, 82, 6, NULL, NULL),
+(8, 82, 7, NULL, NULL),
+(9, 82, 8, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1298,7 +1738,9 @@ INSERT INTO `permissions` (`id`, `name`, `description`, `created_at`, `updated_a
 (50, 'permission_categories.view', 'View Permission Categories', '2024-06-12 23:10:29', '2024-06-12 23:10:29'),
 (51, 'activity_logs.view', 'View Activity Logs', '2024-06-12 23:10:47', '2024-06-12 23:10:47'),
 (52, 'api_documentation.view', 'View API Documentation', '2024-06-12 23:11:02', '2024-06-12 23:11:02'),
-(53, 'settings.view', 'View Settings', '2024-06-12 23:16:02', '2024-06-12 23:16:02');
+(53, 'settings.view', 'View Settings', '2024-06-12 23:16:02', '2024-06-12 23:16:02'),
+(56, 'music_details.view_credits', 'View Credits', '2024-07-02 17:53:00', '2024-07-02 18:29:28'),
+(57, 'musics.playlist', 'Playlist', '2024-07-03 23:21:24', '2024-07-03 23:21:24');
 
 -- --------------------------------------------------------
 
@@ -1386,7 +1828,9 @@ INSERT INTO `permission_categories` (`id`, `permission_id`, `category_id`, `name
 (71, 52, 58, NULL, NULL, NULL, NULL),
 (72, 53, 58, NULL, NULL, NULL, NULL),
 (73, 54, 1, NULL, NULL, NULL, NULL),
-(74, 55, 1, NULL, NULL, NULL, NULL);
+(74, 55, 1, NULL, NULL, NULL, NULL),
+(76, 56, 12, NULL, NULL, NULL, NULL),
+(77, 57, 6, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1435,6 +1879,31 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `playlists`
+--
+
+CREATE TABLE `playlists` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `playlists`
+--
+
+INSERT INTO `playlists` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(3, 'test1', '2024-07-04 01:23:58', '2024-07-04 01:23:58'),
+(4, 'test 2', '2024-07-04 01:32:40', '2024-07-04 01:32:40'),
+(5, 'test4', '2024-07-04 01:38:06', '2024-07-04 01:38:06'),
+(6, 'test3', '2024-07-04 02:24:50', '2024-07-04 02:24:50'),
+(7, 'test 5', '2024-07-04 02:25:36', '2024-07-04 02:25:36'),
+(8, 'test6', '2024-07-04 02:43:46', '2024-07-04 02:43:46');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -1460,17 +1929,19 @@ INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `pa
 (1, 'Felix Pareja', 'fmpareja', 'felixpareja.pmdit07@gmail.com', NULL, '$2y$12$oXj7Jb0Mq2ubIdW6FnqIH.Y5QJEWSHNxkImnSGf25eEuMripxrKd.', NULL, 1, NULL, '2024-04-16 21:46:25', '2024-06-05 16:59:50'),
 (3, 'Kyrt Jurada', 'kjurada', 'kjurada@gmail.com', NULL, '$2y$12$gdJNOpmcVydXmnStkBxnHe1oPVIpWlFtfNPx9c3GsHA/sycQn94ie', NULL, 1, NULL, '2024-06-02 23:08:48', '2024-06-05 16:44:33'),
 (4, 'Roland Kim Amaro123', 'rkamaro', 'rkamaro@gmail.com', NULL, '$2y$12$X6mlU56RRbC5zxyy5IVGde/q0Tsr9MgUQt4afweD2JbZKokf1Nbo2', NULL, 1, NULL, '2024-06-03 19:42:53', '2024-06-07 07:08:16'),
-(5, 'EVM', 'evm', 'evm@gmail.com', NULL, '$2y$12$Cp0HvJC.wabZ/NtmJ8TyquM0wSDUpNKxblvJix3j1zl0AblSLbyp.', NULL, 1, NULL, '2024-06-03 21:31:13', '2024-06-13 23:36:29'),
-(6, 'ATG', 'atg', 'atg@gmail.com', NULL, '$2y$12$u3ikFSmmBU44bVQ9vK160emXzhh98nLkiGTCnO7Gdo5ClMlOcFcPe', NULL, 1, NULL, '2024-06-03 21:34:13', '2024-06-26 00:08:55'),
+(6, 'ATG', 'atg', 'atg@gmail.com', NULL, '$2y$12$vYXdmRvt2G94T4Uq49l5.ujZCUO3GisMv5D3LA/2DB1wO3RfGZOP.', NULL, 1, NULL, '2024-06-03 21:34:13', '2024-07-01 19:28:26'),
 (7, 'GMG', 'gmg', 'gmg@gmail.com', NULL, '$2y$12$T7j3WfGYbg7Po9iFTI474epUuzRwS2sFtgLsdQNGD06imTmKxC4Im', NULL, 1, NULL, '2024-06-03 21:53:50', '2024-06-26 00:09:01'),
-(8, 'Admin', 'admin', 'admin@gmail.com', NULL, '$2y$12$9zTjKojCzPWeitLa/ka0uerS76ygPIPIxE0Vwn/XcR/Xyd6Ynm9RG', NULL, 1, NULL, '2024-06-05 16:46:18', '2024-06-11 15:54:29'),
+(8, 'Admin', 'admin', 'admin@gmail.com', NULL, '$2y$12$ZDpAwHdcxSs2HSgvU/hAyu/LZgiRIQEb0PfDOFuqp2K/A2IipPkc6', NULL, 1, NULL, '2024-06-05 16:46:18', '2024-07-01 18:29:29'),
 (9, 'Music Encoder 01', 'music.encoder01', 'music@yahoo.com', NULL, '$2y$12$nefsbqHML1NlRqegOB3.4OM4AdqdAtwulFYBkeo1eUB3eE.d6vU8i', NULL, 1, NULL, '2024-06-12 22:15:58', '2024-06-18 16:44:03'),
 (10, 'Music Encoder 02', 'music.encoder02', 'music.encoder02@google.com', NULL, '$2y$12$n.9Lnz1rMCq7NPJA08lTkuGWxnNXm4hYNMP2B7atofAwPFlbltIga', NULL, 1, NULL, '2024-06-13 18:13:31', '2024-06-13 18:13:31'),
 (11, 'Eugene Eustaquio', 'eeustaquio', 'eeustaquio@gmail.com', NULL, '$2y$12$eM62ZrFL9Zsrcg0w7YI7T.kNHf3/oHqUhQ3sQgQq7o7SkbZTB3YOa', NULL, 1, NULL, '2024-06-18 16:42:49', '2024-06-18 16:42:49'),
 (12, 'Randolf Magan', 'rmagan', 'rmagan@gmail.com', NULL, '$2y$12$7SqN75HAKZtVsySuFLei8eGcb3weyNOqKS9Q3RzDUOIjEmKV.n4a6', NULL, 1, NULL, '2024-06-18 16:43:26', '2024-06-18 16:43:26'),
 (13, 'Music Encoder 01', 'music.encoder03', 'music.encoder03@gmail.com', NULL, '$2y$12$9E0/9f764yVeAvlpB.qpQOdX4wBRC9T2KVh70VCmdpHYxI.PESixe', NULL, 1, NULL, '2024-06-18 16:44:36', '2024-06-18 16:44:36'),
 (14, 'Music Encoder 04', 'music.encoder04', 'music.encoder04@gmail.com', NULL, '$2y$12$9JzAK04ldZwmtZ85C2co2u11YRkK/1pE8DUrnoAgHFJFkt5R4tFgK', NULL, 1, NULL, '2024-06-18 16:45:05', '2024-06-18 16:45:05'),
-(15, 'Ryan Solitario', 'rsolitario', 'rsolitario@gmail.com', NULL, '$2y$12$INEbLKrr/sg3v4SsTmDQcO.GHJLzFcXXvznsEADQTxEEhj1Iy/55K', NULL, 1, NULL, '2024-06-24 21:46:54', '2024-06-24 21:46:54');
+(15, 'Ryan Solitario', 'rsolitario', 'rsolitario@gmail.com', NULL, '$2y$12$INEbLKrr/sg3v4SsTmDQcO.GHJLzFcXXvznsEADQTxEEhj1Iy/55K', NULL, 1, NULL, '2024-06-24 21:46:54', '2024-06-24 21:46:54'),
+(16, 'test', 'test', 'test1@yahoo.com', NULL, '$2y$12$XzREnDifMTHthVSNh0fszevTGs2SwqyWMOQCZrv.io9WiEhp.guLC', NULL, 1, NULL, '2024-07-01 18:34:05', '2024-07-01 18:34:05'),
+(17, 'EVM', 'evm', 'evm@gmail.com', NULL, '$2y$12$p2DoSmlMYvsVNwWw7KFQd.FPwjLiYh7/qTwjNeZl8gu7OAfRYVD7O', NULL, 1, NULL, '2024-07-01 19:00:28', '2024-07-01 19:00:28'),
+(18, 'Jake Alcantara', 'jake.alcantara', 'a@qqq.com', NULL, '$2y$12$jHxXuT8FUUXLiJS1oxKrWO4GZp83CByOF.gB2yjmnlSrATk2jLZ6y', NULL, 1, NULL, '2024-07-02 18:34:56', '2024-07-02 18:34:56');
 
 -- --------------------------------------------------------
 
@@ -1501,7 +1972,10 @@ INSERT INTO `users_groups` (`user_id`, `group_id`) VALUES
 (12, 3),
 (13, 3),
 (14, 3),
-(15, 3);
+(15, 3),
+(16, 1),
+(17, 2),
+(18, 5);
 
 --
 -- Indexes for dumped tables
@@ -1530,6 +2004,20 @@ ALTER TABLE `categories`
 -- Indexes for table `church_hymns`
 --
 ALTER TABLE `church_hymns`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `creator_designation`
+--
+ALTER TABLE `creator_designation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `creator_designation_music_creator_id_foreign` (`music_creator_id`),
+  ADD KEY `creator_designation_designation_id_foreign` (`designation_id`);
+
+--
+-- Indexes for table `designations`
+--
+ALTER TABLE `designations`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1625,6 +2113,14 @@ ALTER TABLE `music_lyricist`
   ADD KEY `music_lyricist_lyricist_id_foreign` (`lyricist_id`);
 
 --
+-- Indexes for table `music_playlist`
+--
+ALTER TABLE `music_playlist`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `music_playlist_music_id_foreign` (`music_id`),
+  ADD KEY `music_playlist_playlist_id_foreign` (`playlist_id`);
+
+--
 -- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -1658,6 +2154,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `playlists`
+--
+ALTER TABLE `playlists`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1678,7 +2180,7 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=643;
 
 --
 -- AUTO_INCREMENT for table `api_documentations`
@@ -1696,7 +2198,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `church_hymns`
 --
 ALTER TABLE `church_hymns`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `creator_designation`
+--
+ALTER TABLE `creator_designation`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `designations`
+--
+ALTER TABLE `designations`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ensemble_types`
@@ -1726,49 +2240,55 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `musics`
 --
 ALTER TABLE `musics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `music_arranger`
 --
 ALTER TABLE `music_arranger`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT for table `music_composer`
 --
 ALTER TABLE `music_composer`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `music_creators`
 --
 ALTER TABLE `music_creators`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `music_lyricist`
 --
 ALTER TABLE `music_lyricist`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+
+--
+-- AUTO_INCREMENT for table `music_playlist`
+--
+ALTER TABLE `music_playlist`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `permission_categories`
 --
 ALTER TABLE `permission_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `permission_groups`
@@ -1783,14 +2303,27 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `playlists`
+--
+ALTER TABLE `playlists`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `creator_designation`
+--
+ALTER TABLE `creator_designation`
+  ADD CONSTRAINT `creator_designation_designation_id_foreign` FOREIGN KEY (`designation_id`) REFERENCES `designations` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `creator_designation_music_creator_id_foreign` FOREIGN KEY (`music_creator_id`) REFERENCES `music_creators` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `musics`
@@ -1842,6 +2375,13 @@ ALTER TABLE `music_instrumentation`
 ALTER TABLE `music_lyricist`
   ADD CONSTRAINT `music_lyricist_lyricist_id_foreign` FOREIGN KEY (`lyricist_id`) REFERENCES `music_creators` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `music_lyricist_music_id_foreign` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `music_playlist`
+--
+ALTER TABLE `music_playlist`
+  ADD CONSTRAINT `music_playlist_music_id_foreign` FOREIGN KEY (`music_id`) REFERENCES `musics` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `music_playlist_playlist_id_foreign` FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
