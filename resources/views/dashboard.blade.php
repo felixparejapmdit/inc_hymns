@@ -199,28 +199,42 @@ body {
     </table>
 </div>
 
-
 <div class="flex mt-8 gap-4 w-full">
     <div class="white-box w-full">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-2">
+    <i class="fab fa-spotify"></i> Special Occasion Playlist
+</h2>
         @foreach($playlists as $playlist)
             <button class="accordion">{{$playlist->name}}</button>
             <div class="panel">
-                <ul>
-                    @foreach($musicPlaylist as $music)
-                        @if($music->name == $playlist->name)
-                            <li>
-                                {{$music->title}} ({{$music->song_number}})
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
+                <table class="min-w-full mt-3 mb-3 table-auto w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
+                            <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
+                            <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Song Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($playlist->musics as $key => $music)
+                            <tr>
+                                <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $key + 1 }}</td>
+                                <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
+                                    <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>  
+                                    <a href="{{ route('musics.show', $music->id) }}" class="text-blue-600 hover:underline">
+                                        {{$music->title}}
+                                    </a></td>
+                                <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $music->song_number?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         @endforeach
     </div>
 </div>
-
 <style>
-  .flex {
+  /* .flex {
     display: flex;
     flex-wrap: wrap;
 }
@@ -235,7 +249,7 @@ body {
 
 .w-full {
     width: 100%;
-}
+} */
 
 .white-box {
     background-color: #fff;
@@ -246,7 +260,7 @@ body {
 }
 
 .accordion {
-    background-color: #eee;
+    background-color: #F6F5F5;
     color: #444;
     cursor: pointer;
     padding: 18px;
@@ -256,10 +270,14 @@ body {
     outline: none;
     font-size: 15px;
     transition: 0.4s;
+    border-radius: 10px;
+    margin-bottom:4px;
 }
 
 .active,.accordion:hover {
-    background-color: #ccc;
+    background-color: #3FA2F6;
+    color:white;
+    font-weight:bold;
 }
 
 .panel {
@@ -287,21 +305,24 @@ body {
 </style>
 
 <script>
-    var acc = document.getElementsByClassName("accordion");
-    var i;
+    document.addEventListener('DOMContentLoaded', function () {
+        var acc = document.getElementsByClassName("accordion");
+        var i;
 
-    for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        });
-    }
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    });
 </script>
+
 
 
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
@@ -313,7 +334,7 @@ body {
                             <div class="bg-gray-100 p-4 rounded-lg shadow">
                                 <h3 class="text-lg font-semibold mb-4">Most Viewed Hymns</h3>
                                 <div class="overflow-x-auto">
-                                    <table class="min-w-full bg-white mb-2">
+                                    <table class="w-full bg-white mb-2">
                                         <thead>
                                             <tr>
                                             <th style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">Hymn #</th>
@@ -324,14 +345,13 @@ body {
                                         <tbody>
                                             @foreach($mostViewedHymns as $index => $hymn)
                                                 <tr>
-                                                <td style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">{{ $hymn->song_number }}</td>
+                                                    <td style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">{{ $hymn->song_number }}</td>
                                                     <td style="width: 30%;" class="py-2 px-4 border-b border-gray-300">
                                                         <a href="{{ route('musics.show', $hymn->id) }}" class="flex items-center">
                                                             <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
                                                             {{ $hymn->title }}
                                                         </a>
                                                     </td>
-                                                    
                                                     <td style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">{{ $hymn->views_count }}</td>
                                                 </tr>
                                             @endforeach

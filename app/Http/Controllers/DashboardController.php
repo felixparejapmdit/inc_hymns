@@ -69,7 +69,10 @@ class DashboardController extends Controller
         ->orderByDesc('views_count')
         ->paginate(4);
 
-        $playlists = Playlist::select('name')->get();
+         // Get all playlists
+    $playlists = Playlist::with(['musics' => function ($query) {
+        $query->select('musics.id', 'musics.title', 'musics.song_number');
+    }])->get();
 
         $musicPlaylist = DB::table('playlists as pyl')
             ->select('pyl.name', 'm.title', 'm.song_number')

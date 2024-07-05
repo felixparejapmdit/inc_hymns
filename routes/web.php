@@ -151,5 +151,16 @@ Route::get('activity-logs/{id}', [ActivityLogController::class, 'show'])->name('
 
 Route::post('/playlists', [PlaylistController::class, 'store'])->name('playlists.store');
 Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlists.index');
+
 Route::post('/playlists/{playlist}/add', [PlaylistController::class, 'addMusic'])->name('playlists.addMusic');
 Route::post('/playlists', [PlaylistController::class, 'create'])->name('playlists.create');
+
+Route::get('/playlists', [PlaylistController::class, 'showPlaylist'])->name('playlists.showPlaylist');
+
+Route::resource('playlists_management', PlaylistController::class);
+Route::post('playlists_management/playlist', [PlaylistController::class, 'store'])->name('playlists.store');
+Route::put('playlists_management/{playlist}', [PlaylistController::class, 'update'])->name('playlists.update');
+Route::delete('playlists_management/{playlist}', [PlaylistController::class, 'destroy'])->name('playlists.destroy');
+
+//Route::get('get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
+Route::get('/get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');

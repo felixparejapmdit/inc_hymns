@@ -357,7 +357,6 @@ function fetchMusicsByLanguage(languageId) {
                             </form>
                         @endif
                         <!-- Add playlist icon -->
-                        <!-- Add playlist icon -->
                         @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.playlist') == 'inline')
                             <button id="playlistButton{{ $music->id }}" class="btn btn-secondary playlist-button ml-1" data-music-id="{{ $music->id }}">
                                 <i class="fa-solid fa-sliders-h"></i>

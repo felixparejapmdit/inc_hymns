@@ -579,6 +579,147 @@ function renderLyrics(lyricsPath) {
 });
 </script>
 
+<style>
+.fixedbutton {
+  position: fixed;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #blue-600;
+  color: #white;
+}
+#playlistModal {
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  /* Add these styles to make it responsive */
+  padding: 20px;
+  margin: 40px auto;
+  width: calc(100% - 80px);
+  height: calc(100% - 80px);
+  box-sizing: border-box;
+}
+
+/* Add media queries to adjust the modal size on different screen sizes */
+@media (max-width: 1024px) { /* iPad landscape */
+  #playlistModal {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+  }
+}
+
+@media (max-width: 768px) { /* iPad portrait */
+  #playlistModal {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+  }
+}
+
+@media (max-width: 480px) { /* Mobile devices */
+  #playlistModal {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+  }
+}
+/* iPhone 12, 12 Mini, 13, 13 Mini */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  #playlistModal {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+  }
+}
+
+/* iPhone 12 Pro, 12 Pro Max, 13 Pro, 13 Pro Max */
+@media only screen and (min-device-width: 414px) and (max-device-width: 896px) and (-webkit-min-device-pixel-ratio: 3) {
+  #playlistModal {
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+  }
+}
+</style>
+<!-- Fixed button icon -->
+<button id="playlistButton" class="fixedbutton right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg">
+    <i class="fas fa-list"></i>
+</button>
+
+<div id="playlistModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg w-3/4">
+        <h2 class="text-xl mb-4">Playlists</h2>
+        <div id="playlistsContent"></div>
+        <button id="closeModal" class="mt-4 px-4 py-2 bg-red-600 text-white rounded">Close</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const playlistButton = document.getElementById('playlistButton');
+    const playlistModal = document.getElementById('playlistModal');
+    const closeModal = document.getElementById('closeModal');
+    const playlistsContent = document.getElementById('playlistsContent');
+
+    playlistButton.addEventListener('click', function () {
+        const playlistId = 3; // Replace with actual logic to get the selected playlist ID
+
+        fetch(`/playlists?playlist_id=${playlistId}`)
+            .then(response => response.json())
+            .then(data => {
+                let content = '';
+                data.playlists.forEach(playlist => {
+                    content += `<div class="mb-4">
+                                    <h4 class="text-lg font-bold">${playlist.name}</h4>
+                                    <table class="min-w-full mt-3 mb-3 table-auto w-full">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
+                                                <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
+                                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Song Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`;
+                    playlist.musics.forEach((music, index) => {
+                        content += `<tr>
+                                        <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
+                                        <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
+                                            <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">${music.title}</a>
+                                        </td>
+                                        <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
+                                    </tr>`;
+                    });
+                    content += `        </tbody>
+                                    </table>
+                                </div>`;
+                });
+                playlistsContent.innerHTML = content;
+                playlistModal.classList.remove('hidden');
+            })
+            .catch(error => {
+                console.error('Error fetching playlists:', error);
+            });
+    });
+
+    closeModal.addEventListener('click', function () {
+        playlistModal.classList.add('hidden');
+    });
+
+    // Close the modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target === playlistModal) {
+            playlistModal.classList.add('hidden');
+        }
+    });
+});
+</script>
+
+
+
+
                 </div>
             </div>
         </div>
