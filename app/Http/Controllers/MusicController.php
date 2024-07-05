@@ -23,8 +23,6 @@ class MusicController extends Controller
     // Display a listing of the music entries
  public function index(Request $request)
  {
-
-  
      // Get the query string from the request
      $query = $request->input('query');
      $categoryIds = $request->input('category_ids', []);
@@ -75,10 +73,10 @@ class MusicController extends Controller
     // Fetch all records if no search query is provided
     $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
    
-// Fetch other data
-$categories = Category::all();
+    // Fetch other data
+    $categories = Category::all();
 
-$categories = Category::select('categories.*')
+    $categories = Category::select('categories.*')
      ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
      ->where(function($q) use ($query) {
          $q->where('categories.name', 'like', '%'. $query. '%');
@@ -87,8 +85,8 @@ $categories = Category::select('categories.*')
      ->orderBy('musics_count', 'desc')
      ->get();
 
-// Fetch top 10 categories with most musics
-$topCategories = Category::select('categories.*')
+    // Fetch top 10 categories with most musics
+    $topCategories = Category::select('categories.*')
                               ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
                               ->where(function($q) use ($query) {
                                   $q->where('categories.name', 'like', '%'. $query. '%');
@@ -100,7 +98,6 @@ $topCategories = Category::select('categories.*')
 
      $languages = Language::all();
    
-
     // Get the logged-in user's group access rights
     $accessRights = GroupPermission::where('group_id', 1)
     ->where('category_id', 6)
@@ -109,7 +106,30 @@ $topCategories = Category::select('categories.*')
     ->select('accessrights', 'permission_id', 'permissions.name')
     ->get();
     
-    
+     return view('musics', compact('musics', 'categories', 'topCategories', 'languages'));
+ }
+
+ public function fetchMusicsByLanguage(Request $request, $languageId = null)
+ {
+     if (is_null($languageId) || $languageId == 'All') {
+         $musics = Music::paginate(10); // fetch all musics without language filter
+     } else {
+         $musics = Music::where('language_id', $languageId)
+             ->paginate(10); // fetch musics by language
+     }
+ 
+     $musics->appends(request()->query()); // append query string to pagination links
+ 
+     $languages = Language::all();
+     $categories = Category::all();
+     // Fetch top 10 categories with most musics
+     $topCategories = Category::select('categories.*')
+         ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
+         ->orderBy('name', 'asc')
+         ->orderBy('musics_count', 'desc')
+         ->limit(10)
+         ->get();
+ 
      return view('musics', compact('musics', 'categories', 'topCategories', 'languages'));
  }
 
@@ -317,29 +337,21 @@ $topCategories = Category::select('categories.*')
     
         return null; // No file uploaded
     }
-    
 
     public function musicPlayer($id)
     {
-       
-      $music = Music::findOrFail($id); // Assuming Music is the model for your music records
-
-
+        $music = Music::findOrFail($id); // Assuming Music is the model for your music records
         return view('musics.mplayer', compact('music'));
     }
 
     // Display the specified music entry
     public function show($id)
     {
-        
-             // Store the current URL in the session
-             session()->put('url.intended', URL::previous());
+        // Store the current URL in the session
+        session()->put('url.intended', URL::previous());
         $music = Music::findOrFail($id); // Assuming Music is the model for your music records
 
         ActivityLogHelper::log('viewed', $music->title, $music->id, 'view hymn');
-
-
-     
 
         return view('musics.show', compact('music'));
     }

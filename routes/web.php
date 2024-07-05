@@ -81,6 +81,8 @@ Route::delete('/musics/{music}', [MusicController::class, 'destroy'])->name('mus
 // Route for showing a single music details
 Route::get('/musics/{id}', [MusicController::class, 'show'])->name('musics.show');
 
+Route::get('musics/fetchByLanguage/{languageId?}', [MusicController::class, 'fetchMusicsByLanguage'])->name('musics.fetchByLanguage');
+
 Route::get('/musicplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.musicPlayer');
 
 Route::get('mplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.mplayer');

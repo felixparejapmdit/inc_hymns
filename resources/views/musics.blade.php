@@ -118,7 +118,33 @@
     function triggerFormSubmit(event) {
         document.getElementById("searchForm").submit();
     }
+
+
+    
+    document.getElementById('languageDropdown').addEventListener('change', function() {
+            const languageId = this.value;
+            fetchMusicsByLanguage(languageId);
+        });
+
+        function fetchMusicsByLanguage(languageId) {
+            
+    fetch('{{ route('musics.fetchByLanguage', ':languageId') }}'.replace(':languageId', languageId))
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const musicList = doc.getElementById('musicList');
+            document.getElementById('musicList').innerHTML = musicList.innerHTML;
+            document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+            
+            event.preventDefault();
+        document.getElementById("searchForm").submit();
+        });
+}
 </script>
+
+
+
         </form>
 
         
@@ -269,25 +295,6 @@
         }
 
 
-        document.getElementById('languageDropdown').addEventListener('change', function() {
-    const languageId = this.value;
-    fetchMusicsByLanguage(languageId);
-});
-
-function fetchMusicsByLanguage(languageId) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('language_id', languageId);
-
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const musicList = doc.getElementById('musicList');
-            document.getElementById('musicList').innerHTML = musicList.innerHTML;
-            document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
-        });
-}
 
     });
 </script>
