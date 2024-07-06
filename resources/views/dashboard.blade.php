@@ -205,6 +205,7 @@ body {
     <i class="fab fa-spotify"></i> Special Occasion Playlist
 </h2>
         @foreach($playlists as $playlist)
+          <?php $playlistId = $playlist->id; ?>
             <button class="accordion">{{$playlist->name}}</button>
             <div class="panel">
                 <table class="min-w-full mt-3 mb-3 table-auto w-full">
@@ -221,9 +222,9 @@ body {
                                 <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $key + 1 }}</td>
                                 <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
                                     <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>  
-                                    <a href="{{ route('musics.show', $music->id) }}" class="text-blue-600 hover:underline">
-                                        {{$music->title}}
-                                    </a></td>
+                                    <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId?? null]) }}" class="text-blue-600 hover:underline">
+    {{$music->title}}
+</a></td>
                                 <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $music->song_number?? '-' }}</td>
                             </tr>
                         @endforeach

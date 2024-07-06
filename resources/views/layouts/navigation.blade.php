@@ -93,6 +93,14 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
+
+                          <!-- List of Settings -->
+                            @if (\App\Helpers\AccessRightsHelper::checkPermission('settings.view_admin') == 'inline')
+                            <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
+                                <i class="fa fa-cogs fa-fw" aria-hidden="true"></i> Admin Settings
+                            </x-nav-link>
+                            @endif
+
                     </x-slot>
                 </x-dropdown>
 

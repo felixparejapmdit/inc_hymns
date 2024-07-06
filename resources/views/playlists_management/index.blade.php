@@ -16,7 +16,9 @@
             </h2>
             <div>
                 <a href="{{ route('admin.settings') }}" class="btn btn-secondary">Back</a>
-                <button id="addPlaylistButton" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Playlist</button>
+                 <button id="addPlaylistButton"  class="btn btn-primary ml-1" data-toggle="modal" data-target="#addHymnModal">
+                    <i class="fas fa-plus"></i> Playlist
+                </button>
             </div>
         </div>
     </x-slot>

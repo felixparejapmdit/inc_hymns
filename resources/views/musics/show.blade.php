@@ -595,18 +595,39 @@ function renderLyrics(lyricsPath) {
   background-color: #blue-600;
   color: #white;
 }
+
+
 #playlistModal {
   max-width: 90vw;
   max-height: 90vh;
   overflow: auto;
-  /* Add these styles to make it responsive */
   padding: 20px;
-  margin: 40px auto;
+  margin: 20px auto;
   width: calc(100% - 80px);
   height: calc(100% - 80px);
   box-sizing: border-box;
+  border-radius:10%;
+  /* Add these styles to make it stick to the right side */
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+  align-items: flex-end;
 }
 
+#closeModal {
+  font-size: 18px;
+  padding: 8px;
+  border: none;
+  background-color: #5eb8d3;
+  cursor: pointer;
+  right:0;
+  top:0;
+}
+
+#closeModal:hover {
+  color: #333; /* dark gray hover color */
+}
 /* Add media queries to adjust the modal size on different screen sizes */
 @media (max-width: 1024px) { /* iPad landscape */
   #playlistModal {
@@ -644,16 +665,19 @@ function renderLyrics(lyricsPath) {
   }
 }
 </style>
+
 <!-- Fixed button icon -->
 <button id="playlistButton" class="fixedbutton right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg">
     <i class="fas fa-list"></i>
 </button>
 
-<div id="playlistModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
-    <div class="bg-white p-6 rounded-lg w-3/4">
-        <h2 class="text-xl mb-4">Playlists</h2>
+<div id="playlistModal" class="hidden fixed inset-0 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-lg w-1/2 relative" style="border: 4px solid #ccc;">
+        <button id="closeModal" class="absolute top-0 right-0 mt-2 mr-2 px-4 py-2 bg-red-600 text-white rounded">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 class="text-xl mb-4"><b>Playlists</b></h2>
         <div id="playlistsContent"></div>
-        <button id="closeModal" class="mt-4 px-4 py-2 bg-red-600 text-white rounded">Close</button>
     </div>
 </div>
 
@@ -665,7 +689,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const playlistsContent = document.getElementById('playlistsContent');
 
     playlistButton.addEventListener('click', function () {
-        const playlistId = 3; // Replace with actual logic to get the selected playlist ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const playlistId = urlParams.get('playlist_id');
 
         fetch(`/playlists?playlist_id=${playlistId}`)
             .then(response => response.json())

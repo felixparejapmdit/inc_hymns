@@ -16,12 +16,11 @@
                 {{ __('Church Hymns Management') }}
             </h2>
             <div>
-            <a href="{{ route('admin.settings') }}" class="btn btn-secondary">Back</a>
-                
+                 <a href="{{ route('admin.settings') }}" class="btn btn-secondary">Back</a>
                 
                 <button class="btn btn-primary ml-1" data-toggle="modal" data-target="#addHymnModal">
-        <i class="fas fa-plus"></i> Church Hymn
-    </button>
+                    <i class="fas fa-plus"></i> Church Hymn
+                </button>
 
                 
             </div>
