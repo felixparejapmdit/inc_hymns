@@ -466,36 +466,36 @@
         });
 
         document.querySelectorAll('.add-new-playlist').forEach(button => {
-    button.addEventListener('click', function (event) {
-        const musicId = event.target.dataset.musicId;
-        // Show a prompt to enter the new playlist name
-        const playlistName = prompt('Enter new playlist name:');
-        if (playlistName) {
-            // Send request to create new playlist and add music to it
-            fetch('/playlists', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    name: playlistName,
-                    music_id: musicId
-                })
-            }).then(response => response.json()).then(data => {
-                if (data.success) {
-                    alert('Music added to new playlist');
-                } else {
-                    alert('Failed to add music to playlist');
-                }
+        button.addEventListener('click', function (event) {
+            const musicId = event.target.dataset.musicId;
+            // Show a prompt to enter the new playlist name
+            const playlistName = prompt('Enter new playlist name:');
+            if (playlistName) {
+                // Send request to create new playlist and add music to it
+                fetch('/playlists', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        name: playlistName,
+                        music_id: musicId
+                    })
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        alert('Music added to new playlist');
+                    } else {
+                        alert('Failed to add music to playlist');
+                    }
+                });
+            }
+            document.querySelectorAll('.context-menu').forEach(menu => {
+                menu.classList.add('hidden');
             });
-        }
-        document.querySelectorAll('.context-menu').forEach(menu => {
-            menu.classList.add('hidden');
+            event.preventDefault();
         });
-        event.preventDefault();
     });
-});
 
 
         // Handle add to existing playlist button

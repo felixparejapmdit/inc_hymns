@@ -290,33 +290,33 @@ body {
                         mouseDrag = false;
 
                         // Save the new order
-                        saveOrder();
+                        //saveOrder();
                     });
                 }
 
-                function saveOrder() {
-                    const rows = Array.from(tbody.children);
-                    const order = rows.map((row, index) => ({
-                        id: row.dataset.id,
-                        position: index
-                    }));
+                // function saveOrder() {
+                //     const rows = Array.from(tbody.children);
+                //     const order = rows.map((row, index) => ({
+                //         id: row.dataset.id,
+                //         position: index
+                //     }));
 
-                    const playlistId = tbody.parentElement.id.split('-')[1];
+                //     const playlistId = tbody.parentElement.id.split('-')[1];
 
-                    fetch('{{ route("playlists.updateOrder") }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ playlist_id: playlistId, order: order.map(item => item.id) })
-                    }).then(response => response.json())
-                      .then(data => {
-                          if (data.success) {
-                              console.log('Order updated successfully');
-                          }
-                      });
-                }
+                //     fetch(' route("playlists.updateOrder")', {
+                //         method: 'POST',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                //         },
+                //         body: JSON.stringify({ playlist_id: playlistId, order: order.map(item => item.id) })
+                //     }).then(response => response.json())
+                //       .then(data => {
+                //           if (data.success) {
+                //               console.log('Order updated successfully');
+                //           }
+                //       });
+                // }
 
                 function swapRow(row, index) {
                     let currIndex = Array.from(tbody.children).indexOf(currRow),
