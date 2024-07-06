@@ -600,7 +600,8 @@ function renderLyrics(lyricsPath) {
 #playlistModal {
   max-width: 90vw;
   max-height: 90vh;
-  overflow: auto;
+  overflow: hidden; /* Keep this to hide the horizontal scrollbar */
+  overflow-y: auto;
   padding: 20px;
   margin: 20px auto;
   width: calc(100% - 80px);

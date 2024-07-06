@@ -62,9 +62,11 @@
         <!-- Search Input and Tabs -->
         <form action="{{ route('musics.index') }}" method="GET" class="mt-4 mb-4" >
             <div class="flex items-center justify-between mb-4">
-                <form id="searchForm" method="GET" action="{{ route('musics.index') }}" method="GET" class="mt-4 mb-4">
-                <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns ..." onkeypress="handleEnterKey(event)">
-
+                <form id="searchForm" method="GET" action="{{ route('musics.index') }}" class="mt-4 mb-4">
+                    <input type="hidden" name="church_hymn_id" value="{{ request()->input('church_hymn_id') }}">
+                    <input type="hidden" name="language_id" value="{{ request()->input('language_id') }}">
+                    <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns..." onkeypress="handleEnterKey(event)">
+                    
             <!-- Language Dropdown -->
             <select name="language_id" id="languageDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
                 <option value="All" {{ request('language_id') == 'All' ? 'selected' : '' }}>All languages</option>
@@ -98,52 +100,40 @@
                 </div>
             </div>
             <script>
-    // Function to handle keypress event for input field
-    function handleEnterKey(event) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            document.getElementById("searchForm").submit();
-        }
-    }
+                // Function to handle keypress event for input field
+                function handleEnterKey(event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        document.getElementById("searchForm").submit();
+                    }
+                }
 
-    // Function to handle keypress event for dropdowns
-    function handleDropdownEnterKey(event, formId) {
-        if (event.keyCode === 13) {
-            event.preventDefault();
-            document.getElementById(formId).submit();
-        }
-    }
+                // Function to handle keypress event for dropdowns
+                function handleDropdownEnterKey(event, formId) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        document.getElementById(formId).submit();
+                    }
+                }
 
-    // Function to trigger form submit when language dropdown changes
-    function triggerFormSubmit(event) {
-        document.getElementById("searchForm").submit();
-    }
+                // Function to trigger form submit when language dropdown changes
+                function triggerFormSubmit(event) {
+                    document.getElementById("searchForm").submit();
+                }
 
+                    
+            document.getElementById('languageDropdown').addEventListener('change', function() {
+                    const languageId = this.value;
 
-    
-    document.getElementById('languageDropdown').addEventListener('change', function() {
-            const languageId = this.value;
-            fetchMusicsByLanguage(languageId);
-        });
+                    // Update the URL with the new language ID
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('language_id', languageId);
 
-        function fetchMusicsByLanguage(languageId) {
-            
-    fetch('{{ route('musics.fetchByLanguage', ':languageId') }}'.replace(':languageId', languageId))
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const musicList = doc.getElementById('musicList');
-            document.getElementById('musicList').innerHTML = musicList.innerHTML;
-            document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
-            
-            event.preventDefault();
-        document.getElementById("searchForm").submit();
-        });
-}
-</script>
+                    // Redirect to the updated URL
+                    window.location.href = url.href; 
+                });
 
-
+            </script>
 
         </form>
 

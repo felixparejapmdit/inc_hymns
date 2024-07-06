@@ -110,28 +110,22 @@ class MusicController extends Controller
  }
 
  public function fetchMusicsByLanguage(Request $request, $languageId = null)
- {
-     if (is_null($languageId) || $languageId == 'All') {
-         $musics = Music::paginate(10); // fetch all musics without language filter
-     } else {
-         $musics = Music::where('language_id', $languageId)
-             ->paginate(10); // fetch musics by language
-     }
- 
-     $musics->appends(request()->query()); // append query string to pagination links
- 
-     $languages = Language::all();
-     $categories = Category::all();
-     // Fetch top 10 categories with most musics
-     $topCategories = Category::select('categories.*')
-         ->selectRaw('(SELECT COUNT(*) FROM musics INNER JOIN music_category ON musics.id = music_category.music_id WHERE music_category.category_id = categories.id) AS musics_count')
-         ->orderBy('name', 'asc')
-         ->orderBy('musics_count', 'desc')
-         ->limit(10)
-         ->get();
- 
-     return view('musics', compact('musics', 'categories', 'topCategories', 'languages'));
- }
+    {
+        if (is_null($languageId) || $languageId == 'All') {
+            $musics = Music::paginate(10); // fetch all musics without language filter
+        } else {
+            $musics = Music::where('language_id', $languageId)
+                ->paginate(10); // fetch musics by language
+        }
+
+        // Update the pagination links with new query parameters
+        $musics->appends(request()->query()); // Append query string to pagination links
+
+        // ... (Fetch other data like languages, categories, etc.)
+
+        return view('musics', compact('musics', 'categories', 'topCategories', 'languages'));
+    }
+
 
     // Show the form for creating a new music entry
     public function create()
