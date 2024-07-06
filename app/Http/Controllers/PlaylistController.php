@@ -76,6 +76,18 @@ class PlaylistController extends Controller
 }
 
 
+   public function updateOrder(Request $request)
+    {
+        $playlistId = $request->playlist_id;
+        $order = $request->order;
+
+        foreach ($order as $position => $musicId) {
+            $playlist = Playlist::find($playlistId);
+            $playlist->musics()->updateExistingPivot($musicId, ['position' => $position]);
+        }
+
+        return response()->json(['success' => true]);
+    }
 
     public function addMusic(Request $request, Playlist $playlist)
     {

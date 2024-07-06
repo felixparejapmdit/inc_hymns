@@ -20,7 +20,8 @@ class Music extends Model
         'verses_used',
         'created_by',
         'updated_by',
-        'lyrics'
+        'lyrics',
+        'position'
     ];
 
     // Define relationships
@@ -69,9 +70,16 @@ class Music extends Model
         return $this->belongsToMany(MusicCreator::class);
     }
 
-    public function playlists()
+    // public function playlists()
+    // {
+    //     return $this->belongsToMany(Playlist::class, 'music_playlist');
+    // }
+
+  public function playlists()
     {
-        return $this->belongsToMany(Playlist::class, 'music_playlist');
+        return $this->belongsToMany(Playlist::class, 'music_playlist')
+                    ->withPivot('position')
+                    ->orderBy('pivot_position');
     }
     
 }

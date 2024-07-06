@@ -127,6 +127,7 @@ class MusicController extends Controller
     }
 
 
+
     // Show the form for creating a new music entry
     public function create()
     {

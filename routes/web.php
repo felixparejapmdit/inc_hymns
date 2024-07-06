@@ -166,3 +166,6 @@ Route::delete('playlists_management/{playlist}', [PlaylistController::class, 'de
 
 //Route::get('get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
 Route::get('/get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
+
+// routes/web.php
+Route::post('playlists_management/update-order', [PlaylistController::class, 'updateOrder'])->name('playlists.updateOrder');
