@@ -167,11 +167,26 @@
 </div>
 
 @endif
-    <!-- Language -->
-    <div class="mb-4">
+
+
+   <!-- Language Selection -->
+   <div class="mb-4">
         <p class="font-semibold text-lg">Language:</p>
-        <p>{{ $music->language->name }}</p>
+        <select id="languageSelector" class="form-control">
+            @foreach($music->languages as $lang)
+                <option value="{{ $lang->id }}" {{ $language->id == $lang->id ? 'selected' : '' }}>{{ $lang->name }}</option>
+            @endforeach
+        </select>
     </div>
+
+<script>
+    document.getElementById('languageSelector').addEventListener('change', function() {
+        var languageId = this.value;
+        var url = new URL(window.location.href);
+        url.searchParams.set('language_id', languageId);
+        window.location.href = url.toString();
+    });
+</script>
 
     <!-- Verses Used -->
     <div class="mb-4">

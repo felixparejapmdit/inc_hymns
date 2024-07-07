@@ -81,5 +81,8 @@ class Music extends Model
                     ->withPivot('position')
                     ->orderBy('pivot_position');
     }
-    
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class, 'music_language');
+    }
 }

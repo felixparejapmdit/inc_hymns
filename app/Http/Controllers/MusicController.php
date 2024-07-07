@@ -127,6 +127,18 @@ class MusicController extends Controller
     }
 
 
+    public function musicDetails($id, $language_id = null)
+{
+    $music = Music::find($id);
+    if ($language_id) {
+        $music->load('languages', function ($query) use ($language_id) {
+            $query->where('language_id', $language_id);
+        });
+    }
+    //...
+    return view('music.details', compact('music'));
+}
+
 
     // Show the form for creating a new music entry
     public function create()
@@ -340,16 +352,42 @@ class MusicController extends Controller
     }
 
     // Display the specified music entry
-    public function show($id)
-    {
-        // Store the current URL in the session
-        session()->put('url.intended', URL::previous());
-        $music = Music::findOrFail($id); // Assuming Music is the model for your music records
+    // public function show($id)
+    // {
+    //     // Store the current URL in the session
+    //     session()->put('url.intended', URL::previous());
+    //     $music = Music::findOrFail($id); // Assuming Music is the model for your music records
 
-        ActivityLogHelper::log('viewed', $music->title, $music->id, 'view hymn');
+        
+    //     ActivityLogHelper::log('viewed', $music->title, $music->id, 'view hymn');
 
-        return view('musics.show', compact('music'));
-    }
+    //     return view('musics.show', compact('music'));
+    // }
+
+       // Display the specified music entry
+       public function show($id, Request $request)
+       {
+           // Store the current URL in the session
+           session()->put('url.intended', URL::previous());
+       
+           // Retrieve the language ID from the request, default to the first language if not provided
+           $languageId = $request->query('language_id', null);
+       
+           // Find the music record, including the languages relationship
+           $music = Music::with('languages')->findOrFail($id);
+       
+           // Find the selected language, default to the first language if not specified
+           if ($languageId) {
+               $language = $music->languages->firstWhere('id', $languageId);
+           } else {
+               $language = $music->languages->first();
+           }
+       
+           // Log the activity
+           ActivityLogHelper::log('viewed', $music->title, $music->id, 'view hymn');
+       
+           return view('musics.show', compact('music', 'language'));
+       }
 
     // Show the form for editing the specified music entry
     public function edit($id)

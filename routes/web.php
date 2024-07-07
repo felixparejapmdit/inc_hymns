@@ -83,6 +83,8 @@ Route::get('/musics/{id}', [MusicController::class, 'show'])->name('musics.show'
 
 Route::get('musics/fetchByLanguage/{languageId?}', [MusicController::class, 'fetchMusicsByLanguage'])->name('musics.fetchByLanguage');
 
+Route::get('musics/{id}/{languageId?}', [MusicController::class, 'show'])->name('musics.show');
+
 Route::get('/musicplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.musicPlayer');
 
 Route::get('mplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.mplayer');
