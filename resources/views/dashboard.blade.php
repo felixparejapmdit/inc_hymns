@@ -214,7 +214,7 @@ body {
                             <tr>
                                 <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
                                 <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
-                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Song Number</th>
+                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -532,12 +532,28 @@ body {
                             </div>
                         </div>
                         </div>
+
+                        <style>
+.recent-activity, .hymn-chart {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+}
+
+.recent-activity {
+  margin-right: 1%;
+}
+
+.hymn-chart {
+  margin-left: 1%;
+}
+                        </style>
                         <div class="flex mt-8 gap-4 mt-4">
                             <!-- Recent Activity -->
                             <div class="bg-gray-100 p-4 rounded-lg shadow  w-full md:w-1/2">
                                 <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
                                 
-                                    <table class="min-w-full bg-white">
+                                    <table class="w-full bg-white">
                                         <thead>
                                             <tr>
                                                 <th class="py-2 px-4 border-b border-gray-300">Date</th>
@@ -573,7 +589,7 @@ body {
                                 </div>
                             </div>
 
-                                                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             <script>
                                 // Extract labels and data from PHP variables
                                 var labels = [];

@@ -202,7 +202,14 @@ li[data-creator-id]:hover {
     color:white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
+#creatorDetails img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
   </style>
 
