@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <tr>
                                                 <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
                                                 <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
-                                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Song Number</th>
+                                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
                                             </tr>
                                         </thead>
                                         <tbody>`;

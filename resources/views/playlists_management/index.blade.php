@@ -96,7 +96,7 @@ $('.playlist-name').click(function(event) {
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                <form action="{{ route('church_hymns.store') }}" method="POST">
+                                <form action="{{ route('playlists_management.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <label for="playlistName">Name</label>
