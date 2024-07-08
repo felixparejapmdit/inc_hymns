@@ -169,15 +169,21 @@
 @endif
 
 
+ <!-- Language -->
+    <div class="mb-4">
+        <p class="font-semibold text-lg">Language:</p>
+        <p>{{ $music->language->name }}</p>
+    </div>
+
    <!-- Language Selection -->
-   <div class="mb-4">
+   <!-- <div class="mb-4">
         <p class="font-semibold text-lg">Language:</p>
         <select id="languageSelector" class="form-control">
             @foreach($music->languages as $lang)
                 <option value="{{ $lang->id }}" {{ $language->id == $lang->id ? 'selected' : '' }}>{{ $lang->name }}</option>
             @endforeach
         </select>
-    </div>
+    </div> -->
 
 <script>
     document.getElementById('languageSelector').addEventListener('change', function() {
@@ -216,6 +222,8 @@ li[data-creator-id]:hover {
     padding: 10px;
     color:white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+  max-width: 25%;
 }
 #creatorDetails img {
   max-width: 100%;
