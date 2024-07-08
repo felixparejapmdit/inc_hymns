@@ -57,7 +57,7 @@
                 <td>{{ $log->changes }}</td>
                 <td>{{ $log->ip_address }}</td>
                 <td>{{ $log->user_agent }}</td>
-                <td>{{ $log->created_at }}</td>
+                <td>{{ $log->created_at->format('F j, Y g:i A') }}</td>
                 <td><a href="{{ route('activity_logs.show', $log->id) }}">View</a></td>
             </tr>
             @endforeach

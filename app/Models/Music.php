@@ -11,12 +11,12 @@ class Music extends Model
         'church_hymn_id',
         'title',
         'song_number',
-        'music_score_path',
-        'lyrics_path',
-        'vocals_mp3_path',
-        'organ_mp3_path',
-        'preludes_mp3_path',
-        'language_id',
+        // 'music_score_path',
+        // 'lyrics_path',
+        // 'vocals_mp3_path',
+        // 'organ_mp3_path',
+        // 'preludes_mp3_path',
+        // 'language_id',
         'verses_used',
         'created_by',
         'updated_by',
@@ -84,5 +84,10 @@ class Music extends Model
     public function languages()
     {
         return $this->belongsToMany(Language::class, 'music_language');
+    }
+
+       public function musicFiles()
+    {
+        return $this->hasMany(MusicFile::class);
     }
 }
