@@ -168,24 +168,6 @@
 
 @endif
 
-<<<<<<< Updated upstream
-
- <!-- Language -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Language:</p>
-        <p>{{ $music->language->name }}</p>
-    </div>
-
-   <!-- Language Selection -->
-   <!-- <div class="mb-4">
-        <p class="font-semibold text-lg">Language:</p>
-        <select id="languageSelector" class="form-control">
-            @foreach($music->languages as $lang)
-                <option value="{{ $lang->id }}" {{ $language->id == $lang->id ? 'selected' : '' }}>{{ $lang->name }}</option>
-            @endforeach
-        </select>
-    </div> -->
-=======
     <!-- Language -->
     <!-- <div class="mb-4">
         <p class="font-semibold text-lg">Language:</p>
@@ -214,7 +196,6 @@
 
 
 
->>>>>>> Stashed changes
 
 <script>
     document.getElementById('languageSelector').addEventListener('change', function() {
@@ -766,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function () {
     playlistButton.addEventListener('click', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const playlistId = urlParams.get('playlist_id');
-alert(playlistId);
+
         fetch(`/playlists?playlist_id=${playlistId}`)
             .then(response => response.json())
             .then(data => {
