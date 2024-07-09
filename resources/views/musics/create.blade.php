@@ -246,10 +246,10 @@
 
 
                             
-                    <!-- Hidden input fields to store selected IDs -->
-<input type="hidden" id="selected_lyricist_ids" name="lyricist_id[]" value="">
-<input type="hidden" id="selected_composer_ids" name="composer_id[]" value="">
-<input type="hidden" id="selected_arranger_ids" name="arranger_id[]" value="">
+                            <!-- Hidden input fields to store selected IDs -->
+                            <input type="hidden" id="selected_lyricist_ids" name="lyricist_id[]" value="">
+                            <input type="hidden" id="selected_composer_ids" name="composer_id[]" value="">
+                            <input type="hidden" id="selected_arranger_ids" name="arranger_id[]" value="">
 
                             <!-- Lyricist Dropdown -->
                             <div class="mb-4">

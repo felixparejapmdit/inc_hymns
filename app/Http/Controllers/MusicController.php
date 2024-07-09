@@ -332,7 +332,7 @@ class MusicController extends Controller
             }
         }
         // Redirect back to index page with success message
-        return redirect()->route('musics.index')->with('success', 'Music entry created successfully!');
+        return redirect()->route('musics.index', ['church_hymn_id' => $request->input('church_hymn_id')])->with('success', 'Music entry created successfully!');
     }
 
     private function storeFile(Request $request, $fieldName)
@@ -553,7 +553,7 @@ public function show($id, $languageId = null, $playlistId = null)
         $updatePivotTable($music, 'arrangers', 'arranger_id', $selectedArrangerIds);
 
         // Redirect back to index page with success message
-        return redirect()->route('musics.index')->with('success', 'Music entry updated successfully!');
+        return redirect()->route('musics.index', ['church_hymn_id' => $request->input('edit_church_hymn_id')])->with('success', 'Music entry updated successfully!');
     }
 
     // Delete the specified music entry from the database
