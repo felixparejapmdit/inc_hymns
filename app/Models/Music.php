@@ -16,12 +16,8 @@ class Music extends Model
         'vocals_mp3_path',
         'organ_mp3_path',
         'preludes_mp3_path',
-<<<<<<< Updated upstream
         'language_id',
-=======
-         'language_id',
->>>>>>> Stashed changes
-        'verses_used',
+         'verses_used',
         'created_by',
         'updated_by',
         'lyrics',
@@ -90,20 +86,4 @@ class Music extends Model
                     ->withPivot('position')
                     ->orderBy('pivot_position');
     }
-<<<<<<< Updated upstream
-    public function languages()
-    {
-        return $this->belongsToMany(Language::class, 'music_language');
-    }
-=======
-    // public function languages()
-    // {
-    //     return $this->belongsToMany(Language::class, 'music_language');
-    // }
-
-    //    public function musicFiles()
-    // {
-    //     return $this->hasMany(MusicFile::class);
-    // }
->>>>>>> Stashed changes
 }
