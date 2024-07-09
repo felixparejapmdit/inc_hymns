@@ -48,7 +48,7 @@
                                 <div class="box-body text-center mt-4">
                                     <h5>
                                         <a href="{{ route('instrumentations.index') }}" class="settings_button">
-                                            <i class="fas fa-volume-up fa-4x icon" aria-hidden="true"></i>
+                                            <i class="fas fa-sliders-h fa-4x icon" aria-hidden="true"></i>
                                             <br><br>
                                             <span class="name">Instrumentations</span>
                                             <span class="keywords" aria-hidden="true" style="display:none">instrumentations, management</span>

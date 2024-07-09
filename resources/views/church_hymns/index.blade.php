@@ -49,6 +49,7 @@
             </tr>
         </thead>
         <tbody>
+            @if(!empty($hymns) && count($hymns) > 0)
             @foreach ($hymns as $hymn)
             <tr>
             <td class="text-center" style="width: 5%;">{{ $loop->iteration }}</td>
@@ -104,17 +105,20 @@
                                 Are you sure you want to delete this church hymn?
                             </div>
                             <div class="modal-footer">
+                                @if(!empty($hymns) && count($hymns) > 0)
                                 <form action="{{ route('church_hymns.destroy', $hymn->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             @endforeach
+            @endif
         </tbody>
     </table>
 </div>
