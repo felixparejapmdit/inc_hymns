@@ -23,8 +23,13 @@ class Language extends Model
     // }
 
     public function musics()
-    {
-        return $this->belongsToMany(Music::class, 'music_language');
-    }
+{
+    return $this->hasMany(Music::class, 'language_id');
+}
+
+    // public function musics()
+    // {
+    //     return $this->belongsToMany(Music::class, 'music_language');
+    // }
 
 }

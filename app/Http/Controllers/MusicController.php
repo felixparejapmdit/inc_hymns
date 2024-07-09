@@ -28,7 +28,8 @@ class MusicController extends Controller
      $categoryIds = $request->input('category_ids', []);
      $churchHymnId = $request->query('church_hymn_id');
      $languageId = $request->input('language_id'); // Add this line to get the language ID
-    
+    $playlistId = $request->input('playlist_id'); // Add this line to get the playlist ID
+
      // Initialize the query builder
      $queryBuilder = Music::query();
     
@@ -71,8 +72,16 @@ class MusicController extends Controller
     }
     
     // Fetch all records if no search query is provided
-    $musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
+    //$musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
    
+        // Fetch all records if no search query is provided
+    $musics = $queryBuilder->leftJoin('music_playlist', 'musics.id', '=', 'music_playlist.music_id')
+                           ->select('musics.*', 'music_playlist.playlist_id')
+                           ->orderByRaw('CAST(song_number AS UNSIGNED) ASC')
+                           ->latest()
+                           ->paginate(10)
+                           ->withQueryString();
+
     // Fetch other data
     $categories = Category::all();
 
@@ -106,7 +115,7 @@ class MusicController extends Controller
     ->select('accessrights', 'permission_id', 'permissions.name')
     ->get();
     
-     return view('musics', compact('musics', 'categories', 'topCategories', 'languages'));
+    return view('musics', compact('musics', 'categories', 'topCategories', 'languages', 'playlistId'));
  }
 
  public function fetchMusicsByLanguage(Request $request, $languageId = null)
@@ -365,29 +374,25 @@ class MusicController extends Controller
     // }
 
        // Display the specified music entry
-       public function show($id, Request $request)
-       {
-           // Store the current URL in the session
-           session()->put('url.intended', URL::previous());
-       
-           // Retrieve the language ID from the request, default to the first language if not provided
-           $languageId = $request->query('language_id', null);
-       
-           // Find the music record, including the languages relationship
-           $music = Music::with('languages')->findOrFail($id);
-       
-           // Find the selected language, default to the first language if not specified
-           if ($languageId) {
-               $language = $music->languages->firstWhere('id', $languageId);
-           } else {
-               $language = $music->languages->first();
-           }
-       
-           // Log the activity
-           ActivityLogHelper::log('viewed', $music->title, $music->id, 'view hymn');
-       
-           return view('musics.show', compact('music', 'language'));
-       }
+public function show($id, $languageId = null, $playlistId = null)
+{
+    // Find the music entry by ID or fallback to finding by song number and language ID
+    $music = Music::where('id', $id)
+                ->orWhere(function ($query) use ($id, $languageId) {
+                    $query->where('song_number', $id)
+                          ->where('language_id', $languageId);
+                })
+                ->firstOrFail();
+
+    // Fetch all languages for this song number
+    $languages = Language::whereHas('musics', function ($query) use ($music) {
+        $query->where('song_number', $music->song_number);
+    })->get();
+
+    return view('musics.show', compact('music', 'languages', 'playlistId'));
+}
+
+
 
     // Show the form for editing the specified music entry
     public function edit($id)

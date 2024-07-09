@@ -62,52 +62,68 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-        <!-- Buttons to submit or close modal -->
-                    <div class="flex justify-end">
-                        <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Save
-                        </button>
-                     
-                    </div>
+            <div class="p-6">
+                <!-- Buttons to submit or close modal -->
+                <div class="flex justify-end">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
                 <!-- Add Music Form -->
                 <form method="POST" action="{{ route('musics.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="flex flex-wrap">
-    <div class="w-full md:w-1/3 px-4">
-        <!-- Church Hymn -->
-        <div class="mb-4 mt-4">
-            <label for="church_hymn_id" class="block text-sm font-bold text-gray-700 mb-2">Church Hymn:</label>
-            <select required id="church_hymn_id" name="church_hymn_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="" disabled selected>Select Church Hymn</option>
-                @foreach($churchHymns as $churchHymn)
-                    <option value="{{ $churchHymn->id }}">{{ $churchHymn->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
+                @csrf
 
-    <div class="w-full md:w-1/3 px-4">
-    <!-- Title -->
-    <div class="mb-4 mt-4">
-        <label for="add_title" class="block text-sm font-bold text-gray-700 mb-2">Title:</label>
-        <input required type="text" id="add_title" name="add_title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="75">
-    </div>
-</div>
+                <div class="flex flex-wrap">
+                    <div class="w-full md:w-1/3 px-4">
+                        <!-- Church Hymn -->
+                        <div class="mb-4 mt-4">
+                            <label for="church_hymn_id" class="block text-sm font-bold text-gray-700 mb-2">Church Hymn:</label>
+                            <select required id="church_hymn_id" name="church_hymn_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="" disabled selected>Select Church Hymn</option>
+                                @foreach($churchHymns as $churchHymn)
+                                    <option value="{{ $churchHymn->id }}">{{ $churchHymn->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-<div class="w-full md:w-1/3 px-4">
-    <!-- Song Number -->
-    <div class="mb-4 mt-4">
-        <label for="song_number" class="block text-sm font-bold text-gray-700 mb-2">Hymn Number:</label>
-        <input type="number" id="song_number" name="song_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="4">
-    </div>
-</div>
-</div>
+                    <div class="w-full md:w-1/3 px-4">
+                        <!-- Song Number -->
+                        <div class="mb-4 mt-4">
+                            <label for="song_number" class="block text-sm font-bold text-gray-700 mb-2">Hymn Number:</label>
+                            <input type="number" id="song_number" name="song_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="4">
+                        </div>
+                    </div>
 
-</div>
+
+                    <!-- Language Dropdown-->
+                    <div class="w-full md:w-1/3 px-4">
+                        <div class="mb-4 mt-4">
+                            <label for="language_id" class="block text-sm font-bold text-gray-700 mb-2">Language:</label>
+                            <select required id="language_id" name="language_id"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" disabled selected>Select Language</option>   
+                                @foreach($languages as $language)
+                                    <option value="{{ $language->id }}">{{ $language->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                   
+
+
+                </div>
+ <div class="w-full md:w-1/3 px-4">
+                        <!-- Title -->
+                        <div class="mb-4 mt-4">
+                            <label for="add_title" class="block text-sm font-bold text-gray-700 mb-2">Title:</label>
+                            <input required type="text" id="add_title" name="add_title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="75">
+                        </div>
+                    </div>
+            </div>
 
 
                     <div class="flex flex-wrap">
@@ -313,17 +329,6 @@
 
 
 
-
-                    <!-- Language Dropdown-->
-                    <div class="mb-4">
-                        <label for="language_id" class="block text-sm font-bold text-gray-700 mb-2">Language:</label>
-                        <select required id="language_id" name="language_id"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="" disabled selected>Select Language</option>   
-                            @foreach($languages as $language)
-                                <option value="{{ $language->id }}">{{ $language->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
 <!-- Verses Used -->
 <div class="mb-4">

@@ -90,20 +90,37 @@
                     </div>
 
                     <div class="w-full md:w-1/3 px-4">
-                        <!-- Title -->
-                        <div class="mb-4 mt-4">
-                            <label for="edit_title" class="block text-sm font-bold text-gray-700 mb-2">Title:</label>
-                            <input required type="text" id="edit_title" name="edit_title" value="{{ $musics->title }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-4">
                             <!-- Song Number -->
                             <div class="mb-4 mt-4">
                                 <label for="edit_song_number" class="block text-sm font-bold text-gray-700 mb-2">Hymn Number:</label>
                                 <input type="text" id="edit_song_number" name="edit_song_number"  value="{{ $musics->song_number }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
+                        </div>
+
+
+                    <div class="w-full md:w-1/3 px-4">
+                    
+                            <div class="mb-4 mt-4"">
+                                <label for="edit_language_id" class="block text-sm font-bold text-gray-700 mb-2">Language:</label>
+                                <select required id="edit_language_id" name="edit_language_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    <option value="" disabled>Select Language</option>
+                                    @foreach($languages as $language)
+                                        <option value="{{ $language->id }}" {{ $language->id == $musics->language_id ? 'selected' : '' }}>{{ $language->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                             </div>
+
+                    </div>
+
+                                   
+                    <div class="w-full md:w-1/3 px-4">
+                        <!-- Title -->
+                        <div class="mb-4 mt-4">
+                            <label for="edit_title" class="block text-sm font-bold text-gray-700 mb-2">Title:</label>
+                            <input required type="text" id="edit_title" name="edit_title" value="{{ $musics->title }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        
                         </div>
                     </div>
 
@@ -557,16 +574,6 @@
                                 </div>
                             </div>
                             
-
-                            <div class="mb-4">
-                                <label for="edit_language_id" class="block text-sm font-bold text-gray-700 mb-2">Language:</label>
-                                <select required id="edit_language_id" name="edit_language_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    <option value="" disabled>Select Language</option>
-                                    @foreach($languages as $language)
-                                        <option value="{{ $language->id }}" {{ $language->id == $musics->language_id ? 'selected' : '' }}>{{ $language->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
 
 
                 </div>

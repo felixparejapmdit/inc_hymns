@@ -168,6 +168,7 @@
 
 @endif
 
+<<<<<<< Updated upstream
 
  <!-- Language -->
     <div class="mb-4">
@@ -184,6 +185,36 @@
             @endforeach
         </select>
     </div> -->
+=======
+    <!-- Language -->
+    <!-- <div class="mb-4">
+        <p class="font-semibold text-lg">Language:</p>
+        <p>{{ $music->language->name }}</p>
+    </div> -->
+<!-- Language -->
+<div class="mb-4">
+    <p class="font-semibold text-lg">Available Languages:</p>
+    @if($languages->isEmpty())
+        <p>No languages available for this song number.</p>
+    @else
+        @foreach($languages as $language)
+            @php
+                $musicId = \App\Models\Music::where('song_number', $music->song_number)
+                                             ->where('language_id', $language->id)
+                                             ->first()->id;
+            @endphp
+            <p>
+                <a href="{{ route('musics.show', ['id' => $musicId, 'languageId' => $language->id, 'playlist_id' => $playlistId]) }}" class="text-blue-600 hover:underline">
+                    {{ $language->name }}
+                </a>
+            </p>
+        @endforeach
+    @endif
+</div>
+
+
+
+>>>>>>> Stashed changes
 
 <script>
     document.getElementById('languageSelector').addEventListener('change', function() {
@@ -698,9 +729,22 @@ function renderLyrics(lyricsPath) {
 </style>
 
 <!-- Fixed button icon -->
-<button id="playlistButton" class="fixedbutton right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg">
+<button id="playlistButton" class="fixedbutton right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg hidden">
     <i class="fas fa-list"></i>
 </button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const url = new URL(window.location.href);
+const playlistIdParam = url.searchParams.get('playlist_id');
+
+if (!playlistIdParam) {
+  document.getElementById('playlistButton').style.display = 'none';
+}
+    });
+</script>
+
+
 
 <div id="playlistModal" class="hidden fixed inset-0 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg w-1/2 relative" style="border: 4px solid #ccc;">
@@ -722,7 +766,7 @@ document.addEventListener('DOMContentLoaded', function () {
     playlistButton.addEventListener('click', function () {
         const urlParams = new URLSearchParams(window.location.search);
         const playlistId = urlParams.get('playlist_id');
-
+alert(playlistId);
         fetch(`/playlists?playlist_id=${playlistId}`)
             .then(response => response.json())
             .then(data => {

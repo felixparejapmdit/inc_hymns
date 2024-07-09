@@ -12,6 +12,7 @@
     body {
   background: linear-gradient(to bottom, #5eb8d3, #4975b4);
 }
+
 </style>
 <x-app-layout>
     <x-slot name="header">
@@ -320,13 +321,22 @@
             <td style="width: 18% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap text-center">
                 {{ $music->song_number }}
             </td>
-            <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
+            
+            <!-- <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
                 <a href="{{ route('musics.show', $music->id) }}" class="flex items-center">
                     <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
                     {{ $music->title }}
                 </a>
+            </td> -->
+
+  <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
+                <a href="{{ route('musics.show', ['id' => $music->id, 'languageId' => $music->language_id, 'playlist_id' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
+                    <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
+                    {{ $music->title }}
+                </a>
             </td>
-         
+
+
             <td style="width: 25% !important; white-space: normal;" class="px-4 py-3 whitespace-normal">
                 @foreach($music->categories as $category)
                     {{ $loop->first ? '' : ', ' }}{{ $category->name }}
@@ -371,60 +381,68 @@
     </tbody>
 </table>
 
+<script>
+    const tableContainer = document.querySelector('.overflow-x-auto');
 
+tableContainer.addEventListener('mousewheel', (e) => {
+  if (!tableContainer.contains(e.target)) {
+    e.preventDefault();
+  }
+});
+</script>
 
 <style>
     .context-menu {
-  position: absolute;
-  z-index: 1000;
-  background: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 4px; /* added border radius for a smoother look */
-  padding: 8px; /* added padding for better spacing */
-}
+      position: absolute;
+      z-index: 1000;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 4px; /* added border radius for a smoother look */
+      padding: 8px; /* added padding for better spacing */
+    }
 
-.context-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+    .context-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-.context-menu ul li {
-  padding: 8px 12px;
-  border-bottom: 1px solid #f0f0f0; /* added border bottom for separation */
-}
+    .context-menu ul li {
+      padding: 8px 12px;
+      border-bottom: 1px solid #f0f0f0; /* added border bottom for separation */
+    }
 
-.context-menu ul li:last-child {
-  border-bottom: none; /* remove border bottom for the last item */
-}
+    .context-menu ul li:last-child {
+      border-bottom: none; /* remove border bottom for the last item */
+    }
 
-.context-menu ul li button {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #333; /* changed color to a darker gray for better contrast */
-  transition: background 0.2s ease; /* added transition for hover effect */
-}
+    .context-menu ul li button {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333; /* changed color to a darker gray for better contrast */
+      transition: background 0.2s ease; /* added transition for hover effect */
+    }
 
-.context-menu ul li button:hover {
-  background: #f0f0f0; /* added hover effect */
-}
+    .context-menu ul li button:hover {
+      background: #f0f0f0; /* added hover effect */
+    }
 
-.context-menu ul li button:focus {
-  outline: none; /* remove outline on focus */
-  box-shadow: 0 0 0 2px #ccc; /* added box shadow on focus */
-}
+    .context-menu ul li button:focus {
+      outline: none; /* remove outline on focus */
+      box-shadow: 0 0 0 2px #ccc; /* added box shadow on focus */
+    }
 
-.playlist-button {
-  margin-right: 10px; /* added margin right for better spacing */
-}
+    .playlist-button {
+      margin-right: 10px; /* added margin right for better spacing */
+    }
 
-.add-new-playlist {
-  margin-bottom: 10px; /* added margin bottom for better spacing */
-}
+    .add-new-playlist {
+      margin-bottom: 10px; /* added margin bottom for better spacing */
+    }
 </style>
 
 <script>
