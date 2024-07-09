@@ -100,7 +100,7 @@
 
                     <div class="w-full md:w-1/3 px-4">
                     
-                            <div class="mb-4 mt-4"">
+                            <div class="mb-4 mt-4">
                                 <label for="edit_language_id" class="block text-sm font-bold text-gray-700 mb-2">Language:</label>
                                 <select required id="edit_language_id" name="edit_language_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="" disabled>Select Language</option>

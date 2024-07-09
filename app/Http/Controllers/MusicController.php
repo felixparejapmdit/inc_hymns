@@ -180,7 +180,7 @@ class MusicController extends Controller
         $validatedData = $request->validate([
             'church_hymn_id' => 'required|exists:church_hymns,id',
             'add_title' => 'required|max:255',
-            'song_number' => 'nullable|numeric',
+            'song_number' => 'nullable|string',
             'vocals_mp3_path' => 'file|mimes:mp3,audio/mpeg|max:50000',
             'organ_mp3_path' => 'nullable|file|mimes:mp3',
             'preludes_mp3_path' => 'nullable|file|mimes:mp3',
