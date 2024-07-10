@@ -200,42 +200,48 @@ body {
 </div>
 
 
- <div class="flex mt-8 gap-4 w-full">
-        <div class="white-box w-full">
+<div class="flex mt-8 gap-4 w-full">
+    <div class="white-box w-full relative">
+        
+        <div class="flex justify-between items-center my-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-2">
                 <i class="fab fa-spotify"></i> Special Occasion Playlist
             </h2>
-            @foreach($playlists as $playlist)
-                <?php $playlistId = $playlist->id; ?>
-                <button class="accordion">{{ $playlist->name }}</button>
-                <div class="panel">
-                    <table class="min-w-full mt-3 mb-3 table-auto w-full draggable-table" id="playlist-{{ $playlistId }}">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
-                                <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
-                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($playlist->musics as $key => $music)
-                                <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
-                                    <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $key + 1 }}</td>
-                                    <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
-                                        <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
-                                        <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 hover:underline">
-                                            {{ $music->title }}
-                                        </a>
-                                    </td>
-                                    <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $music->song_number ?? '-' }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endforeach
+            <a href="{{ route('playlists_management.index') }}" style="margin-top:-15px;">
+            <i class="fas fa-plus text-lg text-gray-500 hover:text-gray-800 cursor-pointer"></i>
+        </a>
         </div>
+        @foreach($playlists as $playlist)
+            <?php $playlistId = $playlist->id; ?>
+            <button class="accordion">{{ $playlist->name }}</button>
+            <div class="panel">
+                <table class="min-w-full mt-3 mb-3 table-auto w-full draggable-table" id="playlist-{{ $playlistId }}">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
+                            <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
+                            <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($playlist->musics as $key => $music)
+                            <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
+                                <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $key + 1 }}</td>
+                                <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
+                                    <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
+                                    <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 hover:underline">
+                                        {{ $music->title }}
+                                    </a>
+                                </td>
+                                <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $music->song_number ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endforeach
     </div>
+</div>
 
     <script>
         (function() {

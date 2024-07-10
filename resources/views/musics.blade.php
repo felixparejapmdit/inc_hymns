@@ -122,8 +122,7 @@
                     document.getElementById("searchForm").submit();
                 }
 
-                    
-            document.getElementById('languageDropdown').addEventListener('change', function() {
+                document.getElementById('languageDropdown').addEventListener('change', function() {
                     const languageId = this.value;
 
                     // Update the URL with the new language ID
@@ -137,8 +136,6 @@
             </script>
 
         </form>
-
-        
 
         <style>
             #context-menu {
@@ -384,16 +381,16 @@
 <script>
     const tableContainer = document.querySelector('.overflow-x-auto');
 
-tableContainer.addEventListener('mousewheel', (e) => {
-  if (!tableContainer.contains(e.target)) {
-    e.preventDefault();
-  }
-});
+    tableContainer.addEventListener('mousewheel', (e) => {
+    if (!tableContainer.contains(e.target)) {
+        e.preventDefault();
+    }
+    });
 </script>
 
 <style>
     .context-menu {
-      position: absolute;
+      position: fixed;
       z-index: 1000;
       background: #fff;
       border: 1px solid #ccc;

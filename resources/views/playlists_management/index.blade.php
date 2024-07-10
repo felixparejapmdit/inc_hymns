@@ -34,86 +34,65 @@
                     @endif
 
                     <table class="table">
-    <thead>
-        <tr>
-            <th style="width: 10%;">#</th>
-            <th style="width: 60%;">Name</th>
-            <th style="width: 20%;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if(!empty($playlists) && count($playlists) > 0)
-            @foreach($playlists as $key => $playlist)
-                <tr>
-                    <td style="width: 10%;">{{ $key + 1 }}</td>
-                    <td style="width: 60%"><a href="#" class="playlist-name" data-url="{{ route('getMusicList', ['playlistId' => $playlist->id]) }}" data-id="{{ $playlist->id }}">{{ $playlist->name }}</a></td>
-                    <td style="width: 20%;">
-                        <button class="btn btn-secondary editPlaylistButton" 
-                                data-toggle="modal"
-                                data-target="#editPlaylistModal{{ $playlist->id }}"><i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-secondary deletePlaylistButton" data-id="{{ $playlist->id }}">   <i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr class="music-list" style="display: none;">
-                    <td colspan="2">
-                        <ul id="music-list-{{ $playlist->id }}"></ul>
-                    </td>
-                </tr>
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">#</th>
+                                <th style="width: 60%;">Name</th>
+                                <th style="width: 20%;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(!empty($playlists) && count($playlists) > 0)
+                                @foreach($playlists as $key => $playlist)
+                                    <tr>
+                                        <td style="width: 10%;">{{ $key + 1 }}</td>
+                                        <td style="width: 60%"><a href="#" class="playlist-name" data-url="{{ route('getMusicList', ['playlistId' => $playlist->id]) }}" data-id="{{ $playlist->id }}">{{ $playlist->name }}</a></td>
+                                        <td style="width: 20%;">
+                                            <button class="btn btn-secondary editPlaylistButton" 
+                                                    data-toggle="modal"
+                                                    data-target="#editPlaylistModal{{ $playlist->id }}"><i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-secondary deletePlaylistButton" data-id="{{ $playlist->id }}">   <i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="music-list" style="display: none;">
+                                        <td colspan="2">
+                                            <ul id="music-list-{{ $playlist->id }}"></ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="3">No playlists found.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
 
-                <!-- Delete Playlist Confirmation -->
-                <div class="modal" id="deletePlaylistModal{{ $playlist->id }}" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Delete Playlist</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Are you sure you want to delete this playlist?</p>
-                                <form action="{{ route('playlists_management.destroy', $playlist->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <tr>
-                <td class="text-center" colspan="3">No playlists found.</td>
-            </tr>
-        @endif
-    </tbody>
-</table>
+                    
                     <script>
-// In your JavaScript code
-$('.playlist-name').click(function(event) {
-    event.preventDefault();
-    var playlistId = $(this).data('id');
-    var musicList = $('#music-list-' + playlistId);
-    musicList.empty();
-    var url = $(this).data('url');
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function(data) {
-            $.each(data, function(index, music) {
-                musicList.append('<li>' + music + '</li>'); 
-            });
-            musicList.parent().slideDown();
-        },
-        error: function(xhr, status, error) {
-            console.log('Error:', error);
-        }
-    });
-});
-</script>
+                    // In your JavaScript code
+                    $('.playlist-name').click(function(event) {
+                        event.preventDefault();
+                        var playlistId = $(this).data('id');
+                        var musicList = $('#music-list-' + playlistId);
+                        musicList.empty();
+                        var url = $(this).data('url');
+                        $.ajax({
+                            type: 'GET',
+                            url: url,
+                            success: function(data) {
+                                $.each(data, function(index, music) {
+                                    musicList.append('<li>' + music + '</li>'); 
+                                });
+                                musicList.parent().slideDown();
+                            },
+                            error: function(xhr, status, error) {
+                                console.log('Error:', error);
+                            }
+                        });
+                    });
+                    </script>
                     <!-- Add Playlist Modal -->
                     <div class="modal" id="addPlaylistModal" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
@@ -165,7 +144,28 @@ $('.playlist-name').click(function(event) {
                             </div>
                         </div>
 
-                             
+                            <!-- Delete Playlist Confirmation -->
+                        <div class="modal" id="deletePlaylistModal{{ $playlist->id }}" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delete Playlist</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete this playlist?</p>
+                                        <form action="{{ route('playlists_management.destroy', $playlist->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
 
                 </div>
