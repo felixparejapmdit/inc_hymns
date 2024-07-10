@@ -40,7 +40,7 @@ class MusicController extends Controller
           ->orWhere('song_number', 'like', '%'. $query. '%')
           ->orWhere('verses_used', 'like', '%'. $query. '%')
           ->orWhere('lyrics', 'like', '%'. $query. '%')
-          ->orWhere('churchHymnId', 'like', '%'. $query. '%'); // Add churchHymnId to the search
+          ->orWhere('church_hymn_id', 'like', '%'. $query. '%');
     });
 }
      // Filter by selected categories

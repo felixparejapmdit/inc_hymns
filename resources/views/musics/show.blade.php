@@ -183,18 +183,17 @@
                 $musicId = \App\Models\Music::where('song_number', $music->song_number)
                                              ->where('language_id', $language->id)
                                              ->first()->id;
+                $currentLanguageId = request()->route('languageId');
             @endphp
             <p>
-                <a href="{{ route('musics.show', ['id' => $musicId, 'languageId' => $language->id, 'playlist_id' => $playlistId]) }}" class="text-blue-600 hover:underline">
+                <a href="{{ route('musics.show', ['id' => $musicId, 'languageId' => $language->id, 'playlist_id' => $playlistId]) }}"
+                   class="text-blue-600 hover:underline {{ $language->id == $currentLanguageId ? 'font-bold' : '' }}">
                     {{ $language->name }}
                 </a>
             </p>
         @endforeach
     @endif
 </div>
-
-
-
 
 <script>
     document.getElementById('languageSelector').addEventListener('change', function() {
