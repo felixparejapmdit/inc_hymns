@@ -161,6 +161,9 @@ Route::post('/playlists', [PlaylistController::class, 'create'])->name('playlist
 
 Route::get('/playlists', [PlaylistController::class, 'showPlaylist'])->name('playlists.showPlaylist');
 
+Route::get('/playlists/{playlist}/validate/{musicId}', [PlaylistController::class, 'validateMusicPlaylist'])->name('playlists.validateMusicPlaylist');
+Route::post('/playlists/{playlist}/validate/{musicId}', [PlaylistController::class, 'validateMusicPlaylist'])->name('playlists.validateMusicPlaylist');
+
 Route::resource('playlists_management', PlaylistController::class);
 Route::post('playlists_management/playlist', [PlaylistController::class, 'store'])->name('playlists.store');
 Route::put('playlists_management/{playlist}', [PlaylistController::class, 'update'])->name('playlists.update');
@@ -168,6 +171,8 @@ Route::delete('playlists_management/{playlist}', [PlaylistController::class, 'de
 
 //Route::get('get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
 Route::get('/get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
+
+
 
 // routes/web.php
 //Route::post('playlists_management/update-order', [PlaylistController::class, 'updateOrder'])->name('playlists.updateOrder');

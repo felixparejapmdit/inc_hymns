@@ -19,12 +19,11 @@
 
 <x-app-layout>
     <x-slot name="header">
-    <div class="flex justify-between items-center my-8">
+        <div class="flex justify-between items-center my-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Music Details') }}
             </h2>
             <div>
-            
                 <!-- <a href="{{ route('musics.index') }}" class="btn btn-secondary">Back</a> -->
                 <a href="{{ session()->has('url.intended') ? session('url.intended') : route('musics.index') }}" class="btn btn-secondary">Back</a>
             </div>

@@ -115,6 +115,9 @@ class MusicController extends Controller
     ->select('accessrights', 'permission_id', 'permissions.name')
     ->get();
     
+    // Store the current URL in the session
+    session(['url.intended' => url()->full()]);
+    
     return view('musics', compact('musics', 'categories', 'topCategories', 'languages', 'playlistId'));
  }
 

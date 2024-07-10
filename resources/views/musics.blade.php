@@ -293,25 +293,25 @@
     {{ $musics->appends(['query' => request()->query('query')])->links() }}
 </div>
                     
-                    <!-- Music Table -->
-                    <div class="overflow-x-auto margin:10px;" >
-                    <table class="min-w-full mt-3 mb-3">
-    <thead >
-        <tr style="display:none1;">
-            <th style="width: 18% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider" onclick="sortTable(2)">
-                Hymn # <i id="hymnSortIcon" class="fas fa-sort"></i>
-            </th>
-            <th style="width: 35% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider" onclick="sortTable(1)">
-                Title <i id="titleSortIcon" class="fas fa-sort"></i>
-            </th>
-         
-            <th style="width: 25% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Category</th>
-            <th style="width: 15% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Language</th>
-            @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline')
-                <th scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider">Action</th>
-            @endif
-        </tr>
-    </thead>
+    <!-- Music Table -->
+    <div class="overflow-x-auto margin:10px;" >
+    <table class="min-w-full mt-3 mb-3">
+        <thead >
+            <tr style="display:none1;">
+                <th style="width: 18% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider" onclick="sortTable(2)">
+                    Hymn # <i id="hymnSortIcon" class="fas fa-sort"></i>
+                </th>
+                <th style="width: 35% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider" onclick="sortTable(1)">
+                    Title <i id="titleSortIcon" class="fas fa-sort"></i>
+                </th>
+            
+                <th style="width: 25% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Category</th>
+                <th style="width: 15% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Language</th>
+                @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline')
+                    <th scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider">Action</th>
+                @endif
+            </tr>
+        </thead>
     <tbody id="musicList" class="bg-white divide-y divide-gray-200">
         @foreach($musics as $index => $music)
         <tr class="hoverable">
@@ -326,13 +326,12 @@
                 </a>
             </td> -->
 
-  <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
+            <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
                 <a href="{{ route('musics.show', ['id' => $music->id, 'languageId' => $music->language_id, 'playlist_id' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
                     <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
                     {{ $music->title }}
                 </a>
             </td>
-
 
             <td style="width: 25% !important; white-space: normal;" class="px-4 py-3 whitespace-normal">
                 @foreach($music->categories as $category)
@@ -485,6 +484,7 @@
             const musicId = event.target.dataset.musicId;
             // Show a prompt to enter the new playlist name
             const playlistName = prompt('Enter new playlist name:');
+         
             if (playlistName) {
                 // Send request to create new playlist and add music to it
                 fetch('/playlists', {
@@ -514,10 +514,51 @@
 
 
         // Handle add to existing playlist button
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('add-to-playlist')) {
-                const musicId = event.target.dataset.musicId;
-                const playlistId = event.target.dataset.playlistId;
+        // document.addEventListener('click', function (event) {
+        //     if (event.target.classList.contains('add-to-playlist')) {
+        //         const musicId = event.target.dataset.musicId;
+        //         const playlistId = event.target.dataset.playlistId;
+
+        //         fetch(`/playlists/${playlistId}/add`, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        //             },
+        //             body: JSON.stringify({ music_id: musicId })
+        //         }).then(response => response.json()).then(data => {
+        //             if (data.success) {
+        //                 alert('Music added to playlist');
+        //             } else {
+        //                 alert('Failed to add music to playlist');
+        //             }
+        //         });
+
+        //         document.querySelectorAll('.context-menu').forEach(menu => {
+        //             menu.classList.add('hidden');
+        //         });
+        //         event.preventDefault();
+        //     }
+        // });
+
+
+       document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('add-to-playlist')) {
+        const musicId = event.target.dataset.musicId;
+        const playlistId = event.target.dataset.playlistId;
+
+        // Check if musicId and playlistId exist in the music_playlist table
+        fetch(`/playlists/${playlistId}/validate/${musicId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        }).then(response => response.json()).then(data => {
+            if (data.exists) {
+                alert('Hymn already added to playlist.');
+            } else {
+                // Proceed to add music to playlist
                 fetch(`/playlists/${playlistId}/add`, {
                     method: 'POST',
                     headers: {
@@ -532,13 +573,17 @@
                         alert('Failed to add music to playlist');
                     }
                 });
-
-                document.querySelectorAll('.context-menu').forEach(menu => {
-                    menu.classList.add('hidden');
-                });
-                event.preventDefault();
             }
         });
+
+        document.querySelectorAll('.context-menu').forEach(menu => {
+            menu.classList.add('hidden');
+        });
+        event.preventDefault();
+    }
+});
+
+
 
         // Hide context menu on outside click
         document.addEventListener('click', function (event) {

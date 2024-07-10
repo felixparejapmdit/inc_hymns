@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Playlist;
 use App\Models\Music;
+use Illuminate\Support\Facades\DB;
 
 class PlaylistController extends Controller
 {
@@ -63,17 +64,52 @@ class PlaylistController extends Controller
     }
 
     public function showPlaylist(Request $request)
+    {
+        $playlistId = $request->query('playlist_id');
+
+        $playlists = Playlist::with('musics')
+            ->when($playlistId, function ($query, $playlistId) {
+                return $query->where('id', $playlistId);
+            })
+            ->get();
+
+        return response()->json(['playlists' => $playlists]);
+    }
+
+public function validateMusicPlaylist(Request $request, $playlistId, $musicId)
 {
-    $playlistId = $request->query('playlist_id');
+    $exists = DB::table('music_playlist')
+                ->where('music_id', $musicId)
+                ->where('playlist_id', $playlistId)
+                ->exists();
 
-    $playlists = Playlist::with('musics')
-        ->when($playlistId, function ($query, $playlistId) {
-            return $query->where('id', $playlistId);
-        })
-        ->get();
-
-    return response()->json(['playlists' => $playlists]);
+    return response()->json(['exists' => $exists]);
 }
+
+    public function addMusicToPlaylist(Request $request, $playlistId)
+    {
+        $musicId = $request->input('music_id');
+
+        // Check if the entry already exists
+        $exists = DB::table('music_playlist')
+                    ->where('music_id', $musicId)
+                    ->where('playlist_id', $playlistId)
+                    ->exists();
+
+        if ($exists) {
+            return response()->json(['success' => false, 'message' => 'Hymn already added to playlist']);
+        }
+
+        // Add music to playlist
+        DB::table('music_playlist')->insert([
+            'music_id' => $musicId,
+            'playlist_id' => $playlistId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['success' => true]);
+    }
 
 
    public function updateOrder(Request $request)
