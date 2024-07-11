@@ -53,7 +53,6 @@ class PlaylistController extends Controller
 
     // public function getMusicList($playlistId)
     // {
-     
     //     //dd($playlistId);
     //     $playlists = Playlist::with('musics')
         
@@ -61,11 +60,8 @@ class PlaylistController extends Controller
     //         return $query->where('id', $playlistId);
     //     })
     //     ->get();
-        
     // return response()->json(['playlists' => $playlists]);
     // }
-
-
 
     public function getMusicList($playlistId)
     {
