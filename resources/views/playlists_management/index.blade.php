@@ -46,18 +46,33 @@
                                 @foreach($playlists as $key => $playlist)
                                     <tr>
                                         <td style="width: 10%;">{{ $key + 1 }}</td>
-                                        <td style="width: 60%"><a href="#" class="playlist-name" data-url="{{ route('getMusicList', ['playlistId' => $playlist->id]) }}" data-id="{{ $playlist->id }}">{{ $playlist->name }}</a></td>
+                                        <td style="width: 60%">
+                                            <a href="#" class="playlist-name" data-url="{{ route('getMusicList', ['playlistId' => $playlist->id]) }}" data-id="{{ $playlist->id }}">{{ $playlist->name }}</a>
+                                        </td>
                                         <td style="width: 20%;">
                                             <button class="btn btn-secondary editPlaylistButton" 
                                                     data-toggle="modal"
-                                                    data-target="#editPlaylistModal{{ $playlist->id }}"><i class="fas fa-edit"></i>
+                                                    data-target="#editPlaylistModal{{ $playlist->id }}">
+                                                <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-secondary deletePlaylistButton" data-id="{{ $playlist->id }}">   <i class="fas fa-trash"></i></button>
+                                            <button class="btn btn-secondary deletePlaylistButton" data-id="{{ $playlist->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr class="music-list" style="display: none;">
-                                        <td colspan="2">
-                                            <ul id="music-list-{{ $playlist->id }}"></ul>
+                                        <td colspan="3">
+                                            <table class="table table-bordered mt-3">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 10%;">#</th>
+                                                        <th style="width: 50%;">Title</th>
+                                                        <th style="width: 20%;">Hymn Number</th>
+                                                        <th style="width: 20%;">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="music-list-{{ $playlist->id }}"></tbody>
+                                            </table>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -69,30 +84,6 @@
                         </tbody>
                     </table>
 
-                    
-                    <script>
-                    // In your JavaScript code
-                    $('.playlist-name').click(function(event) {
-                        event.preventDefault();
-                        var playlistId = $(this).data('id');
-                        var musicList = $('#music-list-' + playlistId);
-                        musicList.empty();
-                        var url = $(this).data('url');
-                        $.ajax({
-                            type: 'GET',
-                            url: url,
-                            success: function(data) {
-                                $.each(data, function(index, music) {
-                                    musicList.append('<li>' + music + '</li>'); 
-                                });
-                                musicList.parent().slideDown();
-                            },
-                            error: function(xhr, status, error) {
-                                console.log('Error:', error);
-                            }
-                        });
-                    });
-                    </script>
                     <!-- Add Playlist Modal -->
                     <div class="modal" id="addPlaylistModal" tabindex="-1" role="dialog">
                         <div class="modal-dialog" role="document">
@@ -104,7 +95,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                <form action="{{ route('playlists_management.store') }}" method="POST">
+                                    <form action="{{ route('playlists_management.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <label for="playlistName">Name</label>
@@ -135,7 +126,7 @@
                                             <input type="hidden" id="editPlaylistId" name="id" value="{{ $playlist->id }}">
                                             <div class="form-group">
                                                 <label for="editPlaylistName">Name</label>
-                                               <input type="text" class="form-control" name="name" id="edit_name_{{ $playlist->id }}" value="{{ old('name', $playlist->name) }}"  required>
+                                                <input type="text" class="form-control" name="name" id="edit_name_{{ $playlist->id }}" value="{{ old('name', $playlist->name) }}"  required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </form>
@@ -144,7 +135,7 @@
                             </div>
                         </div>
 
-                            <!-- Delete Playlist Confirmation -->
+                        <!-- Delete Playlist Confirmation -->
                         <div class="modal" id="deletePlaylistModal{{ $playlist->id }}" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -174,6 +165,7 @@
     </div>
 </x-app-layout>
 
+
 <script>
     $(document).ready(function() {
         $('#addPlaylistButton').click(function() {
@@ -190,5 +182,69 @@
             $('#deletePlaylistModal' + playlistId).modal('show');
             $('#deletePlaylistId').val(playlistId);
         });
+
+        $('.playlist-name').click(function(event) {
+            event.preventDefault();
+            var playlistId = $(this).data('id');
+            var musicList = $('#music-list-' + playlistId);
+            var url = $(this).data('url');
+
+            if (musicList.children().length === 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data) {
+                        musicList.empty();
+                        $.each(data, function(index, music) {
+                          
+                            musicList.append(
+                                '<tr>' +
+                                    '<td>' + (index + 1) + '</td>' +
+                                    '<td>' + music.title + '</td>' +
+                                    '<td>' + (music.hymn_number || music.song_number || '-') + '</td>' +
+                                    '<td>' +
+                                    '<form id="deleteForm' + music.id + '" method="POST" action="' + music.delete_url + '" style="display:inline;">' +
+                                '@csrf' +
+                                '@method("DELETE")' +
+                                '<input type="hidden" name="playlist_id" value="' + playlistId + '">' +
+                                '<input type="hidden" name="music_id" value="' + music.id + '">' +
+                                '<button type="button" onclick="confirmDelete(' + playlistId + ', ' + music.id + ')" class="btn btn-secondary">' +
+                                    '<i class="fas fa-trash"></i>' +
+                                '</button>' +
+                            '</form>' +
+                                    '</td>' +
+                                '</tr>'
+                            );
+                        });
+                        musicList.closest('tr.music-list').slideDown();
+
+           
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            } else {
+                musicList.closest('tr.music-list').slideToggle();
+            }
+        });
     });
+
+    function confirmDelete(playlistId, musicId) {
+    if (confirm('Are you sure you want to delete this music?')) {
+        var form = document.getElementById('deleteForm' + musicId);
+        var formData = new FormData(form);
+        formData.append('playlist_id', playlistId);
+        formData.append('music_id', musicId);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Music deleted successfully!');
+            }
+        };
+        xhr.send(formData);
+    }
+}
 </script>

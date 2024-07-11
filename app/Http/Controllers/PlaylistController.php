@@ -46,21 +46,56 @@ class PlaylistController extends Controller
         // return response()->json(['playlists' => $playlists]);
 
         $playlists = Playlist::with('musics')->get();
+
+        
         return view('playlists_management.index', compact('playlists'));
     }
 
+    // public function getMusicList($playlistId)
+    // {
+     
+    //     //dd($playlistId);
+    //     $playlists = Playlist::with('musics')
+        
+    //     ->when($playlistId, function ($query, $playlistId) {
+    //         return $query->where('id', $playlistId);
+    //     })
+    //     ->get();
+        
+    // return response()->json(['playlists' => $playlists]);
+    // }
+
+
+
     public function getMusicList($playlistId)
     {
-     
-        dd($playlistId);
-        $playlists = Playlist::with('musics')
+        $musics = DB::table('music_playlist')
+                    ->join('musics', 'music_playlist.music_id', '=', 'musics.id')
+                    ->where('music_playlist.playlist_id', $playlistId)
+                    ->select('musics.id', 'musics.title', 'musics.song_number')
+                    ->get()
+                    ->map(function($music) use ($playlistId) { // Add use ($playlistId) here
+                        return [
+                            'id' => $music->id,
+                            'title' => $music->title,
+                            'song_number' => $music->song_number,
+                            'delete_url' => route('playlist.removeMusic', [$playlistId, $music->id])
+                        ];
+                    });
+    
+        return response()->json($musics);
+    }
+
+    
+    public function removeMusicFromPlaylist(Request $request, $playlistId, $musicId)
+    {
         
-        ->when($playlistId, function ($query, $playlistId) {
-            return $query->where('id', $playlistId);
-        })
-        ->get();
-        
-    return response()->json(['playlists' => $playlists]);
+        DB::table('music_playlist')
+            ->where('playlist_id', $playlistId)
+            ->where('music_id', $musicId)
+            ->delete();
+    
+        return response()->json(['success' => true]);
     }
 
     public function showPlaylist(Request $request)

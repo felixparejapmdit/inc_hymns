@@ -164,6 +164,9 @@ Route::get('/playlists', [PlaylistController::class, 'showPlaylist'])->name('pla
 Route::get('/playlists/{playlist}/validate/{musicId}', [PlaylistController::class, 'validateMusicPlaylist'])->name('playlists.validateMusicPlaylist');
 Route::post('/playlists/{playlist}/validate/{musicId}', [PlaylistController::class, 'validateMusicPlaylist'])->name('playlists.validateMusicPlaylist');
 
+
+Route::post('/playlist/remove-music/{playlistId}/{musicId}', [PlaylistController::class, 'removeMusicFromPlaylist'])->name('playlist.removeMusic');
+
 Route::resource('playlists_management', PlaylistController::class);
 Route::post('playlists_management/playlist', [PlaylistController::class, 'store'])->name('playlists.store');
 Route::put('playlists_management/{playlist}', [PlaylistController::class, 'update'])->name('playlists.update');
