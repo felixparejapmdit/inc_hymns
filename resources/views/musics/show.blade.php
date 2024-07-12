@@ -670,6 +670,8 @@ function renderLyrics(lyricsPath) {
 #closeModal:hover {
   color: #333; /* dark gray hover color */
 }
+
+
 /* Add media queries to adjust the modal size on different screen sizes */
 @media (max-width: 1024px) { /* iPad landscape */
   #playlistModal {
@@ -755,8 +757,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const playlistId = urlParams.get('playlist_id');
 
         fetch(`/playlists?playlist_id=${playlistId}`)
-            .then(response => response.json())
-            .then(data => {
+           .then(response => response.json())
+           .then(data => {
                 let content = '';
                 data.playlists.forEach(playlist => {
                     content += `<div class="mb-4">
@@ -776,7 +778,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
                                             <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">${music.title}</a>
                                         </td>
-                                        <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
+                                        <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number?? '-'}</td>
                                     </tr>`;
                     });
                     content += `        </tbody>
@@ -785,8 +787,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 playlistsContent.innerHTML = content;
                 playlistModal.classList.toggle('hidden'); 
+
+                // Move the code here
+                const tables = playlistsContent.querySelectorAll('.myTableClass');
+                tables.forEach(table => {
+                    const tds = Array.from(table.querySelectorAll('td'));
+                    const currentUrl = window.location.href;
+                    tds.forEach(td => {
+                        const aTag = td.querySelector('a');
+                        if (aTag && aTag.href === currentUrl) {
+                            td.style.fontWeight = 'bold';
+                            td.style.color = '#007bff';
+                        }
+                    });
+                });
             })
-            .catch(error => {
+           .catch(error => {
                 console.error('Error fetching playlists:', error);
             });
     });
@@ -799,22 +815,6 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('click', function(event) {
         if (event.target === playlistModal) {
             playlistModal.classList.add('hidden');
-        }
-    });
-
-    
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-    const table = document.querySelector('.myTableClass'); // replace with your table's class
-    const tds = Array.from(table.querySelectorAll('td')); // Convert NodeList to array
-    //alert("ASD");
-    const currentUrl = window.location.href;
-    tds.forEach(td => {
-        const aTag = td.querySelector('a');
-        if (aTag && aTag.href === currentUrl) {
-            td.style.fontWeight = 'bold';
-            td.style.color = 'blue';
         }
     });
 });
