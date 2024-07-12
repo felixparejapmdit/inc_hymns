@@ -636,7 +636,6 @@ function renderLyrics(lyricsPath) {
   color: #white;
 }
 
-
 #playlistModal {
   max-width: 90vw;
   max-height: 90vh;
@@ -649,7 +648,7 @@ function renderLyrics(lyricsPath) {
   box-sizing: border-box;
   border-radius:10%;
   /* Add these styles to make it stick to the right side */
-  right: 4px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   flex-direction: column;
@@ -707,11 +706,18 @@ function renderLyrics(lyricsPath) {
     height: calc(100% - 20px);
   }
 }
+
+
 </style>
 
-<!-- Fixed button icon -->
-<button id="playlistButton" class="fixedbutton right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg hidden">
-    <i class="fas fa-list"></i>
+<!-- Fixed button icon --> 
+ <button id="playlistButton" style="  background-color: #007bff; /* dark blue color */
+  border: 2px solid #FFFFFF; /* 2px white border */
+  color: #FFFFFF; /* white text color */
+  padding: 1rem; /* 1rem padding */
+  border-radius: 50%; /* rounded full */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); " class="fixedbutton right-4 text-white p-4 rounded-full shadow-lg hidden"> 
+   <i class="fas fa-music"></i>
 </button>
 
 <script>
@@ -729,7 +735,7 @@ if (!playlistIdParam) {
 
 <div id="playlistModal" class="hidden fixed inset-0 flex justify-center items-center">
     <div class="bg-white p-6 rounded-lg w-1/2 relative" style="border: 4px solid #ccc;">
-        <button id="closeModal" class="absolute top-0 right-0 mt-2 mr-2 px-4 py-2 bg-red-600 text-white rounded">
+        <button id="closeModal" class="absolute top-0 right-0 mt-2 mr-2 px-4 py-2 bg-red-600 text-white rounded hidden">
             <i class="fas fa-times"></i>
         </button>
         <h2 class="text-xl mb-4"><b>Playlists</b></h2>
@@ -755,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 data.playlists.forEach(playlist => {
                     content += `<div class="mb-4">
                                     <h4 class="text-lg font-bold">${playlist.name}</h4>
-                                    <table class="min-w-full mt-3 mb-3 table-auto w-full">
+                                    <table class="myTableClass min-w-full mt-3 mb-3 table-auto w-full">
                                         <thead>
                                             <tr>
                                                 <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
@@ -778,7 +784,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </div>`;
                 });
                 playlistsContent.innerHTML = content;
-                playlistModal.classList.remove('hidden');
+                playlistModal.classList.toggle('hidden'); 
             })
             .catch(error => {
                 console.error('Error fetching playlists:', error);
@@ -793,6 +799,22 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('click', function(event) {
         if (event.target === playlistModal) {
             playlistModal.classList.add('hidden');
+        }
+    });
+
+    
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const table = document.querySelector('.myTableClass'); // replace with your table's class
+    const tds = Array.from(table.querySelectorAll('td')); // Convert NodeList to array
+    //alert("ASD");
+    const currentUrl = window.location.href;
+    tds.forEach(td => {
+        const aTag = td.querySelector('a');
+        if (aTag && aTag.href === currentUrl) {
+            td.style.fontWeight = 'bold';
+            td.style.color = 'blue';
         }
     });
 });
