@@ -636,6 +636,30 @@ function renderLyrics(lyricsPath) {
   color: #white;
 }
 
+#playlistBG
+{
+    
+  background: linear-gradient(to bottom, #59a7cb, #4f87bc);
+    border-radius: 10px; /* added border radius */
+}
+
+#playlistsContent
+{
+    
+    
+  background: linear-gradient(to bottom, #59a7cb, #4f87bc);
+  border-radius: 10px; /* added border radius */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+
+#playlistable
+{
+    
+  background: white;
+  border-radius: 10px; /* added border radius */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
 #playlistModal {
   max-width: 90vw;
   max-height: 90vh;
@@ -646,7 +670,7 @@ function renderLyrics(lyricsPath) {
   width: calc(100% - 80px);
   height: calc(100% - 80px);
   box-sizing: border-box;
-  border-radius:10%;
+  border-radius: 10px; /* added border radius */
   /* Add these styles to make it stick to the right side */
   right: 8px;
   top: 50%;
@@ -736,11 +760,11 @@ if (!playlistIdParam) {
 
 
 <div id="playlistModal" class="hidden fixed inset-0 flex justify-center items-center">
-    <div class="bg-white p-6 rounded-lg w-1/2 relative" style="border: 4px solid #ccc;">
+    <div id="playlistBG" class="p-6 rounded-lg w-1/2 relative" style="box-shadow: 0 0 10px rgba(0,0,0,0.2);">
         <button id="closeModal" class="absolute top-0 right-0 mt-2 mr-2 px-4 py-2 bg-red-600 text-white rounded hidden">
             <i class="fas fa-times"></i>
         </button>
-        <h2 class="text-xl mb-4"><b>Playlists</b></h2>
+        <h2 class="text-xl mb-4 text-white"><b>Playlists</b></h2>
         <div id="playlistsContent"></div>
     </div>
 </div>
@@ -761,8 +785,8 @@ document.addEventListener('DOMContentLoaded', function () {
            .then(data => {
                 let content = '';
                 data.playlists.forEach(playlist => {
-                    content += `<div class="mb-4">
-                                    <h4 class="text-lg font-bold">${playlist.name}</h4>
+                    content += `<div  id='playlistable' class="mb-4">
+                                    <h4 class="text-lg font-bold text-white" style="background: linear-gradient(to bottom, #59a7cb, #4f87bc);">${playlist.name}</h4>
                                     <table class="myTableClass min-w-full mt-3 mb-3 table-auto w-full">
                                         <thead>
                                             <tr>
@@ -774,13 +798,13 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <tbody>`;
                     playlist.musics.forEach((music, index) => {
                         content += `<tr>
-                                        <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
-                                    <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
+                                        <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
+                                    <td class="text-left border-gray-300 px-4 py-2 whitespace-nowrap">
                                         <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
                                             ${music.title}
                                         </a>
                                     </td>
-                                        <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number?? '-'}</td>
+                                        <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number?? '-'}</td>
                                     </tr>`;
                     });
                     content += `        </tbody>
@@ -793,13 +817,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Move the code here
 const tables = playlistsContent.querySelectorAll('.myTableClass');
 tables.forEach(table => {
-    const tds = Array.from(table.querySelectorAll('td'));
+    const tds = Array.from(table.querySelectorAll('tr'));
     const currentUrl = window.location.href;
     tds.forEach(td => {
         const aTag = td.querySelector('a');
         if (aTag && aTag.href === currentUrl) {
             td.style.fontWeight = 'bold';
-            td.style.color = '#007bff';
+            td.style.color = '#F3F7EC';
+            td.style.backgroundColor = '#57a2c9';
+td.style.borderRadius = '10px';
             // Add the equalizer effect
            // Add the equalizer effect
             const equalizerSpan = document.createElement('span');
