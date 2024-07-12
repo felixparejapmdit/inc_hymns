@@ -654,6 +654,8 @@ function renderLyrics(lyricsPath) {
   transform: translateY(-50%);
   flex-direction: column;
   align-items: flex-end;
+  position: fixed; /* Add this to make z-index work */
+  z-index: 1000; /* Add this to bring the modal to the front */
 }
 
 #closeModal {
