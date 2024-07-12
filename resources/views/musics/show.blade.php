@@ -775,9 +775,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     playlist.musics.forEach((music, index) => {
                         content += `<tr>
                                         <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
-                                        <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
-                                            <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">${music.title}</a>
-                                        </td>
+                                    <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
+                                        <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
+                                            ${music.title}
+                                        </a>
+                                    </td>
                                         <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number?? '-'}</td>
                                     </tr>`;
                     });
@@ -789,18 +791,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 playlistModal.classList.toggle('hidden'); 
 
                 // Move the code here
-                const tables = playlistsContent.querySelectorAll('.myTableClass');
-                tables.forEach(table => {
-                    const tds = Array.from(table.querySelectorAll('td'));
-                    const currentUrl = window.location.href;
-                    tds.forEach(td => {
-                        const aTag = td.querySelector('a');
-                        if (aTag && aTag.href === currentUrl) {
-                            td.style.fontWeight = 'bold';
-                            td.style.color = '#007bff';
-                        }
-                    });
-                });
+const tables = playlistsContent.querySelectorAll('.myTableClass');
+tables.forEach(table => {
+    const tds = Array.from(table.querySelectorAll('td'));
+    const currentUrl = window.location.href;
+    tds.forEach(td => {
+        const aTag = td.querySelector('a');
+        if (aTag && aTag.href === currentUrl) {
+            td.style.fontWeight = 'bold';
+            td.style.color = '#007bff';
+            // Add the equalizer effect
+           // Add the equalizer effect
+            const equalizerSpan = document.createElement('span');
+            equalizerSpan.className = 'equalizer';
+            const bar1 = document.createElement('span');
+            bar1.className = 'bar';
+            const bar2 = document.createElement('span');
+            bar2.className = 'bar';
+            const bar3 = document.createElement('span');
+            bar3.className = 'bar';
+            equalizerSpan.appendChild(bar1);
+            equalizerSpan.appendChild(bar2);
+            equalizerSpan.appendChild(bar3);
+            aTag.appendChild(equalizerSpan);
+        }
+    });
+});
             })
            .catch(error => {
                 console.error('Error fetching playlists:', error);
@@ -820,8 +836,38 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<style>
+   .equalizer {
+        display: inline-block;
+        margin-left: 5px;
+    }
 
+   .bar {
+        display: inline-block;
+        width: 2px;
+        height: 10px;
+        background: linear-gradient(to bottom, #5eb8d3, #4975b4);
+        background-size: 100% 200px;
+        background-position: 0% 100%;
+        animation: equalizer 1s infinite;
+        margin: 0 1px;
+    }
 
+    @keyframes equalizer {
+        0% {
+            height: 10px;
+            background-position: 0% 100%;
+        }
+        50% {
+            height: 15px;
+            background-position: 0% 50%;
+        }
+        100% {
+            height: 10px;
+            background-position: 0% 100%;
+        }
+    }
+</style>
 
                 </div>
             </div>
