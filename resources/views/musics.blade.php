@@ -48,7 +48,6 @@
             <button id="createPlaylistButton" class="btn btn-primary">Create New Playlist</button>
         </div>
 
-
     <script>
         // Add event listener to the addMusicButton
         document.getElementById('addMusicButton').addEventListener('click', function() {
@@ -67,16 +66,19 @@
                     <input type="hidden" name="church_hymn_id" value="{{ request()->input('church_hymn_id') }}">
                     <input type="hidden" name="language_id" value="{{ request()->input('language_id') }}">
                     <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns..." onkeypress="handleEnterKey(event)">
-                    
-            <!-- Language Dropdown -->
-            <select name="language_id" id="languageDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
-                <option value="All" {{ request('language_id') == 'All' ? 'selected' : '' }}>All languages</option>
-                @foreach($languages as $language)
-                    <option value="{{ $language->id }}" {{ request('language_id') == $language->id ? 'selected' : '' }}>
-                        {{ $language->name }}
-                    </option>
-                @endforeach
-            </select>
+                     <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns...">
+        
+<!-- Language Dropdown -->
+<select name="language_id" id="languageDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
+    <option value="All" {{ request('language_id') == 'All' ? 'selected' : '' }}>All languages</option>
+    @foreach($languages as $language)
+        @if($language->name == 'Tagalog')
+            <option value="{{ $language->id }}" selected>{{ $language->name }}</option>
+        @else
+            <option value="{{ $language->id }}">{{ $language->name }}</option>
+        @endif
+    @endforeach
+</select>
             
             <!-- Category Dropdown -->
             <select name="category_ids[]" id="categoryDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
@@ -582,8 +584,6 @@
         event.preventDefault();
     }
 });
-
-
 
         // Hide context menu on outside click
         document.addEventListener('click', function (event) {

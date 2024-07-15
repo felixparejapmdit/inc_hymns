@@ -89,6 +89,8 @@ Route::get('/musicplayer/{id}', [MusicController::class, 'musicPlayer'])->name('
 
 Route::get('mplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.mplayer');
 
+Route::get('/musics/search', [MusicController::class, 'search'])->name('musics.search');
+
 Route::get('/creators/{creatorId}', [MusicCreatorController::class, 'showinfo'])->name('creators.showinfo');
 
 Route::get('/musics/{musicId}/creators/{creatorId}', [MusicCreatorController::class, 'showinfo'])->name('musics.showinfo');

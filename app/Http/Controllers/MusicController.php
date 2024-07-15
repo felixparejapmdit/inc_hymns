@@ -138,7 +138,56 @@ class MusicController extends Controller
         return view('musics', compact('musics', 'categories', 'topCategories', 'languages'));
     }
 
+public function search(Request $request)
+{
+    $query = $request->input('query');
+    $categoryIds = $request->input('category_ids', []);
+    $churchHymnId = $request->query('church_hymn_id');
+    $languageId = $request->input('language_id');
 
+    $queryBuilder = Music::query();
+
+    if ($query) {
+        $queryBuilder->where(function($q) use ($query) {
+            $q->where('title', 'like', '%'. $query. '%')
+              ->orWhere('song_number', 'like', '%'. $query. '%')
+              ->orWhere('verses_used', 'like', '%'. $query. '%')
+              ->orWhere('lyrics', 'like', '%'. $query. '%')
+              ->orWhere('church_hymn_id', 'like', '%'. $query. '%');
+        });
+    }
+
+    if (!empty($categoryIds) && !in_array('All', $categoryIds)) {
+        $queryBuilder->whereHas('categories', function ($query) use ($categoryIds) {
+            $query->whereIn('categories.id', $categoryIds);
+        });
+    }
+
+    if ($churchHymnId) {
+        $queryBuilder->where('church_hymn_id', $churchHymnId);
+    }
+
+    if ($languageId && $languageId !== 'All') {
+        $queryBuilder->where('language_id', $languageId);
+    } else {
+        if($languageId == null) {
+            $queryBuilder->where('language_id', 1);
+        }
+    }
+
+    $musics = $queryBuilder->leftJoin('music_playlist', 'musics.id', '=', 'music_playlist.music_id')
+                           ->select('musics.*', 'music_playlist.playlist_id')
+                           ->orderByRaw('CAST(song_number AS UNSIGNED) ASC')
+                           ->latest()
+                           ->paginate(10)
+                           ->withQueryString();
+
+    // Fetch other data
+    $categories = Category::all();
+    $languages = Language::all();
+
+    return view('musics', compact('musics', 'categories', 'languages'));
+}
     public function musicDetails($id, $language_id = null)
 {
     $music = Music::find($id);
