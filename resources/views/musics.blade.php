@@ -124,6 +124,23 @@
                     document.getElementById("searchForm").submit();
                 }
 
+                // Function to handle AJAX search on input change
+    // document.getElementById('searchInput').addEventListener('input', function() {
+    //     const searchTerm = this.value;
+    //     const url = new URL(window.location.href);
+    //     url.searchParams.set('query', searchTerm);
+
+    //     fetch(url)
+    //         .then(response => response.text())
+    //         .then(html => {
+    //             const parser = new DOMParser();
+    //             const doc = parser.parseFromString(html, 'text/html');
+    //             const musicList = doc.getElementById('musicList');
+    //             document.getElementById('musicList').innerHTML = musicList.innerHTML;
+    //             document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+    //         });
+    // });
+
                 document.getElementById('languageDropdown').addEventListener('change', function() {
                     const languageId = this.value;
 
@@ -135,7 +152,68 @@
                     window.location.href = url.href; 
                 });
 
+    //             document.addEventListener('DOMContentLoaded', function() {
+    //     const searchInput = document.getElementById('searchInput');
+
+    //     function fetchMusics(url) {
+    //         fetch(url)
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 document.getElementById('musicList').innerHTML = data.html;
+    //                 document.querySelector('.pagination').innerHTML = data.pagination;
+    //             });
+    //     }
+
+    //     searchInput.addEventListener('input', function() {
+    //         const searchTerm = this.value;
+    //         const url = new URL(window.location.href);
+    //         url.searchParams.set('query', searchTerm);
+    //         fetchMusics(url);
+    //     });
+
+    //     document.addEventListener('click', function(event) {
+    //         if (event.target.closest('.pagination a')) {
+    //             event.preventDefault();
+    //             const url = event.target.closest('.pagination a').href;
+    //             fetchMusics(url);
+    //         }
+    //     });
+    // });
+
             </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+
+        function fetchMusics(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const musicList = doc.getElementById('musicList');
+                    document.getElementById('musicList').innerHTML = musicList.innerHTML;
+                    const pagination = doc.querySelector('.pagination');
+                    document.querySelector('.pagination').innerHTML = pagination.innerHTML;
+                });
+        }
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value;
+            const url = new URL(window.location.href);
+            url.searchParams.set('query', searchTerm);
+            fetchMusics(url);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.pagination a')) {
+                event.preventDefault();
+                const url = event.target.closest('.pagination a').href;
+                fetchMusics(url);
+            }
+        });
+    });
+</script>
 
         </form>
 
@@ -169,34 +247,34 @@
             }
         </style>
 
-<!-- Categories Section -->
-<div id="context-menu" class="mb-4 mx-auto"    style="position: fixed;">
-    <div id="categoriesSection">
-        <h2 class="text-lg font-semibold mb-2">Categories</h2>
-        <div id="topCategories" class="flex flex-wrap -mx-2">
-            @foreach($topCategories as $index => $category)
-                <div class="w-1/2 md:w-1/5 px-2 mb-4">
-                    <button id="categoryButton{{ $index }}" style="background-color:#5eb8d3; height:150px; width:150px; border: 2px solid #00215E; border-radius: 0.5rem;" class="category-box bg-teal-400 hover:bg-teal-500 p-2 rounded text-center w-full" data-category-id="{{ $category->id }}" onclick="selectCategory({{ $index }})">
-                        <span class="flex items-center justify-center h-full text-white">{{ $category->name }} ({{ $category->musics_count }})</span>
-                    </button>
+        <!-- Categories Section -->
+        <div id="context-menu" class="mb-4 mx-auto"    style="position: fixed;">
+            <div id="categoriesSection">
+                <h2 class="text-lg font-semibold mb-2">Categories</h2>
+                <div id="topCategories" class="flex flex-wrap -mx-2">
+                    @foreach($topCategories as $index => $category)
+                        <div class="w-1/2 md:w-1/5 px-2 mb-4">
+                            <button id="categoryButton{{ $index }}" style="background-color:#5eb8d3; height:150px; width:150px; border: 2px solid #00215E; border-radius: 0.5rem;" class="category-box bg-teal-400 hover:bg-teal-500 p-2 rounded text-center w-full" data-category-id="{{ $category->id }}" onclick="selectCategory({{ $index }})">
+                                <span class="flex items-center justify-center h-full text-white">{{ $category->name }} ({{ $category->musics_count }})</span>
+                            </button>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
+                <button id="hideCategories" class="mt-4 text-blue-500 hidden">Hide</button>
+                <div id="allCategories" class="hidden mt-4 flex flex-wrap -mx-2">
+                    @foreach($categories as $index => $category)
+                        @if($index >= 10) <!-- Start displaying from the 11th category -->
+                            <div class="w-1/2 md:w-1/5 px-2 mb-4">
+                                <button id="categoryButton{{ $index }}" style="background-color:#5eb8d3; height:150px;width:150px; border: 2px solid #00215E; border-radius: 0.5rem;" class="category-box border border-teal-400 hover:border-teal-500 bg-teal-400 hover:bg-teal-500 p-2 rounded text-center w-full" data-category-id="{{ $category->id }}" onclick="selectCategory({{ $index }})">
+                                    <span class="flex items-center justify-center h-full text-white">{{ $category->name }} ({{ $category->musics_count }})</span>
+                                </button>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                <button id="viewAllCategories" class="mt-4 text-blue-500">View All</button>
+            </div>
         </div>
-        <button id="hideCategories" class="mt-4 text-blue-500 hidden">Hide</button>
-        <div id="allCategories" class="hidden mt-4 flex flex-wrap -mx-2">
-            @foreach($categories as $index => $category)
-                @if($index >= 10) <!-- Start displaying from the 11th category -->
-                    <div class="w-1/2 md:w-1/5 px-2 mb-4">
-                        <button id="categoryButton{{ $index }}" style="background-color:#5eb8d3; height:150px;width:150px; border: 2px solid #00215E; border-radius: 0.5rem;" class="category-box border border-teal-400 hover:border-teal-500 bg-teal-400 hover:bg-teal-500 p-2 rounded text-center w-full" data-category-id="{{ $category->id }}" onclick="selectCategory({{ $index }})">
-                            <span class="flex items-center justify-center h-full text-white">{{ $category->name }} ({{ $category->musics_count }})</span>
-                        </button>
-                    </div>
-                @endif
-            @endforeach
-        </div>
-        <button id="viewAllCategories" class="mt-4 text-blue-500">View All</button>
-    </div>
-</div>
 
 <script>
     let selectedCategoryId = null;
@@ -292,15 +370,67 @@
 <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background: linear-gradient(to bottom, #5eb8d3, #4975b4);">
                 <div class="p-6" >
 
-                <style>
-                    .container {
-    display: flex;
-    justify-content: center;
-}
-                </style>
-<div class="container text-center">
-    {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
-</div>         
+                 <style>
+
+                .container {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                /* Ensure table fills its container */
+                table {
+                    width: 100%;
+                }
+
+                /* Set minimum width to prevent shrinking */
+                .min-w-full {
+                    min-width: 100%;
+                }
+
+                /* Allow horizontal scrolling on overflow */
+                .overflow-x-auto {
+                    overflow-x: auto;
+                }
+
+                /* Style for active tab */
+                .tab-button.active {
+                    background-color: #3182ce;
+                    color: white;
+                }
+                    /* Hover effect for table rows */
+                tbody tr:hover {
+                    background-color: #f3f4f6; /* Light gray background on hover */
+                }
+            </style>
+            <script>
+                // Add event listener for search input
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const musicRows = document.querySelectorAll('#musicList tr');
+                    let noMusicFound = true;
+
+                    musicRows.forEach(row => {
+                        const title = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                        const category = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                        const language = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                        const isVisible = title.includes(searchTerm) || category.includes(searchTerm) || language.includes(searchTerm);
+
+                        row.style.display = isVisible ? '' : 'none';
+
+                        if (isVisible) {
+                            noMusicFound = false;
+                        }
+                    });
+
+                    // Show/hide no music found message
+                    const noMusicFoundMessage = document.getElementById('noMusicFoundMessage');
+                    noMusicFoundMessage.style.display = noMusicFound ? 'block' : 'none';
+                });
+            </script>
+            
+        <div class="container text-center">
+            {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
+        </div>         
     <!-- Music Table -->
     <div class="overflow-x-auto margin:10px;" >
     <table class="min-w-full mt-3 mb-3">
@@ -384,7 +514,7 @@
         @endforeach
     </tbody>
 </table>
-
+          
 <script>
     const tableContainer = document.querySelector('.overflow-x-auto');
 
@@ -710,64 +840,14 @@ tbody tr:hover {
                     <!-- <div class="pagination flex justify-center items-center" style="padding:0px;margin-top:10px;">
                        
                     </div> -->
-                   <div class="container text-center">
+         <div class="container text-center">
     {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
 </div>
                     <!-- Message when no music is found -->
                     <p id="noMusicFoundMessage" class="text-center text-gray-500 mt-4" style="display: none;">No music found</p>
                 </div>
             </div>
-            <style>
-                /* Ensure table fills its container */
-                table {
-                    width: 100%;
-                }
-
-                /* Set minimum width to prevent shrinking */
-                .min-w-full {
-                    min-width: 100%;
-                }
-
-                /* Allow horizontal scrolling on overflow */
-                .overflow-x-auto {
-                    overflow-x: auto;
-                }
-
-                /* Style for active tab */
-                .tab-button.active {
-                    background-color: #3182ce;
-                    color: white;
-                }
-                    /* Hover effect for table rows */
-                tbody tr:hover {
-                    background-color: #f3f4f6; /* Light gray background on hover */
-                }
-            </style>
-            <script>
-                // Add event listener for search input
-                document.getElementById('searchInput').addEventListener('input', function() {
-                    const searchTerm = this.value.toLowerCase();
-                    const musicRows = document.querySelectorAll('#musicList tr');
-                    let noMusicFound = true;
-
-                    musicRows.forEach(row => {
-                        const title = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                        const category = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                        const language = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                        const isVisible = title.includes(searchTerm) || category.includes(searchTerm) || language.includes(searchTerm);
-
-                        row.style.display = isVisible ? '' : 'none';
-
-                        if (isVisible) {
-                            noMusicFound = false;
-                        }
-                    });
-
-                    // Show/hide no music found message
-                    const noMusicFoundMessage = document.getElementById('noMusicFoundMessage');
-                    noMusicFoundMessage.style.display = noMusicFound ? 'block' : 'none';
-                });
-            </script>
+           
             <script>
                 // JavaScript for tab switching
                 const tabButtons = document.querySelectorAll('.tab-button');

@@ -75,8 +75,6 @@ class MusicController extends Controller
     //$musics = $queryBuilder->orderByRaw('CAST(song_number AS UNSIGNED) ASC')->latest()->paginate(10)->withQueryString();
    
         // Fetch all records if no search query is provided
-        
-        
     $musics = $queryBuilder->leftJoin('music_playlist', 'musics.id', '=', 'music_playlist.music_id')
                            ->select('musics.*', 'music_playlist.playlist_id')
                            ->orderByRaw('CAST(song_number AS UNSIGNED) ASC')
@@ -119,6 +117,7 @@ class MusicController extends Controller
     
     // Store the current URL in the session
     session(['url.intended' => url()->full()]);
+    
     
     return view('musics', compact('musics', 'categories', 'topCategories', 'languages', 'playlistId'));
  }
