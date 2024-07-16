@@ -66,7 +66,7 @@
                     <input type="hidden" name="church_hymn_id" value="{{ request()->input('church_hymn_id') }}">
                     <input type="hidden" name="language_id" value="{{ request()->input('language_id') }}">
                     <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns..." onkeypress="handleEnterKey(event)">
-                     <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns...">
+                     <!-- <input type="text" id="searchInput" name="query" class="form-control rounded-md" value="{{ request('query') }}" placeholder="Search hymns..."> -->
         
 <!-- Language Dropdown -->
 <select name="language_id" id="languageDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
@@ -291,10 +291,16 @@
 
 <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background: linear-gradient(to bottom, #5eb8d3, #4975b4);">
                 <div class="p-6" >
-                <div class="items-center text-white" style="padding:0px;margin-bottom:10px;">
-    {{ $musics->appends(['query' => request()->query('query')])->links() }}
-</div>
-                    
+
+                <style>
+                    .container {
+    display: flex;
+    justify-content: center;
+}
+                </style>
+<div class="container text-center">
+    {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
+</div>         
     <!-- Music Table -->
     <div class="overflow-x-auto margin:10px;" >
     <table class="min-w-full mt-3 mb-3">
@@ -704,7 +710,9 @@ tbody tr:hover {
                     <!-- <div class="pagination flex justify-center items-center" style="padding:0px;margin-top:10px;">
                        
                     </div> -->
-                    {{ $musics->appends(['query' => request()->query('query')])->links() }}
+                   <div class="container text-center">
+    {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
+</div>
                     <!-- Message when no music is found -->
                     <p id="noMusicFoundMessage" class="text-center text-gray-500 mt-4" style="display: none;">No music found</p>
                 </div>
