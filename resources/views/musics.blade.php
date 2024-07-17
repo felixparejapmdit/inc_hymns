@@ -123,26 +123,16 @@
                     document.getElementById("searchForm").submit();
                 }
 
-                // Function to handle AJAX search on input change
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchTerm = this.value;
-        const url = new URL(window.location.href);
-        url.searchParams.set('query', searchTerm);
+// Function to handle AJAX search on input change
+document.getElementById('searchInput').addEventListener('input', function() {
+    const searchTerm = this.value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('query', searchTerm);
+    url.searchParams.delete('page'); // Remove the page parameter
 
-        
-                    // Redirect to the updated URL
-                    window.location.href = url.href; 
-
-        // fetch(url)
-        //     .then(response => response.text())
-        //     .then(html => {
-        //         const parser = new DOMParser();
-        //         const doc = parser.parseFromString(html, 'text/html');
-        //         const musicList = doc.getElementById('musicList');
-        //         document.getElementById('musicList').innerHTML = musicList.innerHTML;
-        //         document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
-        //     });
-    });
+    // Redirect to the updated URL
+    window.location.href = url.href; 
+});
 
                 document.getElementById('languageDropdown').addEventListener('change', function() {
                     const languageId = this.value;
