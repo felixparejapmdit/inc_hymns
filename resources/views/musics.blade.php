@@ -72,14 +72,13 @@
 <select name="language_id" id="languageDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
     <option value="All" {{ request('language_id') == 'All' ? 'selected' : '' }}>All languages</option>
     @foreach($languages as $language)
-        @if($language->name == 'Tagalog')
-            <option value="{{ $language->id }}" selected>{{ $language->name }}</option>
+        @if($loop->first && !request('language_id'))
+            <option value="{{ $language->id }}" {{ $language->name == 'Tagalog' ? 'selected' : '' }}>{{ $language->name }}</option>
         @else
-            <option value="{{ $language->id }}">{{ $language->name }}</option>
+            <option value="{{ $language->id }}" {{ request('language_id') == $language->id ? 'selected' : '' }}>{{ $language->name }}</option>
         @endif
     @endforeach
-</select>
-            
+</select> 
             <!-- Category Dropdown -->
             <select name="category_ids[]" id="categoryDropdown" class="rounded-md" style="height:38px;margin-left:2px;margin-right:2px;" onkeypress="handleDropdownEnterKey(event, 'searchForm')">
                 <option value="All" {{ in_array('All', request('category_ids', [])) ? 'selected' : '' }}>All categories</option>
@@ -125,21 +124,25 @@
                 }
 
                 // Function to handle AJAX search on input change
-    // document.getElementById('searchInput').addEventListener('input', function() {
-    //     const searchTerm = this.value;
-    //     const url = new URL(window.location.href);
-    //     url.searchParams.set('query', searchTerm);
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('query', searchTerm);
 
-    //     fetch(url)
-    //         .then(response => response.text())
-    //         .then(html => {
-    //             const parser = new DOMParser();
-    //             const doc = parser.parseFromString(html, 'text/html');
-    //             const musicList = doc.getElementById('musicList');
-    //             document.getElementById('musicList').innerHTML = musicList.innerHTML;
-    //             document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
-    //         });
-    // });
+        
+                    // Redirect to the updated URL
+                    window.location.href = url.href; 
+
+        // fetch(url)
+        //     .then(response => response.text())
+        //     .then(html => {
+        //         const parser = new DOMParser();
+        //         const doc = parser.parseFromString(html, 'text/html');
+        //         const musicList = doc.getElementById('musicList');
+        //         document.getElementById('musicList').innerHTML = musicList.innerHTML;
+        //         document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+        //     });
+    });
 
                 document.getElementById('languageDropdown').addEventListener('change', function() {
                     const languageId = this.value;
@@ -181,7 +184,8 @@
     // });
 
             </script>
-<script>
+
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');
 
@@ -213,7 +217,7 @@
             }
         });
     });
-</script>
+</script> -->
 
         </form>
 
