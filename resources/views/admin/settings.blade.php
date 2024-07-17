@@ -98,7 +98,6 @@
                         </div>
                         @endif
 
-
                            <!-- List of Church Hymns -->
                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="box box-default" style="border: 2px solid #bbb; margin: 10px; border-radius: 15px;">
@@ -116,7 +115,7 @@
                             </div>
                         </div>
 
-                                                   <!-- List of Playlist -->
+                            <!-- List of Playlist -->
                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="box box-default" style="border: 2px solid #bbb; margin: 10px; border-radius: 15px;">
                                 <div class="box-body text-center mt-4">

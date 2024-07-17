@@ -16,9 +16,11 @@
             </h2>
             <div>
                 <a href="{{ route('admin.settings') }}" class="btn btn-secondary">Back</a>
-                 <button id="addPlaylistButton"  class="btn btn-primary ml-1" data-toggle="modal" data-target="#addHymnModal">
-                    <i class="fas fa-plus"></i> Playlist
-                </button>
+                @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
+                    <button id="addPlaylistButton"  class="btn btn-primary ml-1" data-toggle="modal" data-target="#addHymnModal">
+                        <i class="fas fa-plus"></i> Playlist
+                    </button>
+                @endif
             </div>
         </div>
     </x-slot>

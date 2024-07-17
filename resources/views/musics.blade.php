@@ -126,29 +126,29 @@
                     document.getElementById("searchForm").submit();
                 }
 
-// Function to handle AJAX search on input change
-document.getElementById('searchInput').addEventListener('input', function() {
-    const searchTerm = this.value;
-    const url = new URL(window.location.href);
-    url.searchParams.set('query', searchTerm);
-    url.searchParams.delete('page'); // Remove the page parameter
-    url.searchParams.set('focus', 'true'); // Add a focus parameter
+                // Function to handle AJAX search on input change
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    const searchTerm = this.value;
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('query', searchTerm);
+                    url.searchParams.delete('page'); // Remove the page parameter
+                    url.searchParams.set('focus', 'true'); // Add a focus parameter
 
-    // Redirect to the updated URL
-    window.location.href = url.href;
-});
+                    // Redirect to the updated URL
+                    window.location.href = url.href;
+                });
 
-// On page load, check if the focus parameter is set
-document.addEventListener('DOMContentLoaded', function() {
-    const url = new URL(window.location.href);
-    if (url.searchParams.get('focus') === 'true') {
-        const searchInput = document.getElementById('searchInput');
-        searchInput.focus();
-        searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length); // Move cursor to the end of the input
-        url.searchParams.delete('focus'); // Remove the focus parameter
-        window.history.replaceState({}, '', url.href); // Update the URL without reloading
-    }
-});
+                // On page load, check if the focus parameter is set
+                document.addEventListener('DOMContentLoaded', function() {
+                    const url = new URL(window.location.href);
+                    if (url.searchParams.get('focus') === 'true') {
+                        const searchInput = document.getElementById('searchInput');
+                        searchInput.focus();
+                        searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length); // Move cursor to the end of the input
+                        url.searchParams.delete('focus'); // Remove the focus parameter
+                        window.history.replaceState({}, '', url.href); // Update the URL without reloading
+                    }
+                });
 
                 document.getElementById('languageDropdown').addEventListener('change', function() {
                     const languageId = this.value;
@@ -348,8 +348,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const categoryBoxes = document.querySelectorAll('.category-box');
 
-
-        
         categoryBoxes.forEach(box => {
             box.addEventListener('click', function() {
                 const categoryId = this.getAttribute('data-category-id');
@@ -371,8 +369,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
                 });
         }
-
-
 
     });
 </script>

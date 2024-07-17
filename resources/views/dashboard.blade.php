@@ -207,9 +207,11 @@ body {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-2">
                 <i class="fab fa-spotify"></i> Special Occasion Playlist
             </h2>
-            <a href="{{ route('playlists_management.index') }}" style="margin-top:-15px;">
-            <i class="fas fa-plus text-lg text-gray-500 hover:text-gray-800 cursor-pointer"></i>
-        </a>
+            @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
+                <a href="{{ route('playlists_management.index') }}" style="margin-top:-15px;">
+                    <i class="fas fa-plus text-lg text-gray-500 hover:text-gray-800 cursor-pointer"></i>
+                </a>
+            @endif
         </div>
         @foreach($playlists as $playlist)
             <?php $playlistId = $playlist->id; ?>
