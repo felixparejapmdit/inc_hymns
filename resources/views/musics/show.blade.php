@@ -815,34 +815,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 playlistModal.classList.toggle('hidden'); 
 
                 // Move the code here
-const tables = playlistsContent.querySelectorAll('.myTableClass');
-tables.forEach(table => {
-    const tds = Array.from(table.querySelectorAll('tr'));
-    const currentUrl = window.location.href;
-    tds.forEach(td => {
-        const aTag = td.querySelector('a');
-        if (aTag && aTag.href === currentUrl) {
-            td.style.fontWeight = 'bold';
-            td.style.color = '#F3F7EC';
-            td.style.backgroundColor = '#57a2c9';
-td.style.borderRadius = '10px';
-            // Add the equalizer effect
-           // Add the equalizer effect
-            const equalizerSpan = document.createElement('span');
-            equalizerSpan.className = 'equalizer';
-            const bar1 = document.createElement('span');
-            bar1.className = 'bar';
-            const bar2 = document.createElement('span');
-            bar2.className = 'bar';
-            const bar3 = document.createElement('span');
-            bar3.className = 'bar';
-            equalizerSpan.appendChild(bar1);
-            equalizerSpan.appendChild(bar2);
-            equalizerSpan.appendChild(bar3);
-            aTag.appendChild(equalizerSpan);
-        }
-    });
-});
+                const tables = playlistsContent.querySelectorAll('.myTableClass');
+                tables.forEach(table => {
+                    const tds = Array.from(table.querySelectorAll('tr'));
+                    const currentUrl = window.location.href;
+                    tds.forEach(td => {
+                        const aTag = td.querySelector('a');
+                        if (aTag && aTag.href === currentUrl) {
+                            td.style.fontWeight = 'bold';
+                            td.style.color = '#F3F7EC';
+                            td.style.backgroundColor = '#57a2c9';
+                            td.style.borderRadius = '10px';
+                        // Add the equalizer effect
+                            const equalizerSpan = document.createElement('span');
+                            equalizerSpan.className = 'equalizer';
+                            const bar1 = document.createElement('span');
+                            bar1.className = 'bar';
+                            const bar2 = document.createElement('span');
+                            bar2.className = 'bar';
+                            const bar3 = document.createElement('span');
+                            bar3.className = 'bar';
+                            equalizerSpan.appendChild(bar1);
+                            equalizerSpan.appendChild(bar2);
+                            equalizerSpan.appendChild(bar3);
+                            aTag.appendChild(equalizerSpan);
+                        }
+                    });
+                });
             })
            .catch(error => {
                 console.error('Error fetching playlists:', error);
@@ -872,7 +871,7 @@ td.style.borderRadius = '10px';
         display: inline-block;
         width: 2px;
         height: 10px;
-        background: linear-gradient(to bottom, #5eb8d3, #4975b4);
+        background: linear-gradient(to bottom, #90ef52, #6ecf2e);
         background-size: 100% 200px;
         background-position: 0% 100%;
         animation: equalizer 1s infinite;

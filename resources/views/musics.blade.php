@@ -18,7 +18,10 @@
     <x-slot name="header">
     <div class="flex justify-between items-center my-8">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('INC Hymn List') }}
+            {{ __('INC Hymn List') }} 
+            @if($churchHymn)
+                - <span style="color: #1b8fc4;">{{ $churchHymn->name === 'EM' ? 'Evangelical Mission' : $churchHymn->name }}</span>
+            @endif
         </h2>
         <div>
 

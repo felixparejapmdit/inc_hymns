@@ -52,11 +52,18 @@ class MusicController extends Controller
      }
     
      // Filter by selected church hymn
-     if ($churchHymnId) {
-      //dd($churchHymnId);
-         $queryBuilder->where('church_hymn_id', $churchHymnId);
-     }
+    //  if ($churchHymnId) {
+    //   //dd($churchHymnId);
+    //      $queryBuilder->where('church_hymn_id', $churchHymnId);
+    //  }
     
+       if ($churchHymnId) {
+        $queryBuilder->where('church_hymn_id', $churchHymnId);
+        $churchHymn = ChurchHymn::find($churchHymnId);
+    } else {
+        $churchHymn = null;
+    }
+
     // Filter by language
     if ($languageId && $languageId !== 'All') {
         
@@ -119,7 +126,7 @@ class MusicController extends Controller
     session(['url.intended' => url()->full()]);
     
     
-    return view('musics', compact('musics', 'categories', 'topCategories', 'languages', 'playlistId'));
+    return view('musics', compact('musics', 'categories', 'topCategories', 'languages', 'playlistId', 'churchHymn'));
  }
 
  public function fetchMusicsByLanguage(Request $request, $languageId = null)
