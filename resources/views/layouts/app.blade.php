@@ -40,7 +40,6 @@
     </head>
 
     <body class="font-sans antialiased">
-
     @if(Request::is('musics'))
         <!-- Fixed Icon -->
         <div id="fixedIcon" class="fixed top-1/2 transform -translate-y-1/2 left-0 z-50" style="margin-top:300px;">
@@ -70,5 +69,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+
     </body>
 </html>

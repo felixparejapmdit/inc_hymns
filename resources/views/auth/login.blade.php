@@ -88,6 +88,17 @@
       max-width: 400px; /* Adjust max-width for iPhone 16, 16 Pro, 16 Pro Max */
     }
   }
+  
+            .fixed-bottom-right {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 11px;
+                z-index: 100;
+            }
 </style>
 
 <!-- Session Status -->
@@ -124,16 +135,18 @@
     <!-- <div class="mt-2">
       <a href="{{ route('password.request') }}" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none">Forgot Password?</a>
     </div> -->
-
-    <div class="flex items-center justify-center mt-4">
-  
-
-      <x-primary-button class="ms-3">
+<div class="flex items-center justify-center mt-4">
+    <x-primary-button style="background-color: #007bff;">
         {{ __('Log in') }}
-      </x-primary-button>
-    </div>
+    </x-primary-button>
+</div>
 
   </form>
+
+          <!-- Fixed Bottom Right Div -->
+        <div class="fixed-bottom-right">
+            Developed by PMDIT
+        </div>
 </div>
 
 <script>
