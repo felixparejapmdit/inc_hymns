@@ -126,6 +126,8 @@
                     document.getElementById("searchForm").submit();
                 }
 
+
+                
                 // Function to handle AJAX search on input change
                 document.getElementById('searchInput').addEventListener('input', function() {
                     const searchTerm = this.value;

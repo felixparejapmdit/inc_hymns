@@ -768,100 +768,110 @@ if (!playlistIdParam) {
         <div id="playlistsContent"></div>
     </div>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const playlistButton = document.getElementById('playlistButton');
-    const playlistModal = document.getElementById('playlistModal');
-    const closeModal = document.getElementById('closeModal');
-    const playlistsContent = document.getElementById('playlistsContent');
+  const playlistButton = document.getElementById('playlistButton');
+  const playlistModal = document.getElementById('playlistModal');
+  const closeModal = document.getElementById('closeModal');
+  const playlistsContent = document.getElementById('playlistsContent');
 
-    playlistButton.addEventListener('click', function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const playlistId = urlParams.get('playlist_id');
+  playlistButton.addEventListener('click', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const playlistId = urlParams.get('playlist_id');
+    fetch(`/playlists?playlist_id=${playlistId}`)
+      .then(response => response.json())
+      .then(data => {
+        let content = '';
+        data.playlists.forEach(playlist => {
+          content += `
+            <div id='playlistable' class="mb-4">
+              <h4 class="text-lg font-bold text-white text-center" style="background: linear-gradient(to bottom, #59a7cb, #4f87bc);">${playlist.name}</h4>
+              <table class="myTableClass min-w-full mt-3 mb-3 table-auto w-full">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
+                    <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider"></th>
+                    <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
+                    <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+          playlist.musics.forEach((music, index) => {
+            content += `
+              <tr>
+                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
+                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">
+                  <!-- equalizer will be added here -->
+                </td>
+                <td class="text-left border-gray-300 px-4 py-0 whitespace-nowrap">
+                  <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
+                    ${music.title}
+                  </a>
+                </td>
+                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
+              </tr>
+            `;
+          });
+          content += `
+                </tbody>
+              </table>
+            </div>
+          `;
+        });
+        playlistsContent.innerHTML = content;
+        playlistModal.classList.toggle('hidden');
 
-        fetch(`/playlists?playlist_id=${playlistId}`)
-           .then(response => response.json())
-           .then(data => {
-                let content = '';
-                data.playlists.forEach(playlist => {
-                    content += `<div  id='playlistable' class="mb-4">
-                                    <h4 class="text-lg font-bold text-white" style="background: linear-gradient(to bottom, #59a7cb, #4f87bc);">${playlist.name}</h4>
-                                    <table class="myTableClass min-w-full mt-3 mb-3 table-auto w-full">
-                                        <thead>
-                                            <tr>
-                                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
-                                                <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
-                                                <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>`;
-                    playlist.musics.forEach((music, index) => {
-                        content += `<tr>
-                                        <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
-                                    <td class="text-left border-gray-300 px-4 py-2 whitespace-nowrap">
-                                        <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
-                                            ${music.title}
-                                        </a>
-                                    </td>
-                                        <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number?? '-'}</td>
-                                    </tr>`;
-                    });
-                    content += `        </tbody>
-                                    </table>
-                                </div>`;
-                });
-                playlistsContent.innerHTML = content;
-                playlistModal.classList.toggle('hidden'); 
+        const tables = playlistsContent.querySelectorAll('.myTableClass');
+        tables.forEach(table => {
+          const tds = Array.from(table.querySelectorAll('tr'));
+          const currentUrl = window.location.href;
+          tds.forEach(td => {
+            const aTag = td.querySelector('a');
+            if (aTag && aTag.href === currentUrl) {
+              td.style.fontWeight = 'bold';
+              td.style.color = '#F3F7EC';
+              td.style.backgroundColor = '#57a2c9';
+              td.style.borderRadius = '10px';
 
-                // Move the code here
-                const tables = playlistsContent.querySelectorAll('.myTableClass');
-                tables.forEach(table => {
-                    const tds = Array.from(table.querySelectorAll('tr'));
-                    const currentUrl = window.location.href;
-                    tds.forEach(td => {
-                        const aTag = td.querySelector('a');
-                        if (aTag && aTag.href === currentUrl) {
-                            td.style.fontWeight = 'bold';
-                            td.style.color = '#F3F7EC';
-                            td.style.backgroundColor = '#57a2c9';
-                            td.style.borderRadius = '10px';
-                        // Add the equalizer effect
-                            const equalizerSpan = document.createElement('span');
-                            equalizerSpan.className = 'equalizer';
-                            const bar1 = document.createElement('span');
-                            bar1.className = 'bar';
-                            const bar2 = document.createElement('span');
-                            bar2.className = 'bar';
-                            const bar3 = document.createElement('span');
-                            bar3.className = 'bar';
-                            equalizerSpan.appendChild(bar1);
-                            equalizerSpan.appendChild(bar2);
-                            equalizerSpan.appendChild(bar3);
-                            aTag.appendChild(equalizerSpan);
-                        }
-                    });
-                });
-            })
-           .catch(error => {
-                console.error('Error fetching playlists:', error);
-            });
-    });
+              // Add equalizer to the equalizer column
+              const equalizerTd = td.cells[1]; // get the equalizer column
+              const equalizerSpan = document.createElement('span');
+              equalizerSpan.className = 'equalizer';
+              const bar1 = document.createElement('span');
+              bar1.className = 'bar';
+              const bar2 = document.createElement('span');
+              bar2.className = 'bar';
+              const bar3 = document.createElement('span');
+              bar3.className = 'bar';
+              equalizerSpan.appendChild(bar1);
+              equalizerSpan.appendChild(bar2);
+              equalizerSpan.appendChild(bar3);
+              equalizerTd.appendChild(equalizerSpan);
+            }
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching playlists:', error);
+      });
+  });
 
-    closeModal.addEventListener('click', function () {
-        playlistModal.classList.add('hidden');
-    });
+  closeModal.addEventListener('click', function () {
+    playlistModal.classList.add('hidden');
+  });
 
-    // Close the modal when clicking outside of it
-    window.addEventListener('click', function(event) {
-        if (event.target === playlistModal) {
-            playlistModal.classList.add('hidden');
-        }
-    });
+  // Close the modal when clicking outside of it
+  window.addEventListener('click', function(event) {
+    if (event.target === playlistModal) {
+      playlistModal.classList.add('hidden');
+    }
+  });
 });
 </script>
 
 <style>
+    
    .equalizer {
         display: inline-block;
         margin-left: 5px;

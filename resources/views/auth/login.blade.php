@@ -89,16 +89,18 @@
     }
   }
   
-            .fixed-bottom-right {
-                position: fixed;
-                bottom: 10px;
-                right: 10px;
-                color: #fff;
-                padding: 10px;
-                border-radius: 5px;
-                font-size: 11px;
-                z-index: 100;
-            }
+.fixed-bottom-right {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: normal;
+  z-index: 100;
+  font-family: Arial; /* corrected from font-style to font-family */
+}
 </style>
 
 <!-- Session Status -->
@@ -135,18 +137,18 @@
     <!-- <div class="mt-2">
       <a href="{{ route('password.request') }}" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none">Forgot Password?</a>
     </div> -->
-<div class="flex items-center justify-center mt-4">
-    <x-primary-button style="background-color: #007bff;">
-        {{ __('Log in') }}
-    </x-primary-button>
-</div>
+    <div class="flex items-center justify-center mt-4">
+        <x-primary-button style="background-color: #007bff;">
+            {{ __('Log in') }}
+        </x-primary-button>
+    </div>
 
   </form>
 
-          <!-- Fixed Bottom Right Div -->
-        <div class="fixed-bottom-right">
-            Developed by PMDIT
-        </div>
+    <!-- Fixed Bottom Right Div -->
+  <div class="fixed-bottom-right">
+      Developed by PMD-IT
+  </div>
 </div>
 
 <script>
