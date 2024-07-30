@@ -484,12 +484,12 @@ public function show($id, $songNumber = null, $languageId = null, $playlistId = 
     
     public function update(Request $request, Music $music)
     {
-        
+       
         // Validate request data
         $validatedData = $request->validate([
             'edit_church_hymn_id' => 'required|exists:church_hymns,id',
             'edit_title' => 'required|max:255',
-            'edit_song_number' => 'nullable|numeric',
+            'edit_song_number' => 'nullable|string',
             'edit_vocals_mp3_path' => 'file|mimes:mp3,audio/mpeg|max:50000',
             'edit_organ_mp3_path' => 'nullable|file|mimes:mp3',
             'edit_preludes_mp3_path' => 'nullable|file|mimes:mp3',
@@ -504,7 +504,7 @@ public function show($id, $songNumber = null, $languageId = null, $playlistId = 
             'edit_language_id' => 'nullable|integer',
             'edit_versesused' => 'nullable|string',
         ]);
-
+ //dd($request);
       
         // Process file uploads
         $fileFields = [
