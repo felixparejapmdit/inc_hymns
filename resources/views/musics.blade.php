@@ -471,13 +471,21 @@
                     {{ $music->title }}
                 </a>
             </td> -->
-
+<!-- 
             <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
                 <a href="{{ route('musics.show', ['id' => $music->id, 'languageId' => $music->language_id, 'playlist_id' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
                     <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
                     {{ $music->title }}
                 </a>
-            </td>
+            </td> -->
+
+            <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
+    <a href="{{ route('musics.show', ['id' => $music->id, 'songNumber' => $music->song_number, 'languageId' => $music->language_id, 'playlistId' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
+        <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
+        {{ $music->title }}
+    </a>
+</td>
+
 
             <td style="width: 25% !important; white-space: normal;" class="px-4 py-3 whitespace-normal">
                 @foreach($music->categories as $category)

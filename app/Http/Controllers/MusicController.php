@@ -434,12 +434,12 @@ public function search(Request $request)
     // }
 
        // Display the specified music entry
-public function show($id, $languageId = null, $playlistId = null)
+public function show($id, $songNumber = null, $languageId = null, $playlistId = null)
 {
     // Find the music entry by ID or fallback to finding by song number and language ID
     $music = Music::where('id', $id)
-                ->orWhere(function ($query) use ($id, $languageId) {
-                    $query->where('song_number', $id)
+                ->orWhere(function ($query) use ($songNumber, $languageId) {
+                    $query->where('song_number', $songNumber)
                           ->where('language_id', $languageId);
                 })
                 ->firstOrFail();
