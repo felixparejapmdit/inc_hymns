@@ -140,28 +140,31 @@
 
 
          <!-- Create New Hymn and User -->
-         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-         @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline' && \App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline')
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">Create New</div>
             </div>
-            @endif
             <div class="mt-3 space-y-1">
                 <!-- Hymn Create Link -->
-                @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline')
-                    <x-responsive-nav-link :href="route('musics.create')" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" style="display: {{ \App\Helpers\AccessRightsHelper::checkPermission('musics.view') }}">
-                        {{ __('Hymn') }}
-                    </x-responsive-nav-link>
-                @endif
+                <a href="{{ route('musics.create') }}" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                    {{ __('Hymn') }}
+                    <div class="ml-1">
+                        <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
                 <!-- User Create Link -->
-                @if (\App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline')
-                <x-responsive-nav-link :href="route('users.create')" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                <a href="{{ route('users.create') }}" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                     {{ __('User') }}
-                </x-responsive-nav-link>
-                @endif
+                    <div class="ml-1">
+                        <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </a>
             </div>
         </div>
-
 
         <!-- User Profile and Logout -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
