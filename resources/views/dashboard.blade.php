@@ -118,13 +118,13 @@ body {
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow-sm sm:rounded-lg mt-4" style="border-radius:2rem;">
                 <div class="p-6 bg-blue" style="background-color: #79b7de;">
-                <div class="flex mt-8 gap-4">
-    <table class="min-w-full bg-blue w-full" style="background-color: #79b7de;">
+               <div class="flex mt-8 gap-4">
+    <table class="min-w-full bg-blue w-full" style="background-color: #79b7de; border-collapse: separate; border-spacing: 5px;">
         <thead>
-        <tr> 
-  <th style="background-color: #79b7de;" class="py-4 px-6 text-center table-font-size"><span style="text-transform: uppercase;color:white">HYMNS COUNT</span></th> 
-  <th style="background-color: #79b7de;" class="py-4 px-6 text-left table-font-size"><span style="text-transform: uppercase;color:white">DESCRIPTION</span></th> 
-</tr>
+            <tr>
+                <th style="background-color: #79b7de; padding: 15px 20px; color: white; text-align: center;">HYMNS COUNT</th>
+                <th style="background-color: #79b7de; padding: 15px 20px; color: white; text-align: left;">DESCRIPTION</th>
+            </tr>
         </thead>
         <tbody>
             @php
@@ -153,35 +153,29 @@ body {
                     $currentTextColor = $colorText[$colorIndex];
                 @endphp
 
-                @if($hymn->musics_count > 0)
-        <tr style="background-color: #{{ $colors[$colorIndex] }};">
-            <td class="py-8 px-6 text-center" style="color: #{{ $currentTextColor }}; padding: 20px; border-radius: 20px 0 0 20px;">
-                <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="table-font-size" style="text-decoration: none; color: #{{ $currentTextColor }};">{{ $hymn->musics_count }}</a>
-            </td>
-            <td class="py-8 px-6 text-left" style="color: #{{ $currentTextColor }}; font-size: 18px; padding: 20px; border-radius: 0 20px 20px 0;">
-                <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="table-font-size" style="text-decoration: none; color: #{{ $currentTextColor }}">{{ $serviceName }}</a>
-            </td>
-        </tr>
-    @else
-        <tr style="background-color: #{{ $colors[$colorIndex] }};">
-            <td class="py-8 px-6 text-center table-font-size" style="color: #{{ $currentTextColor }}; padding: 20px; border-radius: 20px 0 0 20px;">{{ $hymn->musics_count }}</td>
-            <td class="py-8 px-6 text-left table-font-size" style="color: #{{ $currentTextColor }}; padding: 20px; border-radius: 0 20px 20px 0;">{{ $serviceName }}</td>
-        </tr>
-    @endif
-    <!-- Add spacing row -->
-    <tr style="height: 20px;"></tr>
+                <tr>
+                    <td style="background-color: #{{ $colors[$colorIndex] }}; padding: 20px; border-radius: 20px; text-align: center; color: #{{ $currentTextColor }};">
+                        <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" style="text-decoration: none; color: #{{ $currentTextColor }};">{{ $hymn->musics_count }}</a>
+                    </td>
+                    <td style="background-color: #{{ $colors[$colorIndex] }}; padding: 20px; border-radius: 20px; text-align: left; color: #{{ $currentTextColor }};">
+                        <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" style="text-decoration: none; color: #{{ $currentTextColor }}">{{ $serviceName }}</a>
+                    </td>
+                </tr>
 
+                <!-- Add spacing row -->
+                <tr style="height: 20px;"></tr>
 
                 @php
                     $colorIndex = ($colorIndex + 1) % count($colors);
                 @endphp
             @endforeach
 
-       <!-- Hymns of Music Count -->
-<tr style="background-color: #79b7de;">
-    <td class="py-8 px-6 text-center table-font-size" style="color: white; padding: 20px; border-radius: 20px 0 0 20px; border-top: 4px solid white;">{{ $totalChurchHymns->sum('musics_count') }}</td>
-    <td class="py-8 px-6 text-left table-font-size" style="color: white; padding: 20px; border-radius: 0 20px 20px 0; border-top: 4px solid white;">TOTAL HYMNS</td>
-</tr>
+
+             <!-- Hymns of Music Count -->
+            <tr style="background-color: #79b7de;">
+                <td class="py-8 px-6 text-center table-font-size" style="color: white; padding: 20px; border-top: 4px solid white;">{{ $totalChurchHymns->sum('musics_count') }}</td>
+                <td class="py-8 px-6 text-left table-font-size" style="color: white; padding: 20px; border-top: 4px solid white;">TOTAL HYMNS</td>
+            </tr>
 
             <!-- Users Count (hidden) -->
             @if($totalUsers > 0)

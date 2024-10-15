@@ -438,55 +438,115 @@
             
         <div class="container text-center">
             {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
-        </div>         
+        </div>
+        
+      <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let touchstartY = 0;
+        let touchendY = 0;
+
+        // Ensure the correct element is selected
+        const tableContainer = document.querySelector('.tableswipe');
+
+        // Log if tableContainer is found
+        if (!tableContainer) {
+            console.error('Swipe container not found!');
+            return;  // Stop execution if the container isn't found
+        }
+
+        console.log('Swipe container detected.');
+
+        // Function to handle swipe gestures
+        function handleGesture() {
+            console.log('Swipe detected. Start:', touchstartY, 'End:', touchendY);
+
+            if (touchendY < touchstartY - 50) {
+                // Swipe up detected (next page)
+                console.log('Swipe up detected');
+                const nextPageLink = document.querySelector('.pagination .page-link[rel="next"]');
+                if (nextPageLink) {
+                    window.location.href = nextPageLink.href;
+                } else {
+                    console.log('Next page link not found');
+                }
+            }
+
+            if (touchendY > touchstartY + 50) {
+                // Swipe down detected (previous page)
+                console.log('Swipe down detected');
+                const prevPageLink = document.querySelector('.pagination .page-link[rel="prev"]');
+                if (prevPageLink) {
+                    window.location.href = prevPageLink.href;
+                } else {
+                    console.log('Previous page link not found');
+                }
+            }
+        }
+
+        // Attach touch events to the table container
+        tableContainer.addEventListener('touchstart', function(e) {
+            touchstartY = e.changedTouches[0].screenY;  // Capture the starting Y position
+            console.log('Touch start detected at:', touchstartY);
+        }, false);
+
+        tableContainer.addEventListener('touchend', function(e) {
+            touchendY = e.changedTouches[0].screenY;  // Capture the ending Y position
+            console.log('Touch end detected at:', touchendY);
+            handleGesture();  // Call the gesture handler after touchend
+        }, false);
+    });
+</script>
+
+
+
+
+
     <!-- Music Table -->
-    <div class="overflow-x-auto margin:10px;" >
-    <table class="min-w-full mt-3 mb-3">
-        <thead >
-            <tr style="display:none1;">
-                <th style="width: 18% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider" onclick="sortTable(2)">
-                    Hymn # <i id="hymnSortIcon" class="fas fa-sort"></i>
-                </th>
-                <th style="width: 35% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider" onclick="sortTable(1)">
-                    Title <i id="titleSortIcon" class="fas fa-sort"></i>
-                </th>
-            
-                <th style="width: 25% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Category</th>
-                <th style="width: 15% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Language</th>
-                @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline')
-                    <th scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider">Action</th>
-                @endif
-            </tr>
-        </thead>
-    <tbody id="musicList" class="bg-white divide-y divide-gray-200">
+    <div class="overflow-x-auto tableswipe margin:10px;" >
+    <style>
+    /* Alternate row background colors */
+    tbody tr:nth-child(odd) {
+        background-color: white;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #F5F5F5;
+    }
+
+    /* Optional: Hover effect */
+    tbody tr:hover {
+        background-color: #e0e0e0;
+    }
+</style>
+
+<table class="min-w-full mt-3 mb-3">
+    <thead>
+        <tr>
+            <th style="width: 18% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider" onclick="sortTable(2)">
+                Hymn # <i id="hymnSortIcon" class="fas fa-sort"></i>
+            </th>
+            <th style="width: 35% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider" onclick="sortTable(1)">
+                Title <i id="titleSortIcon" class="fas fa-sort"></i>
+            </th>
+            <th style="width: 25% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Category</th>
+            <th style="width: 15% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Language</th>
+            @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline')
+                <th scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider">Action</th>
+            @endif
+        </tr>
+    </thead>
+    <tbody id="musicList" class="divide-y divide-gray-200">
         @foreach($musics as $index => $music)
         <tr class="hoverable">
             <td style="width: 18% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap text-center">
                 {{ $music->song_number }}
             </td>
-            
-            <!-- <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
-                <a href="{{ route('musics.show', $music->id) }}" class="flex items-center">
+            <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
+                <a href="{{ route('musics.show', ['id' => $music->id, 'songNumber' => $music->song_number, 'languageId' => $music->language_id, 'playlistId' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
                     <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
                     {{ $music->title }}
                 </a>
-            </td> -->
-<!-- 
-            <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
-                <a href="{{ route('musics.show', ['id' => $music->id, 'languageId' => $music->language_id, 'playlist_id' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
-                    <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
-                    {{ $music->title }}
-                </a>
-            </td> -->
-
-            <td style="width: 35% !important; white-space: normal;" class="px-4 py-3 whitespace-nowrap">
-    <a href="{{ route('musics.show', ['id' => $music->id, 'songNumber' => $music->song_number, 'languageId' => $music->language_id, 'playlistId' => $music->playlist_id ?? $playlistId]) }}" class="flex items-center">
-        <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
-        {{ $music->title }}
-    </a>
-</td>
-
-
+            </td>
             <td style="width: 25% !important; white-space: normal;" class="px-4 py-3 whitespace-normal">
                 @foreach($music->categories as $category)
                     {{ $loop->first ? '' : ', ' }}{{ $category->name }}
@@ -513,7 +573,7 @@
                                 </button>
                             </form>
                         @endif
-                        <!-- Add playlist icon -->
+                        
                         @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.playlist') == 'inline')
                             <button id="playlistButton{{ $music->id }}" class="btn btn-secondary playlist-button ml-1" data-music-id="{{ $music->id }}">
                                 <i class="fa-solid fa-sliders-h"></i>
@@ -530,6 +590,7 @@
         @endforeach
     </tbody>
 </table>
+
           
 <script>
     const tableContainer = document.querySelector('.overflow-x-auto');
