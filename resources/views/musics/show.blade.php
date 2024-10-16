@@ -568,34 +568,39 @@ $(document).ready(function() {
     }
 
     // Function to render PDF content
-    function renderPDF(pdfPath) {
-        // Clear the PDF container
-        $('#pdf-container').empty();
+// Function to render PDF content with error handling
+function renderPDF(pdfPath) {
+    // Clear the PDF container
+    $('#pdf-container').empty();
 
-        // Use PDF.js to render the PDF
-        pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
-            // Loop through each page and render it
-            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                pdf.getPage(pageNum).then(function(page) {
-                    var viewport = page.getViewport({ scale: 5.0 });
-                    
-                    // Create a canvas for each page
-                    var canvas = document.createElement('canvas');
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-                    $('#pdf-container').append(canvas);
+    // Use PDF.js to render the PDF with a try-catch block
+    pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
+        // Loop through each page and render it
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            pdf.getPage(pageNum).then(function(page) {
+                var viewport = page.getViewport({ scale: 5.0 });
+                
+                // Create a canvas for each page
+                var canvas = document.createElement('canvas');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                $('#pdf-container').append(canvas);
 
-                    var context = canvas.getContext('2d');
+                var context = canvas.getContext('2d');
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
 
-                    var renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
+                page.render(renderContext);
+            });
+        }
+    }).catch(function(error) {
+        console.error("Error rendering PDF:", error.message);
+        $('#pdf-container').html('<p>Failed to load PDF. ' + error.message + '</p>');
+    });
+}
 
-                    page.render(renderContext);
-                });
-            }
-        });
     }
 
 // Function to render lyrics content
@@ -797,22 +802,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 </thead>
                 <tbody>
           `;
-          playlist.musics.forEach((music, index) => {
-            content += `
-              <tr>
-                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
-                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">
-                  <!-- equalizer will be added here -->
-                </td>
-                <td class="text-left border-gray-300 px-4 py-0 whitespace-nowrap">
-                  <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
-                    ${music.title}
-                  </a>
-                </td>
-                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
-              </tr>
-            `;
-          });
+playlist.musics.forEach((music, index) => {
+    content += `
+        <tr data-index="${index}" data-path="${music.vocals_mp3_path}">
+            <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
+            <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">
+              <!-- equalizer will be added here -->
+            </td>
+            <td class="text-left border-gray-300 px-4 py-0 whitespace-nowrap">
+              <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
+                ${music.title}
+              </a>
+            </td>
+            <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
+        </tr>
+    `;
+});
+
           content += `
                 </tbody>
               </table>
@@ -904,6 +910,69 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 </style>
 
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const musicPlayer = document.getElementById('musicPlayer');
+    const audioSource = document.getElementById('audioSource');
+
+    // Attach event listener for when the audio ends
+    musicPlayer.addEventListener('ended', function() {
+        console.log("Current track ended, attempting to play next track...");
+        playNextTrack();
+    });
+
+function playNextTrack() {
+    // Get the current track's URL
+    const currentUrl = window.location.href;
+   
+    // Find all the playlist items (rows in your table)
+    const playlistItems = document.querySelectorAll('#playlistsContent table a');
+ alert(playlistItems);
+    // Loop through the playlist items and find the currently playing track
+    for (let i = 0; i < playlistItems.length; i++) {
+        const item = playlistItems[i];
+         alert(playlistItems[i]);
+        // If the current URL matches, navigate to the next track in the playlist
+        if (item.href === currentUrl) {
+            const nextItem = playlistItems[i + 1]; // Get the next item
+
+            if (nextItem) {
+                // Navigate to the next track
+                window.location.href = nextItem.href;
+            } else {
+                console.log('No more tracks in the playlist.');
+            }
+            break;
+        }
+    }
+}
+
+
+
+    function switchTrack(path) {
+        console.log("Switching to track:", path);
+        audioSource.src = `/storage/${path}`;  // Update the audio source
+        musicPlayer.load(); // Load the new track
+        musicPlayer.play(); // Start playing the new track
+    }
+
+    // Handle manual track selection
+    const playlistRows = document.querySelectorAll('tr[data-path]');
+    playlistRows.forEach(row => {
+        row.addEventListener('click', function() {
+            const path = this.getAttribute('data-path');
+            console.log("Manually selected track:", path);
+            switchTrack(path);
+
+            // Remove 'active' class from any previously active row and set the clicked one as active
+            document.querySelectorAll('tr.active').forEach(activeRow => activeRow.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
+''
+
+</script>
                 </div>
             </div>
         </div>

@@ -163,69 +163,8 @@
                     window.location.href = url.href; 
                 });
 
-    //             document.addEventListener('DOMContentLoaded', function() {
-    //     const searchInput = document.getElementById('searchInput');
-
-    //     function fetchMusics(url) {
-    //         fetch(url)
-    //             .then(response => response.json())
-    //             .then(data => {
-    //                 document.getElementById('musicList').innerHTML = data.html;
-    //                 document.querySelector('.pagination').innerHTML = data.pagination;
-    //             });
-    //     }
-
-    //     searchInput.addEventListener('input', function() {
-    //         const searchTerm = this.value;
-    //         const url = new URL(window.location.href);
-    //         url.searchParams.set('query', searchTerm);
-    //         fetchMusics(url);
-    //     });
-
-    //     document.addEventListener('click', function(event) {
-    //         if (event.target.closest('.pagination a')) {
-    //             event.preventDefault();
-    //             const url = event.target.closest('.pagination a').href;
-    //             fetchMusics(url);
-    //         }
-    //     });
-    // });
 
             </script>
-
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-
-        function fetchMusics(url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const musicList = doc.getElementById('musicList');
-                    document.getElementById('musicList').innerHTML = musicList.innerHTML;
-                    const pagination = doc.querySelector('.pagination');
-                    document.querySelector('.pagination').innerHTML = pagination.innerHTML;
-                });
-        }
-
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value;
-            const url = new URL(window.location.href);
-            url.searchParams.set('query', searchTerm);
-            fetchMusics(url);
-        });
-
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('.pagination a')) {
-                event.preventDefault();
-                const url = event.target.closest('.pagination a').href;
-                fetchMusics(url);
-            }
-        });
-    });
-</script> -->
 
         </form>
 
@@ -436,9 +375,9 @@
                 });
             </script>
             
-        <div class="container text-center">
-            {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
-        </div>
+<div class="container text-center">
+    {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
+</div>
         
       <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -448,7 +387,6 @@
         // Ensure the correct element is selected
         const tableContainer = document.querySelector('.tableswipe');
 
-        // Log if tableContainer is found
         if (!tableContainer) {
             console.error('Swipe container not found!');
             return;  // Stop execution if the container isn't found
@@ -456,7 +394,6 @@
 
         console.log('Swipe container detected.');
 
-        // Function to handle swipe gestures
         function handleGesture() {
             console.log('Swipe detected. Start:', touchstartY, 'End:', touchendY);
 
@@ -465,7 +402,7 @@
                 console.log('Swipe up detected');
                 const nextPageLink = document.querySelector('.pagination .page-link[rel="next"]');
                 if (nextPageLink) {
-                    window.location.href = nextPageLink.href;
+                    fetchPage(nextPageLink.href);  // Fetch next page content using AJAX
                 } else {
                     console.log('Next page link not found');
                 }
@@ -476,7 +413,7 @@
                 console.log('Swipe down detected');
                 const prevPageLink = document.querySelector('.pagination .page-link[rel="prev"]');
                 if (prevPageLink) {
-                    window.location.href = prevPageLink.href;
+                    fetchPage(prevPageLink.href);  // Fetch previous page content using AJAX
                 } else {
                     console.log('Previous page link not found');
                 }
@@ -485,39 +422,65 @@
 
         // Attach touch events to the table container
         tableContainer.addEventListener('touchstart', function(e) {
-            touchstartY = e.changedTouches[0].screenY;  // Capture the starting Y position
+            touchstartY = e.changedTouches[0].screenY;
             console.log('Touch start detected at:', touchstartY);
         }, false);
 
         tableContainer.addEventListener('touchend', function(e) {
-            touchendY = e.changedTouches[0].screenY;  // Capture the ending Y position
+            touchendY = e.changedTouches[0].screenY;
             console.log('Touch end detected at:', touchendY);
             handleGesture();  // Call the gesture handler after touchend
         }, false);
+
+        // Function to fetch page content using AJAX
+        function fetchPage(url) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Replace table content
+                const newTableBody = doc.querySelector('#musicList').innerHTML;
+                document.querySelector('#musicList').innerHTML = newTableBody;
+
+                // Replace both top and bottom pagination links
+                const newTopPagination = doc.querySelectorAll('.pagination');
+                document.querySelectorAll('.pagination').forEach((pagination, index) => {
+                    pagination.innerHTML = newTopPagination[index].innerHTML;
+                });
+
+                console.log('Page content updated via AJAX');
+            })
+            .catch(error => {
+                console.error('Error fetching page:', error);
+            });
+        }
     });
 </script>
-
-
-
-
 
     <!-- Music Table -->
     <div class="overflow-x-auto tableswipe margin:10px;" >
     <style>
-    /* Alternate row background colors */
-    tbody tr:nth-child(odd) {
-        background-color: white;
-    }
+        /* Alternate row background colors */
+        tbody tr:nth-child(odd) {
+            background-color: white;
+        }
 
-    tbody tr:nth-child(even) {
-        background-color: #F5F5F5;
-    }
+        tbody tr:nth-child(even) {
+            background-color: #F5F5F5;
+        }
 
-    /* Optional: Hover effect */
-    tbody tr:hover {
-        background-color: #e0e0e0;
-    }
-</style>
+        /* Optional: Hover effect */
+        tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 
 <table class="min-w-full mt-3 mb-3">
     <thead>
@@ -828,96 +791,94 @@ tbody tr:hover {
         }
     }
 </script>
-                <script>
-                var titleSortDirection = 1;
-                var hymnSortDirection = 1;
+<script>
+var titleSortDirection = 1;
+var hymnSortDirection = 1;
 
-                function sortTable(colIndex) {
-                    var table, rows, switching, i, x, y, shouldSwitch;
-                    table = document.querySelector('.min-w-full');
-                    switching = true;
-                    while (switching) {
-                        switching = false;
-                        rows = table.rows;
-                        for (i = 1; i < (rows.length - 1); i++) {
-                            shouldSwitch = false;
-                            x = rows[i].getElementsByTagName("TD")[colIndex];
-                            y = rows[i + 1].getElementsByTagName("TD")[colIndex];
-                            var xValue = x.textContent || x.innerText;
-                            var yValue = y.textContent || y.innerText;
-                            if (colIndex === 1) {
-                                if (titleSortDirection === 1) {
-                                    if (xValue.toLowerCase() > yValue.toLowerCase()) {
-                                        shouldSwitch = true;
-                                        break;
-                                    }
-                                } else {
-                                    if (xValue.toLowerCase() < yValue.toLowerCase()) {
-                                        shouldSwitch = true;
-                                        break;
-                                    }
-                                }
-                            } else if (colIndex === 2) {
-                                if (hymnSortDirection === 1) {
-                                    if (parseInt(xValue) > parseInt(yValue)) {
-                                        shouldSwitch = true;
-                                        break;
-                                    }
-                                } else {
-                                    if (parseInt(xValue) < parseInt(yValue)) {
-                                        shouldSwitch = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (shouldSwitch) {
-                            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                            switching = true;
-                        }
+function sortTable(colIndex) {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.querySelector('.min-w-full');
+    switching = true;
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[colIndex];
+            y = rows[i + 1].getElementsByTagName("TD")[colIndex];
+            var xValue = x.textContent || x.innerText;
+            var yValue = y.textContent || y.innerText;
+            if (colIndex === 1) {
+                if (titleSortDirection === 1) {
+                    if (xValue.toLowerCase() > yValue.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
                     }
-                    toggleSortIcon(colIndex);
-                }
-
-                function toggleSortIcon(colIndex) {
-                    var iconId = colIndex === 1 ? 'titleSortIcon' : 'hymnSortIcon';
-                    var icon = document.getElementById(iconId);
-                    if (icon.classList.contains('fa-sort')) {
-                        icon.classList.remove('fa-sort');
-                        icon.classList.add('fa-sort-up');
-                        if (colIndex === 1) {
-                            titleSortDirection = 1;
-                        } else if (colIndex === 2) {
-                            hymnSortDirection = 1;
-                        }
-                    } else if (icon.classList.contains('fa-sort-up')) {
-                        icon.classList.remove('fa-sort-up');
-                        icon.classList.add('fa-sort-down');
-                        if (colIndex === 1) {
-                            titleSortDirection = -1;
-                        } else if (colIndex === 2) {
-                            hymnSortDirection = -1;
-                        }
-                    } else if (icon.classList.contains('fa-sort-down')) {
-                        icon.classList.remove('fa-sort-down');
-                        icon.classList.add('fa-sort-up');
-                        if (colIndex === 1) {
-                            titleSortDirection = 1;
-                        } else if (colIndex === 2) {
-                            hymnSortDirection = 1;
-                        }
+                } else {
+                    if (xValue.toLowerCase() < yValue.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
                     }
                 }
-                </script>
+            } else if (colIndex === 2) {
+                if (hymnSortDirection === 1) {
+                    if (parseInt(xValue) > parseInt(yValue)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (parseInt(xValue) < parseInt(yValue)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
+    toggleSortIcon(colIndex);
+}
+
+function toggleSortIcon(colIndex) {
+    var iconId = colIndex === 1 ? 'titleSortIcon' : 'hymnSortIcon';
+    var icon = document.getElementById(iconId);
+    if (icon.classList.contains('fa-sort')) {
+        icon.classList.remove('fa-sort');
+        icon.classList.add('fa-sort-up');
+        if (colIndex === 1) {
+            titleSortDirection = 1;
+        } else if (colIndex === 2) {
+            hymnSortDirection = 1;
+        }
+    } else if (icon.classList.contains('fa-sort-up')) {
+        icon.classList.remove('fa-sort-up');
+        icon.classList.add('fa-sort-down');
+        if (colIndex === 1) {
+            titleSortDirection = -1;
+        } else if (colIndex === 2) {
+            hymnSortDirection = -1;
+        }
+    } else if (icon.classList.contains('fa-sort-down')) {
+        icon.classList.remove('fa-sort-down');
+        icon.classList.add('fa-sort-up');
+        if (colIndex === 1) {
+            titleSortDirection = 1;
+        } else if (colIndex === 2) {
+            hymnSortDirection = 1;
+        }
+    }
+}
+</script>
 
                     <!-- Add this script to ensure FontAwesome icons are loaded -->
                     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
                     </div>
-                    <!-- <div class="pagination flex justify-center items-center" style="padding:0px;margin-top:10px;">
-                       
-                    </div> -->
-         <div class="container text-center">
+  <!-- Bottom pagination -->
+<div class="container text-center">
     {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
 </div>
                     <!-- Message when no music is found -->
