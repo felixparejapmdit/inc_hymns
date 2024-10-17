@@ -568,39 +568,34 @@ $(document).ready(function() {
     }
 
     // Function to render PDF content
-// Function to render PDF content with error handling
-function renderPDF(pdfPath) {
-    // Clear the PDF container
-    $('#pdf-container').empty();
+    function renderPDF(pdfPath) {
+        // Clear the PDF container
+        $('#pdf-container').empty();
 
-    // Use PDF.js to render the PDF with a try-catch block
-    pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
-        // Loop through each page and render it
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            pdf.getPage(pageNum).then(function(page) {
-                var viewport = page.getViewport({ scale: 5.0 });
-                
-                // Create a canvas for each page
-                var canvas = document.createElement('canvas');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-                $('#pdf-container').append(canvas);
+        // Use PDF.js to render the PDF
+        pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
+            // Loop through each page and render it
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                pdf.getPage(pageNum).then(function(page) {
+                    var viewport = page.getViewport({ scale: 5.0 });
+                    
+                    // Create a canvas for each page
+                    var canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    $('#pdf-container').append(canvas);
 
-                var context = canvas.getContext('2d');
-                var renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
+                    var context = canvas.getContext('2d');
 
-                page.render(renderContext);
-            });
-        }
-    }).catch(function(error) {
-        console.error("Error rendering PDF:", error.message);
-        $('#pdf-container').html('<p>Failed to load PDF. ' + error.message + '</p>');
-    });
-}
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
 
+                    page.render(renderContext);
+                });
+            }
+        });
     }
 
 // Function to render lyrics content
@@ -774,15 +769,20 @@ if (!playlistIdParam) {
     </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+ document.addEventListener('DOMContentLoaded', function () {
   const playlistButton = document.getElementById('playlistButton');
   const playlistModal = document.getElementById('playlistModal');
   const closeModal = document.getElementById('closeModal');
   const playlistsContent = document.getElementById('playlistsContent');
 
-  playlistButton.addEventListener('click', function () {
+  // Handle opening of playlist modal
+  playlistButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent any default behavior from triggering
+
     const urlParams = new URLSearchParams(window.location.search);
     const playlistId = urlParams.get('playlist_id');
+
+    // Fetch playlist items
     fetch(`/playlists?playlist_id=${playlistId}`)
       .then(response => response.json())
       .then(data => {
@@ -800,33 +800,34 @@ document.addEventListener('DOMContentLoaded', function () {
                     <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
                   </tr>
                 </thead>
-                <tbody>
-          `;
-playlist.musics.forEach((music, index) => {
-    content += `
-        <tr data-index="${index}" data-path="${music.vocals_mp3_path}">
-            <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
-            <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">
-              <!-- equalizer will be added here -->
-            </td>
-            <td class="text-left border-gray-300 px-4 py-0 whitespace-nowrap">
-              <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
-                ${music.title}
-              </a>
-            </td>
-            <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
-        </tr>
-    `;
-});
-
+                <tbody>`;
+          playlist.musics.forEach((music, index) => {
+            content += `
+              <tr data-index="${index}" data-path="${music.vocals_mp3_path}">
+                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${index + 1}</td>
+                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">
+                  <!-- equalizer will be added here -->
+                </td>
+                <td class="text-left border-gray-300 px-4 py-0 whitespace-nowrap">
+                  <a href="/musics/${music.id}?playlist_id=${playlist.id}" class="text-blue-600 hover:underline">
+                    ${music.title}
+                  </a>
+                </td>
+                <td class="text-center border-gray-300 px-4 py-2 whitespace-nowrap">${music.song_number ?? '-'}</td>
+              </tr>
+            `;
+          });
           content += `
                 </tbody>
               </table>
             </div>
           `;
         });
+
+        // Insert playlist into modal content
         playlistsContent.innerHTML = content;
-        playlistModal.classList.toggle('hidden');
+        playlistModal.classList.remove('hidden'); // Open the modal
+
 
         const tables = playlistsContent.querySelectorAll('.myTableClass');
         tables.forEach(table => {
@@ -847,9 +848,7 @@ playlist.musics.forEach((music, index) => {
               const bar1 = document.createElement('span');
               bar1.className = 'bar';
               const bar2 = document.createElement('span');
-              bar2.className = 'bar';
               const bar3 = document.createElement('span');
-              bar3.className = 'bar';
               equalizerSpan.appendChild(bar1);
               equalizerSpan.appendChild(bar2);
               equalizerSpan.appendChild(bar3);
@@ -857,23 +856,71 @@ playlist.musics.forEach((music, index) => {
             }
           });
         });
+
+        // Now that playlist is loaded, call playNextTrack
+        enableNextTrackAutoPlay();
       })
       .catch(error => {
         console.error('Error fetching playlists:', error);
       });
   });
 
+  // Close modal event
   closeModal.addEventListener('click', function () {
-    playlistModal.classList.add('hidden');
+    playlistModal.classList.add('hidden'); // Hide modal
   });
 
-  // Close the modal when clicking outside of it
+  // Close modal when clicking outside
   window.addEventListener('click', function(event) {
     if (event.target === playlistModal) {
       playlistModal.classList.add('hidden');
     }
   });
 });
+
+// Function to enable next track autoplay after playlist is loaded
+function enableNextTrackAutoPlay() {
+  const playlistContent = document.getElementById('playlistsContent');
+
+  // Get all playlist items from the modal
+  const playlistItems = playlistContent.querySelectorAll('tbody tr a'); 
+
+  console.log('Playlist Items Found:', playlistItems.length);
+
+  if (playlistItems.length === 0) {
+    console.log('No playlist items found.');
+    return;
+  }
+
+  // Event listener for when the audio track ends
+  const musicPlayer = document.getElementById('musicPlayer');
+  musicPlayer.addEventListener('ended', function () {
+    console.log('Current track ended, attempting to play next track...');
+    playNextTrack(playlistItems);
+  });
+}
+
+// Function to play the next track in the playlist
+function playNextTrack(playlistItems) {
+  const currentUrl = window.location.href;
+
+  // Loop through the playlist items and find the current track
+  for (let i = 0; i < playlistItems.length; i++) {
+    const item = playlistItems[i];
+
+    if (item.href === currentUrl) {
+      const nextItem = playlistItems[i + 1]; // Get the next track
+
+      if (nextItem) {
+        console.log('Navigating to the next track:', nextItem.href);
+        window.location.href = nextItem.href; // Navigate to the next track
+      } else {
+        console.log('No more tracks in the playlist.');
+      }
+      break;
+    }
+  }
+}
 </script>
 
 <style>
@@ -910,69 +957,6 @@ playlist.musics.forEach((music, index) => {
     }
 </style>
 
-<script>
-   document.addEventListener('DOMContentLoaded', function () {
-    const musicPlayer = document.getElementById('musicPlayer');
-    const audioSource = document.getElementById('audioSource');
-
-    // Attach event listener for when the audio ends
-    musicPlayer.addEventListener('ended', function() {
-        console.log("Current track ended, attempting to play next track...");
-        playNextTrack();
-    });
-
-function playNextTrack() {
-    // Get the current track's URL
-    const currentUrl = window.location.href;
-   
-    // Find all the playlist items (rows in your table)
-    const playlistItems = document.querySelectorAll('#playlistsContent table a');
- alert(playlistItems);
-    // Loop through the playlist items and find the currently playing track
-    for (let i = 0; i < playlistItems.length; i++) {
-        const item = playlistItems[i];
-         alert(playlistItems[i]);
-        // If the current URL matches, navigate to the next track in the playlist
-        if (item.href === currentUrl) {
-            const nextItem = playlistItems[i + 1]; // Get the next item
-
-            if (nextItem) {
-                // Navigate to the next track
-                window.location.href = nextItem.href;
-            } else {
-                console.log('No more tracks in the playlist.');
-            }
-            break;
-        }
-    }
-}
-
-
-
-    function switchTrack(path) {
-        console.log("Switching to track:", path);
-        audioSource.src = `/storage/${path}`;  // Update the audio source
-        musicPlayer.load(); // Load the new track
-        musicPlayer.play(); // Start playing the new track
-    }
-
-    // Handle manual track selection
-    const playlistRows = document.querySelectorAll('tr[data-path]');
-    playlistRows.forEach(row => {
-        row.addEventListener('click', function() {
-            const path = this.getAttribute('data-path');
-            console.log("Manually selected track:", path);
-            switchTrack(path);
-
-            // Remove 'active' class from any previously active row and set the clicked one as active
-            document.querySelectorAll('tr.active').forEach(activeRow => activeRow.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-});
-''
-
-</script>
                 </div>
             </div>
         </div>
