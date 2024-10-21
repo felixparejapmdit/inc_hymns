@@ -535,135 +535,173 @@ body {
                         </div>
                         </div>
 
-                        <style>
-.recent-activity, .hymn-chart {
-  width: 50%;
-  float: left;
-  box-sizing: border-box;
+                       <style>
+  .flex-container {
+    display: flex;
+    justify-content: space-between; /* Ensures the Recent Activity and Hymns Chart are spaced evenly */
+    align-items: flex-start; /* Aligns items at the top of the row */
+    gap: 16px; /* Adds some space between the two items */
+  }
+
+  .recent-activity {
+    width: 60%; /* Set width to 60% for Recent Activity */
+  }
+
+  .hymn-chart {
+    width: 40%; /* Set width to 40% for Hymns Chart */
+    height: 100%; /* Ensure full height alignment */
+  }
+
+  .chart-wrapper {
+    height: 100%; /* Make sure the chart wrapper takes full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Pagination Fix */
+  .pagination {
+    overflow-x: auto; /* Allow horizontal scrolling for pagination overflow */
+    padding-bottom: 10px; /* Add space to prevent overflow */
+  }
+.pagination-info {
+    display: none;
 }
+  /* Make the chart have the same height as Recent Activity */
+  .chart-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
 
-.recent-activity {
-  margin-right: 1%;
-}
+  @media (max-width: 1024px) {
+    /* For smaller screens, make it stack vertically */
+    .flex-container {
+      flex-direction: column;
+    }
 
-.hymn-chart {
-  margin-left: 1%;
-}
-                        </style>
-                        <div class="flex mt-8 gap-4 mt-4">
-                            <!-- Recent Activity -->
-                            <div class="bg-gray-100 p-4 rounded-lg shadow  w-full md:w-1/2">
-                                <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
-                                
-                                    <table class="w-full bg-white">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-4 border-b border-gray-300">Date</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">User</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">Action</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">Item</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($logs as $activity)
-                                                <tr>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $activity->created_at->format('Y-m-d H:i:s') }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ optional($activity->user)->name }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $activity->action }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">
-                                                        {{ $activity->model? class_basename($activity->model). 'ID: '. $activity->model_id. ')' : '-' }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="overflow-x-auto mt-4">
-                                    {{ $logs->links() }}
-                                </div>
-                            
-                        
-                            </div>
+    .recent-activity, .hymn-chart {
+      width: 100%;
+    }
+  }
+</style>
 
-                            <div class="bg-gray-100 p-4 rounded-lg shadow  w-full md:w-1/2">
-                            <h3 class="text-lg font-semibold mb-4">Hymns Chart</h3>
-                                <div style="position: relative; height: 350px; width: 100%;">
-                                    <canvas id="churchHymnsChart" style="position: absolute; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%;"></canvas>
-                                </div>
-                            </div>
+<div class="flex-container mt-8 gap-4 mt-4">
+  <!-- Recent Activity -->
+  <div class="recent-activity bg-gray-100 p-4 rounded-lg shadow">
+    <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
 
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            <script>
-                                // Extract labels and data from PHP variables
-                                var labels = [];
-                                var data = [];
-                                var hymnCounts = []; // Array to hold hymn counts for tooltips
+    <table class="w-full bg-white">
+      <thead>
+        <tr>
+          <th class="py-2 px-4 border-b border-gray-300">Date</th>
+          <th class="py-2 px-4 border-b border-gray-300">User</th>
+          <th class="py-2 px-4 border-b border-gray-300">Action</th>
+          <th class="py-2 px-4 border-b border-gray-300">Item</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($logs as $activity)
+          <tr>
+            <td class="py-2 px-4 border-b border-gray-300">{{ $activity->created_at->format('Y-m-d H:i:s') }}</td>
+            <td class="py-2 px-4 border-b border-gray-300">{{ optional($activity->user)->name }}</td>
+            <td class="py-2 px-4 border-b border-gray-300">{{ $activity->action }}</td>
+            <td class="py-2 px-4 border-b border-gray-300">
+              {{ $activity->model ? class_basename($activity->model) . 'ID: ' . $activity->model_id . ')' : '-' }}
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
 
-                                @foreach($totalChurchHymns as $hymn)
-                                    labels.push('{{ $hymn->name }}');
-                                    data.push({{ $hymn->musics_count }});
-                                    hymnCounts.push('{{ $hymn->musics_count }}');
-                                @endforeach
+    <div class="pagination overflow-x-auto mt-4">
+      {{ $logs->links() }}
+    </div>
+  </div>
 
-                                // Create the chart only if both labels and data arrays are not empty
-                                if (labels.length > 0 && data.length > 0) {
-                                    // Get the context of the canvas element
-                                    var ctx = document.getElementById('churchHymnsChart').getContext('2d');
+  <!-- Hymns Chart -->
+  <div class="hymn-chart bg-gray-100 p-4 rounded-lg shadow">
+    <h3 class="text-lg font-semibold mb-4">Hymns Chart</h3>
+    <div class="chart-container" style="height: 100%;">
+      <canvas id="churchHymnsChart"></canvas>
+    </div>
+  </div>
 
-                                    // Define the dataset for the chart
-                                    var dataset = {
-                                        labels: labels,
-                                        datasets: [{
-                                            label: 'Church Hymns',
-                                            data: data,
-                                            backgroundColor: [
-                                                'rgba(2, 62, 138, 1)',
-                                                'rgba(0, 119, 182, 1)',
-                                                'rgba(0, 150, 199, 1)',
-                                                'rgba(0, 180, 216, 1)',
-                                                'rgba(153, 102, 255, 0.2)',
-                                                'rgba(255, 159, 64, 0.2)'
-                                            ],
-                                            borderColor: [
-                                                'rgba(2, 62, 138, 1)',
-                                                'rgba(0, 119, 182, 1)',
-                                                'rgba(0, 150, 199, 1)',
-                                                'rgba(0, 180, 216, 1)',
-                                                'rgba(153, 102, 255, 1)',
-                                                'rgba(255, 159, 64, 1)'
-                                            ],
-                                            borderWidth: 1
-                                        }]
-                                    };
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Extract labels and data from PHP variables
+    var labels = [];
+    var data = [];
+    var hymnCounts = []; // Array to hold hymn counts for tooltips
 
-                                    // Define the chart options
-                                    var options = {
-                                        responsive: true,
-                                        maintainAspectRatio: false,
-                                        tooltips: {
-                                            callbacks: {
-                                                label: function(tooltipItem, data) {
-                                                    var label = data.labels[tooltipItem.index];
-                                                    var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                                                    return label + ': ' + value + ' Hymns';
-                                                }
-                                            }
-                                        },
-                                        legend: {
-                                            display: true,
-                                            position: 'right',
-                                        }
-                                    };
+    @foreach($totalChurchHymns as $hymn)
+      labels.push('{{ $hymn->name }}');
+      data.push({{ $hymn->musics_count }});
+      hymnCounts.push('{{ $hymn->musics_count }}');
+    @endforeach
 
-                                    // Create the chart
-                                    var churchHymnsChart = new Chart(ctx, {
-                                        type: 'pie',
-                                        data: dataset,
-                                        options: options
-                                    });
-                                }
-                            </script>
+    // Create the chart only if both labels and data arrays are not empty
+    if (labels.length > 0 && data.length > 0) {
+      // Get the context of the canvas element
+      var ctx = document.getElementById('churchHymnsChart').getContext('2d');
 
-                        </div>
+      // Define the dataset for the chart
+      var dataset = {
+        labels: labels,
+        datasets: [{
+          label: 'Church Hymns',
+          data: data,
+          backgroundColor: [
+            'rgba(2, 62, 138, 1)',
+            'rgba(0, 119, 182, 1)',
+            'rgba(0, 150, 199, 1)',
+            'rgba(0, 180, 216, 1)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(2, 62, 138, 1)',
+            'rgba(0, 119, 182, 1)',
+            'rgba(0, 150, 199, 1)',
+            'rgba(0, 180, 216, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      };
+
+      // Define the chart options
+      var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var label = data.labels[tooltipItem.index];
+              var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+              return label + ': ' + value + ' Hymns';
+            }
+          }
+        },
+        legend: {
+          display: true,
+          position: 'right',
+        }
+      };
+
+      // Create the chart
+      var churchHymnsChart = new Chart(ctx, {
+        type: 'pie',
+        data: dataset,
+        options: options
+      });
+    }
+  </script>
+</div>
+
 
                         <div class="flex mt-8 gap-4 mt-6 mb-6">             
                             <!-- Hymns by Language -->
