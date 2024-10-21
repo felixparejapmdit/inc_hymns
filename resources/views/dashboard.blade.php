@@ -564,9 +564,7 @@ body {
     overflow-x: auto; /* Allow horizontal scrolling for pagination overflow */
     padding-bottom: 10px; /* Add space to prevent overflow */
   }
-.pagination-info {
-    display: none;
-}
+
   /* Make the chart have the same height as Recent Activity */
   .chart-container {
     height: 100%;
@@ -616,8 +614,8 @@ body {
       </tbody>
     </table>
 
-    <div class="pagination overflow-x-auto mt-4">
-      {{ $logs->links() }}
+    <div class="pagination overflow-x-auto mt-4 ">
+      {{ $logs->onEachSide(5)->links() }}
     </div>
   </div>
 
