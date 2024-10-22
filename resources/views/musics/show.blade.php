@@ -901,13 +901,13 @@ if (!playlistIdParam) {
    
            // Insert playlist into modal content
         playlistModal.classList.remove('hidden'); // Open the modal
+        playlistButton.classList.remove('hidden');
 
   }
-      
-
-      
-
-
+  else{
+    playlistButton.classList.add('hidden');
+  }
+    
         const tables = playlistsContent.querySelectorAll('.myTableClass');
         tables.forEach(table => {
           const tds = Array.from(table.querySelectorAll('tr'));
@@ -1012,7 +1012,9 @@ function playNextTrack(playlistItems) {
 </script>
 
 <style>
-    
+    .hidden {
+  display: none;
+}
    .equalizer {
         display: inline-block;
         margin-left: 5px;
