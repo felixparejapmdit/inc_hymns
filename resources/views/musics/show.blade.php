@@ -388,10 +388,77 @@ audioElement.addEventListener('contextmenu', (event) => {
                     <button class="tab-button-mp3 active" data-path="{{ asset('storage/' . $music->vocals_mp3_path) }}">Vocals</button>
                     <button class="tab-button-mp3" data-path="{{ asset('storage/' . $music->organ_mp3_path) }}">Organ</button>
                     <button class="tab-button-mp3" data-path="{{ asset('storage/' . $music->preludes_mp3_path) }}">Preludes</button>
-                    <button class="tab-button ml-2 active" data-path="{{ asset('storage/' . $music->music_score_path) }}">Music Score</button>
-                    <button class="tab-button" data-path="{{ asset('storage/' . $music->lyrics_path) }}">Lyrics Only</button>
+                    <button class="tab-button ml-2 active" id="musicScoreButton" data-path="{{ asset('storage/' . $music->music_score_path) }}">Music Score</button>
+                    <button class="tab-button" id="lyricsButton" data-path="{{ asset('storage/' . $music->lyrics_path) }}">Lyrics Only</button>
                 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all tab buttons
+        const tabButtons = document.querySelectorAll('.tab-button, .tab-button-mp3');
+        let firstEnabledButton = null; // Track the first enabled button
 
+        // Loop through each button and check if the file exists
+        tabButtons.forEach(button => {
+            const filePath = button.getAttribute('data-path');
+            
+            // Send a HEAD request to check if the file exists
+            fetch(filePath, { method: 'HEAD' })
+                .then(response => {
+                    if (!response.ok) {
+                        // If the file does not exist, disable the button
+                        button.disabled = true;
+                        button.classList.add('disabled');
+                        
+                        // If the button is active, remove the active class
+                        if (button.classList.contains('active')) {
+                            button.classList.remove('active');
+                        }
+                    } else {
+                        // If the file exists, enable the button
+                        button.disabled = false;
+                        button.classList.remove('disabled');
+                        
+                        // Track the first enabled button
+                        if (!firstEnabledButton) {
+                            firstEnabledButton = button;
+                        }
+                    }
+                })
+                .catch(error => {
+                    // If there was an error (file not found), disable the button
+                    console.error(`Error checking file: ${filePath}`, error);
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                    
+                    // If the button is active, remove the active class
+                    if (button.classList.contains('active')) {
+                        button.classList.remove('active');
+                    }
+                })
+                .finally(() => {
+                    // After the check is done, ensure that there's an active button
+                    if (!document.querySelector('.tab-button.active') && firstEnabledButton) {
+                        // If no button is active, set the first enabled button as active
+                        firstEnabledButton.classList.add('active');
+                    }
+                });
+        });
+    });
+</script>
+
+<style>
+    /* Add some styling for disabled buttons */
+    .disabled {
+        cursor: not-allowed;
+        background-color: #ccc;
+        color: #888;
+    }
+
+    .active {
+        background-color: #007bff; /* Example active background */
+        color: white;
+    }
+</style>
                 <div class="flex row mt-1 mb-0">
                     <!-- Audio player -->
                     <audio id="musicPlayer" controls preload="auto" download="">
@@ -746,7 +813,7 @@ function renderLyrics(lyricsPath) {
    <i class="fas fa-music"></i>
 </button>
 
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
   const url = new URL(window.location.href);
 const playlistIdParam = url.searchParams.get('playlist_id');
@@ -755,7 +822,7 @@ if (!playlistIdParam) {
   document.getElementById('playlistButton').style.display = 'none';
 }
     });
-</script>
+</script> -->
 
 
 
@@ -768,6 +835,8 @@ if (!playlistIdParam) {
         <div id="playlistsContent"></div>
     </div>
 </div>
+
+
 <script>
  document.addEventListener('DOMContentLoaded', function () {
   const playlistButton = document.getElementById('playlistButton');
@@ -775,11 +844,8 @@ if (!playlistIdParam) {
   const closeModal = document.getElementById('closeModal');
   const playlistsContent = document.getElementById('playlistsContent');
 
-  // Handle opening of playlist modal
-  playlistButton.addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent any default behavior from triggering
 
-    const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search);
     const playlistId = urlParams.get('playlist_id');
 
     // Fetch playlist items
@@ -823,10 +889,23 @@ if (!playlistIdParam) {
             </div>
           `;
         });
+ 
+      
+      playlistsContent.innerHTML = content;
+          // Get all playlist items from the modal
+  const playlistCount = playlistsContent.querySelectorAll('tbody tr a'); 
 
-        // Insert playlist into modal content
-        playlistsContent.innerHTML = content;
+  console.log('Playlist Items Found:', playlistCount.length);
+
+  if (playlistCount.length > 0) {
+   
+           // Insert playlist into modal content
         playlistModal.classList.remove('hidden'); // Open the modal
+
+  }
+      
+
+      
 
 
         const tables = playlistsContent.querySelectorAll('.myTableClass');
@@ -856,18 +935,27 @@ if (!playlistIdParam) {
             }
           });
         });
-
+ 
         // Now that playlist is loaded, call playNextTrack
         enableNextTrackAutoPlay();
       })
       .catch(error => {
         console.error('Error fetching playlists:', error);
       });
-  });
 
-  // Close modal event
-  closeModal.addEventListener('click', function () {
-    playlistModal.classList.add('hidden'); // Hide modal
+  // Handle opening of playlist modal
+  playlistButton.addEventListener('click', function () {
+          // Get all playlist items from the modal
+          
+  const playlistsContent = document.getElementById('playlistsContent');
+  const playlistCount = playlistsContent.querySelectorAll('tbody tr a'); 
+  if (playlistCount.length > 0) {
+   
+           // Insert playlist into modal content
+        playlistModal.classList.remove('hidden'); // Open the modal
+
+  }
+    
   });
 
   // Close modal when clicking outside
