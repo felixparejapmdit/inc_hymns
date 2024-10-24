@@ -511,66 +511,75 @@ audioElement.addEventListener('contextmenu', (event) => {
             </div>
 
  <!-- JavaScript to handle dropdown and audio playback -->
- <script>
-                document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const musicPlayer = document.getElementById('musicPlayer');
+        const audioSource = document.getElementById('audioSource');
+        const tabButtons = document.querySelectorAll('.tab-button-mp3');
+        let isUserInteracted = false; // iOS Interaction Flag
 
-                    const musicPlayer = document.getElementById('musicPlayer');
+        // Function to handle user interaction for iOS autoplay
+        function setupIOSAutoplay() {
+            document.body.addEventListener('touchstart', handleUserInteraction, { once: true });
+            document.body.addEventListener('click', handleUserInteraction, { once: true });
+        }
 
-                    // Handle click events for tab buttons
-                    const tabButtons = document.querySelectorAll('.tab-button-mp3');
-                    tabButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            const path = button.getAttribute('data-path');
-                            switchTrack(path);
-                        });
-                    });
+        function handleUserInteraction() {
+            isUserInteracted = true;
+            const vocalsPath = document.querySelector('.tab-button-mp3.active').getAttribute('data-path');
+            switchTrack(vocalsPath); // Preload and play the track after interaction
+        }
 
-                    // Play vocals automatically when page loads
-                    const vocalsPath = document.querySelector('.tab-button-mp3.active').getAttribute('data-path');
-                    switchTrack(vocalsPath);
+        // Setup iOS autoplay after interaction
+        setupIOSAutoplay();
 
+        // Handle click events for tab buttons
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const path = button.getAttribute('data-path');
+                switchTrack(path);
+            });
+        });
 
-                });
-                // Get the audio element
-                const musicPlayer = document.getElementById('musicPlayer');
-                function seekAudio(event) {
-                    console.log('Click event detected on progress bar.');
-                    console.log('Offset X:', event.offsetX);
+        // Auto play the first track when the page loads after user interaction
+        const vocalsPath = document.querySelector('.tab-button-mp3.active').getAttribute('data-path');
 
-                    const clickX = event.offsetX;
-                    const width = this.offsetWidth;
-                    const audioDuration = musicPlayer.duration;
-                    const seekTime = (clickX / width) * audioDuration;
+        // Get the audio element
+        function seekAudio(event) {
+            console.log('Click event detected on progress bar.');
+            console.log('Offset X:', event.offsetX);
 
-                    console.log('Width:', width);
-                    console.log('Audio Duration:', audioDuration);
-                    console.log('Seek Time:', seekTime);
+            const clickX = event.offsetX;
+            const width = this.offsetWidth;
+            const audioDuration = musicPlayer.duration;
+            const seekTime = (clickX / width) * audioDuration;
 
-                    musicPlayer.currentTime = seekTime;
+            console.log('Width:', width);
+            console.log('Audio Duration:', audioDuration);
+            console.log('Seek Time:', seekTime);
+
+            musicPlayer.currentTime = seekTime;
+        }
+
+        // Attach seek event listener to the audio progress bar
+        musicPlayer.addEventListener('click', seekAudio);
+
+        // Function to switch to a new track
+        function switchTrack(path) {
+            audioSource.src = path;
+            musicPlayer.load();
+
+            musicPlayer.addEventListener('loadedmetadata', function() {
+                musicPlayer.currentTime = 0; // Reset currentTime to 0
+
+                // Only autoplay if the user has interacted on iOS
+                if (isUserInteracted) {
+                    musicPlayer.play();
                 }
-
-                // Attach seek event listener to the audio progress bar
-                musicPlayer.addEventListener('click', seekAudio);
-
-                let storedCurrentTime = 0; // Store the current time globally
-                function switchTrack(path) {
-                    const audioSource = document.getElementById('audioSource');
-                    const musicPlayer = document.getElementById('musicPlayer');
-                    
-                    // Set new audio source pathhhhhhh
-                    audioSource.src = path;
-                    
-                    // Load the new audio source
-                    musicPlayer.load();
-                    
-                    // Wait for the new audio source to load and start playing
-                    musicPlayer.addEventListener('loadedmetadata', function() {
-                        musicPlayer.currentTime = 0; // Reset currentTime to 0
-                        musicPlayer.play(); // Start playing the new track
-                    });
-                }
-            </script>
-
+            });
+        }
+    });
+</script>
 
             <!-- Music Score (Right Side) -->
             <div class="music-score">
