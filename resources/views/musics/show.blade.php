@@ -401,7 +401,7 @@ audioElement.addEventListener('contextmenu', (event) => {
         tabButtons.forEach(button => {
             const filePath = button.getAttribute('data-path');
             
-            alert(filePath);
+            //#alert(filePath);
             // Send a HEAD request to check if the file exists
             fetch(filePath, { method: 'HEAD' })
                 .then(response => {
