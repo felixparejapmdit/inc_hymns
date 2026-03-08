@@ -1,7 +1,7 @@
 
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="px-5 px-xl-5 mx-auto" style="max-width: 90%;">
         <div class="flex justify-between h-16">
             <div class="flex items-center">
 
@@ -13,9 +13,11 @@
                 </div>
 
       <!-- Navigation Links -->
-<div class="hidden space-x-8 sm:-my-px sm:flex">
-<span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">INC Hymns</span>
-</div>
+                <div class="hidden space-x-8 sm:-my-px sm:flex">
+                    <a href="{{ route('dashboard') }}" class="flex items-center no-underline hover:opacity-80 transition-opacity">
+                        <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">INC Hymns</span>
+                    </a>
+                </div>
 
             </div>
 

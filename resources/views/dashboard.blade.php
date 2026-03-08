@@ -1,243 +1,512 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-<!-- Include Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Include jQuery before Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
 <style>
-body {
-  background: linear-gradient(to bottom, #5eb8d3, #4975b4);
-}
-       .flex-1:hover {
-    background-color:#050C9C;
-}
-    /* Small screens (max-width: 640px) */
-@media (max-width: 640px) {
-   .flex {
+    :root {
+        --primary-gradient: linear-gradient(to bottom, #64B5D6 0%, #3E6D9C 100%);
+        --card-bg: rgba(255, 255, 255, 0.95);
+        --accent-blue: #3E6D9C;
+        --accent-gold: #FFD700;
+    }
+
+    body {
+        background: var(--primary-gradient) !important;
+        background-attachment: fixed !important;
+        min-height: 100vh;
+    }
+
+    .glass-container {
+        padding: 2px 0;
+    }
+
+    .dashboard-card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        display: flex;
         flex-direction: column;
     }
-   .bg-gray-100 {
-        margin-bottom: 20px;
+
+
+    .card-scroll-body {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 5px;
     }
-    table {
-        display: block;
-        overflow-x: auto;
+
+    .card-scroll-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .card-scroll-body::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+    }
+
+    .dashboard-card.h-100 {
+        min-height: 500px;
+    }
+
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+        .stat-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .stat-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .stat-item {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 1.5rem;
+        text-align: left;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 140px;
+        text-decoration: none !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-item i.stat-icon {
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        font-size: 5rem;
+        opacity: 0.05;
+        transform: rotate(-15deg);
+    }
+
+    .stat-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        border-color: var(--accent-blue);
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--accent-blue);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        z-index: 1;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        z-index: 1;
+    }
+
+    .total-stat {
+        background: var(--accent-blue) !important;
+        border: none !important;
+        color: white;
+    }
+
+    .total-stat .stat-value, .total-stat .stat-label {
+        color: white;
+    }
+
+    .mini-list {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+        text-align: left;
+    }
+
+    .mini-list-item {
+        font-size: 0.85rem;
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+        color: #475569;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    th, td {
-        display: inline-block;
-        vertical-align: top;
-        min-width: 100px;
-        margin-right: 10px;
-    }
-    .flex-1:hover {
-    background-color:#f7f7f7;
-}
-}
 
-/* Medium screens (min-width: 641px and max-width: 1024px) */
-@media (min-width: 641px) and (max-width: 1024px) {
-   .flex {
-        flex-direction: row;
+    .mini-list-item:last-child {
+        border-bottom: none;
     }
-   .bg-gray-100 {
-        margin-bottom: 0;
-    }
-    .flex-1:hover {
-    background-color:#f7f7f7;
-}
-.table-font-size {
-    font-size: 3vw;
-  }
-}
-
-/* Large screens (min-width: 1025px) */
-@media (min-width: 1025px) {
-   .flex {
-        flex-direction: row;
-    }
-   .bg-gray-100 {
-        margin-bottom: 0;
-    }
-    .flex-1:hover {
-    background-color:#f7f7f7;
     
-}
+    /* Quick Actions */
+    .quick-actions-bar {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 100px;
+        padding: 0.75rem 2rem;
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
 
-.table-font-size {
-    font-size: 1.5vw;
-  }
-}
+    .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--accent-blue);
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s;
+        text-decoration: none !important;
+    }
 
-/* Add this to your CSS file or <style> block */
-.table-font-size {
-  font-size: 1vw;
-}
+    .action-btn:hover {
+        transform: translateY(-2px);
+        color: #64B5D6;
+    }
 
+    /* Table Styling */
+    .table-modern {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
 
-/* Media queries to adjust font size based on screen width */
-@media only screen and (max-width: 1024px) {
- .table-font-size {
-    font-size: 3.5vw;
-  }
-}
+    .table-modern th {
+        padding: 1rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #64748b;
+        border: none;
+        position: sticky;
+        top: 0;
+        background: var(--card-bg);
+        z-index: 10;
+    }
 
-/* Media queries to adjust font size based on screen width */
-@media only screen and (max-width: 820px) {
- .table-font-size {
-    font-size: 3.5vw;
-  }
-}
+    .table-modern td {
+        padding: 1.25rem 1rem;
+        background: #f8fafc;
+        border: none;
+        transition: background 0.2s;
+    }
 
+    .table-modern tr:nth-child(even) td {
+        background: #f1f5f9;
+    }
 
-/* Media queries to adjust font size based on screen width */
-@media only screen and (max-width: 768px) {
- .table-font-size {
-    font-size: 3.5vw;
-  }
-}
+    .table-modern tr:hover td {
+        background: #e2e8f0;
+    }
 
-@media only screen and (max-width: 480px) {
- .table-font-size {
-    font-size: 5vw;
-  }
-}
+    .table-modern tr td:first-child { border-radius: 15px 0 0 15px; }
+    .table-modern tr td:last-child { border-radius: 0 15px 15px 0; }
+
+    /* Badges */
+    .badge-custom {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+    }
+
+    .badge-login { background: #dcfce7; color: #166534; }
+    .badge-view { background: #dbeafe; color: #1e40af; }
+    .badge-create { background: #fef9c3; color: #854d0e; }
+    .badge-delete { background: #fee2e2; color: #991b1b; }
+
+    /* FAB */
+    .btn-fab {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--accent-gold);
+        color: #000 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        z-index: 1000;
+        transition: all 0.3s;
+        border: none;
+    }
+
+    .btn-fab:hover {
+        transform: scale(1.1) rotate(90deg);
+        background: #e6c200;
+        color: #000;
+        text-decoration: none;
+    }
+
+    /* Advanced Dynamic Pagination Styles */
+    .pagination-centered nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .pagination-centered nav div:last-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .pagination-centered nav div:last-child a,
+    .pagination-centered nav div:last-child span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none !important;
+        background: #f8fafc;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+    }
+
+    .pagination-centered nav div:last-child a:hover {
+        background: white;
+        color: #22c55e;
+        border-color: #22c55e;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(34, 197, 94, 0.1);
+    }
+
+    /* Active Page (Green Highlight) */
+    .pagination-centered nav div:last-child span[aria-current="page"] > span,
+    .pagination-centered nav div:last-child .active-page {
+        background: #22c55e !important;
+        color: white !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Ellipsis Styling */
+    .pagination-centered nav div:last-child span[aria-disabled="true"] > span {
+        background: transparent !important;
+        border: none !important;
+        color: #cbd5e1 !important;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        cursor: default;
+    }
+
+    /* Arrow Icons */
+    .pagination-centered nav svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Hide redundant Laravel text */
+    .pagination-centered nav div:first-child {
+        display: none !important;
+    }
+
+    /* Main Grid Spacing */
+    .dashboard-grid-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+        .stat-grid {
+            grid-template-columns: 1fr;
+        }
+        .dashboard-card {
+            padding: 1.5rem;
+        }
+        .btn-fab {
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+        }
+        .pagination-centered nav div:last-child a,
+        .pagination-centered nav div:last-child span {
+            min-width: 32px;
+            height: 32px;
+            font-size: 0.75rem;
+        }
+    }
+
+    /* Accordion Styles */
+    .accordion-btn {
+        background-color: transparent;
+        color: #333;
+        cursor: pointer;
+        padding: 1.25rem;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        transition: 0.4s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f1f5f9;
+        font-weight: 600;
+        border-radius: 12px;
+    }
+
+    .accordion-btn:hover {
+        background-color: #f8fafc;
+    }
+
+    .accordion-btn i.fa-chevron-down {
+        transition: transform 0.3s ease;
+    }
+
+    .accordion-btn.active i.fa-chevron-down {
+        transform: rotate(180deg);
+    }
+
+    .panel-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: white;
+    }
+    /* Skeleton Loading */
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    .skeleton-loading {
+        background: linear-gradient(90deg, #f0f4f8 25%, #e1e7ee 50%, #f0f4f8 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 8px;
+        color: transparent !important;
+    }
+    
+    .loading-overlay {
+        opacity: 0.5;
+        pointer-events: none;
+        filter: grayscale(0.5);
+    }
 </style>
+
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden shadow-sm sm:rounded-lg mt-4" style="border-radius:2rem;">
-                <div class="p-6 bg-blue" style="background-color: #79b7de;">
-               <div class="flex mt-8 gap-4">
-    <table class="min-w-full bg-blue w-full" style="background-color: #79b7de; border-collapse: separate; border-spacing: 5px;">
-        <thead>
-            <tr>
-                <th style="background-color: #79b7de; padding: 15px 20px; color: white; text-align: center;">HYMNS COUNT</th>
-                <th style="background-color: #79b7de; padding: 15px 20px; color: white; text-align: left;">DESCRIPTION</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $colors = ['FEFDFF', 'FEFDFF', 'FEFDFF', 'FEFDFF'];
-                $colorText = ['32012F', '32012F', '32012F', '32012F'];
-                $colorIndex = 0;
-            @endphp
+    <div class="glass-container">
+        <div class="container-fluid px-5 px-xl-5 dashboard-grid-container" style="max-width: 90%; margin: 0 auto;">
+            
+            <!-- Statistics Overview (3x2 Grid) -->
+            <div class="stat-grid">
+                <!-- Total Hymns (Featured Card) -->
+                <div class="stat-item total-stat shadow-lg">
+                    <div class="stat-value">{{ $totalChurchHymns->sum('musics_count') }}</div>
+                    <div class="stat-label">Grand Total Hymns</div>
+                    <i class="fas fa-layer-group" style="font-size: 3.5rem; opacity: 0.2; position: absolute; right: 20px; bottom: 20px;"></i>
+                </div>
 
-            @foreach($totalChurchHymns as $hymn)
-                @php
-                    $serviceName = '';
-                    switch($hymn->name) {
-                        case 'AWS':
-                            $serviceName = 'Adult Worship Service';
-                            break;
-                        case 'CWS':
-                            $serviceName = 'Children Worship Service';
-                            break;
-                        case 'EM':
-                            $serviceName = 'Evangelical Mission';
-                            break;
-                        case 'Wedding':
-                            $serviceName = 'Wedding';
-                            break;
-                    }
-                    $currentTextColor = $colorText[$colorIndex];
-                @endphp
-
-                <tr>
-                    <td style="background-color: #{{ $colors[$colorIndex] }}; padding: 20px; border-radius: 20px; text-align: center; color: #{{ $currentTextColor }};">
-                        <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" style="text-decoration: none; color: #{{ $currentTextColor }};">{{ $hymn->musics_count }}</a>
-                    </td>
-                    <td style="background-color: #{{ $colors[$colorIndex] }}; padding: 20px; border-radius: 20px; text-align: left; color: #{{ $currentTextColor }};">
-                        <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" style="text-decoration: none; color: #{{ $currentTextColor }}">{{ $serviceName }}</a>
-                    </td>
-                </tr>
-
-                <!-- Add spacing row -->
-                <tr style="height: 20px;"></tr>
-
-                @php
-                    $colorIndex = ($colorIndex + 1) % count($colors);
-                @endphp
-            @endforeach
-
-
-             <!-- Hymns of Music Count -->
-            <tr style="background-color: #79b7de;">
-                <td class="py-8 px-6 text-center table-font-size" style="color: white; padding: 20px; border-top: 4px solid white;">{{ $totalChurchHymns->sum('musics_count') }}</td>
-                <td class="py-8 px-6 text-left table-font-size" style="color: white; padding: 20px; border-top: 4px solid white;">TOTAL HYMNS</td>
-            </tr>
-
-            <!-- Users Count (hidden) -->
-            @if($totalUsers > 0)
-                <tr style="background-color: #FEFDFF; border: 3px solid #686D76; display:none;">
-                    <td class="py-4 px-6 border-b border-gray-300 border-r text-center" style="color:#32012F;">{{ $totalUsers }}</td>
-                    <td class="py-4 px-6 border-b border-gray-300 text-center" style="color:#32012F; font-size: 18px;">Users</td>
-                </tr>
-            @else
-                <tr style="background-color: #FEFDFF; border: 3px solid #686D76; display:none;">
-                    <td class="py-4 px-6 border-b border-gray-300 border-r text-center" style="color:#32012F;">{{ $totalUsers }}</td>
-                    <td class="py-4 px-6 border-b border-gray-300 text-center" style="color:#32012F; font-size: 18px;">Users</td>
-                </tr>
-            @endif
-        </tbody>
-    </table>
-</div>
-
-
-<div class="flex mt-8 gap-4 w-full">
-    <div class="white-box w-full relative">
-        
-        <div class="flex justify-between items-center my-8">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-2">
-                <i class="fab fa-spotify"></i> Special Occasion Playlist
-            </h2>
-            @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
-                <a href="{{ route('playlists_management.index') }}" style="margin-top:-15px;">
-                    <i class="fas fa-plus text-lg text-gray-500 hover:text-gray-800 cursor-pointer"></i>
-                </a>
-            @endif
-        </div>
-        @foreach($playlists as $playlist)
-            <?php $playlistId = $playlist->id; ?>
-            <button class="accordion">{{ $playlist->name }}</button>
-            <div class="panel">
-                <table class="min-w-full mt-3 mb-3 table-auto w-full draggable-table" id="playlist-{{ $playlistId }}">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">#</th>
-                            <th class="px-4 py-2 bg-gray-50 text-left text-s font-large text-black uppercase tracking-wider">Title</th>
-                            <th class="px-4 py-2 bg-gray-50 text-center text-s font-large text-black uppercase tracking-wider">Hymn Number</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($playlist->musics as $key => $music)
-                            <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
-                                <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $key + 1 }}</td>
-                                <td class="text-left border-b border-gray-300 px-4 py-2 whitespace-nowrap">
-                                    <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
-                                    <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 hover:underline">
-                                        {{ $music->title }}
-                                    </a>
-                                </td>
-                                <td class="text-center border-b border-gray-300 px-4 py-2 whitespace-nowrap">{{ $music->song_number ?? '-' }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                @foreach($totalChurchHymns as $hymn)
+                    @php
+                        $serviceDetails = match($hymn->name) {
+                            'AWS' => ['name' => 'Adult Worship', 'icon' => 'fa-users', 'color' => '#3E6D9C'],
+                            'CWS' => ['name' => 'Children Worship', 'icon' => 'fa-child', 'color' => '#64B5D6'],
+                            'EM' => ['name' => 'Evangelical Mission', 'icon' => 'fa-bullhorn', 'color' => '#FFD700'],
+                            'Wedding' => ['name' => 'Wedding Icons', 'icon' => 'fa-heart', 'color' => '#f472b6'],
+                            default => ['name' => $hymn->name, 'icon' => 'fa-music', 'color' => '#94a3b8']
+                        };
+                    @endphp
+                    <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="stat-item">
+                        <div class="stat-value">{{ $hymn->musics_count }}</div>
+                        <div class="stat-label">{{ $serviceDetails['name'] }}</div>
+                        <i class="fas {{ $serviceDetails['icon'] }}" style="font-size: 2.5rem; opacity: 0.6; position: absolute; right: 20px; bottom: 20px; color: {{ $serviceDetails['color'] }};"></i>
+                    </a>
+                @endforeach
             </div>
-        @endforeach
-    </div>
-</div>
+
+
+            <!-- Playlists Section -->
+            <div class="dashboard-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="section-title mb-0">
+                        <i class="fab fa-spotify text-green-500"></i> Special Occasion Playlist
+                    </h2>
+                    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
+                        <a href="{{ route('playlists_management.index') }}" class="btn btn-sm btn-outline-primary rounded-circle shadow-sm">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    @endif
+                </div>
+
+                <div class="mt-4 card-scroll-body">
+                    @foreach($playlists as $playlist)
+                        @php $playlistId = $playlist->id; @endphp
+                        <button class="accordion-btn" onclick="toggleAccordion(this)">
+                            <span><i class="fas fa-list-ul mr-2 opacity-50"></i> {{ $playlist->name }}</span>
+                            <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                        </button>
+                        <div class="panel-content">
+                            <div class="table-responsive">
+                                <table class="table-modern draggable-table" id="playlist-{{ $playlistId }}">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" width="50">#</th>
+                                            <th>Title</th>
+                                            <th class="text-center">Hymn Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($playlist->musics as $key => $music)
+                                            <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
+                                                <td class="text-center font-bold text-gray-400">{{ $key + 1 }}</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-music mr-3 text-blue-400"></i>
+                                                        <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 font-semibold hover:underline">
+                                                            {{ $music->title }}
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center font-medium">{{ $music->song_number ?? '-' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
 
     <script>
         (function() {
@@ -405,553 +674,421 @@ body {
         })();
     </script>
 
-<style>
-  /* .flex {
-    display: flex;
-    flex-wrap: wrap;
-}
+            @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
+                <!-- Most Viewed Section -->
+                <div class="dashboard-card" id="most-viewed-card">
+                    <h3 class="section-title"><i class="fas fa-chart-line text-blue-500"></i> Most Viewed Hymns</h3>
+                    <div class="card-scroll-body flex-grow">
+                        <table class="table-modern">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Hymn #</th>
+                                    <th>Title</th>
+                                    <th class="text-center">Views</th>
+                                </tr>
+                            </thead>
+                            <tbody class="ajax-content">
+                                @foreach($mostViewedHymns as $hymn)
+                                    <tr>
+                                        <td class="text-center font-bold text-muted">{{ $hymn->song_number }}</td>
+                                        <td>
+                                            <a href="{{ route('musics.show', $hymn->id) }}" class="d-flex align-items-center text-blue-600 font-semibold hover:underline">
+                                                <i class="fas fa-music mr-2 opacity-30"></i>
+                                                {{ $hymn->title }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center"><span class="badge badge-pill badge-light px-3 py-2 font-bold">{{ $hymn->views_count }}</span></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-centered ajax-pagination">
+                        {{ $mostViewedHymns->links() }}
+                    </div>
+                </div>
 
-.mt-8 {
-    margin-top: 2rem;
-}
-
-.gap-4 {
-    gap: 1rem;
-}
-
-.w-full {
-    width: 100%;
-} */
-
-.white-box {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.accordion {
-    background-color: #F6F5F5;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-    border-radius: 10px;
-    margin-bottom:4px;
-}
-
-.active,.accordion:hover {
-    background-color: #3FA2F6;
-    color:white;
-    font-weight:bold;
-}
-
-.panel {
-    padding: 0 18px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-}
-
-.panel ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.panel li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.panel li:last-child {
-    border-bottom: none;
-}
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
-    });
-</script>
-
-
-
-                    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
-
-                    <div class="flex mt-8 gap-4 mt-4">
-                                                
-                    <!-- Most Viewed Hymns -->
-                    <div class="w-full px-2">
-                            <div class="bg-gray-100 p-4 rounded-lg shadow">
-                                <h3 class="text-lg font-semibold mb-4">Most Viewed Hymns</h3>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full bg-white mb-2">
-                                        <thead>
+                <div class="row">
+                    <!-- Recent Activity -->
+                    <div class="col-lg-7 mb-4">
+                        <div class="dashboard-card h-100" id="activity-card">
+                            <h3 class="section-title"><i class="fas fa-history text-muted"></i> Recent Activity</h3>
+                            <div class="card-scroll-body flex-grow">
+                                <table class="table-modern">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Action</th>
+                                            <th class="text-right">Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="ajax-content">
+                                        @foreach($logs as $activity)
+                                            @php
+                                                $badgeClass = match(strtolower($activity->action)) {
+                                                    'login' => 'badge-login',
+                                                    'viewed' => 'badge-view',
+                                                    'created' => 'badge-create',
+                                                    'deleted' => 'badge-delete',
+                                                    default => 'badge-light'
+                                                };
+                                            @endphp
                                             <tr>
-                                            <th style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">Hymn #</th>
-                                                <th style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">Title</th>
-                                                <th style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">Views Count</th>
+                                                <td class="font-semibold text-dark">{{ optional($activity->user)->name }}</td>
+                                                <td><span class="badge-custom {{ $badgeClass }}">{{ $activity->action }}</span></td>
+                                                <td class="small text-muted text-right">{{ $activity->created_at->diffForHumans() }}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($mostViewedHymns as $index => $hymn)
-                                                <tr>
-                                                    <td style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">{{ $hymn->song_number }}</td>
-                                                    <td style="width: 30%;" class="py-2 px-4 border-b border-gray-300">
-                                                        <a href="{{ route('musics.show', $hymn->id) }}" class="flex items-center">
-                                                            <i class="fas fa-music" style="margin-right: 12px; margin-left: 4px;color:#50727B;"></i>
-                                                            {{ $hymn->title }}
-                                                        </a>
-                                                    </td>
-                                                    <td style="width: 30%;" class="text-center py-2 px-4 border-b border-gray-300">{{ $hymn->views_count }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{ $mostViewedHymns->links() }}
-                                </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pagination-centered ajax-pagination">
+                                {{ $logs->links() }}
                             </div>
                         </div>
-                        </div>
+                    </div>
 
-                       <style>
-  .flex-container {
-    display: flex;
-    justify-content: space-between; /* Ensures the Recent Activity and Hymns Chart are spaced evenly */
-    align-items: flex-start; /* Aligns items at the top of the row */
-    gap: 16px; /* Adds some space between the two items */
-  }
-
-  .recent-activity {
-    width: 60%; /* Set width to 60% for Recent Activity */
-  }
-
-  .hymn-chart {
-    width: 40%; /* Set width to 40% for Hymns Chart */
-    height: 100%; /* Ensure full height alignment */
-  }
-
-  .chart-wrapper {
-    height: 100%; /* Make sure the chart wrapper takes full height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Pagination Fix */
-  .pagination {
-    overflow-x: auto; /* Allow horizontal scrolling for pagination overflow */
-    padding-bottom: 10px; /* Add space to prevent overflow */
-  }
-
-  /* Make the chart have the same height as Recent Activity */
-  .chart-container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-
-  @media (max-width: 1024px) {
-    /* For smaller screens, make it stack vertically */
-    .flex-container {
-      flex-direction: column;
-    }
-
-    .recent-activity, .hymn-chart {
-      width: 100%;
-    }
-  }
-</style>
-
-<div class="flex-container mt-8 gap-4 mt-4">
-  <!-- Recent Activity -->
-  <div class="recent-activity bg-gray-100 p-4 rounded-lg shadow">
-    <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
-
-    <table class="w-full bg-white">
-      <thead>
-        <tr>
-          <th class="py-2 px-4 border-b border-gray-300">Date</th>
-          <th class="py-2 px-4 border-b border-gray-300">User</th>
-          <th class="py-2 px-4 border-b border-gray-300">Action</th>
-          <th class="py-2 px-4 border-b border-gray-300">Item</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($logs as $activity)
-          <tr>
-            <td class="py-2 px-4 border-b border-gray-300">{{ $activity->created_at->format('Y-m-d H:i:s') }}</td>
-            <td class="py-2 px-4 border-b border-gray-300">{{ optional($activity->user)->name }}</td>
-            <td class="py-2 px-4 border-b border-gray-300">{{ $activity->action }}</td>
-            <td class="py-2 px-4 border-b border-gray-300">
-              {{ $activity->model ? class_basename($activity->model) . 'ID: ' . $activity->model_id . ')' : '-' }}
-            </td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
-
-    <div class="pagination overflow-x-auto mt-4 ">
-      {{ $logs->onEachSide(5)->links() }}
-    </div>
-  </div>
-
-  <!-- Hymns Chart -->
-  <div class="hymn-chart bg-gray-100 p-4 rounded-lg shadow">
-    <h3 class="text-lg font-semibold mb-4">Hymns Chart</h3>
-    <div class="chart-container" style="height: 100%;">
-      <canvas id="churchHymnsChart"></canvas>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Extract labels and data from PHP variables
-    var labels = [];
-    var data = [];
-    var hymnCounts = []; // Array to hold hymn counts for tooltips
-
-    @foreach($totalChurchHymns as $hymn)
-      labels.push('{{ $hymn->name }}');
-      data.push({{ $hymn->musics_count }});
-      hymnCounts.push('{{ $hymn->musics_count }}');
-    @endforeach
-
-    // Create the chart only if both labels and data arrays are not empty
-    if (labels.length > 0 && data.length > 0) {
-      // Get the context of the canvas element
-      var ctx = document.getElementById('churchHymnsChart').getContext('2d');
-
-      // Define the dataset for the chart
-      var dataset = {
-        labels: labels,
-        datasets: [{
-          label: 'Church Hymns',
-          data: data,
-          backgroundColor: [
-            'rgba(2, 62, 138, 1)',
-            'rgba(0, 119, 182, 1)',
-            'rgba(0, 150, 199, 1)',
-            'rgba(0, 180, 216, 1)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(2, 62, 138, 1)',
-            'rgba(0, 119, 182, 1)',
-            'rgba(0, 150, 199, 1)',
-            'rgba(0, 180, 216, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      };
-
-      // Define the chart options
-      var options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        tooltips: {
-          callbacks: {
-            label: function(tooltipItem, data) {
-              var label = data.labels[tooltipItem.index];
-              var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-              return label + ': ' + value + ' Hymns';
-            }
-          }
-        },
-        legend: {
-          display: true,
-          position: 'right',
-        }
-      };
-
-      // Create the chart
-      var churchHymnsChart = new Chart(ctx, {
-        type: 'pie',
-        data: dataset,
-        options: options
-      });
-    }
-  </script>
-</div>
-
-
-                        <div class="flex mt-8 gap-4 mt-6 mb-6">             
-                            <!-- Hymns by Language -->
-                            <div class="bg-gray-100 p-4 rounded-lg shadoww-full md:w-1/2">
-                                    <h3 class="text-lg font-semibold mb-4"># Hymns by Language</h3>
-                                    <table class="min-w-full bg-white">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-4 border-b border-gray-300">#</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">Language</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">Hymns Count</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($languageCounts as $index => $languageCount)
-                                                <tr>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $index + 1 }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $languageCount->name }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $languageCount->musics_count }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                    <!-- Hymns Chart -->
+                    <div class="col-lg-5 mb-4">
+                        <div class="dashboard-card h-100">
+                            <h3 class="section-title"><i class="fas fa-chart-pie text-purple-400"></i> Distribution</h3>
+                            <div style="height: 300px; position: relative;" class="flex-grow d-flex align-items-center">
+                                <canvas id="churchHymnsChart"></canvas>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <!-- Hymn Categories Chart -->
-<div class="w-full md:w-1/2">
-    <div class="bg-gray-100 p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold mb-4">Hymn Categories Chart</h3>
-        <div class="overflow-x-auto" style="position: relative; height: 400px;">
-            <canvas id="hymnCategoriesChart"></canvas>
+                <div class="row">
+                    <!-- Language Stats -->
+                    <div class="col-md-6 mb-4">
+                        <div class="dashboard-card h-100">
+                            <h3 class="section-title"><i class="fas fa-globe text-blue-400"></i> Hymns by Language</h3>
+                            <table class="table-modern">
+                                <tbody>
+                                    @foreach($languageCounts as $language)
+                                        <tr>
+                                            <td class="font-semibold">{{ $language->name }}</td>
+                                            <td class="text-right"><span class="badge badge-primary px-3 py-2" style="background-color: var(--accent-blue);">{{ $language->musics_count }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Categories Chart -->
+                    <div class="col-md-6 mb-4">
+                        <div class="dashboard-card h-100">
+                            <h3 class="section-title"><i class="fas fa-tags text-teal-400"></i> Categories Overview</h3>
+                            <div style="height: 320px; position: relative;">
+                                <canvas id="hymnCategoriesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Stats Grid -->
+                <div class="row">
+                    <div class="col-md-3 mb-4">
+                        <div class="dashboard-card p-4 h-100">
+                            <div class="d-flex justify-between items-center mb-3">
+                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Instrumentations</h4>
+                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $instrumentations->total() }}</span>
+                            </div>
+                            <div class="mini-list">
+                                @forelse($instrumentations as $item)
+                                    <div class="mini-list-item"><i class="fas fa-drum text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
+                                @empty
+                                    <div class="text-muted small">No data entries.</div>
+                                @endforelse
+                            </div>
+                            <div class="mt-auto">
+                                <a href="{{ route('instrumentations.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="dashboard-card p-4 h-100">
+                            <div class="d-flex justify-between items-center mb-3">
+                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Ensemble Types</h4>
+                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $ensembleTypes->total() }}</span>
+                            </div>
+                            <div class="mini-list">
+                                @forelse($ensembleTypes as $item)
+                                    <div class="mini-list-item"><i class="fas fa-users-cog text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
+                                @empty
+                                    <div class="text-muted small">No data entries.</div>
+                                @endforelse
+                            </div>
+                            <div class="mt-auto">
+                                <a href="{{ route('ensemble_types.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="dashboard-card p-4 h-100">
+                            <div class="d-flex justify-between items-center mb-3">
+                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Hymn Categories</h4>
+                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $categories->total() }}</span>
+                            </div>
+                            <div class="mini-list">
+                                @forelse($categories as $item)
+                                    <div class="mini-list-item"><i class="fas fa-bookmark text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
+                                @empty
+                                    <div class="text-muted small">No data entries.</div>
+                                @endforelse
+                            </div>
+                            <div class="mt-auto">
+                                <a href="{{ route('categories.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-4">
+                        <div class="dashboard-card p-4 h-100">
+                            <div class="d-flex justify-between items-center mb-3">
+                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Hymn Credits</h4>
+                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $credits->total() }}</span>
+                            </div>
+                            <div class="mini-list">
+                                @forelse($credits as $item)
+                                    <div class="mini-list-item"><i class="fas fa-pen-nib text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
+                                @empty
+                                    <div class="text-muted small">No data entries.</div>
+                                @endforelse
+                            </div>
+                            <div class="mt-auto">
+                                <a href="{{ route('credits.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Extract labels and data from PHP variables
-    var labels = [];
-    var data = [];
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function toggleAccordion(btn) {
+            btn.classList.toggle("active");
+            var panel = btn.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+                panel.style.paddingTop = "0";
+                panel.style.paddingBottom = "0";
+            } else {
+                panel.style.maxHeight = (panel.scrollHeight + 50) + "px";
+                panel.style.paddingTop = "1rem";
+                panel.style.paddingBottom = "1rem";
+            }
+        }
 
-    @foreach($categoryCounts as $categoryCount)
-        labels.push('{{ $categoryCount->category_name }}');
-        data.push({{ $categoryCount->musics_count }});
-    @endforeach
+        document.addEventListener('DOMContentLoaded', function() {
+            // Distribution Chart
+            var distLabels = [];
+            var distData = [];
+            @foreach($totalChurchHymns as $hymn)
+                distLabels.push('{{ $hymn->name }}');
+                distData.push({{ $hymn->musics_count }});
+            @endforeach
 
-    // Create the chart only if both labels and data arrays are not empty
-    if (labels.length > 0 && data.length > 0) {
-        // Get the context of the canvas element
-        var ctx = document.getElementById('hymnCategoriesChart').getContext('2d');
-
-        // Define the dataset for the chart
-        var dataset = {
-            labels: labels,
-            datasets: [{
-                label: 'Hymns per Category',
-                data: data,
-                backgroundColor: 'rgba(0, 119, 182, 0.7)',
-                borderColor: 'rgba(0, 119, 182, 1)',
-                borderWidth: 1
-            }]
-        };
-
-        // Define the chart options
-        var options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            tooltips: {
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        var label = data.labels[tooltipItem.index];
-                        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                        return label + ': ' + value + ' Hymns'; 
+            if (distLabels.length > 0) {
+                new Chart(document.getElementById('churchHymnsChart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: distLabels,
+                        datasets: [{
+                            data: distData,
+                            backgroundColor: ['#64B5D6', '#3E6D9C', '#2a5298', '#1e3c72', '#a5f3fc', '#06b6d4'],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                position: 'right', 
+                                labels: { 
+                                    boxWidth: 15, 
+                                    padding: 20,
+                                    font: { size: 12, weight: '600' } 
+                                } 
+                            },
+                        },
+                        cutout: '75%',
+                        animation: { animateScale: true, animateRotate: true }
                     }
-                }
-            },
-            scales: {
-                y: {
-                    ticks: {
-                        callback: function(value) {
-                            return value; 
+                });
+            }
+
+            // Categories Chart
+            var catLabels = [];
+            var catData = [];
+            @foreach($categoryCounts as $categoryCount)
+                catLabels.push('{{ $categoryCount->category_name }}');
+                catData.push({{ $categoryCount->musics_count }});
+            @endforeach
+
+            if (catLabels.length > 0) {
+                new Chart(document.getElementById('hymnCategoriesChart').getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: catLabels,
+                        datasets: [{
+                            label: 'Hymns',
+                            data: catData,
+                            backgroundColor: createGradient_cat(document.getElementById('hymnCategoriesChart').getContext('2d')),
+                            borderRadius: 10,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                                padding: 12,
+                                cornerRadius: 10
+                            }
+                        },
+                        scales: {
+                            y: { 
+                                grid: { display: false },
+                                ticks: { font: { weight: '600' } }
+                            },
+                            x: { 
+                                beginAtZero: true, 
+                                grid: { color: '#f1f5f9' },
+                                ticks: { font: { size: 10 } }
+                            }
                         }
                     }
-                }
-            },
-            legend: {
-                display: false,
+                });
             }
-        };
 
-        // Create the chart
-        var churchHymnsChart = new Chart(ctx, {
-            type: 'bar',
-            data: dataset,
-            options: options
+            function createGradient_cat(ctx) {
+                const gradient = ctx.createLinearGradient(0, 0, 400, 0);
+                gradient.addColorStop(0, '#3E6D9C'); // Navy
+                gradient.addColorStop(0.5, '#64B5D6'); // Blue
+                gradient.addColorStop(1, '#FFD700'); // Gold
+                return gradient;
+            }
         });
-    }
-</script>
 
-                        </div>
+        // Draggable Table Logic
+        (function() {
+            "use strict";
+            const tables = document.querySelectorAll('.draggable-table');
+            tables.forEach(table => {
+                const tbody = table.querySelector('tbody');
+                if (!tbody) return;
+                let currRow = null, dragElem = null, mouseDownX = 0, mouseDownY = 0, mouseX = 0, mouseY = 0, mouseDrag = false;
+                
+                tbody.addEventListener('mousedown', (e) => {
+                    if (e.button != 0) return;
+                    let target = e.target.closest('tr');
+                    if (target) {
+                        currRow = target;
+                        dragElem = target.cloneNode(true);
+                        dragElem.classList.add('position-fixed');
+                        dragElem.style.zIndex = "9999";
+                        dragElem.style.opacity = "0.8";
+                        dragElem.style.pointerEvents = "none";
+                        dragElem.style.background = "#fff";
+                        dragElem.style.boxShadow = "0 5px 15px rgba(0,0,0,0.2)";
+                        dragElem.style.width = target.offsetWidth + "px";
+                        
+                        document.body.appendChild(dragElem);
+                        currRow.classList.add('opacity-25');
+                        mouseDownX = e.clientX;
+                        mouseDownY = e.clientY;
+                        mouseDrag = true;
+                    }
+                });
 
-                        <div class="flex mt-8 gap-4 mt-6 mb-6">
-                            
+                document.addEventListener('mousemove', (e) => {
+                    if (!mouseDrag) return;
+                    dragElem.style.left = (e.clientX - (mouseDownX - currRow.getBoundingClientRect().left)) + "px";
+                    dragElem.style.top = (e.clientY - (mouseDownY - currRow.getBoundingClientRect().top)) + "px";
+                    
+                    let target = document.elementFromPoint(e.clientX, e.clientY)?.closest('tr');
+                    if (target && target !== currRow && target.parentNode === tbody) {
+                        const relPos = e.clientY - target.getBoundingClientRect().top;
+                        if (relPos < target.offsetHeight / 2) {
+                            tbody.insertBefore(currRow, target);
+                        } else {
+                            tbody.insertBefore(currRow, target.nextSibling);
+                        }
+                    }
+                });
 
-                            <!-- Instrumentations -->
-                            <div class="w-full md:w-1/2">
-                                <div class="bg-gray-100 p-4 rounded-lg shadow">
-                                <h3 class="text-lg font-semibold mb-4">Hymn Instrumentations</h3>
-                                    <table class="min-w-full bg-white">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-4 border-b border-gray-300">#</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($instrumentations as $instrumentation)
-                                                <tr>
-                                                <td style="width: 5%;" class="py-2 px-4 border-b border-gray-300">{{ $loop->iteration }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $instrumentation->name }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <!-- View All Button -->
-                                    <div class="text-center mt-4">
-                                        <a href="{{ route('instrumentations.index') }}" class="btn btn-primary">View All</a>
-                                    </div>
-                                </div>
+                document.addEventListener('mouseup', () => {
+                    if (!mouseDrag) return;
+                    currRow.classList.remove('opacity-25');
+                    if (dragElem) dragElem.remove();
+                    mouseDrag = false;
+                });
+            });
+        })();
 
-                            </div>
+        // AJAX Pagination Logic
+        $(document).on('click', '.ajax-pagination a', function(e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+            if (!url || url === '#') return;
 
-                                  <!-- Ensemble Types -->
-                                  <div class="w-full md:w-1/2">
-                                <div class="bg-gray-100 p-4 rounded-lg shadow">
-                                <h3 class="text-lg font-semibold mb-4">Hymn Ensemble Types</h3>
-                                    <table class="min-w-full bg-white">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-4 border-b border-gray-300">#</th>
-                                                <th class="py-2 px-4 border-b border-gray-300">Name</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($ensembleTypes as $ensembleType)
-                                                <tr>
-                                                    <td style="width: 5%;" class="py-2 px-4 border-b border-gray-300">{{ $loop->iteration }}</td>
-                                                    <td class="py-2 px-4 border-b border-gray-300">{{ $ensembleType->name }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <!-- View All Button -->
-                                    <div class="text-center mt-4">
-                                        <a href="{{ route('ensemble_types.index') }}" class="btn btn-primary">View All</a>
-                                    </div>
-                                </div>
+            const card = $(this).closest('.dashboard-card');
+            const cardId = card.attr('id');
+            const contentArea = card.find('.ajax-content');
+            const paginationArea = card.find('.ajax-pagination');
 
-                            </div>
-                        </div>
+            if (!cardId) {
+                console.error('AJAX Pagination failed: Dashboard card missing ID');
+                window.location.href = url; // Fallback
+                return;
+            }
 
-                        <div class="flex mt-8 gap-4 mt-6 mb-6">
-    <!-- Hymn Categories -->
-    <div class="w-full md:w-1/2">
-        <div class="bg-gray-100 p-4 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-4">Hymn Categories</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%;" class="py-2 px-4 border-b border-gray-300">#</th>
-                            <th style="width: 90%;" class="py-2 px-4 border-b border-gray-300">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($categories as $category)
-                            <tr>
-                                <td style="width: 10%;" class="py-2 px-4 border-b border-gray-300">{{ $loop->iteration }}</td>
-                                <td style="width: 90%;" class="py-2 px-4 border-b border-gray-300">{{ $category->name }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- View All Button -->
-            <div class="text-center mt-4">
-                <a href="{{ route('categories.index') }}" class="btn btn-primary">View All</a>
-            </div>
-        </div>
-    </div>
+            // Visual feedback
+            card.addClass('loading-overlay');
+            contentArea.find('tr').addClass('skeleton-loading');
 
-    <!-- Hymn Credits -->
-    <div class="flex-grow w-full md:w-1/2">
-        <div class="bg-gray-100 p-4 rounded-lg shadow">
-            <h3 class="text-lg font-semibold mb-4">Hymn Credits</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%;" class="py-2 px-4 border-b border-gray-300">#</th>
-                            <th style="width: 90%;" class="py-2 px-4 border-b border-gray-300">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($credits as $credit)
-                            <tr>
-                                <td style="width: 10%;" class="py-2 px-4 border-b border-gray-300">{{ $loop->iteration }}</td>
-                                <td style="width: 90%;" class="py-2 px-4 border-b border-gray-300">{{ $credit->name }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- View All Button -->
-            <div class="text-center mt-4">
-                <a href="{{ route('credits.index') }}" class="btn btn-primary">View All</a>
-            </div>
-        </div>
-    </div>
-</div>
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    const newHtml = $(response);
+                    const newContent = newHtml.find('#' + cardId + ' .ajax-content').html();
+                    const newPagination = newHtml.find('#' + cardId + ' .ajax-pagination').html();
 
-<style>
-    .pagination-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
+                    if (newContent) {
+                        contentArea.fadeOut(200, function() {
+                            $(this).html(newContent).fadeIn(200);
+                        });
+                        paginationArea.html(newPagination);
+                    } else {
+                        window.location.href = url;
+                    }
+                },
+                error: function() {
+                    window.location.href = url;
+                },
+                complete: function() {
+                    card.removeClass('loading-overlay');
+                    card.find('.card-scroll-body').animate({ scrollTop: 0 }, 300);
+                }
+            });
+        });
+    </script>
 
-.pagination-container .pagination {
-    display: inline-flex;
-}
-
-.pagination-container .pagination li {
-    margin: 0 10px;
-}
-
-.pagination-container .pagination li a {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #f7f7f7;
-    color: #333;
-    text-decoration: none;
-}
-
-.pagination-container .pagination li a:hover {
-    background-color: #eee;
-}
-</style>
-
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- FAB -->
+    @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.add') == 'inline')
+        <a href="{{ route('musics.create') }}" class="btn-fab" title="Add New Music">
+            <i class="fas fa-plus"></i>
+        </a>
+    @endif
 </x-app-layout>

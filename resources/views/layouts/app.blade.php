@@ -13,7 +13,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Other head elements -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="{{ asset('css/vendor/all.min.css') }}">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -27,7 +27,15 @@
                 top: 0;
                 width: 100%;
                 z-index: 50;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+                background: rgba(255, 255, 255, 0.75);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+            .fixed-header nav {
+                background: transparent !important;
+                border: none !important;
             }
             .fixed-page-heading {
                 position: fixed;
@@ -40,14 +48,6 @@
     </head>
 
     <body class="font-sans antialiased">
-    @if(Request::is('musics'))
-        <!-- Fixed Icon -->
-        <div id="fixedIcon" class="fixed top-1/2 transform -translate-y-1/2 left-0 z-50" style="margin-top:300px;">
-            <button id="showCategoriesModal" class="text-white bg-blue-900 rounded-full p-3 focus:outline-none hover:bg-blue-700" style="background-color:#5eb8d3;">
-                <i class="fas fa-info"></i>
-            </button>
-        </div>
-    @endif
 
         <div class="min-h-screen bg-white-100 dark:bg-gray-900">
             <!-- Navigation -->
@@ -65,7 +65,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="mt-44">
+            <main class="{{ isset($header) ? 'mt-44' : 'mt-2' }}">
                 {{ $slot }}
             </main>
         </div>

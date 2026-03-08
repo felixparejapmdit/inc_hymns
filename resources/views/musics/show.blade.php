@@ -18,571 +18,775 @@
 <script src="{{ asset('js/musicplayer.js') }}"></script>
 
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center my-8">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Music Details') }}
-            </h2>
-            <div>
-                <!-- <a href="{{ route('musics.index') }}" class="btn btn-secondary">Back</a> -->
-                <a href="{{ session()->has('url.intended') ? session('url.intended') : route('musics.index') }}" class="btn btn-secondary">Back</a>
-            </div>
-        </div>
-    </x-slot>
-
-    <div class="py-10 mt-4">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+    <div class="py-2 sm:py-4">
+        <div class="max-w-[90%] mx-auto sm:px-6 lg:px-8">
+            <!-- Main Immersive Content Card -->
+            <div class="main-glass-card shadow-2xl">
                 <div class="p-6">
+                    <!-- Internal Header (Standard Position) -->
+                    <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100 flex-wrap gap-4">
+                        <div class="flex items-center gap-4">
+                             <a href="{{ session()->has('url.intended') ? session('url.intended') : route('musics.index') }}" 
+                               class="flex items-center gap-3 px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold rounded-2xl transition-all active:scale-95 no-underline hover:text-slate-800 shadow-sm group">
+                                <i class="fas fa-arrow-left text-lg transition-transform group-hover:-translate-x-1"></i>
+                                <span class="hidden sm:inline">{{ __('Back') }}</span>
+                            </a>
+                            <div class="h-8 w-1 bg-blue-600 rounded-full mx-2"></div>
+                            <h2 class="text-3xl font-black text-slate-800 uppercase tracking-tighter mb-0 flex items-center gap-3">
+                                Music <span class="text-blue-600">Details</span>
+                                <button id="showMusicDetailsBtn" class="premium-header-info-btn" title="View Masterpiece Details">
+                                    <i class="fas fa-info-circle text-blue-500 hover:text-blue-600 transition-colors"></i>
+                                </button>
+                            </h2>
+                        </div>
+                    </div>
+
+
 
                 
-<!-- Show Music Details Button -->
-<button id="showMusicDetailsBtn" class="show-details-btn">
-    <i class="fas fa-info"></i>
-</button>
 
-<!-- Display Music Details -->
-<div id="musicDetails" class="music-details hidden">
-    <!-- Title -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Title:</p>
-        <p><i>{{ $music->title }}</i></p>
+<!-- Music Details Glass Overlay Drawer -->
+<div id="musicDetails" class="music-details-drawer glass-blur">
+    <div class="drawer-header">
+        <h3 class="drawer-title uppercase font-black tracking-widest">Hymn Masterpiece</h3>
+        <button class="close-drawer" onclick="toggleDetails()">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
-
-    <!-- Song Number -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Hymn Number:</p>
-        <p>{{ $music->song_number }}</p>
-    </div>
-
-    <!-- Categories -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Category:</p>
-        <ul class="list-disc list-inside" id="categoriesList">
-            @foreach ($music->categories->take(3) as $category)
-                <li>{{ $category->name }}</li>
-            @endforeach
-            @foreach ($music->categories->skip(3) as $category)
-                <li class="hidden">{{ $category->name }}</li>
-            @endforeach
-        </ul>
-        @if ($music->categories->count() > 3)
-            <button onclick="toggleList('categoriesList', this)">See More</button>
-        @endif
-    </div>
-
-    <!-- Instrumentation -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Instrumentation:</p>
-        <ul class="list-disc list-inside" id="instrumentationList">
-            @foreach ($music->instrumentations->take(3) as $instrumentation)
-                <li>{{ $instrumentation->name }}</li>
-            @endforeach
-            @foreach ($music->instrumentations->skip(3) as $instrumentation)
-                <li class="hidden">{{ $instrumentation->name }}</li>
-            @endforeach
-        </ul>
-        @if ($music->instrumentations->count() > 3)
-            <button onclick="toggleList('instrumentationList', this)">See More</button>
-        @endif
-    </div>
-
-    <!-- Ensemble Type -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Ensemble Type:</p>
-        <ul class="list-disc list-inside" id="ensembleTypeList">
-            @foreach ($music->ensembleTypes->take(3) as $ensembleType)
-                <li>{{ $ensembleType->name }}</li>
-            @endforeach
-            @foreach ($music->ensembleTypes->skip(3) as $ensembleType)
-                <li class="hidden">{{ $ensembleType->name }}</li>
-            @endforeach
-        </ul>
-        @if ($music->ensembleTypes->count() > 3)
-            <button onclick="toggleList('ensembleTypeList', this)">See More</button>
-        @endif
-    </div>
-
-    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.view_credits') == 'inline')
     
-   <!-- Lyricists -->
-<div class="mb-4">
-    <p class="font-semibold text-lg">Lyricist:</p>
-    <ul class="list-disc list-inside" id="lyricistsList">
-        @if ($music->lyricists->count() > 0)
-            @foreach ($music->lyricists->take(3) as $lyricist)
-                <li data-creator-id="{{ $lyricist->id }}" data-music-id="{{ $music->id }}">{{ $lyricist->name }}</li>
-            @endforeach
-            @foreach ($music->lyricists->skip(3) as $lyricist)
-                <li class="hidden" data-creator-id="{{ $lyricist->id }}" data-music-id="{{ $music->id }}">{{ $lyricist->name }}</li>
-            @endforeach
-        @else
-            <li>N/A</li>
-        @endif
-    </ul>
-    @if ($music->lyricists->count() > 3)
-        <button onclick="toggleList('lyricistsList', this)">See More</button>
-    @endif
-</div>
+    <div class="drawer-content p-6 scrollbar-hidden">
+        <!-- Hymn Identity Section -->
+        <div class="info-group mb-8 text-center">
+            <span class="label-sm">Central Repository</span>
+            <h4 class="font-black text-white uppercase leading-tight mt-1 mb-3" style="font-size: 1.5rem; letter-spacing: -0.5px;">{{ $music->title }}</h4>
+            <div class="d-flex justify-content-center align-items-center gap-2">
+                <span class="badge-pill-premium">Hymn #{{ $music->song_number }}</span>
+            </div>
+        </div>
 
-<!-- Composer -->
-<div class="mb-4">
-    <p class="font-semibold text-lg">Composer:</p>
-    <ul class="list-disc list-inside" id="composerList">
-        @if ($music->composers->count() > 0)
-            @foreach ($music->composers->take(3) as $composer)
-                <li data-creator-id="{{ $composer->id }}" data-music-id="{{ $music->id }}">{{ $composer->name }}</li>
-            @endforeach
-            @foreach ($music->composers->skip(3) as $composer)
-                <li class="hidden" data-creator-id="{{ $composer->id }}" data-music-id="{{ $music->id }}">{{ $composer->name }}</li>
-            @endforeach
-        @else
-            <li>N/A</li>
-        @endif
-    </ul>
-    @if ($music->composers->count() > 3)
-        <button onclick="toggleList('composerList', this)">See More</button>
-    @endif
-</div>
-
-<!-- Arranger -->
-<div class="mb-4">
-    <p class="font-semibold text-lg">Arranger:</p>
-    <ul class="list-disc list-inside" id="arrangerList">
-        @if ($music->arrangers->count() > 0)
-            @foreach ($music->arrangers->take(3) as $arranger)
-                <li data-creator-id="{{ $arranger->id }}" data-music-id="{{ $music->id }}">{{ $arranger->name }}</li>
-            @endforeach
-            @foreach ($music->arrangers->skip(3) as $arranger)
-                <li class="hidden" data-creator-id="{{ $arranger->id }}" data-music-id="{{ $music->id }}">{{ $arranger->name }}</li>
-            @endforeach
-        @else
-            <li>N/A</li>
-        @endif
-    </ul>
-    @if ($music->arrangers->count() > 3)
-        <button onclick="toggleList('arrangerList', this)">See More</button>
-    @endif
-</div>
-
-@endif
-
-    <!-- Language -->
-    <!-- <div class="mb-4">
-        <p class="font-semibold text-lg">Language:</p>
-        <p>{{ $music->language->name }}</p>
-    </div> -->
-<!-- Language -->
-<div class="mb-4">
-    <p class="font-semibold text-lg">Available Languages:</p>
-    @if($languages->isEmpty())
-        <p>No languages available for this song number.</p>
-    @else
-        @foreach($languages as $language)
-            @php
-                $musicId = \App\Models\Music::where('song_number', $music->song_number)
-                                             ->where('language_id', $language->id)
-                                             ->first()->id;
-                $currentLanguageId = request()->route('languageId');
-            @endphp
-            <p>
-                <a href="{{ route('musics.show', ['id' => $musicId, 'languageId' => $language->id, 'playlist_id' => $playlistId]) }}"
-                   class="text-blue-600 hover:underline {{ $language->id == $currentLanguageId ? 'font-bold' : '' }}">
-                    {{ $language->name }}
-                </a>
-            </p>
-        @endforeach
-    @endif
-</div>
-
-<script>
-    document.getElementById('languageSelector').addEventListener('change', function() {
-        var languageId = this.value;
-        var url = new URL(window.location.href);
-        url.searchParams.set('language_id', languageId);
-        window.location.href = url.toString();
-    });
-</script>
-
-    <!-- Verses Used -->
-    <div class="mb-4">
-        <p class="font-semibold text-lg">Verses Used:</p>
-        <p>{{ $music->verses_used }}</p>
-    </div>
-</div>
-
-
-
-<style>
-body {
-  background: linear-gradient(to bottom, #5eb8d3, #4975b4);
-}
-.hidden {
-    display: none;
-}
-li[data-creator-id]:hover {
-  font-weight: bold;
-  color:#5eb8d3;
-}
-#creatorDetails {
-    position: absolute;
-    z-index: 1000;
-    background: linear-gradient(to bottom, #5eb8d3, #4975b4);
-    border: 1px solid #ccc;
-    padding: 10px;
-    color:white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
-  max-width: 25%;
-}
-#creatorDetails img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-  </style>
-
-
-<script>
-
-// Get all list items with data-creator-id attribute
-const creatorListItems = document.querySelectorAll('[data-creator-id]');
-
-// Add event listener to each list item
-creatorListItems.forEach((item) => {
-  item.addEventListener('mouseover', (event) => {
-    const creatorId = event.target.getAttribute('data-creator-id');
-    displayCreatorDetails(creatorId, event.clientX, event.clientY);
-  });
-
-  item.addEventListener('mouseout', () => {
-    const creatorDetails = document.getElementById('creatorDetails');
-    creatorDetails.classList.add('hidden');
-  });
-});
-
-function displayCreatorDetails(creatorId, mouseX, mouseY) {
-  fetch(`/creators/${creatorId}`)
-  .then(response => response.json())
-  .then(data => {
-      const creatorDetails = document.getElementById('creatorDetails');
-      const birthdayDisplay = data.birthday? (data.birthday === '0000-00-00 00:00:00'? 'N/A' : new Date(data.birthday).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })) : 'N/A';
-      const musicBackgroundDisplay = data.music_background? data.music_background : 'N/A';
-      const nameDisplay = data.name? data.name : 'N/A';
-      const localDisplay = data.local? data.local : 'N/A';
-      const districtDisplay = data.district? data.district : 'N/A';
-      const dutyDisplay = data.duty? data.duty : 'N/A';
-
-
-      let imageSource = '/images/blank_image.png';
-      
-     
-      if (data.image) {
-        imageSource = `/storage/${data.image}`;
-      }
-     // alert(imageSource);
-      creatorDetails.innerHTML = `
-        <h1><b>${nameDisplay}</b></h1>
-         <img src="${imageSource}" alt="${nameDisplay}" style="width:200px; height:200px;">
-        <p>Local: ${localDisplay}</p>
-        <p>District: ${districtDisplay}</p>
-        <p>Duty: ${dutyDisplay}</p>
-        <p>Birthday: ${birthdayDisplay}</p>
-        <p>Music Background: ${musicBackgroundDisplay}</p>
-      `;
-      creatorDetails.style.left = `${mouseX}px`;
-      creatorDetails.style.top = `${mouseY}px`;
-      creatorDetails.classList.remove('hidden');
-    });
-}
-
-function toggleList(listId, button) {
-    const list = document.getElementById(listId);
-    const items = list.querySelectorAll('li.hidden');
-
-    if (list.classList.contains('expanded')) {
-        list.classList.remove('expanded');
-        items.forEach(item => {
-            item.style.display = 'none';
-        });
-        button.innerText = 'See More';
-    } else {
-        list.classList.add('expanded');
-        items.forEach(item => {
-            item.style.display = 'list-item';
-        });
-        button.innerText = 'See Less';
-    }
-}
-
-document.getElementById('showMusicDetailsBtn').addEventListener('click', function() {
-    const musicDetails = document.getElementById('musicDetails');
-    const creatorDetails = document.getElementById('creatorDetails');
-    musicDetails.classList.toggle('hidden');
-    creatorDetails.classList.add('hidden'); // Add this line
-   
-
-    const icon = this.querySelector('i');
-    if (musicDetails.classList.contains('hidden')) {
-        icon.classList.remove('fa-arrow-left');
-        icon.classList.add('fa-arrow-right');
-    } else {
-        icon.classList.remove('fa-arrow-right');
-        icon.classList.add('fa-arrow-left');
-    }
-});
-
-
-</script>
-<div id="creatorDetails" class="hidden">
-    <!-- Creator details will be populated here -->
-</div>
-<div class="music-container">
-
-    <div class="music-player-details">
-
-  <script>
-    // Get the audio element
-const audioElement = document.getElementById('musicPlayer');
-
-// Add an event listener to the contextmenu event
-audioElement.addEventListener('contextmenu', (event) => {
-  // Prevent the default context menu from appearing
-  event.preventDefault();
-
-  // Create a custom context menu
-  const contextMenu = document.createElement('menu');
-  contextMenu.id = 'customContextMenu';
-
-  // Add menu items (e.g., play, pause, etc.)
-  // You can add or remove items as per your requirements
-  const playMenuItem = document.createElement('menuitem');
-  playMenuItem.label = 'Play';
-  contextMenu.appendChild(playMenuItem);
-
-  const pauseMenuItem = document.createElement('menuitem');
-  pauseMenuItem.label = 'Pause';
-  contextMenu.appendChild(pauseMenuItem);
-
-  // Show the custom context menu
-  contextMenu.style.top = `${event.clientY}px`;
-  contextMenu.style.left = `${event.clientX}px`;
-  document.body.appendChild(contextMenu);
-
-  // Remove the custom context menu when it's no longer needed
-  document.addEventListener('click', () => {
-    document.body.removeChild(contextMenu);
-  });
-});
-
-</script>
-           
-
-            <div class="music-player" >
-                <!-- Tab buttons -->
-                <div class="flex tab-buttons">
-                    <button class="tab-button-mp3 active" data-path="{{ asset('storage/' . $music->vocals_mp3_path) }}">Vocals</button>
-                    <button class="tab-button-mp3" data-path="{{ asset('storage/' . $music->organ_mp3_path) }}">Organ</button>
-                    <button class="tab-button-mp3" data-path="{{ asset('storage/' . $music->preludes_mp3_path) }}">Preludes</button>
-                    <button class="tab-button ml-2 active" id="musicScoreButton" data-path="{{ asset('storage/' . $music->music_score_path) }}">Music Score</button>
-                    <button class="tab-button" id="lyricsButton" data-path="{{ asset('storage/' . $music->lyrics_path) }}">Lyrics Only</button>
-                </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get all tab buttons
-        const tabButtons = document.querySelectorAll('.tab-button, .tab-button-mp3');
-        let firstEnabledButton = null; // Track the first enabled button
-
-        // Loop through each button and check if the file exists
-        tabButtons.forEach(button => {
-            const filePath = button.getAttribute('data-path');
-            
-            //#alert(filePath);
-            // Send a HEAD request to check if the file exists
-            fetch(filePath, { method: 'HEAD' })
-                .then(response => {
-                    if (!response.ok) {
-                        // If the file does not exist, disable the button
-                        button.disabled = true;
-                        button.classList.add('disabled');
-                        
-                        // If the button is active, remove the active class
-                        if (button.classList.contains('active')) {
-                            button.classList.remove('active');
-                        }
-                    } else {
-                        // If the file exists, enable the button
-                        button.disabled = false;
-                        button.classList.remove('disabled');
-                        
-                        // Track the first enabled button
-                        if (!firstEnabledButton) {
-                            firstEnabledButton = button;
-                        }
-                    }
-                })
-                .catch(error => {
-                    // If there was an error (file not found), disable the button
-                    console.error(`Error checking file: ${filePath}`, error);
-                    button.disabled = true;
-                    button.classList.add('disabled');
-                    
-                    // If the button is active, remove the active class
-                    if (button.classList.contains('active')) {
-                        button.classList.remove('active');
-                    }
-                })
-                .finally(() => {
-                    // After the check is done, ensure that there's an active button
-                    if (!document.querySelector('.tab-button.active') && firstEnabledButton) {
-                        // If no button is active, set the first enabled button as active
-                        firstEnabledButton.classList.add('active');
-                    }
-                });
-        });
-    });
-</script>
-
-<style>
-    /* Add some styling for disabled buttons */
-    .disabled {
-        cursor: not-allowed;
-        background-color: #ccc;
-        color: #888;
-    }
-
-    .active {
-        background-color: #007bff; /* Example active background */
-        color: white;
-    }
-</style>
-                <div class="flex row mt-1 mb-0">
-                    <!-- Audio player -->
-                    <audio id="musicPlayer" controls preload="auto" download="">
-                        <!-- Include source elements -->
-                        <source id="audioSource" src="#" type="audio/mpeg">
-
-                    </audio>
-                    <!-- Download button -->
-                    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download') == 'inline')
-                    <button id="downloadButton" class="btn btn-primary">Download</button>
+        <!-- Language Selection (Internal) -->
+        <div class="metadata-section mb-8">
+            <div class="section-divider mb-4">
+                <span>Available Editions</span>
+            </div>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                @foreach($languages as $lang)
+                    @php
+                        $targetMusic = \App\Models\Music::where('song_number', $music->song_number)
+                                                     ->where('language_id', $lang->id)
+                                                     ->first();
+                        $isCurrent = $lang->id == $music->language_id;
+                    @endphp
+                    @if($targetMusic)
+                    <a href="{{ route('musics.show', ['id' => $targetMusic->id, 'languageId' => $lang->id, 'playlist_id' => $playlistId]) }}" 
+                       class="language-pill {{ $isCurrent ? 'active' : '' }}">
+                        {{ $lang->name }}
+                    </a>
                     @endif
-                    <!-- JavaScript to handle download -->
-                    <script>
-                        document.getElementById('downloadButton').addEventListener('click', function() {
-                            const audioSource = document.getElementById('audioSource');
-                            const musicPlayer = document.getElementById('musicPlayer');
+                @endforeach
+            </div>
+        </div>
 
-                            // Get all tab buttons
-                            const tabButtons = document.querySelectorAll('.tab-button-mp3');
-
-                            // Function to get the active tab button
-                            function getActiveTabButton() {
-                            let activeTabButton = null;
-                            tabButtons.forEach((button) => {
-                                if (button.classList.contains('active')) {
-                                activeTabButton = button;
-                                }
-                            });
-                            return activeTabButton;
-                            }
-
-                            // Get the active tab button
-                            const activeTabButton = getActiveTabButton();
-
-                            const title = '{{ $music->title }}';
-                            const trackType = activeTabButton ? activeTabButton.textContent.trim() : '';
-
-                            const downloadLink = document.createElement('a');
-                            downloadLink.href = audioSource.src;
-                            downloadLink.download = `${title}_${trackType}`
-                            downloadLink.click();
-                        });
-                    </script>
-                    <!-- Tab Lyrics -->
-                    <div class="tab-buttons">
-                        
+        <!-- Details Grid -->
+        <div class="metadata-section mb-8">
+            <div class="section-divider mb-4">
+                <span>Classification</span>
+            </div>
+            
+            <div class="row g-3">
+                <div class="col-12 mb-3">
+                    <label class="custom-label">Categorization</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        @forelse ($music->categories as $category)
+                            <span class="badge-pill-glass">{{ $category->name }}</span>
+                        @empty
+                            <span class="text-white/40 text-xs italic">Uncategorized</span>
+                        @endforelse
                     </div>
                 </div>
 
-            </div>
+                <div class="col-6 mb-3">
+                    <label class="custom-label">Instrumentation</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        @forelse ($music->instrumentations as $inst)
+                            <span class="badge-pill-glass accent-gold">{{ $inst->name }}</span>
+                        @empty
+                            <span class="text-white/40 text-xs italic">Default</span>
+                        @endforelse
+                    </div>
+                </div>
 
- <!-- JavaScript to handle dropdown and audio playback -->
+                <div class="col-6 mb-3">
+                    <label class="custom-label">Ensemble</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        @forelse ($music->ensembleTypes as $ens)
+                            <span class="badge-pill-glass accent-blue">{{ $ens->name }}</span>
+                        @empty
+                            <span class="text-white/40 text-xs italic">Standard</span>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.view_credits') == 'inline')
+            <div class="metadata-section mb-8">
+                <div class="section-divider mb-4">
+                    <span>Creator Credits</span>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="custom-label">Lyricist</label>
+                    <ul class="creator-grid">
+                        @forelse ($music->lyricists as $lyricist)
+                            <li class="creator-item" data-creator-id="{{ $lyricist->id }}">
+                                <i class="fas fa-feather-alt opacity-50 mr-2"></i> {{ $lyricist->name }}
+                            </li>
+                        @empty
+                            <li class="text-white/40 text-xs italic">Credit Pending</li>
+                        @endforelse
+                    </ul>
+                </div>
+
+                <div class="mb-4">
+                    <label class="custom-label">Composer</label>
+                    <ul class="creator-grid">
+                        @forelse ($music->composers as $composer)
+                            <li class="creator-item" data-creator-id="{{ $composer->id }}">
+                                <i class="fas fa-music opacity-50 mr-2"></i> {{ $composer->name }}
+                            </li>
+                        @empty
+                            <li class="text-white/40 text-xs italic">Credit Pending</li>
+                        @endforelse
+                    </ul>
+                </div>
+
+                <div class="mb-4">
+                    <label class="custom-label">Arranger</label>
+                    <ul class="creator-grid">
+                        @forelse ($music->arrangers as $arranger)
+                            <li class="creator-item" data-creator-id="{{ $arranger->id }}">
+                                <i class="fas fa-pencil-ruler opacity-50 mr-2"></i> {{ $arranger->name }}
+                            </li>
+                        @empty
+                            <li class="text-white/40 text-xs italic">Credit Pending</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+        @endif
+
+        <div class="metadata-section mb-10">
+            <div class="section-divider mb-4">
+                <span>Scriptural Basis</span>
+            </div>
+            <div class="verse-panel">
+                <i class="fas fa-quote-left mb-2 opacity-30 gold-icon"></i>
+                <p class="text-sm font-medium italic leading-relaxed">
+                    {{ $music->verses_used ?: 'No specific scriptural references documented for this masterpiece.' }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<style>
+/* PREMIUM UI ENHANCEMENTS */
+.glass-blur {
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.premium-info-trigger {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: #007bff;
+    color: white;
+    border: 4px solid rgba(255,255,255,0.8);
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1050;
+    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.4);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.premium-info-trigger:hover {
+    transform: translateY(-50%) scale(1.1) rotate(15deg);
+    box-shadow: 0 15px 40px rgba(0, 123, 255, 0.6);
+}
+
+.music-details-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 440px;
+    height: 100vh;
+    z-index: 2050;
+    border-right: 1px solid rgba(255,255,255,0.3);
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 20px 0 80px rgba(0,0,0,0.3);
+    /* Lighter Dashboard Gradient */
+    background: linear-gradient(to bottom, #82D1F0 0%, #4E9BCA 100%);
+}
+
+.music-details-drawer.active {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drawer-title { font-size: 0.8rem; font-weight: 950; color: white; margin: 0; }
+
+.language-pill {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    transition: all 0.3s;
+}
+
+.language-pill:hover { background: rgba(255,255,255,0.25); color: white; transform: translateY(-2px); }
+.language-pill.active { background: white; color: #3E6D9C; border-color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+.gold-icon { color: #FFD700; }
+
+.close-drawer {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-drawer:hover { background: rgba(255,255,255,0.3); }
+
+.label-sm { font-size: 0.7rem; font-weight: 800; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 2px; }
+
+.badge-pill-premium {
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.badge-pill-premium.secondary { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.3);
+}
+
+.section-divider::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin-left: 15px; }
+
+.custom-label { font-size: 0.85rem; font-weight: 800; color: white; margin-bottom: 0.8rem; display: block; }
+
+.badge-pill-glass {
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.badge-pill-glass.accent-gold { background: rgba(255, 215, 0, 0.2); color: #FFD700; border-color: rgba(255, 215, 0, 0.3); }
+.badge-pill-glass.accent-blue { background: rgba(255, 255, 255, 0.3); color: white; }
+
+.creator-grid { padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.creator-item {
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.creator-item:hover {
+    transform: translateX(10px);
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.2);
+}
+
+.verse-panel {
+    background: rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.9);
+}
+
+.music-details-drawer h4 { color: white !important; }
+
+/* CREATOR HOVER CARD */
+#creatorDetails.premium-hover-card {
+    position: fixed;
+    z-index: 2100;
+    width: 320px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+#creatorDetails.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#creatorDetails img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.card-body-premium { padding: 24px; }
+.card-duty-badge {
+    padding: 2px 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+/* MASTERPIECE WORKSPACE STYLING */
+.masterpiece-workspace {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.main-content-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 200px;
+}
+
+.performance-hub {
+    width: 95%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 1.25rem 2.5rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    z-index: 2000;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.15);
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.performance-hub:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateX(-50%) translateY(-5px);
+    box-shadow: 0 30px 100px rgba(0,0,0,0.2);
+}
+
+.track-selectors {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.selector-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.selector-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 950;
+    color: #94a3b8;
+}
+
+.btn-group-premium {
+    display: flex;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 6px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.track-tab {
+    padding: 10px 24px;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-weight: 800;
+    font-size: 0.85rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.track-tab:hover:not(.active) {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.track-tab.active {
+    background: #3b82f6;
+    color: white;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.btn-download-masterpiece {
+    background: #1e293b;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 14px;
+    font-weight: 900;
+    border: none;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-download-masterpiece:hover {
+    background: #0f172a;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+}
+
+.score-card {
+    width: 100%;
+    max-width: 1000px;
+    background: white;
+    padding: 3rem;
+    border-radius: 2rem;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05), 0 20px 50px rgba(0,0,0,0.05);
+    position: relative;
+    min-height: 800px;
+}
+
+.score-controls-floating {
+    position: sticky;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #f1f5f9;
+    width: fit-content;
+    margin-bottom: -60px;
+}
+
+.zoom-action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #f1f5f9;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.zoom-action-btn:hover { background: #e2e8f0; color: #1e293b; }
+
+.zoom-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 900;
+    color: #64748b;
+    font-size: 0.8rem;
+    min-width: 70px;
+    justify-content: center;
+}
+
+.score-render-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.score-render-area canvas {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.08);
+}
+
+.master-player-ui { width: 100%; border-radius: 12px; }
+
+.hidden { display: none !important; }
+.lyrics-view-centered {
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: #334155;
+    font-weight: 600;
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: 'Inter', sans-serif;
+}
+body { background: linear-gradient(to bottom, #5eb8d3, #4975b4); background-attachment: fixed; }
+</style>
 
 
 <script>
-                document.addEventListener('DOMContentLoaded', function() {
+// --- UI INTERACTION LOGIC ---
+document.addEventListener('DOMContentLoaded', () => {
+    const creatorDetails = document.getElementById('creatorDetails');
+    const musicDetailsDrawer = document.getElementById('musicDetails');
+    let hoverTimeout;
+    let currentCreatorId = null;
 
-                    const musicPlayer = document.getElementById('musicPlayer');
+    // Robust Hover System
+    document.body.addEventListener('mouseover', (event) => {
+        const item = event.target.closest('[data-creator-id]');
+        if (item) {
+            clearTimeout(hoverTimeout);
+            const creatorId = item.getAttribute('data-creator-id');
+            if (currentCreatorId !== creatorId) {
+                currentCreatorId = creatorId;
+                hoverTimeout = setTimeout(() => displayCreatorDetails(creatorId, event), 150);
+            }
+        }
+    }, true);
 
-                    // Handle click events for tab buttons
-                    const tabButtons = document.querySelectorAll('.tab-button-mp3');
-                    tabButtons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            const path = button.getAttribute('data-path');
-                            switchTrack(path);
-                        });
-                    });
+    document.body.addEventListener('mouseout', (event) => {
+        const item = event.target.closest('[data-creator-id]');
+        if (item) {
+            clearTimeout(hoverTimeout);
+            currentCreatorId = null;
+            hideCreatorDetails();
+        }
+    }, true);
 
-                    // Play vocals automatically when page loads
-                    const vocalsPath = document.querySelector('.tab-button-mp3.active').getAttribute('data-path');
-                    switchTrack(vocalsPath);
+    function hideCreatorDetails() {
+        creatorDetails.classList.remove('show');
+        setTimeout(() => {
+            if (!creatorDetails.classList.contains('show')) {
+                creatorDetails.classList.add('hidden');
+            }
+        }, 150);
+    }
 
+    async function displayCreatorDetails(id, e) {
+        try {
+            const res = await fetch(`/creators/${id}`);
+            const data = await res.json();
+            
+            const birthday = data.birthday && data.birthday !== '0000-00-00 00:00:00' 
+                ? new Date(data.birthday).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) 
+                : 'Unknown';
 
-                });
-                // Get the audio element
-                const musicPlayer = document.getElementById('musicPlayer');
-                function seekAudio(event) {
-                    console.log('Click event detected on progress bar.');
-                    console.log('Offset X:', event.offsetX);
+            creatorDetails.innerHTML = `
+                <img src="${data.image ? '/storage/' + data.image : '/images/blank_image.png'}">
+                <div class="card-body-premium">
+                    <div class="card-duty-badge mb-2">${data.duty || 'Contributor'}</div>
+                    <h5 class="font-black text-slate-800 mb-2">${data.name || 'Anonymous'}</h5>
+                    <div class="card-meta-item">
+                        <i class="fas fa-map-marker-alt"></i> ${data.local || 'N/A'}, ${data.district || ''}
+                    </div>
+                    <div class="card-meta-item">
+                        <i class="fas fa-calendar-alt"></i> Born: ${birthday}
+                    </div>
+                    <div class="mt-3 p-3 rounded-lg bg-slate-50 border border-slate-100 italic text-xs text-slate-500">
+                        ${data.music_background || 'No background information provided.'}
+                    </div>
+                </div>
+            `;
+            
+            // Intelligent Positioning
+            let x = e.clientX + 30;
+            let y = e.clientY - 150;
+            
+            // Bounds check
+            if (x + 350 > window.innerWidth) x = e.clientX - 350;
+            if (y + 400 > window.innerHeight) y = window.innerHeight - 400;
+            if (y < 20) y = 20;
 
-                    const clickX = event.offsetX;
-                    const width = this.offsetWidth;
-                    const audioDuration = musicPlayer.duration;
-                    const seekTime = (clickX / width) * audioDuration;
+            creatorDetails.style.left = `${x}px`;
+            creatorDetails.style.top = `${y}px`;
+            
+            creatorDetails.classList.remove('hidden');
+            requestAnimationFrame(() => creatorDetails.classList.add('show'));
+        } catch (err) {
+            if (err.name !== 'AbortError') console.error("Error fetching creator details:", err);
+        }
+    }
 
-                    console.log('Width:', width);
-                    console.log('Audio Duration:', audioDuration);
-                    console.log('Seek Time:', seekTime);
+    window.toggleDetails = function() {
+        musicDetailsDrawer.classList.toggle('active');
+    };
 
-                    musicPlayer.currentTime = seekTime;
-                }
+    const infoTrigger = document.getElementById('showMusicDetailsBtn');
+    if (infoTrigger) {
+        infoTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDetails();
+        });
+    }
 
-                // Attach seek event listener to the audio progress bar
-                musicPlayer.addEventListener('click', seekAudio);
+    // CLICK OUTSIDE TO CLOSE
+    document.addEventListener('click', (e) => {
+        if (musicDetailsDrawer.classList.contains('active')) {
+            if (!musicDetailsDrawer.contains(e.target) && !infoTrigger.contains(e.target)) {
+                musicDetailsDrawer.classList.remove('active');
+            }
+        }
+    });
 
-                let storedCurrentTime = 0; // Store the current time globally
-                function switchTrack(path) {
-                    const audioSource = document.getElementById('audioSource');
-                    const musicPlayer = document.getElementById('musicPlayer');
-                    
-                    // Set new audio source pathhhhhhh
-                    audioSource.src = path;
-                    
-                    // Load the new audio source
-                    musicPlayer.load();
-                    
-                    // Wait for the new audio source to load and start playing
-                    musicPlayer.addEventListener('loadedmetadata', function() {
-                        musicPlayer.currentTime = 0; // Reset currentTime to 0
-                        musicPlayer.play(); // Start playing the new track
-                    });
-                }
-            </script>
+    // Prevent clicks inside the drawer from bubbling up
+    musicDetailsDrawer.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+});
+</script>
 
-            <!-- Music Score (Right Side) -->
-            <div class="music-score">
-                <!-- PDF or Lyrics Container -->
-                <div class="pdf-container">
-                    <!-- Canvas for PDF rendering -->
-                    <div id="pdf-container"></div>
+</script>
+
+<div id="creatorDetails" class="hidden premium-hover-card"></div>
+
+<!-- Integrated Masterpiece Workspace -->
+<div class="masterpiece-workspace">
+    <div class="main-content-stack">
+        <!-- Part 1: Performance Hub (Audio & Toggles) -->
+        <div class="performance-hub glass-blur show-up-animation">
+            <div class="hub-inner">
+                <div class="flex flex-col items-center gap-6">
+                    <!-- Layer Selectors -->
+                    <div class="track-selectors">
+                        <div class="selector-group">
+                            <span class="selector-label">Audio Layer</span>
+                            <div class="btn-group-premium">
+                                <button class="track-tab tab-button-mp3 active" data-path="{{ asset('storage/' . $music->vocals_mp3_path) }}">
+                                    <i class="fas fa-microphone"></i> Vocals
+                                </button>
+                                <button class="track-tab tab-button-mp3" data-path="{{ asset('storage/' . $music->organ_mp3_path) }}">
+                                    <i class="fas fa-keyboard"></i> Organ
+                                </button>
+                                <button class="track-tab tab-button-mp3" data-path="{{ asset('storage/' . $music->preludes_mp3_path) }}">
+                                    <i class="fas fa-play-circle"></i> Preludes
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="selector-group">
+                            <span class="selector-label">Visual Perspective</span>
+                            <div class="btn-group-premium">
+                                <button class="track-tab tab-button active" id="musicScoreButton" data-path="{{ asset('storage/' . $music->music_score_path) }}">
+                                    <i class="fas fa-file-invoice"></i> Score
+                                </button>
+                                <button class="track-tab tab-button" id="lyricsButton" data-path="{{ asset('storage/' . $music->lyrics_path) }}">
+                                    <i class="fas fa-align-center"></i> Lyrics
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Master Audio Player -->
+                    <div class="player-wrapper w-full max-w-2xl">
+                        <audio id="musicPlayer" controls preload="auto" class="master-player-ui">
+                            <source id="audioSource" src="#" type="audio/mpeg">
+                        </audio>
+                    </div>
+
+                    <!-- Action Hub -->
+                    @if (\App\Helpers\AccessRightsHelper::checkPermission('music_details.download') == 'inline')
+                    <div class="mt-2">
+                        <button id="downloadButton" class="btn-download-masterpiece shadow-lg">
+                            <i class="fas fa-cloud-download-alt"></i> Download Original Track
+                        </button>
+                    </div>
+                    @endif
                 </div>
             </div>
+        </div>
 
+        <!-- Part 2: Visual Hub (The Score) -->
+        <div class="visual-hub mt-2 pb-24">
+            <div class="score-card shadow-inner-premium">
+                <div class="score-controls-floating">
+                    <button class="zoom-action-btn" onclick="changeZoom(-0.5)" title="Zoom Out"><i class="fas fa-minus"></i></button>
+                    <div class="zoom-indicator">
+                        <i class="fas fa-search"></i>
+                        <span id="zoomLevelText">100%</span>
+                    </div>
+                    <button class="zoom-action-btn" onclick="changeZoom(0.5)" title="Zoom In"><i class="fas fa-plus"></i></button>
+                </div>
+                
+                <div id="pdf-container" class="score-render-area">
+                    <!-- Masterpiece content renders here -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -596,17 +800,55 @@ audioElement.addEventListener('contextmenu', (event) => {
 <script>
 $(document).ready(function() {
     // Initial rendering based on active tab
-    renderContent($('.tab-button.active').data('path'));
+    const initialPath = $('.tab-button.active').data('path');
+    if (initialPath) {
+        renderContent(initialPath);
+        document.getElementById('zoomLevelText').innerText = '100%';
+    }
 
 
         // Handle tab button click
         $('.tab-button-mp3').click(function() {
-        // Remove active class from all buttons
-        $('.tab-button-mp3').removeClass('active');
+            // Remove active class from all buttons
+            $('.tab-button-mp3').removeClass('active');
+            // Add active class to the clicked button
+            $(this).addClass('active');
+            
+            const path = $(this).data('path');
+            switchTrack(path);
+        });
 
-        // Add active class to the clicked button
-        $(this).addClass('active');
-    });
+        // Function to switch audio track
+        function switchTrack(path) {
+            const musicPlayer = document.getElementById('musicPlayer');
+            const audioSource = document.getElementById('audioSource');
+            
+            if (path) {
+                audioSource.src = path;
+                musicPlayer.load();
+                // We keep it paused initially unless user hits play, 
+                // but if it was already playing, we can resume.
+                // For now, let's just load it.
+            }
+        }
+
+        // Initial track load
+        const activeMp3 = $('.tab-button-mp3.active').data('path');
+        if (activeMp3) switchTrack(activeMp3);
+
+        // Download Logic
+        $('#downloadButton').click(function() {
+            const activeTab = $('.tab-button-mp3.active');
+            const path = activeTab.data('path');
+            if (path) {
+                const title = '{{ $music->title }}';
+                const trackType = activeTab.text().trim();
+                const link = document.createElement('a');
+                link.href = path;
+                link.download = `${title}_${trackType}`;
+                link.click();
+            }
+        });
 
 
 
@@ -636,6 +878,14 @@ $(document).ready(function() {
         }
     }
 
+    let currentScale = 1.5; // Optimized scale for high-fps performance and crisp visuals
+    
+    window.changeZoom = function(delta) {
+        currentScale = Math.max(0.5, Math.min(6.0, currentScale + (delta * 0.5))); 
+        document.getElementById('zoomLevelText').innerText = Math.round(currentScale / 1.5 * 100) + '%';
+        renderContent($('.track-tab.active').data('path') || $('.tab-button.active').data('path'));
+    };
+
     // Function to render PDF content
     function renderPDF(pdfPath) {
         // Clear the PDF container
@@ -646,7 +896,7 @@ $(document).ready(function() {
             // Loop through each page and render it
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 pdf.getPage(pageNum).then(function(page) {
-                    var viewport = page.getViewport({ scale: 5.0 });
+                    var viewport = page.getViewport({ scale: currentScale });
                     
                     // Create a canvas for each page
                     var canvas = document.createElement('canvas');
@@ -677,10 +927,10 @@ function renderLyrics(lyricsPath) {
     $.ajax({
         url: lyricsPath,
         success: function(data) {
-            $('#pdf-container').html('<pre style="white-space: pre-wrap; word-wrap: break-word; font-size: 18px;">' + data + '</pre>');
+            $('#pdf-container').html('<div class="lyrics-view-centered">' + data.replace(/\n/g, '<br>') + '</div>');
         },
         error: function() {
-            $('#pdf-container').html('<p>Failed to load lyrics.</p>');
+            $('#pdf-container').html('<div class="error-msg">Failed to load lyrics.</div>');
         }
     });
 }

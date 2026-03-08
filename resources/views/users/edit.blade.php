@@ -1,95 +1,101 @@
-<!-- music_management/categories.blade.php -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<!-- Include Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Include jQuery before Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+@include('musics.form_styles')
 
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit User') }}
-        </h2>
-    </x-slot>
+    <div class="glass-container py-4" style="margin-top: 5px;">
+        <div class="container-fluid px-5 px-xl-5" style="max-width: 90%; margin: 0 auto;">
+            <div class="form-glass">
+                <!-- Header (Premium Single-Row) -->
+                <div class="d-flex align-items-center justify-content-between mb-10 pb-6 border-bottom flex-wrap gap-4">
+                    <div class="d-flex align-items-center">
+                        <h1 class="text-4xl font-black text-slate-800 tracking-tighter mb-0 uppercase">Edit User</h1>
+                        <div class="mx-4 d-none d-md-block" style="width: 2px; height: 35px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div>
+                        <div class="d-none d-md-block">
+                            <p class="text-muted font-bold small uppercase tracking-widest mb-0 opacity-60">Modifying Profile: {{ $user->name }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-3">
+                        @php
+                            $cancelRoute = route('users.index');
+                            if (strpos(url()->full(), 'group=') !== false && isset($groupId)) {
+                                $cancelRoute = route('groups.users', ['group' => $groupId]);
+                            }
+                        @endphp
+                        <button type="button" class="btn btn-premium btn-cancel px-5 shadow-sm" onclick="window.location.href='{{ $cancelRoute }}'">
+                            <i class="fas fa-times mr-2 opacity-50"></i> {{ __('Cancel') }}
+                        </button>
+                    </div>
+                </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="{{ route('users.update', $user->id) }}">
-                        @csrf
-                        @method('PUT')
+                <form method="POST" action="{{ route('users.update', $user->id) }}">
+                    @csrf
+                    @method('PUT')
 
-                        <div>
-                            <x-input-label for="name" :value="__('Name')" />
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="$user->name" required autofocus />
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="custom-label">{{ __('Full Name') }}</label>
+                            <input type="text" name="name" class="modern-input" value="{{ old('name', $user->name) }}" required autofocus placeholder="John Doe">
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
-                        <div class="mt-4">
-                            <x-input-label for="username" :value="__('Username')" />
-                            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="$user->username" required />
+                        <div class="col-md-6">
+                            <label class="custom-label">{{ __('Username') }}</label>
+                            <input type="text" name="username" class="modern-input" value="{{ old('username', $user->username) }}" required placeholder="johndoe123">
                             <x-input-error :messages="$errors->get('username')" class="mt-2" />
                         </div>
 
-
-
-                        <div class="mt-4 sm:hidden">
-                            <x-input-label for="password" :value="__('Password')" />
-                            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" />
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                        </div>
-
-                        <div class="mt-4 sm:hidden">
-                            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" />
-                        </div>
-
-                        <div class="flex mt-4">
-                            <x-input-label for="login_enabled" :value="__('Login Enabled')" />
-                            <input id="login_enabled" class="block mt-0 ml-3 mr-3" type="checkbox" name="login_enabled" {{ old('login_enabled', $user->activated ?? false) ? 'checked' : '' }} />
-                            <span style="margin-top:-2px;margin-left:7px;font-size:14px;">This user can login</span>
-                        </div>
-
-
-
-                        <div class="mt-4">
-                            <x-input-label for="email" :value="__('Email')" />
-                            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="$user->email" required />
+                        <div class="col-md-12">
+                            <label class="custom-label">{{ __('Email Address') }}</label>
+                            <input type="email" name="email" class="modern-input" value="{{ old('email', $user->email) }}" required placeholder="email@example.com">
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
-                        <div class="mt-4">
-                            <x-input-label for="groups" :value="__('Groups')" />
-                            <select id="groups" name="groups[]" multiple class="block mt-1 w-full">
+                        <div class="col-md-12">
+                            <div class="section-title mt-4">Security Update</div>
+                            <p class="text-xs text-muted mb-4 opacity-70 italic">Leave password blank if you don't wish to change it.</p>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="custom-label">{{ __('New Password') }}</label>
+                                    <input type="password" name="password" class="modern-input" placeholder="••••••••">
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="custom-label">{{ __('Confirm New Password') }}</label>
+                                    <input type="password" name="password_confirmation" class="modern-input" placeholder="••••••••">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="section-title mt-4">Access & Roles</div>
+                            <label class="custom-label">{{ __('Assigned Groups') }}</label>
+                            <select id="groups" name="groups[]" multiple class="modern-input" style="height: auto; min-height: 120px;" required>
                                 @foreach ($groups as $group)
                                     <option value="{{ $group->id }}" {{ $user->groups->contains($group) ? 'selected' : '' }}>{{ $group->name }}</option>
                                 @endforeach
                             </select>
+                            <p class="text-xs text-muted mt-2 opacity-60">Hold Ctrl (Cmd) to select multiple groups.</p>
                         </div>
 
-                        <div class="flex items-center justify-end mt-4">
-                        @php
-                                $cancelRoute = route('users.index');
-                                if (strpos(url()->full(), 'group=') !== false) {
-                                    $cancelRoute = route('groups.users', ['group' => $groupId]);
-                                }
-                            @endphp
-                            <a href="{{ $cancelRoute }}" class="btn btn-secondary ml-2">
-                                {{ __('Cancel') }}
-                            </a>
-                            <button class="btn btn-primary ml-2" style="height:40px;">
-                            <i class="fas fa-check icon-white" aria-hidden="true"></i> Save Changes
-                            </button>
-
-                           
-
+                        @if (\App\Helpers\AccessRightsHelper::checkPermission('users.activate_account') == 'inline')
+                        <div class="col-md-12 mt-2">
+                            <div class="d-flex align-items-center bg-slate-50 p-3 rounded-xl border">
+                                <input id="login_enabled" type="checkbox" name="login_enabled" style="width: 20px; height: 20px;" {{ old('login_enabled', $user->activated) ? 'checked' : '' }}>
+                                <label for="login_enabled" class="mb-0 ml-3 font-bold text-slate-700">User Login Enabled</label>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                        @endif
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-3 mt-10 pt-6 border-top">
+                        <button type="button" class="btn btn-premium btn-cancel px-8" onclick="window.location.href='{{ $cancelRoute }}'">
+                            <i class="fas fa-arrow-left mr-2 opacity-50"></i> Back to Users
+                        </button>
+                        <button type="submit" class="btn btn-premium btn-save px-10 shadow-lg">
+                            <i class="fas fa-save mr-2"></i> Update Account
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

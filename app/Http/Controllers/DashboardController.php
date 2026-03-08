@@ -40,22 +40,25 @@ class DashboardController extends Controller
     //$recentActivities = ActivityLog::latest()->take(10)->get();
 
     // Fetch top 5 categories, instrumentations, ensemble types, and credits
-    $categories = Category::paginate(10);
+    $categories = Category::paginate(10)->onEachSide(2);
 
-    $instrumentations = Instrumentation::paginate(5);
-    $ensembleTypes = EnsembleType::paginate(5);
-    $credits = MusicCreator::paginate(10);
+    $instrumentations = Instrumentation::paginate(10)->onEachSide(2);
+    $ensembleTypes = EnsembleType::paginate(10)->onEachSide(2);
+    $credits = MusicCreator::paginate(10)->onEachSide(2);
 
 
-    $categoryCounts = Category::selectRaw('categories.id, categories.name as category_name, COUNT(music_category.music_id) as musics_count')
+    $categoryCounts = Category::selectRaw('categories.id, categories.name as category_name, COUNT(musics.id) as musics_count')
         ->leftJoin('music_category', 'categories.id', '=', 'music_category.category_id')
-        ->leftJoin('musics', 'music_category.music_id', '=', 'musics.id')
+        ->leftJoin('musics', function($join) {
+            $join->on('music_category.music_id', '=', 'musics.id')
+                 ->where('musics.language_id', '=', 1);
+        })
         ->groupBy('categories.id', 'categories.name')
         ->get();
 
 
 
-    $logs = ActivityLog::with('user')->latest()->paginate(5);
+    $logs = ActivityLog::with('user')->latest()->paginate(5)->onEachSide(2);
 
 
     // Fetch counts of hymns per language
@@ -67,7 +70,7 @@ class DashboardController extends Controller
         ->select('musics.id', 'musics.title', 'musics.song_number', DB::raw('COUNT(activity_logs.id) as views_count'))
         ->groupBy('musics.id', 'musics.title', 'musics.song_number')
         ->orderByDesc('views_count')
-        ->paginate(4);
+        ->paginate(4)->onEachSide(2);
 
          // Get all playlists
     $playlists = Playlist::with(['musics' => function ($query) {

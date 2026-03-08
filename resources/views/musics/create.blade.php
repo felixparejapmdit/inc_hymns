@@ -1,511 +1,343 @@
-<head>
-    <!-- Include CSS file in your Blade view -->
-<link href="{{ asset('css/dropdown.css') }}" rel="stylesheet">
+@include('musics.form_styles')
 
-
-
-<style>
-    .btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  margin: 0 0.5rem 0.5rem 0;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  text-align: center;
-  text-decoration: none;
-  vertical-align: middle;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  transition: all 0.15s ease;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
-}
-
-.btn-secondary {
-  color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-
-.btn-secondary:hover {
-  color: #fff;
-  background-color: #5a6268;
-  border-color: #545b62;
-}
-</style>
-</head>
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Hymn Management - Add') }}
-        </h2>
-        
-    </x-slot>
-
-    <div class="py-10 mt-4">
-
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6">
-                <!-- Buttons to submit or close modal -->
-                <div class="flex justify-end">
-                    <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Save
-                    </button>
+    <div class="glass-container py-4" style="margin-top: 5px;">
+        <div class="container-fluid px-5 px-xl-5" style="max-width: 90%; margin: 0 auto;">
+            <div class="form-glass">
+                <!-- Header (Premium Single-Row) -->
+                <div class="d-flex align-items-center justify-content-between mb-8 pb-4 border-bottom flex-wrap gap-4">
+                    <div class="d-flex align-items-center">
+                        <h1 class="text-4xl font-black text-slate-800 tracking-tighter mb-0 uppercase">New Hymn</h1>
+                    </div>
+                    
+                    <div class="d-flex gap-3">
+                        <button type="button" class="btn btn-premium btn-cancel px-5 shadow-sm" onclick="window.location.href='/musics'">
+                            <i class="fas fa-times mr-2 opacity-50"></i> {{ __('Cancel') }}
+                        </button>
+                        <button type="button" class="btn btn-premium btn-save px-8 shadow-lg" onclick="document.forms[0].submit()">
+                            <i class="fas fa-check-circle mr-2"></i> {{ __('Save Hymn') }}
+                        </button>
+                    </div>
                 </div>
-                <!-- Add Music Form -->
-                <form method="POST" action="{{ route('musics.store') }}" enctype="multipart/form-data">
-                @csrf
 
-                <div class="flex flex-wrap">
-                    <div class="w-full md:w-1/3 px-4">
-                        <!-- Church Hymn -->
-                        <div class="mb-4 mt-4">
-                            <label for="church_hymn_id" class="block text-sm font-bold text-gray-700 mb-2">Church Hymn:</label>
-                            <select required id="church_hymn_id" name="church_hymn_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <form method="POST" action="{{ route('musics.store') }}" enctype="multipart/form-data">
+                    @csrf
+
+                    <!-- SECTION 1: BASIC INFORMATION -->
+                    <div class="section-title">Core Details</div>
+                    <div class="row g-4 mb-10">
+                        <div class="col-md-5">
+                            <label class="custom-label">Church Hymn</label>
+                            <select required name="church_hymn_id" class="modern-input">
                                 <option value="" disabled selected>Select Church Hymn</option>
                                 @foreach($churchHymns as $churchHymn)
                                     <option value="{{ $churchHymn->id }}">{{ $churchHymn->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-4">
-                        <!-- Song Number -->
-                        <div class="mb-4 mt-4">
-                            <label for="song_number" class="block text-sm font-bold text-gray-700 mb-2">Hymn Number:</label>
-                            <input type="text" id="song_number" name="song_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="4">
+                        <div class="col-md-3">
+                            <label class="custom-label">Hymn Number</label>
+                            <input type="text" name="song_number" class="modern-input" maxlength="4" placeholder="001">
                         </div>
-                    </div>
-
-
-                    <!-- Language Dropdown-->
-                    <div class="w-full md:w-1/3 px-4">
-                        <div class="mb-4 mt-4">
-                            <label for="language_id" class="block text-sm font-bold text-gray-700 mb-2">Language:</label>
-                            <select required id="language_id" name="language_id"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="" disabled selected>Select Language</option>   
+                        <div class="col-md-4">
+                            <label class="custom-label">Language</label>
+                            <select required name="language_id" class="modern-input">
+                                <option value="" disabled selected>Select Language</option>   
                                 @foreach($languages as $language)
                                     <option value="{{ $language->id }}">{{ $language->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-
-                   
-
-
-                </div>
- <div class="w-full md:w-1/3 px-4">
-                        <!-- Title -->
-                        <div class="mb-4 mt-4">
-                            <label for="add_title" class="block text-sm font-bold text-gray-700 mb-2">Title:</label>
-                            <input required type="text" id="add_title" name="add_title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="75">
+                        <div class="col-12 mt-4">
+                            <label class="custom-label">Full Title</label>
+                            <input required type="text" name="add_title" class="modern-input" maxlength="75" placeholder="Enter hymn title...">
                         </div>
                     </div>
-            </div>
 
-
-                    <div class="flex flex-wrap">
-                        <!-- File Inputs -->
-                     
-                            <!-- Left Column -->
-                            <div class="w-full md:w-1/2 px-4">
-                                
-                                <div class="mb-4">
-                                    <label for="vocals_mp3_path" class="block text-sm font-bold text-gray-700 mb-2">Vocals:</label>
-                                    <input type="file" id="vocals_mp3_path" name="vocals_mp3_path" class="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" accept="audio/mpeg, audio/mp3">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="organ_mp3_path" class="block text-sm font-bold text-gray-700 mb-2">Organ:</label>
-                                    <input type="file" id="organ_mp3_path" name="organ_mp3_path" class="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" accept="audio/mpeg, audio/mp3">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="preludes_mp3_path" class="block text-sm font-bold text-gray-700 mb-2">Preludes:</label>
-                                    <input type="file" id="preludes_mp3_path" name="preludes_mp3_path" class="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" accept="audio/mpeg, audio/mp3">
-                                </div>
-                            </div>
-
-                            <!-- Right Column -->
-                            <div class="w-full md:w-1/2 px-4">
-                                <div class="mb-4">
-                                    <label for="music_score_path" class="block text-sm font-bold text-gray-700 mb-2">Music Score:</label>
-                                    <input type="file" id="music_score_path" name="music_score_path" class="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" accept=".pdf">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="lyrics_path" class="block text-sm font-bold text-gray-700 mb-2">Lyrics:</label>
-                                    <input type="file" id="lyrics_path" name="lyrics_path" class="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" accept=".pdf">
-                                </div>
+                    <!-- SECTION 2: AUDIO & MEDIA -->
+                    <div class="section-title">Recordings & Files</div>
+                    <div class="row g-4 mb-10">
+                        <div class="col-md-4">
+                            <label class="custom-label">Vocals (MP3)</label>
+                            <div class="file-upload-card" onclick="document.getElementById('vocals_mp3_path').click()">
+                                <i class="fas fa-microphone-alt"></i>
+                                <div class="font-bold small text-slate-500">UPLOAD MP3</div>
+                                <div id="vocals_preview" class="file-name-preview"></div>
+                                <input type="file" id="vocals_mp3_path" name="vocals_mp3_path" hidden accept="audio/mpeg, audio/mp3" onchange="updateFileLabel(this, 'vocals_preview')">
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <label class="custom-label">Organ (MP3)</label>
+                            <div class="file-upload-card" onclick="document.getElementById('organ_mp3_path').click()">
+                                <i class="fas fa-music"></i>
+                                <div class="font-bold small text-slate-500">UPLOAD MP3</div>
+                                <div id="organ_preview" class="file-name-preview"></div>
+                                <input type="file" id="organ_mp3_path" name="organ_mp3_path" hidden accept="audio/mpeg, audio/mp3" onchange="updateFileLabel(this, 'organ_preview')">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="custom-label">Preludes (MP3)</label>
+                            <div class="file-upload-card" onclick="document.getElementById('preludes_mp3_path').click()">
+                                <i class="fas fa-headphones"></i>
+                                <div class="font-bold small text-slate-500">UPLOAD MP3</div>
+                                <div id="preludes_preview" class="file-name-preview"></div>
+                                <input type="file" id="preludes_mp3_path" name="preludes_mp3_path" hidden accept="audio/mpeg, audio/mp3" onchange="updateFileLabel(this, 'preludes_preview')">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <label class="custom-label">Music Score (PDF)</label>
+                            <div class="file-upload-card d-flex align-items-center justify-content-center py-4" onclick="document.getElementById('music_score_path').click()">
+                                <i class="fas fa-file-pdf mr-3 mb-0" style="color: #ef4444;"></i>
+                                <div class="text-left font-bold small text-slate-500 uppercase">Score PDF <div id="score_preview" class="file-name-preview"></div></div>
+                                <input type="file" id="music_score_path" name="music_score_path" hidden accept=".pdf" onchange="updateFileLabel(this, 'score_preview')">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <label class="custom-label">Lyrics (PDF)</label>
+                            <div class="file-upload-card d-flex align-items-center justify-content-center py-4" onclick="document.getElementById('lyrics_path').click()">
+                                <i class="fas fa-pen-fancy mr-3 mb-0 text-blue-400"></i>
+                                <div class="text-left font-bold small text-slate-500 uppercase">Lyrics PDF <div id="lyrics_preview" class="file-name-preview"></div></div>
+                                <input type="file" id="lyrics_path" name="lyrics_path" hidden accept=".pdf" onchange="updateFileLabel(this, 'lyrics_preview')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: CLASSIFICATION (RESTORED EXACT FUNCTIONALITY) -->
+                    <div class="section-title">Classification & Credits</div>
                     
+                    <!-- Hidden inputs -->
+                    <input type="hidden" id="selected_category_ids" name="category_id[]" value="">
+                    <input type="hidden" id="selected_instrumentation_ids" name="instrumentation_id[]" value="">
+                    <input type="hidden" id="selected_ensemble_type_ids" name="ensembletype_id[]" value="">
+                    <input type="hidden" id="selected_lyricist_ids" name="lyricist_id[]" value="">
+                    <input type="hidden" id="selected_composer_ids" name="composer_id[]" value="">
+                    <input type="hidden" id="selected_arranger_ids" name="arranger_id[]" value="">
 
-
-                    <div class="flex flex-wrap">
-
-                    <!-- Hidden input fields to store selected IDs -->
-<input type="hidden" id="selected_category_ids" name="category_id[]" value="">
-<input type="hidden" id="selected_instrumentation_ids" name="instrumentation_id[]" value="">
-<input type="hidden" id="selected_ensemble_type_ids" name="ensembletype_id[]" value="">
-<!-- Add more hidden inputs for other dropdowns as needed -->
-
-
-        <!-- Left Column -->
-        <div class="w-full md:w-1/2 px-4">
-
-                            <!-- Category -->
-                            <div class="mb-4">
-                                <label for="category_id" class="block text-sm font-bold text-gray-700 mb-2">Category:</label>
-                                <div class="combo-box">
-                                    <div class="input-container" onclick="toggleDropdown('category')">
-                                        <div id="category_id" name="category_id" class="selected-items"><!-- Selected categoies will appear here --></div>
-                                        <input type="text" id="category-input" placeholder="Select categories...">
-                                        <div class="dropdown-arrow"></div>
-                                    </div>
-                                    <div id="category-options-container" class="options-container">
-                                        <!-- Category options are populated by JavaScript -->
-                                        @foreach($categories as $category)
-                                            <div class="option-item">
-                                                <label>
-                                                    <input type="checkbox" value="{{ $category->id }}" onclick="handleDropdownSelection(this, 'category_id', 'selected_category_ids')">
-
-                                                    {{ $category->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                    <div class="row g-4 mb-4">
+                        <!-- Category -->
+                        <div class="col-md-6">
+                            <label class="custom-label">Category</label>
+                            <div class="combo-box">
+                                <div class="input-container" onclick="toggleDropdown('category')">
+                                    <div id="category_id_container" class="selected-items"></div>
+                                    <input type="text" id="category-input" placeholder="Select categories...">
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                                <div id="category-options-container" class="options-container">
+                                    @foreach($categories as $category)
+                                        <div class="option-item">
+                                            <label><input type="checkbox" value="{{ $category->id }}" onclick="handleDropdownSelection(this, 'category_id_container', 'selected_category_ids')"> {{ $category->name }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Instrumentation-->
-                            <div class="mb-4">
-                                <label for="instrumentation_id" class="block text-sm font-bold text-gray-700 mb-2">Instrumentation:</label>
-                                <div class="combo-box">
-                                    <div class="input-container" onclick="toggleDropdown('instrumentation')">
-                                        <div id="instrumentation_id" name="instrumentation_id" class="selected-items"><!-- Selected categoies will appear here --></div>
-                                        <input type="text" id="instrumentation-input" placeholder="Select instrumentations...">
-                                        <div class="dropdown-arrow"></div>
-                                    </div>
-                                    <div id="instrumentation-options-container" class="options-container">
-                                        <!-- Instrumentation options are populated by JavaScript -->
-                                        @foreach($instrumentations as $instrumentation)
-                                            <div class="option-item">
-                                                <label>
-                                                    <input type="checkbox" value="{{ $instrumentation->id }}" onclick="handleDropdownSelection(this, 'instrumentation_id', 'selected_instrumentation_ids')">
-                                                 
-                                                    {{ $instrumentation->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                        <!-- Instrumentation -->
+                        <div class="col-md-6">
+                            <label class="custom-label">Instrumentation</label>
+                            <div class="combo-box">
+                                <div class="input-container" onclick="toggleDropdown('instrumentation')">
+                                    <div id="instrumentation_id_container" class="selected-items"></div>
+                                    <input type="text" id="instrumentation-input" placeholder="Select instrumentations...">
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                                <div id="instrumentation-options-container" class="options-container">
+                                    @foreach($instrumentations as $instrumentation)
+                                        <div class="option-item">
+                                            <label><input type="checkbox" value="{{ $instrumentation->id }}" onclick="handleDropdownSelection(this, 'instrumentation_id_container', 'selected_instrumentation_ids')"> {{ $instrumentation->name }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Ensemble Type -->
-                            <div class="mb-4">
-                                <label for="ensemble_type_id" class="block text-sm font-bold text-gray-700 mb-2">Ensemble Type:</label>
-                                <div class="combo-box">
-                                    <div class="input-container" onclick="toggleDropdown('ensemble_type')">
-                                        <div id="ensemble_type_id" name="ensemble_type_id" class="selected-items"><!-- Selected categoies will appear here --></div>
-                                        <input type="text" id="ensemble_type-input" placeholder="Select ensembleTypes...">
-                                        <div class="dropdown-arrow"></div>
-                                    </div>
-                                    <div id="ensemble_type-options-container" class="options-container">
-                                        <!-- Ensemble_type options are populated by JavaScript -->
-                                        @foreach($ensembleTypes as $ensembleType)
-                                            <div class="option-item">
-                                                <label>
-                                                    <input type="checkbox" value="{{ $ensembleType->id }}" onclick="handleDropdownSelection(this, 'ensemble_type_id', 'selected_ensemble_type_ids')">
-                                                    {{ $ensembleType->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                        <!-- Ensemble Type -->
+                        <div class="col-md-6">
+                            <label class="custom-label">Ensemble Type</label>
+                            <div class="combo-box">
+                                <div class="input-container" onclick="toggleDropdown('ensemble_type')">
+                                    <div id="ensemble_type_id_container" class="selected-items"></div>
+                                    <input type="text" id="ensemble_type-input" placeholder="Select type...">
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                                <div id="ensemble_type-options-container" class="options-container">
+                                    @foreach($ensembleTypes as $ensembleType)
+                                        <div class="option-item">
+                                            <label><input type="checkbox" value="{{ $ensembleType->id }}" onclick="handleDropdownSelection(this, 'ensemble_type_id_container', 'selected_ensemble_type_ids')"> {{ $ensembleType->name }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
+                        </div>
 
-
-                            
-                            <!-- Hidden input fields to store selected IDs -->
-                            <input type="hidden" id="selected_lyricist_ids" name="lyricist_id[]" value="">
-                            <input type="hidden" id="selected_composer_ids" name="composer_id[]" value="">
-                            <input type="hidden" id="selected_arranger_ids" name="arranger_id[]" value="">
-
-                            <!-- Lyricist Dropdown -->
-                            <div class="mb-4">
-                                <label for="lyricist_id" class="block text-sm font-bold text-gray-700 mb-2">Lyricist:</label>
-                                <div class="combo-box">
-                                    <div class="input-container" onclick="toggleDropdown('lyricist')">
-                                        <div id="lyricist_id" name="lyricist_id" class="selected-items"><!-- Selected lyricists will appear here --></div>
-                                        <input type="text" id="lyricist-input" placeholder="Select lyricists...">
-                                        <div class="dropdown-arrow"></div>
-                                    </div>
-                                    <div id="lyricist-options-container" class="options-container">
-                                        <!-- Lyricist options are populated by JavaScript -->
-                                        @foreach($lyricists as $creator)
-                                            <div class="option-item">
-                                                <label>
-                                                    <input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'lyricist_id', 'selected_lyricist_ids')">
-                                                    {{ $creator->name }}
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                        <!-- Lyricist -->
+                        <div class="col-md-6">
+                            <label class="custom-label">Lyricist</label>
+                            <div class="combo-box">
+                                <div class="input-container" onclick="toggleDropdown('lyricist')">
+                                    <div id="lyricist_id_container" class="selected-items"></div>
+                                    <input type="text" id="lyricist-input" placeholder="Select lyricists...">
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                                <div id="lyricist-options-container" class="options-container">
+                                    @foreach($lyricists as $creator)
+                                        <div class="option-item">
+                                            <label><input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'lyricist_id_container', 'selected_lyricist_ids')"> {{ $creator->name }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
-        </div>
+                        </div>
 
-<!-- Right Column -->
-<div class="w-full md:w-1/2 px-4">
+                        <!-- Composer -->
+                        <div class="col-md-6">
+                            <label class="custom-label">Composer</label>
+                            <div class="combo-box">
+                                <div class="input-container" onclick="toggleDropdown('composer')">
+                                    <div id="composer_id_container" class="selected-items"></div>
+                                    <input type="text" id="composer-input" placeholder="Select composers...">
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                                <div id="composer-options-container" class="options-container">
+                                    @foreach($composers as $creator)
+                                        <div class="option-item">
+                                            <label><input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'composer_id_container', 'selected_composer_ids')"> {{ $creator->name }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
 
-<!-- Composer Dropdown -->
-<div class="mb-4">
-    <label for="composer_id" class="block text-sm font-bold text-gray-700 mb-2">Composer:</label>
-    <div class="combo-box">
-        <div class="input-container" onclick="toggleDropdown('composer')">
-            <div id="composer_id" name="composer_id" class="selected-items"><!-- Selected composers will appear here --></div>
-            <input type="text" id="composer-input" placeholder="Select composers...">
-            <div class="dropdown-arrow"></div>
-        </div>
-        <div id="composer-options-container" class="options-container">
-            <!-- Composer options are populated by JavaScript -->
-            @foreach($composers as $creator)
-                <div class="option-item">
-                    <label>
-                        
-                        <input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'composer_id', 'selected_composer_ids')">
-                        {{ $creator->name }}
-                    </label>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-
-<!-- Arranger Dropdown -->
-<div class="mb-4">
-    <label for="arranger_id" class="block text-sm font-bold text-gray-700 mb-2">Arranger:</label>
-    <div class="combo-box">
-        <div class="input-container" onclick="toggleDropdown('arranger')">
-            <div id="arranger_id" name="arranger_id" class="selected-items"><!-- Selected arrangers will appear here --></div>
-            <input type="text" id="arranger-input" placeholder="Select arrangers...">
-            <div class="dropdown-arrow"></div>
-        </div>
-        <div id="arranger-options-container" class="options-container">
-            <!-- Arranger options are populated by JavaScript -->
-            @foreach($arrangers as $creator)
-                <div class="option-item">
-                    <label>
-                        
-                        <input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'arranger_id', 'selected_arranger_ids')">
-                        {{ $creator->name }}
-                    </label>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- Verses Used -->
-<div class="mb-4">
-    <label for="versesused" class="block text-sm font-bold text-gray-700 mb-2">Reference Verses:</label>
-    <textarea id="versesused" name="versesused" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" style="width: 400px;"></textarea>
-</div>
-
-
-
-</div>
-
-</div>
-
-
-                <!-- Buttons to submit or close modal -->
-                    <div class="flex justify-end">
-                        <button type="button" class="btn btn-secondary" onclick="closeAddMusicModal()">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Save
-                        </button>
-                       
+                        <!-- Arranger -->
+                        <div class="col-md-6">
+                            <label class="custom-label">Arranger</label>
+                            <div class="combo-box">
+                                <div class="input-container" onclick="toggleDropdown('arranger')">
+                                    <div id="arranger_id_container" class="selected-items"></div>
+                                    <input type="text" id="arranger-input" placeholder="Select arrangers...">
+                                    <div class="dropdown-arrow"></div>
+                                </div>
+                                <div id="arranger-options-container" class="options-container">
+                                    @foreach($arrangers as $creator)
+                                        <div class="option-item">
+                                            <label><input type="checkbox" value="{{ $creator->id }}" onclick="handleDropdownSelection(this, 'arranger_id_container', 'selected_arranger_ids')"> {{ $creator->name }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-            
-                    <script>
-                        // Function to close the modal and redirect to the music page
-                        function closeAddMusicModal() {
-                            // Add your redirection logic here
-                            window.location.href = '/musics'; // Replace '/music' with the URL of your music page
-                        }
-                    </script>
+                    <div class="col-12 mt-6">
+                        <label class="custom-label">Reference Verses</label>
+                        <textarea id="versesused" name="versesused" class="modern-input" rows="3" placeholder="Reference verses..."></textarea>
+                    </div>
 
+                    <div class="d-flex justify-content-end gap-3 mt-10 pt-6 border-top">
+                        <button type="button" class="btn btn-premium btn-cancel px-8" onclick="window.location.href='/musics'">
+                            <i class="fas fa-arrow-left mr-2 opacity-50"></i> Back to Library
+                        </button>
+                        <button type="submit" class="btn btn-premium btn-save px-10 shadow-lg">
+                            <i class="fas fa-save mr-2"></i> Commit Masterpiece
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-    </div>
-
 </x-app-layout>
 
 <script>
-  // Generic object to manage selected items
-let selectedDropdownItems = {};
-
-// Function to toggle dropdown visibility
-function toggleDropdown(dropdownId) {
-    let dropdownOptionsContainer = document.getElementById(`${dropdownId}-options-container`);
-    dropdownOptionsContainer.classList.toggle("active");
-}
-
-// Function to handle item selection in a dropdown
-// function handleDropdownSelection(checkbox, selectedContainerId) {
-//     let selectedContainer = document.getElementById(selectedContainerId);
-
-//     // Check if the checkbox is checked
-//     if (checkbox.checked) {
-//         // Append the selected item to the selectedContainer
-//         appendSelectedItem(selectedContainer, checkbox);
-//     } else {
-//         // Remove the item from the selectedContainer
-//         removeSelectedItem(selectedContainer, checkbox);
-//     }
-// }
-
-
-
-function handleDropdownSelection(checkbox, selectedContainerId, hiddenInputId) {
-    let selectedContainer = document.getElementById(selectedContainerId);
-    let hiddenInput = document.getElementById(hiddenInputId);
-
-    // Check if the checkbox is checked
-    if (checkbox.checked) {
-        // Append the selected item to the selectedContainer
-        appendSelectedItem(selectedContainer, checkbox);
-
-        // Update hidden input value with selected ID
-        hiddenInput.value += checkbox.value + ',';
-    } else {
-        // Remove the item from the selectedContainer
-        removeSelectedItem(selectedContainer, checkbox);
-
-        // Remove ID from hidden input value
-        let regex = new RegExp(checkbox.value + ',', 'g');
-        hiddenInput.value = hiddenInput.value.replace(regex, '');
+    // --- RESTORED ORIGINAL VANILLA JS LOGIC ---
+    function toggleDropdown(dropdownId) {
+        document.getElementById(`${dropdownId}-options-container`).classList.toggle("active");
     }
-}
 
+    function handleDropdownSelection(checkbox, selectedContainerId, hiddenInputId) {
+        let selectedContainer = document.getElementById(selectedContainerId);
+        let hiddenInput = document.getElementById(hiddenInputId);
 
-
-// Function to append a selected item to the selected items container
-function appendSelectedItem(selectedContainer, checkbox) {
-    let itemName = checkbox.parentNode.textContent.trim();
-
-    let selectedItem = document.createElement("div");
-    selectedItem.className = "selected-tag";
-    selectedItem.textContent = itemName;
-
-    let removeButton = document.createElement("span");
-    removeButton.textContent = "×";
-    removeButton.onclick = function () {
-        // Uncheck the corresponding checkbox
-        checkbox.checked = false;
-        // Remove the selected item element
-        selectedItem.remove();
-    };
-
-    selectedItem.appendChild(removeButton);
-    selectedContainer.appendChild(selectedItem);
-}
-
-// Function to remove a selected item from the selected items container
-function removeSelectedItem(selectedContainer, checkbox) {
-    Array.from(selectedContainer.children).forEach((tag) => {
-        // Get the text content of the selected item and remove unwanted characters
-        let tagText = tag.textContent.trim().replace(/×/g, "");
-
-        // Get the text content of the checkbox's parent node and remove unwanted characters
-        let checkboxText = checkbox.parentNode.textContent.trim().replace(/×/g, "");
-
-        // Check if the cleaned text content matches between the selected item and checkbox
-        if (tagText === checkboxText) {
-            // Remove the selected item element
-            tag.remove();
-        }
-    });
-}
-
-// Function to filter options in a dropdown
-function filterDropdownOptions(inputId, optionsContainerId) {
-    const input = document.getElementById(inputId).value.trim().toUpperCase();
-    const optionsContainer = document.getElementById(optionsContainerId);
-    const optionItems = optionsContainer.querySelectorAll(".option-item");
-
-    optionItems.forEach((item) => {
-        const text = item.textContent.trim().toUpperCase();
-        const checkbox = item.querySelector('input[type="checkbox"]');
-        if (text.includes(input)) {
-            item.style.display = "";
-            if (checkbox) {
-                checkbox.style.display = "inline-block";
-            }
+        if (checkbox.checked) {
+            appendSelectedItem(selectedContainer, checkbox);
+            hiddenInput.value += checkbox.value + ',';
         } else {
-            item.style.display = "none";
-            if (checkbox) {
-                checkbox.style.display = "none";
+            removeSelectedItem(selectedContainer, checkbox);
+            let regex = new RegExp(checkbox.value + ',', 'g');
+            hiddenInput.value = hiddenInput.value.replace(regex, '');
+        }
+    }
+
+    function appendSelectedItem(selectedContainer, checkbox) {
+        let itemName = checkbox.parentNode.textContent.trim();
+        let selectedItem = document.createElement("div");
+        selectedItem.className = "selected-tag";
+        selectedItem.textContent = itemName;
+
+        let removeButton = document.createElement("span");
+        removeButton.textContent = "×";
+        removeButton.onclick = function (e) {
+            e.stopPropagation();
+            checkbox.checked = false;
+            selectedItem.remove();
+            let hiddenInput = document.getElementById(checkbox.closest('.combo-box').previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.id);
+            // Search for the right hidden input is complex in this structure, better pass it or use data-attrs
+            // Simplified: re-run handleDropdownSelection(checkbox, ...)
+            handleDropdownSelection(checkbox, selectedContainer.id, checkbox.closest('.row').previousElementSibling.previousElementSibling.previousElementSibling.id.replace('id_container', 'ids'));
+            // Wait, I'll just use a smarter way to find hidden input via data-attributes or explicit call
+        };
+        // Re-implementing simplified remove inside checkbox closure
+        removeButton.onclick = function(e) {
+            e.stopPropagation();
+            checkbox.click(); // This will trigger handleDropdownSelection and handle everything
+        };
+
+        selectedItem.appendChild(removeButton);
+        selectedContainer.appendChild(selectedItem);
+    }
+
+    function removeSelectedItem(selectedContainer, checkbox) {
+        Array.from(selectedContainer.children).forEach((tag) => {
+            let tagText = tag.textContent.trim().replace(/×/g, "");
+            let checkboxText = checkbox.parentNode.textContent.trim();
+            if (tagText === checkboxText) tag.remove();
+        });
+    }
+
+    function filterDropdownOptions(inputId, optionsContainerId) {
+        const input = document.getElementById(inputId).value.trim().toUpperCase();
+        const optionsContainer = document.getElementById(optionsContainerId);
+        const optionItems = optionsContainer.querySelectorAll(".option-item");
+        optionItems.forEach((item) => {
+            const text = item.textContent.trim().toUpperCase();
+            item.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+
+    function attachFilterListeners(inputId, optionsContainerId) {
+        const inputElement = document.getElementById(inputId);
+        inputElement.addEventListener("input", function () {
+            filterDropdownOptions(inputId, optionsContainerId);
+            document.getElementById(optionsContainerId).classList.add("active");
+        });
+    }
+
+    document.addEventListener("click", function (event) {
+        const allComboBoxes = document.querySelectorAll(".combo-box");
+        allComboBoxes.forEach((comboBox) => {
+            if (!comboBox.contains(event.target)) {
+                comboBox.querySelector(".options-container").classList.remove("active");
             }
-        }
+        });
     });
-}
 
-// Attach event listeners for document click and input change
-document.addEventListener("click", function (event) {
-    // Hide dropdowns when clicking outside of the input containers and options containers
-    const allComboBoxes = document.querySelectorAll(".combo-box");
-    allComboBoxes.forEach((comboBox) => {
-        const inputContainer = comboBox.querySelector(".input-container");
-        const optionsContainer = comboBox.querySelector(".options-container");
-        if (!inputContainer.contains(event.target) && !optionsContainer.contains(event.target)) {
-            optionsContainer.classList.remove("active");
-        }
+    function updateFileLabel(input, previewId) {
+        let name = input.files[0] ? input.files[0].name : '';
+        document.getElementById(previewId).innerHTML = `<b>${name}</b>`;
+    }
+
+    // Initialize listeners
+    ['category', 'instrumentation', 'ensemble_type', 'lyricist', 'composer', 'arranger'].forEach(id => {
+        attachFilterListeners(`${id}-input`, `${id}-options-container`);
     });
-});
-
-// Function to attach input event listeners for filtering options
-function attachFilterListeners(inputId, optionsContainerId) {
-    const inputElement = document.getElementById(inputId);
-    inputElement.addEventListener("input", function () {
-        filterDropdownOptions(inputId, optionsContainerId);
-        toggleDropdown(inputId.replace("-input", "")); // Open dropdown if not already open
-    });
-}
-
-// Initialize filter listeners for each dropdown
-attachFilterListeners("lyricist-input", "lyricist-options-container");
-attachFilterListeners("composer-input", "composer-options-container");
-attachFilterListeners("arranger-input", "arranger-options-container");
-
 </script>
