@@ -622,6 +622,13 @@ public function show($id, $songNumber = null, $languageId = null, $playlistId = 
         return redirect()->route('musics.index', ['church_hymn_id' => $request->input('edit_church_hymn_id')])->with('success', 'Music entry updated successfully!');
     }
 
+    public function logPlay($id)
+    {
+        $music = Music::findOrFail($id);
+        ActivityLogHelper::log('played', $music->title, $music->id, 'played hymn');
+        return response()->json(['success' => true]);
+    }
+
     // Delete the specified music entry from the database
     public function destroy(Music $music)
     {

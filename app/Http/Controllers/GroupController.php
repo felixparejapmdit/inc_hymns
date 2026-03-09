@@ -237,8 +237,8 @@ class GroupController extends Controller
     public function showUsers($id)
     {
 
-        $group = Group::with('users')->findOrFail($id);
-        $users = $group->users;
+        $group = Group::findOrFail($id);
+        $users = $group->users()->paginate(10);
         return view('users.index', compact('group', 'users'));
     }
 

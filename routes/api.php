@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\MusicController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ResourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,13 @@ use App\Http\Controllers\Api\UserController;
     Route::post('/users', [UserController::class, 'store'])->name('api.users.store');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('api.users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('api.users.destroy');
+
+    // Generic Resource Routes
+    Route::group(['prefix' => '{resource}'], function () {
+        Route::get('/', [ResourceController::class, 'index'])->name('api.resource.index');
+        Route::get('/{id}', [ResourceController::class, 'show'])->name('api.resource.show');
+        Route::post('/', [ResourceController::class, 'store'])->name('api.resource.store');
+        Route::put('/{id}', [ResourceController::class, 'update'])->name('api.resource.update');
+        Route::delete('/{id}', [ResourceController::class, 'destroy'])->name('api.resource.destroy');
+    })->where('resource', 'categories|instrumentations|ensemble-types|languages|church-hymns');
+

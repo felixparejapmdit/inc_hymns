@@ -65,7 +65,7 @@ class DashboardController extends Controller
     $languageCounts = Language::withCount('musics')->get();
     
     // Fetch most viewed hymns with views count and song number
-    $mostViewedHymns = ActivityLog::where('changes', 'view hymn')
+    $mostViewedHymns = ActivityLog::where('changes', 'played hymn')
         ->join('musics', 'activity_logs.model_id', '=', 'musics.id')
         ->select('musics.id', 'musics.title', 'musics.song_number', DB::raw('COUNT(activity_logs.id) as views_count'))
         ->groupBy('musics.id', 'musics.title', 'musics.song_number')

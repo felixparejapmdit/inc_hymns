@@ -33,7 +33,8 @@ class MusicCreatorController extends Controller
                 ->paginate(15);
         }
         
-        return view('music_management/credits', compact('credits'));
+        $designations = \App\Models\Designation::all();
+        return view('music_management/credits', compact('credits', 'designations'));
     }
     
 
@@ -109,11 +110,7 @@ class MusicCreatorController extends Controller
         ]);
     }
 
-    // Show the form for editing the specified music creator
-    public function edit(MusicCreator $creator)
-    {
-        return view('creators.edit', compact('creator'));
-    }
+
 
     public function update(Request $request, MusicCreator $credit)
     {
@@ -171,5 +168,11 @@ class MusicCreatorController extends Controller
         ActivityLogHelper::log('deleted', $credit->name, $credit->id,  'delete the credit');
 
         return redirect()->route('credits.index')->with('success', 'Music creator deleted successfully!');
+    }
+
+    public function profile($id)
+    {
+        $creator = MusicCreator::with(['designations', 'lyricistMusics', 'composerMusics', 'arrangerMusics'])->findOrFail($id);
+        return view('music_creators.profile', compact('creator'));
     }
 }

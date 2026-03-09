@@ -12,18 +12,25 @@
                     </a>
                 </div>
 
-      <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:flex">
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-8 sm:-my-px ml-4">
                     <a href="{{ route('dashboard') }}" class="flex items-center no-underline hover:opacity-80 transition-opacity">
-                        <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">INC Hymns</span>
+                        <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; font-size: 1.1rem;">INC Hymns</span>
                     </a>
                 </div>
 
             </div>
 
-            <!-- User Profile Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
-               <x-dropdown align="right" width="48">
+            <div class="d-none d-sm-flex sm:items-center sm:gap-6">
+                <!-- Branding (Only on Show Page) -->
+                @if(Route::currentRouteName() == 'musics.show' || Request::is('musics/*'))
+                <div class="flex items-center">
+                    <h2 class="text-lg md:text-xl font-black text-slate-800 uppercase tracking-tighter mb-0 flex items-center gap-2 whitespace-nowrap">
+                        <span class="text-blue-600">Hymn</span> Masterpiece
+                    </h2>
+                </div>
+                @endif
+                <x-dropdown align="right" width="48">
                 
                     <x-slot name="trigger">
                     @if ((\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline') || (\App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline'))
@@ -31,7 +38,7 @@
                             <div>Create New</div>
                             <div class="ml-1">
                                 <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div class="ml-1">
@@ -73,7 +80,7 @@
 
                             <div class="ml-1">
                                 <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div class="ml-1">
@@ -127,7 +134,14 @@
     </div>
 
     <!-- Responsive Navigation Menu for Mobile -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'd-none': ! open}" class="d-none d-sm-none sm:hidden">
+        @if(Route::currentRouteName() == 'musics.show' || Request::is('musics/*'))
+        <div class="pt-4 pb-4 px-5 border-b border-gray-100 dark:border-gray-700 bg-slate-50/50 d-md-none">
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-tighter mb-0 flex items-center gap-2 whitespace-nowrap">
+                <span class="text-blue-600">Hymn</span> Masterpiece
+            </h2>
+        </div>
+        @endif
         <div class="pt-2 pb-3 space-y-1">
             <!-- Dashboard Link -->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -152,7 +166,7 @@
                     {{ __('Hymn') }}
                     <div class="ml-1">
                         <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </div>
                 </a>
@@ -161,7 +175,7 @@
                     {{ __('User') }}
                     <div class="ml-1">
                         <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </div>
                 </a>

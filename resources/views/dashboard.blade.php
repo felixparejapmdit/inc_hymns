@@ -1,4 +1,4 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -115,7 +115,7 @@
     }
 
     .stat-label {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
         font-weight: 700;
         color: #475569;
         text-transform: uppercase;
@@ -141,8 +141,8 @@
     }
 
     .mini-list-item {
-        font-size: 0.85rem;
-        padding: 6px 0;
+        font-size: 1rem;
+        padding: 8px 0;
         border-bottom: 1px solid rgba(0,0,0,0.03);
         color: #475569;
         white-space: nowrap;
@@ -430,11 +430,11 @@
             <!-- Statistics Overview (3x2 Grid) -->
             <div class="stat-grid">
                 <!-- Total Hymns (Featured Card) -->
-                <div class="stat-item total-stat shadow-lg">
+                <a href="{{ route('musics.index') }}" class="stat-item total-stat shadow-lg">
                     <div class="stat-value">{{ $totalChurchHymns->sum('musics_count') }}</div>
-                    <div class="stat-label">Grand Total Hymns</div>
+                    <div class="stat-label">Total Hymns</div>
                     <i class="fas fa-layer-group" style="font-size: 3.5rem; opacity: 0.2; position: absolute; right: 20px; bottom: 20px;"></i>
-                </div>
+                </a>
 
                 @foreach($totalChurchHymns as $hymn)
                     @php
@@ -793,7 +793,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="dashboard-card p-4 h-100">
                             <div class="d-flex justify-between items-center mb-3">
-                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Instrumentations</h4>
+                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Instrumentations</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $instrumentations->total() }}</span>
                             </div>
                             <div class="mini-list">
@@ -811,7 +811,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="dashboard-card p-4 h-100">
                             <div class="d-flex justify-between items-center mb-3">
-                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Ensemble Types</h4>
+                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Ensemble Types</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $ensembleTypes->total() }}</span>
                             </div>
                             <div class="mini-list">
@@ -829,7 +829,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="dashboard-card p-4 h-100">
                             <div class="d-flex justify-between items-center mb-3">
-                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Hymn Categories</h4>
+                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Hymn Categories</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $categories->total() }}</span>
                             </div>
                             <div class="mini-list">
@@ -847,12 +847,17 @@
                     <div class="col-md-3 mb-4">
                         <div class="dashboard-card p-4 h-100">
                             <div class="d-flex justify-between items-center mb-3">
-                                <h4 class="small font-bold text-muted uppercase tracking-wider mb-0">Hymn Credits</h4>
+                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Hymn Credits</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $credits->total() }}</span>
                             </div>
                             <div class="mini-list">
                                 @forelse($credits as $item)
-                                    <div class="mini-list-item"><i class="fas fa-pen-nib text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
+                                    <div class="mini-list-item">
+                                        <i class="fas fa-pen-nib text-muted mr-2 opacity-50"></i>
+                                        <a href="{{ route('music_creators.profile', $item->id) }}" class="text-dark hover:text-blue-600 transition-colors">
+                                            {{ $item->name }}
+                                        </a>
+                                    </div>
                                 @empty
                                     <div class="text-muted small">No data entries.</div>
                                 @endforelse

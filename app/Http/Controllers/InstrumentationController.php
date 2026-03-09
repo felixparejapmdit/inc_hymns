@@ -12,7 +12,7 @@ class InstrumentationController extends Controller
     public function index()
     {
   
-        $instrumentations = Instrumentation::all();
+        $instrumentations = Instrumentation::paginate(15);
         return view('music_management/instrumentations', compact('instrumentations'));
     }
 

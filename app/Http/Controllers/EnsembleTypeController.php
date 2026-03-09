@@ -12,8 +12,8 @@ class EnsembleTypeController extends Controller
     public function index()
     {
     
-        $ensembletypes = EnsembleType::all();
-        return view('music_management/ensemble_types', compact('ensembletypes'));
+        $ensemble_types = EnsembleType::paginate(15);
+        return view('music_management/ensemble_types', compact('ensemble_types'));
     }
 
     // Show the form for creating a new ensembletype
