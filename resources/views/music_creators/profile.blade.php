@@ -212,7 +212,17 @@
 <x-app-layout>
     <div class="container py-5">
         <div class="profile-card">
-            <a href="{{ url()->previous() }}" class="back-btn" title="Go Back">
+            @php
+                $backUrl = url()->previous();
+                if (request('ref') === 'dashboard-credits') {
+                    $backUrl = route('dashboard') . '#hymn-credits-section';
+                } elseif (request('ref') === 'credits') {
+                    // Check if previous url already has a hash to clean it up before appending, or simply append directly
+                    $cleanUrl = explode('#', $backUrl)[0];
+                    $backUrl = $cleanUrl . '#credit-row-' . $creator->id;
+                }
+            @endphp
+            <a href="{{ $backUrl }}" class="back-btn" title="Go Back">
                 <i class="fas fa-arrow-left"></i>
             </a>
 

@@ -65,7 +65,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="{{ isset($header) ? 'mt-44' : 'mt-2' }}">
+            <main class="{{ isset($header) ? 'mt-44' : '' }}" style="{{ isset($header) ? '' : 'margin-top: 2px;' }}">
                 {{ $slot }}
             </main>
         </div>

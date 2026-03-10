@@ -98,38 +98,54 @@
                                 </div>
 
                                 <!-- Classification Grid -->
-                                <div class="row g-3 mb-5">
-                                    <div class="col-6">
-                                        <div class="info-tag-box">
+                                <div class="row g-2 g-md-3 mb-4 mb-md-5">
+                                    <div class="col-12 col-sm-6">
+                                        <div class="info-tag-box h-100">
                                             <label class="tag-label"><i class="fas fa-layer-group"></i> Category</label>
-                                            <div class="tag-values">
-                                                @foreach ($music->categories as $category)
+                                            <div class="tag-values d-flex flex-wrap gap-1">
+                                                @forelse ($music->categories as $category)
                                                     <span class="tag-item">{{ $category->name }}</span>
-                                                @endforeach
+                                                @empty
+                                                    <span class="tag-item opacity-50 text-xs">Uncategorized</span>
+                                                @endforelse
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="info-tag-box">
-                                            <label class="tag-label"><i class="fas fa-guitar"></i> Instrument</label>
-                                            <div class="tag-values">
-                                                @foreach ($music->instrumentations as $inst)
+                                    <div class="col-12 col-sm-6">
+                                        <div class="info-tag-box h-100">
+                                            <label class="tag-label"><i class="fas fa-users"></i> Ensemble</label>
+                                            <div class="tag-values d-flex flex-wrap gap-1">
+                                                @forelse ($music->ensembleTypes as $ensemble)
+                                                    <span class="tag-item bg-blue-50 text-blue-700 border border-blue-100">{{ $ensemble->name }}</span>
+                                                @empty
+                                                    <span class="tag-item opacity-50 text-xs">Standard</span>
+                                                @endforelse
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="info-tag-box h-100">
+                                            <label class="tag-label"><i class="fas fa-guitar"></i> Instrumentations</label>
+                                            <div class="tag-values d-flex flex-wrap gap-1">
+                                                @forelse ($music->instrumentations as $inst)
                                                     <span class="tag-item accent-gold">{{ $inst->name }}</span>
-                                                @endforeach
+                                                @empty
+                                                    <span class="tag-item opacity-50 text-xs">None</span>
+                                                @endforelse
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Production Credits -->
-                                <div class="section-group mb-5">
-                                    <label class="section-label"><i class="fas fa-wand-magic-sparkles"></i> Production Credits</label>
-                                    <div class="credit-plate p-4">
+                                <!-- Hymn Credits -->
+                                <div class="section-group mb-4 mb-md-5">
+                                    <label class="section-label"><i class="fas fa-wand-magic-sparkles"></i> Hymn Credits</label>
+                                    <div class="credit-plate p-3 p-md-4">
                                         <div class="credit-row d-flex align-items-center mb-3">
-                                            <div class="credit-icon"><i class="fas fa-pen-nib"></i></div>
-                                            <div class="flex-grow-1 ml-3">
+                                            <div class="credit-icon flex-shrink-0"><i class="fas fa-pen-nib"></i></div>
+                                            <div class="flex-grow-1 ml-3" style="min-width: 0;">
                                                 <div class="credit-title">Lyricist</div>
-                                                <div class="credit-name">
+                                                <div class="credit-name d-flex flex-wrap gap-1">
                                                     @foreach ($music->lyricists as $lyricist)
                                                         <span class="creator-item-inline" 
                                                             data-creator-id="{{ $lyricist->id }}" 
@@ -146,11 +162,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="credit-row d-flex align-items-center">
-                                            <div class="credit-icon"><i class="fas fa-music"></i></div>
-                                            <div class="flex-grow-1 ml-3">
+                                        <div class="credit-row d-flex align-items-center mb-3">
+                                            <div class="credit-icon flex-shrink-0"><i class="fas fa-music"></i></div>
+                                            <div class="flex-grow-1 ml-3" style="min-width: 0;">
                                                 <div class="credit-title">Composer</div>
-                                                <div class="credit-name">
+                                                <div class="credit-name d-flex flex-wrap gap-1">
                                                     @foreach ($music->composers as $composer)
                                                         <span class="creator-item-inline" 
                                                             data-creator-id="{{ $composer->id }}" 
@@ -163,6 +179,27 @@
                                                             data-image="{{ $composer->image ? asset('storage/' . $composer->image) : asset('images/blank_image.png') }}"
                                                             data-background="{{ $composer->music_background ?? '' }}"
                                                             >{{ $composer->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="credit-row d-flex align-items-center mb-3">
+                                            <div class="credit-icon flex-shrink-0"><i class="fas fa-headphones"></i></div>
+                                            <div class="flex-grow-1 ml-3" style="min-width: 0;">
+                                                <div class="credit-title">Arranger</div>
+                                                <div class="credit-name d-flex flex-wrap gap-1">
+                                                    @foreach ($music->arrangers as $arranger)
+                                                        <span class="creator-item-inline" 
+                                                            data-creator-id="{{ $arranger->id }}" 
+                                                            data-name="{{ $arranger->name }}" 
+                                                            data-role="Arranger"
+                                                            data-local="{{ $arranger->local ?? '' }}"
+                                                            data-district="{{ $arranger->district ?? '' }}"
+                                                            data-duty="{{ $arranger->duty ?? '' }}"
+                                                            data-birthday="{{ $arranger->birthday ? \Carbon\Carbon::parse($arranger->birthday)->format('F d, Y') : '' }}"
+                                                            data-image="{{ $arranger->image ? asset('storage/' . $arranger->image) : asset('images/blank_image.png') }}"
+                                                            data-background="{{ $arranger->music_background ?? '' }}"
+                                                            >{{ $arranger->name }}</span>{{ !$loop->last ? ',' : '' }}
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -188,38 +225,64 @@
                         <div id="spotlightHymnInfo" class="spotlight-content-mode p-5">
                             <h2 class="spotlight-title text-center mb-5">{{ $music->title }}</h2>
                             <div class="metadata-stack">
-                                <div class="row g-4 text-center">
-                                    <div class="col-6">
-                                        <label class="section-label d-block mb-3"><i class="fas fa-layer-group"></i> Category</label>
-                                        <div class="tag-values">
-                                            @foreach ($music->categories as $category)
+                                <div class="row g-3 g-md-4 text-center justify-content-center">
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <label class="section-label d-block mb-2 justify-content-center"><i class="fas fa-layer-group"></i> Category</label>
+                                        <div class="tag-values d-flex flex-wrap justify-content-center gap-1">
+                                            @forelse ($music->categories as $category)
                                                 <span class="tag-item mx-1">{{ $category->name }}</span>
-                                            @endforeach
+                                            @empty
+                                                <span class="tag-item opacity-50 text-xs">Uncategorized</span>
+                                            @endforelse
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <label class="section-label d-block mb-3"><i class="fas fa-guitar"></i> Instrument</label>
-                                        <div class="tag-values">
-                                            @foreach ($music->instrumentations as $inst)
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <label class="section-label d-block mb-2 justify-content-center"><i class="fas fa-users"></i> Ensemble</label>
+                                        <div class="tag-values d-flex flex-wrap justify-content-center gap-1">
+                                            @forelse ($music->ensembleTypes as $ensemble)
+                                                <span class="tag-item bg-blue-50 text-blue-700 border border-blue-100 mx-1">{{ $ensemble->name }}</span>
+                                            @empty
+                                                <span class="tag-item opacity-50 text-xs">Standard</span>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-3 mt-md-0">
+                                        <label class="section-label d-block mb-2 justify-content-center"><i class="fas fa-guitar"></i> Instrumentations</label>
+                                        <div class="tag-values d-flex flex-wrap justify-content-center gap-1">
+                                            @forelse ($music->instrumentations as $inst)
                                                 <span class="tag-item accent-gold mx-1">{{ $inst->name }}</span>
-                                            @endforeach
+                                            @empty
+                                                <span class="tag-item opacity-50 text-xs">None</span>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-5 text-center">
-                                    <label class="section-label d-block mb-3"><i class="fas fa-wand-magic-sparkles"></i> Production Credits</label>
-                                    <div class="credit-plate p-4 d-flex justify-content-center gap-5">
-                                        <div>
+                                <div class="mt-4 mt-md-5 text-center">
+                                    <label class="section-label d-block mb-3 justify-content-center"><i class="fas fa-wand-magic-sparkles"></i> Hymn Credits</label>
+                                    <div class="credit-plate p-3 p-md-4 d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 gap-md-5">
+                                        <div class="w-100 w-sm-auto">
                                             <span class="credit-title d-block mb-1">Lyricist</span>
-                                            @foreach ($music->lyricists as $lyricist)
-                                                <span class="font-bold text-slate-700">{{ $lyricist->name }}</span>{{ !$loop->last ? ',' : '' }}
-                                            @endforeach
+                                            <div class="d-flex flex-wrap justify-content-center gap-1">
+                                                @foreach ($music->lyricists as $lyricist)
+                                                    <span class="font-bold text-slate-700">{{ $lyricist->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                                @endforeach
+                                            </div>
                                         </div>
-                                        <div>
+                                        <div class="w-100 w-sm-auto">
                                             <span class="credit-title d-block mb-1">Composer</span>
-                                            @foreach ($music->composers as $composer)
-                                                <span class="font-bold text-slate-700">{{ $composer->name }}</span>{{ !$loop->last ? ',' : '' }}
-                                            @endforeach
+                                            <div class="d-flex flex-wrap justify-content-center gap-1">
+                                                @foreach ($music->composers as $composer)
+                                                    <span class="font-bold text-slate-700">{{ $composer->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="w-100 w-sm-auto">
+                                            <span class="credit-title d-block mb-1">Arranger</span>
+                                            <div class="d-flex flex-wrap justify-content-center gap-1">
+                                                @foreach ($music->arrangers as $arranger)
+                                                    <span class="font-bold text-slate-700">{{ $arranger->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -284,6 +347,15 @@
                                                 $hasPreludes = !empty($music->preludes_mp3_path);
                                                 $hasScore = !empty($music->music_score_path);
                                                 $hasLyrics = !empty($music->lyrics_path);
+
+                                                $scoreActive = false;
+                                                $lyricsActive = false;
+
+                                                if ($hasScore) {
+                                                    $scoreActive = true;
+                                                } else if ($hasLyrics) {
+                                                    $lyricsActive = true;
+                                                }
                                             @endphp
 
                                             <button class="track-tab tab-button-mp3 {{ $hasVocals ? 'active' : 'disabled opacity-40 grayscale pointer-events-none' }} hub-mini-btn vocals-active" 
@@ -299,11 +371,11 @@
                                                 <i class="fas fa-play-circle d-block d-sm-inline mb-1 mb-sm-0 mr-sm-1"></i> <span>PreLudes</span>
                                             </button>
                                             <div class="mx-1 mx-md-2 border-l border-slate-300"></div>
-                                            <button class="track-tab tab-button active hub-mini-btn score-active {{ $hasScore ? '' : 'disabled opacity-40 grayscale pointer-events-none' }}" 
+                                            <button class="track-tab tab-button {{ $scoreActive ? 'active' : '' }} hub-mini-btn score-active {{ $hasScore ? '' : 'disabled opacity-40 grayscale pointer-events-none' }}" 
                                                 data-path="{{ $hasScore ? asset('storage/' . $music->music_score_path) : '' }}" {{ $hasScore ? '' : 'disabled' }}>
                                                 <i class="fas fa-file-invoice d-block d-sm-inline mb-1 mb-sm-0 mr-sm-1"></i> <span>Score</span>
                                             </button>
-                                            <button class="track-tab tab-button hub-mini-btn {{ $hasLyrics ? '' : 'disabled opacity-40 grayscale pointer-events-none' }}" 
+                                            <button class="track-tab tab-button {{ $lyricsActive ? 'active' : '' }} hub-mini-btn {{ $hasLyrics ? '' : 'disabled opacity-40 grayscale pointer-events-none' }}" 
                                                 data-path="{{ $hasLyrics ? asset('storage/' . $music->lyrics_path) : '' }}" {{ $hasLyrics ? '' : 'disabled' }}>
                                                 <i class="fas fa-align-center d-block d-sm-inline mb-1 mb-sm-0 mr-sm-1"></i> <span>Lyrics</span>
                                             </button>
@@ -1364,6 +1436,64 @@ body.night-mode .workspace-btn {
     text-align: center;
     font-size: 1.5rem;
     line-height: 2;
+}
+
+.pdf-page-wrapper {
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: center center;
+}
+
+.nav-arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--accent-blue);
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.nav-arrow-btn:hover:not(:disabled) {
+    background: var(--accent-blue);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    border-color: var(--accent-blue);
+    box-shadow: 0 10px 20px rgba(62, 109, 156, 0.3);
+}
+
+.nav-arrow-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.nav-prev {
+    left: -30px;
+}
+
+.nav-next {
+    right: -30px;
+}
+
+@media (max-width: 768px) {
+    .nav-arrow-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    .nav-prev { left: -10px; }
+    .nav-next { right: -10px; }
+}
+
     color: #1e293b;
     font-weight: 600;
     max-width: 700px;
@@ -1529,6 +1659,14 @@ $(document).ready(function() {
     const initialPath = $('.tab-button.active').data('path');
     if (initialPath) {
         renderContent(initialPath);
+    } else {
+        $('#pdf-container').html(`
+            <div class="d-flex flex-column align-items-center justify-content-center w-100" style="min-height: 400px; color: #94a3b8; font-family: 'Outfit', sans-serif;">
+                <i class="fas fa-file-excel mb-4" style="font-size: 4rem; opacity: 0.2;"></i>
+                <h3 class="font-bold text-slate-400 uppercase tracking-widest text-xl mb-2">No Content Found</h3>
+                <p class="text-sm opacity-80">There handles to be no music score or lyrics file uploaded for this piece.</p>
+            </div>
+        `);
     }
 
 
@@ -1638,36 +1776,166 @@ $(document).ready(function() {
     }
 
     let currentScale = 1.35; // Increased scale for 'fitted' but large look
+    let currentPdfPage = 1;
+    let totalPdfPages = 1;
+    let pdfDoc = null;
 
     // Function to render PDF content
     function renderPDF(pdfPath) {
-        // Clear the PDF container
+        // Clear the PDF container and add Flipbook UI
         $('#pdf-container').empty();
+        
+        const flipControls = `
+            <div id="flip-controls" class="d-flex justify-content-center align-items-center w-100 mb-3" style="display: none !important;">
+                <div class="font-bold text-slate-500 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200 shadow-sm" style="font-size: 1.1rem; z-index: 10;">Page <span id="current-page-num" class="text-blue-600 font-black">1</span> of <span id="total-page-num">1</span></div>
+            </div>
+            <div id="pdf-flipbook" class="position-relative w-100 overflow-visible" style="min-height: 800px; display: flex; flex-direction: column; align-items: center; touch-action: pan-y;">
+                <button id="prev-page" class="nav-arrow-btn nav-prev shadow-lg" disabled><i class="fas fa-chevron-left"></i></button>
+                <button id="next-page" class="nav-arrow-btn nav-next shadow-lg" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+        `;
+        $('#pdf-container').html(flipControls);
 
         // Use PDF.js to render the PDF
         pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
-            // Loop through each page and render it
-            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                pdf.getPage(pageNum).then(function(page) {
+            pdfDoc = pdf;
+            totalPdfPages = pdf.numPages;
+            currentPdfPage = 1;
+            
+            $('#total-page-num').text(totalPdfPages);
+            
+            if(totalPdfPages > 1) {
+                $('#flip-controls').attr('style', 'display: flex !important;');
+                $('#next-page').prop('disabled', false);
+            } else {
+                $('#next-page').prop('disabled', true);
+            }
+            
+            // Re-bind click handlers for flip controls
+            $('#prev-page').off('click').on('click', function() {
+                if (currentPdfPage > 1) {
+                    showPage(currentPdfPage - 1, 'prev');
+                }
+            });
+            $('#next-page').off('click').on('click', function() {
+                if (currentPdfPage < totalPdfPages) {
+                    showPage(currentPdfPage + 1, 'next');
+                }
+            });
+
+            // Set up touch swipe listeners
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const flipbook = document.getElementById('pdf-flipbook');
+            
+            flipbook.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            flipbook.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left -> Next page
+                    if (currentPdfPage < totalPdfPages) showPage(currentPdfPage + 1, 'next');
+                }
+                if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right -> Prev page
+                    if (currentPdfPage > 1) showPage(currentPdfPage - 1, 'prev');
+                }
+            }
+
+            // Loop through each page and render it invisibly (except the first)
+            for (let pageNum = 1; pageNum <= totalPdfPages; pageNum++) {
+                pdfDoc.getPage(pageNum).then(function(page) {
                     var viewport = page.getViewport({ scale: currentScale });
                     
+                    var pageDiv = document.createElement('div');
+                    pageDiv.id = 'pdf-page-' + pageNum;
+                    pageDiv.className = 'pdf-page-wrapper w-100';
+                    
+                    // Initial State Setup
+                    if (pageNum === 1) {
+                        pageDiv.style.opacity = '1';
+                        pageDiv.style.position = 'relative';
+                        pageDiv.style.pointerEvents = 'auto';
+                        pageDiv.style.transform = 'translateX(0) scale(1)';
+                    } else {
+                        pageDiv.style.opacity = '0';
+                        pageDiv.style.position = 'absolute';
+                        pageDiv.style.top = '0';
+                        pageDiv.style.pointerEvents = 'none';
+                        pageDiv.style.transform = 'translateX(50px) scale(0.95)'; // start slightly right
+                    }
+
                     // Create a canvas for each page
                     var canvas = document.createElement('canvas');
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
-                    $('#pdf-container').append(canvas);
+                    canvas.className = 'shadow-xl rounded-2xl mx-auto block';
+                    canvas.style.maxWidth = '100%';
+                    canvas.style.height = 'auto';
+                    canvas.style.backgroundColor = 'white';
+                    
+                    pageDiv.appendChild(canvas);
+                    $('#pdf-flipbook').append(pageDiv);
 
                     var context = canvas.getContext('2d');
-
                     var renderContext = {
                         canvasContext: context,
                         viewport: viewport
                     };
-
                     page.render(renderContext);
                 });
             }
         });
+    }
+
+    function showPage(num, direction) {
+        let oldPage = currentPdfPage;
+        currentPdfPage = num;
+        
+        $('#current-page-num').text(num);
+        
+        // Update button states
+        $('#prev-page').prop('disabled', currentPdfPage === 1);
+        $('#next-page').prop('disabled', currentPdfPage === totalPdfPages);
+        
+        let $oldDiv = $('#pdf-page-' + oldPage);
+        let $newDiv = $('#pdf-page-' + num);
+        
+        // Animate Old Page Out
+        $oldDiv.css({
+            'opacity': '0',
+            'position': 'absolute',
+            'pointer-events': 'none',
+            'transform': direction === 'next' ? 'translateX(-50px) scale(0.95)' : 'translateX(50px) scale(0.95)'
+        });
+        
+        // Prepare New Page to Slide In
+        $newDiv.css({
+            'transition': 'none',
+            'transform': direction === 'next' ? 'translateX(50px) scale(0.95)' : 'translateX(-50px) scale(0.95)'
+        });
+        
+        // Force Reflow
+        $newDiv[0].offsetHeight;
+        
+        // Animate New Page In
+        $newDiv.css({
+            'transition': 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
+            'opacity': '1',
+            'position': 'relative',
+            'pointer-events': 'auto',
+            'transform': 'translateX(0) scale(1)'
+        });
+        
+        // Auto-scroll to top to ensure page isn't cut off if old page was taller
+        scrollToStandTop();
     }
 
 function renderLyrics(lyricsPath) {
@@ -1677,9 +1945,103 @@ function renderLyrics(lyricsPath) {
     $.ajax({
         url: lyricsPath,
         success: function(data) {
+            let htmlContent = '';
+            
+            // Extract standard [00:00.00] LRC formatted tags to implement sync
+            const lines = data.split('\n');
+            const lrcRegex = /\\[(\\d{2,}):(\\d{2}(?:\\.\\d{1,3})?)\\]/g;
+            let hasSync = false;
+            let syncLines = [];
+
+            lines.forEach(line => {
+                let match;
+                let hasTime = false;
+                let text = line.replace(/\\[\\d{2,}:\\d{2}(?:\\.\\d{1,3})?\\]/g, '').trim();
+                
+                lrcRegex.lastIndex = 0;
+                while ((match = lrcRegex.exec(line)) !== null) {
+                    hasSync = true;
+                    hasTime = true;
+                    const mins = parseInt(match[1], 10);
+                    const secs = parseFloat(match[2]);
+                    const totalSecs = (mins * 60) + secs;
+                    syncLines.push({ time: totalSecs, text: text });
+                }
+                
+                if(!hasTime && line.trim() !== '') {
+                    syncLines.push({ time: null, text: line.trim() });
+                } else if(!hasTime) {
+                    syncLines.push({ time: null, text: '' });
+                }
+            });
+
+            if (hasSync) {
+                // Sort mapped lyrics linearly by timestamp
+                syncLines.sort((a, b) => {
+                    if(a.time === null) return -1;
+                    if(b.time === null) return 1;
+                    return a.time - b.time;
+                });
+                
+                htmlContent = syncLines.map((line, index) => {
+                    if(line.time !== null) {
+                        return '<div class="lyric-line transition-all duration-300 py-1" id="lyric-idx-'+index+'" data-time="'+line.time+'">'+(line.text || '<br>')+'</div>';
+                    }
+                    return '<div class="lyric-line-unsynced opacity-50 mb-2 py-1">'+(line.text || '<br>')+'</div>';
+                }).join('');
+                
+                // Broadcast Karaoke sync engine variables to global scope
+                window.syncLyricsData = syncLines.map((l, i) => ({...l, id: 'lyric-idx-'+i})).filter(l => l.time !== null);
+                
+                window.syncLyrics = function(currentTime) {
+                    if (!window.syncLyricsData || window.syncLyricsData.length === 0) return;
+                    
+                    let activeIndex = -1;
+                    for (let i = 0; i < window.syncLyricsData.length; i++) {
+                        // Include a 0.3s anticipation buffer for vocal lead-in
+                        if (currentTime >= window.syncLyricsData[i].time - 0.3) {
+                            activeIndex = i;
+                        } else {
+                            break;
+                        }
+                    }
+                    
+                    if (activeIndex !== -1) {
+                        const activeId = window.syncLyricsData[activeIndex].id;
+                        const $activeEl = $('#' + activeId);
+                        
+                        if (!$activeEl.hasClass('karaoke-active')) {
+                            // Strip old highlights
+                            $('.lyric-line').removeClass('karaoke-active').css({
+                                'color': '', 'transform': '', 'font-weight': '', 'text-shadow': ''
+                            });
+                            
+                            // Apply energetic Karaoke highlight
+                            $activeEl.addClass('karaoke-active').css({
+                                'color': '#2563eb',
+                                'transform': 'scale(1.03)',
+                                'font-weight': '900',
+                                'text-shadow': '0 4px 15px rgba(37, 99, 235, 0.15)'
+                            });
+                            
+                            // Intelligently center auto-scroll active lyrics specifically on the window viewport
+                            if ($activeEl.length > 0) {
+                                $activeEl[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }
+                    }
+                };
+
+            } else {
+                // Not synced, default standard text mapping
+                window.syncLyrics = null;
+                window.syncLyricsData = null;
+                htmlContent = data.replace(/\\n/g, '<br>');
+            }
+
             const lyricsHtml = `<div class="lyrics-view-centered fade-in">
-                <div class="lyrics-card shadow-sm">
-                    ${data.replace(/\n/g, '<br>')}
+                <div class="lyrics-card shadow-sm w-100" id="lyrics-content-container" style="transition: all 0.3s;">
+                    ${htmlContent}
                 </div>
             </div>`;
             container.html(lyricsHtml);
@@ -2001,6 +2363,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (progressBar) progressBar.value = percent;
                 if (progressFill) progressFill.style.width = percent + '%';
                 if (currentTimeEl) currentTimeEl.textContent = formatTime(musicPlayer.currentTime);
+                
+                // Relay current time to Karaoke Lyrics Engine
+                if (window.syncLyrics) {
+                    window.syncLyrics(musicPlayer.currentTime);
+                }
             }
         });
 

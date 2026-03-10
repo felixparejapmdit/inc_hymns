@@ -19,7 +19,7 @@
     }
 
     .glass-container {
-        padding: 40px 0;
+        padding: 2px 0;
     }
 
     .section-title {
@@ -28,7 +28,7 @@
         letter-spacing: 2px;
         font-weight: 900;
         font-size: 1.2rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 15px;
@@ -46,7 +46,7 @@
         background: var(--card-bg);
         border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.4);
-        padding: 2rem;
+        padding: 1.5rem;
         text-align: center;
         transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         text-decoration: none !important;
@@ -68,9 +68,9 @@
     }
 
     .settings-card i {
-        font-size: 3.5rem;
+        font-size: 3rem;
         color: var(--accent-blue);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         transition: all 0.3s;
     }
 
@@ -106,7 +106,7 @@
     .search-wrapper {
         position: relative;
         max-width: 600px;
-        margin: 0 auto 3rem;
+        margin: 0 auto 1.5rem;
     }
 
     .search-input {
@@ -144,7 +144,7 @@
     }
 
     .grid-section {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
     }
 
 </style>
@@ -152,8 +152,8 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container" style="max-width: 1400px;">
-            <div class="text-center mb-5">
-                <h1 class="font-black text-5xl text-white tracking-tighter uppercase mb-2">Admin Settings</h1>
+            <div class="text-center mb-3 mt-2">
+                <h1 class="font-black text-4xl text-white tracking-tighter uppercase mb-1">Admin Settings</h1>
                 <p class="text-white opacity-70 font-bold uppercase tracking-widest small">Manage your hymns system configuration</p>
             </div>
 

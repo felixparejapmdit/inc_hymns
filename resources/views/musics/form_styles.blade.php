@@ -191,4 +191,76 @@
     input[type="checkbox"] {
         accent-color: var(--accent-blue);
     }
+
+    /* ===== FORM GRID UTILITIES (replaces broken Bootstrap .row/.col-md-*) ===== */
+    .form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .form-grid-3 {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1.5fr;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .col-full {
+        grid-column: 1 / -1;
+    }
+
+    @media (max-width: 768px) {
+        .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+        .col-full { grid-column: 1; }
+    }
+
+    /* ===== REFERENCE VERSE SINGLE-ROW PICKER ===== */
+    .verse-picker-row {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0.85rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+    }
+
+    .verse-picker-row > .verse-field {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .verse-picker-row > .verse-field-sm {
+        flex: 0.7;
+        min-width: 0;
+    }
+
+    .verse-picker-row > .verse-field-lg {
+        flex: 1.6;
+        min-width: 0;
+    }
+
+    .verse-picker-row > .verse-btn {
+        flex: 0 0 auto;
+    }
+
+    .verse-fetch-status {
+        font-size: 0.8rem;
+        color: var(--accent-blue);
+        font-weight: 600;
+        margin-top: 0.4rem;
+        min-height: 1.2rem;
+    }
+
+    select.modern-input:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 900px) {
+        .verse-picker-row { flex-wrap: wrap; }
+        .verse-picker-row > .verse-field,
+        .verse-picker-row > .verse-field-sm,
+        .verse-picker-row > .verse-field-lg { flex: 1 1 45%; }
+    }
 </style>

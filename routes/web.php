@@ -24,6 +24,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ApiDocumentationController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\BibleVerseController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -183,3 +184,13 @@ Route::get('/get-music-list/{playlistId}', [PlaylistController::class, 'getMusic
 
 // routes/web.php
 //Route::post('playlists_management/update-order', [PlaylistController::class, 'updateOrder'])->name('playlists.updateOrder');
+
+// ── Bible Verse Proxy ──────────────────────────────────────────────────────
+// Fetches verse text server-side to keep API keys out of the browser.
+// GET /bible-verse?version=kjv&book=John&chapter=3&verse=16
+Route::get('/bible-verse', [BibleVerseController::class, 'fetch'])->name('bible.verse');
+
+// Helper: list available Bibles from API.Bible to discover version IDs
+// GET /bible-verse/list-bibles?lang=eng  (or lang=tgl for Tagalog)
+Route::get('/bible-verse/list-bibles', [BibleVerseController::class, 'listBibles'])->name('bible.list');
+

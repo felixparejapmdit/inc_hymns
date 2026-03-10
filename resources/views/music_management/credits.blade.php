@@ -369,10 +369,20 @@
             </div>
 
             <div class="dashboard-card pt-4">
-                <div class="search-bar mb-4">
+                @if ($errors->any())
+                    <div class="alert alert-danger bg-red-100/50 border border-red-200 text-red-700 rounded-2xl mb-4 font-bold p-4 shadow-sm" style="font-size: 0.9rem;">
+                        <ul class="mb-0 pl-4 list-disc">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('credits.index') }}" method="GET" id="searchForm" class="search-bar mb-4">
                     <i class="fas fa-search text-muted mr-3"></i>
-                    <input type="text" id="liveSearch" placeholder="Search creators by name, location, or background..." class="form-control">
-                </div>
+                    <input type="text" name="query" id="liveSearch" value="{{ request('query') }}" placeholder="Search creators securely across all pages..." class="form-control" autocomplete="off">
+                </form>
 
                 <div class="table-responsive">
                     <table class="table-modern">
@@ -388,12 +398,12 @@
                         </thead>
                         <tbody>
                             @foreach($credits as $index => $credit)
-                                <tr>
+                                <tr id="credit-row-{{ $credit->id }}">
                                     <td class="text-center font-bold text-muted" style="font-size: 0.8rem;">
                                         {{ ($credits->currentPage() - 1) * $credits->perPage() + $loop->iteration }}
                                     </td>
                                     <td>
-                                        <a href="{{ route('music_creators.profile', $credit->id) }}" class="creator-name">
+                                        <a href="{{ route('music_creators.profile', $credit->id) }}?ref=credits" class="creator-name">
                                             <img src="{{ $credit->image ? asset('storage/' . $credit->image) : asset('images/blank_image.png') }}" class="creator-image">
                                             <div>
                                                 <div class="mb-0">{{ $credit->name }}</div>
@@ -643,13 +653,22 @@
 
     <script>
         $(document).ready(function() {
-            // Live Search
-            $('#liveSearch').on('keyup', function() {
-                const value = $(this).val().toLowerCase();
-                $(".table-modern tbody tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
+            // Server-side debounced Live Search
+            let searchTimeout;
+            $('#liveSearch').on('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    $('#searchForm').submit();
+                }, 600);
             });
+
+            // Keep focus at end of input after reload
+            const searchInput = $('#liveSearch');
+            if (searchInput.length && searchInput.val().length > 0) {
+                const len = searchInput.val().length;
+                searchInput[0].setSelectionRange(len, len);
+                searchInput.focus();
+            }
 
             // Image Upload Enhancement (Add Modal)
             const setupImageUpload = (dropZoneId, inputId, previewBoxId, previewImgId) => {
@@ -660,7 +679,11 @@
 
                 if (!dropZone) return;
 
-                dropZone.addEventListener('click', () => input.click());
+                dropZone.addEventListener('click', (e) => {
+                    if (e.target !== input) {
+                        input.click();
+                    }
+                });
 
                 dropZone.addEventListener('dragover', (e) => {
                     e.preventDefault();

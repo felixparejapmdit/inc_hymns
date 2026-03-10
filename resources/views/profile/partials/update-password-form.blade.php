@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6">
+    <form method="post" action="{{ route('password.update') }}" class="mt-4">
         @csrf
         @method('put')
 
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="d-flex align-items-center gap-4 mt-5">
+        <div class="d-flex align-items-center gap-4 mt-4">
             <button type="submit" class="btn-save-modern">
                 <i class="fas fa-lock mr-2"></i> {{ __('Update Password') }}
             </button>

@@ -57,7 +57,7 @@ class MusicCreatorController extends Controller
             'birthday' => 'nullable|date',
             'music_background' => 'nullable|string',
             'add_designation' => 'required|array',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240|nullable',
         ]);
        
         // Handle image upload
@@ -80,8 +80,9 @@ class MusicCreatorController extends Controller
         $musicCreator->designations()->sync($validatedData['designation']);
 
         ActivityLogHelper::log('created', 'MusicCreator', $musicCreator->id, 'add new credit');
-        //dd($validatedData);
-        return redirect()->route('credits.index')->with('success', 'Music creator created successfully!');
+        
+        return redirect()->to(url()->previous() . '#credit-row-' . $musicCreator->id)
+            ->with('success', 'Music creator created successfully!');
     }
 
 
@@ -124,7 +125,7 @@ class MusicCreatorController extends Controller
             'edit_birthday' => 'nullable|date',
             'edit_music_background' => 'nullable|string',
             'edit_designation' => 'required|array',
-            'edit_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
+            'edit_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10240|nullable',
         ]);
       
    // If a new image is provided, update it
@@ -156,7 +157,8 @@ class MusicCreatorController extends Controller
         
         ActivityLogHelper::log('updated', $credit->name, $credit->id,  'update the credit');
     
-        return redirect()->route('credits.index')->with('success', 'Music creator updated successfully!');
+        return redirect()->to(url()->previous() . '#credit-row-' . $credit->id)
+            ->with('success', 'Music creator updated successfully!');
     }
     
 

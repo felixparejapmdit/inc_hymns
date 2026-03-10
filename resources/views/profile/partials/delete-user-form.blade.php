@@ -10,7 +10,7 @@
     </header>
 
     <button
-        class="btn btn-danger rounded-pill px-4 font-black uppercase shadow-sm mt-4"
+        class="btn btn-danger rounded-pill px-4 font-black uppercase shadow-sm mt-3"
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
     >
@@ -30,7 +30,7 @@
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
             </p>
 
-            <div class="mt-6">
+            <div class="mt-4">
                 <label for="password" class="form-label-modern sr-only">{{ __('Password') }}</label>
 
                 <input
@@ -46,7 +46,7 @@
                 @endif
             </div>
 
-            <div class="mt-6 d-flex justify-content-end gap-3">
+            <div class="mt-4 d-flex justify-content-end gap-3">
                 <button type="button" class="btn btn-light rounded-pill px-4 font-bold border" x-on:click="$dispatch('close')">
                     {{ __('Cancel') }}
                 </button>

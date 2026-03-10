@@ -16,7 +16,7 @@
     }
 
     .glass-container {
-        padding: 40px 0;
+        padding: 20px 0;
     }
 
     .profile-card {
@@ -24,16 +24,16 @@
         border-radius: 30px;
         border: 1px solid rgba(255, 255, 255, 0.4);
         box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
-        padding: 3rem;
-        margin-bottom: 2rem;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
     }
 </style>
 
 <x-app-layout>
     <div class="glass-container">
         <div class="container" style="max-width: 900px;">
-            <div class="text-center mb-5">
-                <h1 class="font-black text-5xl text-white tracking-tighter uppercase mb-2">My Profile</h1>
+            <div class="text-center mb-4">
+                <h1 class="font-black text-4xl text-white tracking-tighter uppercase mb-2">My Profile</h1>
                 <p class="text-white opacity-75 font-bold uppercase tracking-widest small">Manage your account settings and security</p>
             </div>
 

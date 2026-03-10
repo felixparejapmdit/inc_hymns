@@ -53,7 +53,7 @@
         min-height: 500px;
     }
 
-    .stat-grid {
+    .overview-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
@@ -62,18 +62,18 @@
     }
 
     @media (max-width: 1024px) {
-        .stat-grid {
+        .overview-grid {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @media (max-width: 640px) {
-        .stat-grid {
+        .overview-grid {
             grid-template-columns: 1fr;
         }
     }
 
-    .stat-item {
+    .dashboard-metric-card {
         background: #ffffff;
         border-radius: 20px;
         padding: 1.5rem;
@@ -90,7 +90,7 @@
         overflow: hidden;
     }
 
-    .stat-item i.stat-icon {
+    .dashboard-metric-card i.metric-bg-icon {
         position: absolute;
         right: -10px;
         bottom: -10px;
@@ -99,13 +99,13 @@
         transform: rotate(-15deg);
     }
 
-    .stat-item:hover {
+    .dashboard-metric-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 12px 30px rgba(0,0,0,0.12);
         border-color: var(--accent-blue);
     }
 
-    .stat-value {
+    .metric-amount {
         font-size: 2.5rem;
         font-weight: 800;
         color: var(--accent-blue);
@@ -114,7 +114,7 @@
         z-index: 1;
     }
 
-    .stat-label {
+    .metric-title {
         font-size: 1.1rem;
         font-weight: 700;
         color: #475569;
@@ -123,13 +123,13 @@
         z-index: 1;
     }
 
-    .total-stat {
+    .highlight-metric {
         background: var(--accent-blue) !important;
         border: none !important;
         color: white;
     }
 
-    .total-stat .stat-value, .total-stat .stat-label {
+    .highlight-metric .metric-amount, .highlight-metric .metric-title {
         color: white;
     }
 
@@ -428,12 +428,12 @@
         <div class="container-fluid px-5 px-xl-5 dashboard-grid-container" style="max-width: 90%; margin: 0 auto;">
             
             <!-- Statistics Overview (3x2 Grid) -->
-            <div class="stat-grid">
+            <div class="overview-grid">
                 <!-- Total Hymns (Featured Card) -->
-                <a href="{{ route('musics.index') }}" class="stat-item total-stat shadow-lg">
-                    <div class="stat-value">{{ $totalChurchHymns->sum('musics_count') }}</div>
-                    <div class="stat-label">Total Hymns</div>
-                    <i class="fas fa-layer-group" style="font-size: 3.5rem; opacity: 0.2; position: absolute; right: 20px; bottom: 20px;"></i>
+                <a href="{{ route('musics.index') }}" class="dashboard-metric-card highlight-metric shadow-lg">
+                    <div class="metric-amount">{{ $totalChurchHymns->sum('musics_count') }}</div>
+                    <div class="metric-title">Total Hymns</div>
+                    <i class="fas fa-layer-group metric-bg-icon" style="font-size: 3.5rem; opacity: 0.2; position: absolute; right: 20px; bottom: 20px;"></i>
                 </a>
 
                 @foreach($totalChurchHymns as $hymn)
@@ -442,13 +442,13 @@
                             'AWS' => ['name' => 'Adult Worship', 'icon' => 'fa-users', 'color' => '#3E6D9C'],
                             'CWS' => ['name' => 'Children Worship', 'icon' => 'fa-child', 'color' => '#64B5D6'],
                             'EM' => ['name' => 'Evangelical Mission', 'icon' => 'fa-bullhorn', 'color' => '#FFD700'],
-                            'Wedding' => ['name' => 'Wedding Icons', 'icon' => 'fa-heart', 'color' => '#f472b6'],
+                            'Wedding' => ['name' => 'Wedding', 'icon' => 'fa-heart', 'color' => '#f472b6'],
                             default => ['name' => $hymn->name, 'icon' => 'fa-music', 'color' => '#94a3b8']
                         };
                     @endphp
-                    <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="stat-item">
-                        <div class="stat-value">{{ $hymn->musics_count }}</div>
-                        <div class="stat-label">{{ $serviceDetails['name'] }}</div>
+                    <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="dashboard-metric-card">
+                        <div class="metric-amount">{{ $hymn->musics_count }}</div>
+                        <div class="metric-title">{{ $serviceDetails['name'] }}</div>
                         <i class="fas {{ $serviceDetails['icon'] }}" style="font-size: 2.5rem; opacity: 0.6; position: absolute; right: 20px; bottom: 20px; color: {{ $serviceDetails['color'] }};"></i>
                     </a>
                 @endforeach
@@ -790,71 +790,71 @@
 
                 <!-- Footer Stats Grid -->
                 <div class="row">
-                    <div class="col-md-3 mb-4">
-                        <div class="dashboard-card p-4 h-100">
-                            <div class="d-flex justify-between items-center mb-3">
+                    <div class="col-12 col-md-6 col-xl-3 mb-4">
+                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Instrumentations</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $instrumentations->total() }}</span>
                             </div>
-                            <div class="mini-list">
+                            <div class="mini-list flex-grow-1">
                                 @forelse($instrumentations as $item)
                                     <div class="mini-list-item"><i class="fas fa-drum text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
                                 @empty
                                     <div class="text-muted small">No data entries.</div>
                                 @endforelse
                             </div>
-                            <div class="mt-auto">
+                            <div class="mt-3">
                                 <a href="{{ route('instrumentations.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="dashboard-card p-4 h-100">
-                            <div class="d-flex justify-between items-center mb-3">
+                    <div class="col-12 col-md-6 col-xl-3 mb-4">
+                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Ensemble Types</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $ensembleTypes->total() }}</span>
                             </div>
-                            <div class="mini-list">
+                            <div class="mini-list flex-grow-1">
                                 @forelse($ensembleTypes as $item)
                                     <div class="mini-list-item"><i class="fas fa-users-cog text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
                                 @empty
                                     <div class="text-muted small">No data entries.</div>
                                 @endforelse
                             </div>
-                            <div class="mt-auto">
+                            <div class="mt-3">
                                 <a href="{{ route('ensemble_types.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="dashboard-card p-4 h-100">
-                            <div class="d-flex justify-between items-center mb-3">
-                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Hymn Categories</h4>
+                    <div class="col-12 col-md-6 col-xl-3 mb-4">
+                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Categories</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $categories->total() }}</span>
                             </div>
-                            <div class="mini-list">
+                            <div class="mini-list flex-grow-1">
                                 @forelse($categories as $item)
                                     <div class="mini-list-item"><i class="fas fa-bookmark text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
                                 @empty
                                     <div class="text-muted small">No data entries.</div>
                                 @endforelse
                             </div>
-                            <div class="mt-auto">
+                            <div class="mt-3">
                                 <a href="{{ route('categories.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-4">
-                        <div class="dashboard-card p-4 h-100">
-                            <div class="d-flex justify-between items-center mb-3">
+                    <div class="col-12 col-md-6 col-xl-3 mb-4" id="hymn-credits-section">
+                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Hymn Credits</h4>
                                 <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $credits->total() }}</span>
                             </div>
-                            <div class="mini-list">
+                            <div class="mini-list flex-grow-1">
                                 @forelse($credits as $item)
                                     <div class="mini-list-item">
                                         <i class="fas fa-pen-nib text-muted mr-2 opacity-50"></i>
-                                        <a href="{{ route('music_creators.profile', $item->id) }}" class="text-dark hover:text-blue-600 transition-colors">
+                                        <a href="{{ route('music_creators.profile', [$item->id, 'ref' => 'dashboard-credits']) }}" class="text-dark hover:text-blue-600 transition-colors">
                                             {{ $item->name }}
                                         </a>
                                     </div>
@@ -862,7 +862,7 @@
                                     <div class="text-muted small">No data entries.</div>
                                 @endforelse
                             </div>
-                            <div class="mt-auto">
+                            <div class="mt-3">
                                 <a href="{{ route('credits.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
                             </div>
                         </div>

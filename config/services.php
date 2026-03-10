@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // Scripture API (api.scripture.api.bible) — register free at https://scripture.api.bible/
+    'scripture' => [
+        'key' => env('SCRIPTURE_API_KEY'),
+    ],
+
 ];

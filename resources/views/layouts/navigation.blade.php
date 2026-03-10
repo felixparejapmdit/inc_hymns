@@ -1,9 +1,49 @@
+<style>
+    /* Safe Flexbox Layout with WebKit Prefixes to prevent vertical stacking in strict browsers */
+    .primary-header-wrapper {
+        display: -webkit-box !important;
+        display: -webkit-flex !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -webkit-box-pack: justify !important;
+        -webkit-justify-content: space-between !important;
+        -ms-flex-pack: justify !important;
+        justify-content: space-between !important;
+        height: 4rem;
+    }
+    .header-left-group, .header-right-group {
+        display: -webkit-box !important;
+        display: -webkit-flex !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -webkit-box-align: center !important;
+        -webkit-align-items: center !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+    
+    .header-right-group {
+        gap: 1.5rem;
+    }
 
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    @media (max-width: 639px) {
+        .header-right-group {
+            display: none !important;
+        }
+    }
+
+    .main-dashboard-nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+</style>
+
+<nav x-data="{ open: false }" class="main-dashboard-nav bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="px-5 px-xl-5 mx-auto" style="max-width: 90%;">
-        <div class="flex justify-between h-16">
-            <div class="flex items-center">
+        <div class="primary-header-wrapper">
+            <div class="header-left-group">
 
                 <!-- Logo -->
                 <div class="flex-shrink-0">
@@ -21,19 +61,18 @@
 
             </div>
 
-            <div class="d-none d-sm-flex sm:items-center sm:gap-6">
+            <div class="header-right-group">
                 <!-- Branding (Only on Show Page) -->
                 @if(Route::currentRouteName() == 'musics.show' || Request::is('musics/*'))
-                <div class="flex items-center">
+                <div class="header-left-group">
                     <h2 class="text-lg md:text-xl font-black text-slate-800 uppercase tracking-tighter mb-0 flex items-center gap-2 whitespace-nowrap">
                         <span class="text-blue-600">Hymn</span> Masterpiece
                     </h2>
                 </div>
                 @endif
+                @if ((\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline') || (\App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline'))
                 <x-dropdown align="right" width="48">
-                
                     <x-slot name="trigger">
-                    @if ((\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline') || (\App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline'))
                         <button class="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition duration-150 ease-in-out">
                             <div>Create New</div>
                             <div class="ml-1">
@@ -41,13 +80,7 @@
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <div class="ml-1">
-                                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
                         </button>
-                        @endif
                     </x-slot>
                     <x-slot name="content">
                         <!-- Hymn Create Link -->
@@ -64,28 +97,17 @@
                         @endif
                     </x-slot>
                 </x-dropdown>
+                @endif
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition duration-150 ease-in-out">
-                            
-                            @if (Auth::check())
-                                <div>
-                                    <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">{{ Auth::user()->name }}</span>
-                                </div>
-                            @else
-                                <script type="text/javascript">
-                                    window.location.href = "{{ route('login') }}"; // Redirect to the login page
-                                </script>
-                            @endif
+                            <div>
+                                <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">{{ Auth::user()?->name ?? 'Guest' }}</span>
+                            </div>
 
                             <div class="ml-1">
                                 <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-1">
-                                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
@@ -185,14 +207,8 @@
         <!-- User Profile and Logout -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                @if (Auth::check())
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                @else
-                    <script type="text/javascript">
-                        window.location.href = "{{ route('login') }}"; // Redirect to the login page
-                    </script>
-                @endif
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()?->name ?? 'Guest' }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::user()?->email ?? '' }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
