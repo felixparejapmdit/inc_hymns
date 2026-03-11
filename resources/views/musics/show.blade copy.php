@@ -19,7 +19,7 @@
 <script src="{{ asset('js/musicplayer.js') }}"></script>
 
 <x-app-layout>
-    <div id="show-page-wrapper" class="py-0">
+    <div class="py-0">
         <div class="max-w-[95%] mx-auto sm:px-4 lg:px-6">
             <!-- Main Immersive Content Card -->
             <div class="main-glass-card shadow-2xl relative">
@@ -1748,26 +1748,21 @@ $(document).ready(function() {
 
 
 
-    // Handle tab button click (Integrated with Theater Mode)
+    // Handle tab button click
     $('.tab-button').click(function() {
+        // Remove active class from all buttons
         $('.tab-button').removeClass('active');
+
+        // Add active class to the clicked button
         $(this).addClass('active');
 
-        const path = $(this).data('path');
-        if (window.openTheater) {
-            const mode = path.toLowerCase().endsWith('.pdf') ? 'score' : 'lyrics';
-            window.openTheater(mode);
-            // Also update the main stand below just in case they close the theater
-            renderContent(path);
-        } else {
-            renderContent(path);
-            scrollToStandTop();
-        }
-    });
+        // Get the path from the button's data attribute
+        var path = $(this).data('path');
 
-    // Make theater functions global for integration
-    window.openTheater = null; // Will be set in the theater script
-    window.loadTheaterTrack = null;
+        // Render content based on the clicked button's path
+        renderContent(path);
+        scrollToStandTop();
+    });
 
     // Function to render content (PDF or lyrics) based on path
     function renderContent(path) {
@@ -2676,10 +2671,5 @@ body.night-mode .performance-control-plate {
         }
     }
 </style>
-
-    </div> {{-- /show-page-wrapper --}}
-
-{{-- FLIPBOOK THEATER — Refactored to partial --}}
-@include('partials.flipbook_theater')
 
 </x-app-layout>
