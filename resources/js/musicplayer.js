@@ -17,13 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
     let shuffle = false;
     let repeat = false;
 
-    playPauseButton.addEventListener("click", togglePlayPause);
-    prevButton.addEventListener("click", prevTrack);
-    nextButton.addEventListener("click", nextTrack);
-    shuffleButton.addEventListener("click", toggleShuffle);
-    repeatButton.addEventListener("click", toggleRepeat);
-    volumeSlider.addEventListener("input", changeVolume);
-    progressContainer.addEventListener("click", seekTrack);
+    if (playPauseButton) playPauseButton.addEventListener("click", togglePlayPause);
+    if (prevButton) prevButton.addEventListener("click", prevTrack);
+    if (nextButton) nextButton.addEventListener("click", nextTrack);
+    if (shuffleButton) shuffleButton.addEventListener("click", toggleShuffle);
+    if (repeatButton) repeatButton.addEventListener("click", toggleRepeat);
+    if (volumeSlider) volumeSlider.addEventListener("input", changeVolume);
+    if (progressContainer) {
+        progressContainer.addEventListener("click", seekTrack);
+        progressContainer.addEventListener("mousedown", () => {
+            isSeeking = true;
+        });
+        progressContainer.addEventListener("mouseup", () => {
+            isSeeking = false;
+            updateProgressBar();
+        });
+    }
 
     tabButtons.forEach((button) => {
         button.addEventListener("click", function () {
