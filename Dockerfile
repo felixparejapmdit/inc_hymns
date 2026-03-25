@@ -44,8 +44,12 @@ COPY . /var/www
 # Copy built frontend assets from stage 1
 COPY --from=frontend-builder /app/public/build /var/www/public/build
 
+# Remove bootstrap cache files to prevent loading old/dev providers
+RUN rm -f bootstrap/cache/*.php
+
 # Finish composer install
 RUN composer dump-autoload --optimize --no-dev
+
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
