@@ -21,17 +21,14 @@
     padding: 20px;
   }
 
-  /* Glassmorphism Card */
+  /* Clean White Card */
   .center-glass-card {
     max-width: 480px;
     width: 100%;
-    padding: 50px 40px; 
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    padding: 60px 40px; 
+    background: #ffffff !important;
+    border-radius: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1) !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,19 +38,18 @@
 
   /* Title Styling */
   .login-title {
-    color: #FFD700; /* Gold color sampled from logo */
-    font-weight: 700;
-    font-size: 38px;
-    margin-bottom: 30px; /* Increased margin */
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    letter-spacing: 1.5px;
+    color: #1e3a8a; /* Deep Navy Blue */
+    font-weight: 800;
+    font-size: 42px;
+    margin-bottom: 35px;
+    letter-spacing: -1px;
   }
 
   /* Input Fields */
   .input-container {
     width: 100%;
     position: relative;
-    margin-bottom: 25px; /* Increased spacing */
+    margin-bottom: 25px;
   }
 
   .input-icon {
@@ -61,93 +57,85 @@
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.7);
+    color: #9ca3af;
     z-index: 10;
   }
 
   input.custom-input {
     width: 100%;
-    padding: 14px 15px 14px 45px !important; /* Slightly larger padding */
-    background: rgba(255, 255, 255, 0.9) !important; /* Higher opacity for readability */
-    border: 1px solid rgba(173, 216, 230, 0.3) !important; /* Thin light-blue border */
+    padding: 14px 15px 14px 45px !important;
+    background: #f9fafb !important;
+    border: 1px solid #e5e7eb !important; /* Light gray border */
     border-radius: 12px !important;
-    color: #000000 !important; /* Forced black text */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #111827 !important;
+    transition: all 0.2s ease-in-out;
   }
 
   input.custom-input::placeholder {
-    color: rgba(0, 0, 0, 0.4);
+    color: #9ca3af;
   }
 
   input.custom-input:focus {
     background: #ffffff !important;
-    border-color: #FFD700 !important; /* Gold border on focus */
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3) !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
     outline: none;
-    color: #000000 !important;
   }
 
   /* Labels */
   .custom-label {
-    color: rgba(255, 255, 255, 0.85) !important;
+    color: #374151 !important;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: block;
     font-size: 14px;
-    padding-left: 5px;
+    padding-left: 2px;
   }
 
-  /* Button Styling */
+  /* Gradient Action Button */
   .login-btn {
     width: 100%;
     padding: 16px !important;
-    background: linear-gradient(135deg, #64B5D6, #3E6D9C) !important; /* Matching background gradient */
+    background: linear-gradient(135deg, #64B5D6, #3E6D9C) !important;
     border: none !important;
-    border-radius: 15px !important; /* Rounded corners as requested */
+    border-radius: 12px !important;
     color: white !important;
     font-weight: 700 !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
   }
 
   .login-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(30, 60, 114, 0.5) !important;
-    filter: brightness(1.1);
-  }
-
-  .login-btn:active {
+    background: #1e40af !important;
     transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
   }
 
   /* Footer Attribution */
   .footer-attr {
     margin-top: 40px;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 11px;
-    letter-spacing: 0.5px;
+    color: #6b7280;
+    font-size: 12px;
   }
 
-  /* Responsive Adjustments */
   @media (max-width: 480px) {
-    .left-aligned-div {
+    .center-glass-card {
       padding: 40px 25px;
     }
     .login-title {
-      font-size: 30px;
+      font-size: 34px;
     }
   }
 
   .logo-hover {
-    transition: all 0.5s ease;
-    margin-bottom: 25px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 20px;
   }
   .logo-hover:hover {
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.05);
   }
 </style>
 
@@ -169,7 +157,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </span>
       <input id="username" class="custom-input" type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username" placeholder="Enter your username" />
-      <x-input-error :messages="$errors->get('username')" class="mt-2 text-red-300" />
+      <x-input-error :messages="$errors->get('username')" class="mt-2 text-red-600" />
     </div>
 
     <!-- Password -->
@@ -179,7 +167,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
       </span>
       <input id="password" class="custom-input" type="password" name="password" required autocomplete="current-password" placeholder="Enter your password" />
-      <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-300" />
+      <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-600" />
     </div>
 
     <div class="mt-8">
@@ -190,7 +178,7 @@
   </form>
 
   <div class="footer-attr">
-    Developed by <span style="font-weight: 600; color: rgba(255, 255, 255, 0.8);">PMD-IT</span>
+    Developed by <span style="font-weight: 700; color: #1e3a8a;">PMD-IT</span>
   </div>
 </div>
 
