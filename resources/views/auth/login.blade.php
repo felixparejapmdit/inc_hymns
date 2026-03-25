@@ -21,19 +21,35 @@
     padding: 20px;
   }
 
-  /* Clean White Card */
+  /* Entrance Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Semi-Transparent Glass Card */
   .center-glass-card {
     max-width: 480px;
     width: 100%;
     padding: 60px 40px; 
-    background: #ffffff !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 24px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     overflow: hidden;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   /* Title Styling */
@@ -59,20 +75,24 @@
     transform: translateY(-50%);
     color: #9ca3af;
     z-index: 10;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  /* Icon animation on focus */
+  .input-container:focus-within .input-icon {
+    color: #3b82f6; 
+    transform: translateY(-50%) scale(1.1);
   }
 
   input.custom-input {
     width: 100%;
     padding: 14px 15px 14px 45px !important;
     background: #f9fafb !important;
-    border: 1px solid #e5e7eb !important; /* Light gray border */
+    border: 1px solid #e5e7eb !important;
     border-radius: 12px !important;
     color: #111827 !important;
-    transition: all 0.2s ease-in-out;
-  }
-
-  input.custom-input::placeholder {
-    color: #9ca3af;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   input.custom-input:focus {
@@ -109,9 +129,9 @@
   }
 
   .login-btn:hover {
-    background: #1e40af !important;
+    filter: brightness(1.05);
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
   }
 
   /* Footer Attribution */
@@ -152,7 +172,7 @@
 
     <!-- Username -->
     <div class="input-container">
-      <label for="username" class="custom-label">{{ __('Username') }}</label>
+      
       <span class="input-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </span>
@@ -162,7 +182,7 @@
 
     <!-- Password -->
     <div class="input-container">
-      <label for="password" class="custom-label">{{ __('Password') }}</label>
+      
       <span class="input-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
       </span>
