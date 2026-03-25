@@ -12,6 +12,7 @@ services:
       - ./:/var/www
       - /var/www/vendor
       - /var/www/public/build
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - inc_hymns-network
     depends_on:
