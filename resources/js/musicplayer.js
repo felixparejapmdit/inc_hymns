@@ -123,15 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
         isSeeking = false;
     }
 
-    progressContainer.addEventListener("mousedown", () => {
-        isSeeking = true;
-    });
-
-    progressContainer.addEventListener("mouseup", () => {
-        isSeeking = false;
-        updateProgressBar();
-    });
-
     function formatTime(seconds) {
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
