@@ -52,7 +52,12 @@
 
             <div class="fb-extra-ctrls" style="margin-right:12px; display:flex; gap:6px;">
                 <button id="fb-details-btn" class="fb-track-pill" title="Hymn Details"><i class="fas fa-info-circle"></i><span>Details</span></button>
-                <button id="fb-playlist-btn" class="fb-track-pill" title="Playlist"><i class="fas fa-list-ul"></i><span>Playlist</span></button>
+                <button id="fb-playlist-btn" 
+                    class="fb-track-pill {{ $music->playlists->count() === 0 ? 'fb-pill-disabled' : '' }}" 
+                    title="{{ $music->playlists->count() === 0 ? 'This music is not included in any playlist' : 'Current Playlist' }}"
+                    {{ $music->playlists->count() === 0 ? 'disabled' : '' }}>
+                    <i class="fas fa-list-ul"></i><span>Playlist</span>
+                </button>
             </div>
 
             <div class="fb-zoom-ctrl" style="margin-right:12px;">
@@ -91,10 +96,10 @@
                             <div class="fb-page-curl fb-curl-br"></div>
                         </div>
                     </div>
-                    {{-- 3D Page Turn overlay --}}
+                    {{-- 3D Page Turn overlay (Content Loaded dynamically) --}}
                     <div id="fb-turning-page" class="fb-turning-page">
-                        <div class="fb-tp-front"></div>
-                        <div class="fb-tp-back"></div>
+                        <div class="fb-tp-front"><canvas id="fb-canvas-turn-front" class="fb-canvas"></canvas></div>
+                        <div class="fb-tp-back" ><canvas id="fb-canvas-turn-back"  class="fb-canvas"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -104,8 +109,8 @@
         </div>
 
         {{-- LYRICS VIEW --}}
-        <div id="fb-lyrics-view" style="display:none;width:100%;height:100%;overflow-y:auto;padding:2rem 3rem;">
-            <div id="fb-lyrics-inner" style="max-width:680px;margin:0 auto;font-family:'Playfair Display',serif;font-size:1.3rem;line-height:2.2;color:#e2e8f0;text-align:center;white-space:pre-wrap;"></div>
+        <div id="fb-lyrics-view" class="fb-lyrics-view">
+            <div id="fb-lyrics-inner" class="fb-lyrics-inner"></div>
         </div>
     </div>
 
@@ -201,9 +206,54 @@
                     <div class="fb-detail-card full">
                         <span class="fb-detail-label"><i class="fas fa-pen-nib"></i> Credits</span>
                         <div class="fb-credits-list">
-                            <div class="fb-credit-item"><i class="fas fa-feather"></i> <strong>Lyricist:</strong> {{ $music->lyricists->pluck('name')->join(', ') ?: 'N/A' }}</div>
-                            <div class="fb-credit-item"><i class="fas fa-music"></i> <strong>Composer:</strong> {{ $music->composers->pluck('name')->join(', ') ?: 'N/A' }}</div>
-                            <div class="fb-credit-item"><i class="fas fa-headphones"></i> <strong>Arranger:</strong> {{ $music->arrangers->pluck('name')->join(', ') ?: 'N/A' }}</div>
+                            <div class="fb-credit-item">
+                                <i class="fas fa-feather"></i> <strong>Lyricist:</strong> 
+                                @foreach ($music->lyricists as $lyricist)
+                                    <span class="creator-item-inline" 
+                                        data-creator-id="{{ $lyricist->id }}" 
+                                        data-name="{{ $lyricist->name }}" 
+                                        data-role="Lyricist"
+                                        data-local="{{ $lyricist->local ?? '' }}"
+                                        data-district="{{ $lyricist->district ?? '' }}"
+                                        data-duty="{{ $lyricist->duty ?? '' }}"
+                                        data-birthday="{{ $lyricist->birthday ? \Carbon\Carbon::parse($lyricist->birthday)->format('F d, Y') : '' }}"
+                                        data-image="{{ $lyricist->image ? asset('storage/' . $lyricist->image) : asset('images/blank_image.png') }}"
+                                        data-background="{{ $lyricist->music_background ?? '' }}"
+                                        >{{ $lyricist->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                @endforeach
+                            </div>
+                            <div class="fb-credit-item">
+                                <i class="fas fa-music"></i> <strong>Composer:</strong> 
+                                @foreach ($music->composers as $composer)
+                                    <span class="creator-item-inline" 
+                                        data-creator-id="{{ $composer->id }}" 
+                                        data-name="{{ $composer->name }}" 
+                                        data-role="Composer"
+                                        data-local="{{ $composer->local ?? '' }}"
+                                        data-district="{{ $composer->district ?? '' }}"
+                                        data-duty="{{ $composer->duty ?? '' }}"
+                                        data-birthday="{{ $composer->birthday ? \Carbon\Carbon::parse($composer->birthday)->format('F d, Y') : '' }}"
+                                        data-image="{{ $composer->image ? asset('storage/' . $composer->image) : asset('images/blank_image.png') }}"
+                                        data-background="{{ $composer->music_background ?? '' }}"
+                                        >{{ $composer->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                @endforeach
+                            </div>
+                            <div class="fb-credit-item">
+                                <i class="fas fa-headphones"></i> <strong>Arranger:</strong> 
+                                @foreach ($music->arrangers as $arranger)
+                                    <span class="creator-item-inline" 
+                                        data-creator-id="{{ $arranger->id }}" 
+                                        data-name="{{ $arranger->name }}" 
+                                        data-role="Arranger"
+                                        data-local="{{ $arranger->local ?? '' }}"
+                                        data-district="{{ $arranger->district ?? '' }}"
+                                        data-duty="{{ $arranger->duty ?? '' }}"
+                                        data-birthday="{{ $arranger->birthday ? \Carbon\Carbon::parse($arranger->birthday)->format('F d, Y') : '' }}"
+                                        data-image="{{ $arranger->image ? asset('storage/' . $arranger->image) : asset('images/blank_image.png') }}"
+                                        data-background="{{ $arranger->music_background ?? '' }}"
+                                        >{{ $arranger->name }}</span>{{ !$loop->last ? ',' : '' }}
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 
@@ -389,15 +439,24 @@
     display:flex; align-items:stretch;
     box-shadow:0 70px 140px rgba(0,0,0,.9),0 25px 60px rgba(0,0,0,.7);
     border: 6px double #ffffff;
-    overflow: visible;           /* must be visible for turning page to show */
+    overflow: visible;
     position: relative;
-    transform-style: preserve-3d; /* passes 3D context to #fb-turning-page */
+    transform-style: preserve-3d;
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
 }
-.fb-page { background:#fff; overflow:hidden; position:relative; flex-shrink:0; }
+.fb-page { 
+    background:#fff; overflow:hidden; position:relative; flex-shrink:0; 
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.05); 
+    width: var(--fb-page-width, 400px);
+    height: var(--fb-page-height, 600px);
+    box-sizing: border-box;
+}
 .fb-page-left  { border-radius:4px 0 0 4px; }
 .fb-page-right { border-radius:0 4px 4px 0; }
 .fb-page-inner { width:100%; height:100%; position:relative; overflow:hidden; }
-.fb-canvas { display:block; width:100% !important; height:auto !important; }
+.fb-canvas { display:block; width:100% !important; height:auto !important; max-width: 100%; }
 
 /* Single page overrides (when fbTotal === 1) */
 .fb-book-wrap.fb-single-page .fb-page-right,
@@ -449,49 +508,65 @@
 }
 
 /*
- * Forward flip: right page (pivot = left/spine edge) rotates -180° to cover left page.
- * The arc peaks at -90° (page is edge-on at the spine) — that's the "lift" moment.
- * ease-in-out makes it accelerate away from and decelerate into the resting positions.
+ * Forward flip: right page (pivot = left/spine edge) rotates -180°.
+ * Arc features a 3D lift (Z-axis) and variable lighting.
  */
 @keyframes fb-turn-forward {
     0%   {
-        transform: rotateY(0deg);
-        box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        transform: rotateY(0deg) translateZ(0px);
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
     }
-    40%  {
-        box-shadow: -25px 0 50px rgba(0,0,0,0.45);
+    50%  {
+        transform: rotateY(-90deg) translateZ(80px) scale(1.05);
+        box-shadow: -40px 20px 80px rgba(0,0,0,0.4);
     }
     100% {
-        transform: rotateY(-179deg); /* stop just before 180 to avoid z-fighting */
-        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        transform: rotateY(-180deg) translateZ(0px);
+        box-shadow: -2px 0 8px rgba(0,0,0,0.05);
     }
 }
 
 /* Backward flip: mirror of forward */
 @keyframes fb-turn-backward {
     0%   {
-        transform: rotateY(-179deg);
-        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        transform: rotateY(-180deg) translateZ(0px);
+        box-shadow: 2px 0 8px rgba(0,0,0,0.05);
     }
-    60%  {
-        box-shadow: 25px 0 50px rgba(0,0,0,0.45);
+    50%  {
+        transform: rotateY(-90deg) translateZ(80px) scale(1.05);
+        box-shadow: 40px 20px 80px rgba(0,0,0,0.4);
     }
     100% {
-        transform: rotateY(0deg);
-        box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        transform: rotateY(0deg) translateZ(0px);
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
+}
+
+/* Single page (Mobile) Slide Flip */
+@keyframes fb-mobile-flip-next {
+    0% { transform: translateX(0) rotateY(0); opacity: 1; }
+    40% { transform: translateX(-20%) rotateY(-20deg) scale(0.95); opacity: 0.8; }
+    100% { transform: translateX(-100%) rotateY(-60deg); opacity: 0; }
+}
+@keyframes fb-mobile-flip-prev {
+    0% { transform: translateX(-100%) rotateY(60deg); opacity: 0; }
+    100% { transform: translateX(0) rotateY(0); opacity: 1; }
 }
 
 .fb-turning-right {
     right: 0; left: auto;
-    transform-origin: left center;   /* pivot = spine */
-    animation: fb-turn-forward 0.65s ease-in-out forwards;
+    transform-origin: left center;
+    animation: fb-turn-forward 0.75s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
 }
 .fb-turning-left {
     left: 0; right: auto;
-    transform-origin: right center;  /* pivot = spine */
-    animation: fb-turn-backward 0.65s ease-in-out forwards;
+    transform-origin: right center;
+    animation: fb-turn-backward 0.75s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
 }
+
+/* Mobile specific classes */
+.fb-mobile-anim-next { animation: fb-mobile-flip-next 0.5s ease-in forwards; }
+.fb-mobile-anim-prev { animation: fb-mobile-flip-prev 0.5s ease-out forwards; }
 
 /* Nav arrows */
 .fb-nav-arrow {
@@ -654,14 +729,37 @@
 /* Extra-small screens */
 @media(max-width:768px){
     .fb-hymn-title { font-size:0.8rem !important; }
-    .fb-nav-arrow { width:34px; height:34px; margin:0 4px; font-size:.7rem; }
-    .fb-stage { padding: 10px !important; }
+    .fb-nav-arrow { 
+        width:40px; height:40px; margin:0 4px; font-size:.8rem; 
+        position: absolute; z-index: 100; background: rgba(15,23,42,0.4); border-radius: 50%;
+    }
+    #fb-prev { left: 10px; }
+    #fb-next { right: 10px; }
+    .fb-stage { padding: 5px !important; }
     .fb-vol-wrap,.fb-hint { display:none; }
     .fb-now-playing { display:none; }
     .fb-ctrl-btn { width:32px; height:32px; border-radius:8px; }
     .fb-view-btn { width:32px; height:32px; }
     .fb-zoom-label { min-width:30px; font-size:0.6rem; }
     #flipbook-theater { inset: 0; }
+    .fb-book { border-width: 3px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .fb-lyrics-view { padding: 1.5rem !important; }
+    .fb-lyrics-inner { font-size: 1rem !important; line-height: 1.8 !important; }
+}
+
+/* ── LYRICS STYLE OVERRIDES ── */
+.fb-lyrics-view {
+    display:none; width:100%; height:100%; overflow-y:auto; 
+    padding:2.5rem 4rem; scroll-behavior: smooth;
+    background: transparent;
+}
+.fb-lyrics-inner {
+    max-width:800px; margin:0 auto; 
+    font-family:'Playfair Display',serif;
+    font-size:1.35rem; line-height:2.4; 
+    color:#e2e8f0; text-align:center; 
+    white-space:pre-wrap;
+    transition: all 0.3s ease;
 }
 
 /* ── INTERAL MODAL STYLES ── */
@@ -831,6 +929,7 @@ const themeToggle = document.getElementById('fb-theme-toggle');
 
 /* ── State ─────────────────────────────────────────────────────── */
 let fbPdfDoc = null, fbTotal = 0, fbSpread = 1, fbZoom = 1.0;
+const isMobileView = () => window.innerWidth < 1024;
 let scoreDoc = null, lyricsDoc = null; // Store both separately
 let currentView = 'score';   // 'score' | 'lyrics'
 let lyricsLoaded = false;
@@ -1081,7 +1180,8 @@ function rerenderLyricsFromCache() {
         lyricsInner.innerHTML = '';
         lyricsDoc.getPage(1).then(page => {
             const dpr = window.devicePixelRatio || 1;
-            const scale = Math.min((lyricsView.clientWidth - 80) / page.getViewport({scale:1}).width, 1.4) * fbZoom;
+            const padding = window.innerWidth < 768 ? 20 : 80;
+            const scale = Math.min((lyricsView.clientWidth - padding) / page.getViewport({scale:1}).width, 2.0) * fbZoom;
             const vp = page.getViewport({ scale: scale * dpr });
             const canvas = document.createElement('canvas');
             canvas.width = vp.width; canvas.height = vp.height;
@@ -1140,7 +1240,8 @@ function loadLyricsPdf(path) {
                 lyricsInner.innerHTML = '';
                 pdf.getPage(1).then(page => {
                     const dpr = window.devicePixelRatio || 1;
-                    const scale = Math.min((lyricsView.clientWidth - 80) / page.getViewport({scale:1}).width, 1.4) * fbZoom;
+                    const padding = window.innerWidth < 768 ? 20 : 80;
+                    const scale = Math.min((lyricsView.clientWidth - padding) / page.getViewport({scale:1}).width, 2.0) * fbZoom;
                     const vp = page.getViewport({ scale: scale * dpr });
                     const canvas = document.createElement('canvas');
                     canvas.width = vp.width; canvas.height = vp.height;
@@ -1182,44 +1283,91 @@ function doLoadPdf(path) {
 /* ── RENDER SPREAD ─────────────────────────────────────────────── */
 function renderSpread(leftNum, animate) {
     fbSpread = leftNum;
+    const isMobile = isMobileView();
+    // Normalize for desktop: dual pages usually start at odd numbers
+    if (!isMobile && fbSpread > 1 && fbSpread % 2 === 0) fbSpread--;
+    
     updatePageUI();
-    renderPage(leftNum,     canvasL, numL);
-    renderPage(leftNum + 1, canvasR, numR);
-    if (animate !== false) flipAnim(leftNum);
+    renderPage(fbSpread, canvasL, numL);
+    if (!isMobile) {
+        renderPage(fbSpread + 1, canvasR, numR);
+    }
+    if (animate !== false && !isMobile) flipAnim(fbSpread);
 }
 
 let _lastSpread = 1;
 let _isAnimating = false;
 
-function flipAnim(leftNum, onDone) {
+
+function flipAnim(targetSpread, onDone) {
     const turningPage = document.getElementById('fb-turning-page');
+    const turnFront   = document.getElementById('fb-canvas-turn-front');
+    const turnBack    = document.getElementById('fb-canvas-turn-back');
+    const numL        = document.getElementById('fb-num-left');
+    const numR        = document.getElementById('fb-num-right');
+
     if (!turningPage || _isAnimating) { if (onDone) onDone(); return; }
 
-    const goingForward = leftNum > _lastSpread;
-    _lastSpread = leftNum;
+    const isMobile = isMobileView();
+    // Mobile uses a simpler slide-flip for performant UX on phones
+    if (isMobile) {
+        _isAnimating = true;
+        const goingForward = targetSpread > _lastSpread;
+        _lastSpread = targetSpread;
+        const book = document.getElementById('fb-book');
+        book.classList.add(goingForward ? 'fb-mobile-anim-next' : 'fb-mobile-anim-prev');
+        setTimeout(() => {
+            if (onDone) onDone();
+            book.classList.remove('fb-mobile-anim-next', 'fb-mobile-anim-prev');
+            _isAnimating = false;
+        }, 550);
+        return;
+    }
+
+    // DESKTOP: True Content-Based 3D Flip
     _isAnimating = true;
+    const goingForward = targetSpread > _lastSpread;
+    const oldSpread = _lastSpread;
+    _lastSpread = targetSpread;
 
-    // Always reset inline positioning so CSS class takes over
-    turningPage.style.left  = '';
-    turningPage.style.right = '';
-    turningPage.style.transform = '';
-    turningPage.style.display = 'none';
-    turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+    // 1. Prepare Content for the "Turning" Leaf
+    if (goingForward) {
+        // Turning from (old) to (target)
+        // Static Left remains 'old' until mid-flip
+        // Front of leaf = old right (page old+1)
+        // Back of leaf  = target left (page target)
+        renderPage(oldSpread + 1, turnFront, { textContent:'' });
+        renderPage(targetSpread,  turnBack,  { textContent:'' });
+        // Underneath, pre-render the target right
+        renderPage(targetSpread + 1, canvasR, numR);
+    } else {
+        // Turning back
+        // Front of leaf = old left (page old)
+        // Back of leaf  = target right (page target+1)
+        renderPage(oldSpread,     turnFront, { textContent:'' });
+        renderPage(targetSpread + 1, turnBack, { textContent:'' });
+        // Underneath, pre-render target left
+        renderPage(targetSpread, canvasL, numL);
+    }
 
-    // Force reflow to ensure clean state before re-animating
-    void turningPage.offsetWidth;
-
-    // Show and animate — CSS class sets the correct position & origin
+    // 2. Execute Animation
     turningPage.style.display = 'block';
+    turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+    void turningPage.offsetWidth; 
     turningPage.classList.add(goingForward ? 'fb-turning-right' : 'fb-turning-left');
 
     const cleanup = () => {
         turningPage.style.display = 'none';
         turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+        
+        // Finalize static pages
+        renderPage(targetSpread,     canvasL, numL);
+        renderPage(targetSpread + 1, canvasR, numR);
+        
         _isAnimating = false;
-        turningPage.removeEventListener('animationend', cleanup);
         if (onDone) onDone();
     };
+
     turningPage.addEventListener('animationend', cleanup, { once: true });
 }
 
@@ -1227,25 +1375,39 @@ function renderPage(pageNum, canvas, numEl) {
     if (!fbPdfDoc || pageNum < 1 || pageNum > fbTotal) {
         const ctx = canvas.getContext('2d');
         canvas.width = canvas.width || 420; canvas.height = canvas.height || 590;
-        ctx.fillStyle = '#f9fafb'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const isLight = theater.classList.contains('fb-light-mode');
+        ctx.fillStyle = isLight ? '#f8fafc' : '#0f172a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         numEl.textContent = ''; return;
     }
     fbPdfDoc.getPage(pageNum).then(page => {
+        const isMobile = isMobileView();
         const dpr = window.devicePixelRatio || 1;
-        const padding = window.innerWidth < 768 ? 20 : 60;
-        const halfW = (fbStage.clientWidth / 2) - (padding / 2) - 20;
-        const maxH  = fbStage.clientHeight - padding;
+        // Total internal buffer to safely clear Borders + Stage padding + Spacing
+        const buffer = isMobile ? 40 : 120;
+        
+        // Calculate the maximum actual available area in the flex stage
+        const availableW = isMobile ? (fbStage.clientWidth - buffer) : (fbStage.clientWidth / 2) - (buffer / 2) - 30;
+        const availableH = fbStage.clientHeight - (isMobile ? 20 : 80);
+        
         const native = page.getViewport({ scale: 1 });
-        let scale = (halfW / native.width) * fbZoom;
-        if (native.height * scale > maxH) scale = (maxH / native.height) * fbZoom;
+        
+        // Strict containment logic: fit to both width AND height
+        let scale = Math.min(availableW / native.width, availableH / native.height) * fbZoom;
+        
+        // Update CSS variables so the .fb-page / .fb-book hierarchy matches the canvas exactly
+        document.documentElement.style.setProperty('--fb-page-width', (native.width * scale) + 'px');
+        document.documentElement.style.setProperty('--fb-page-height', (native.height * scale) + 'px');
         
         const vp = page.getViewport({ scale: scale * dpr });
         canvas.width = vp.width; canvas.height = vp.height;
-        // The canvas dimensions are set to physical pixels, but CSS keeps it display size
-        canvas.style.width = (vp.width / dpr) + "px";
-        canvas.style.height = (vp.height / dpr) + "px";
+        canvas.style.width = (native.width * scale) + "px";
+        canvas.style.height = (native.height * scale) + "px";
 
-        page.render({ canvasContext: canvas.getContext('2d'), viewport: vp });
+        page.render({ 
+            canvasContext: canvas.getContext('2d'), 
+            viewport: vp 
+        });
         numEl.textContent = pageNum;
     });
 }
@@ -1254,47 +1416,53 @@ function renderPage(pageNum, canvas, numEl) {
 prevBtn.addEventListener('click', () => goSpread(-2));
 nextBtn.addEventListener('click', () => goSpread(+2));
 function goSpread(delta) {
-    if (_isAnimating) return; // Block rapid double-clicks during animation
-    const n = fbSpread + delta;
-    if (n < 1 || n > fbTotal) return;
+    if (_isAnimating) return;
+    const isMobile = isMobileView();
+    // Delta adaptation: on mobile, +/-2 becomes +/-1 to flip single pages
+    const move = isMobile ? (delta > 0 ? 1 : -1) : delta;
+    let nextVal = fbSpread + move;
     
-    // Direction for animation
-    const nextSpread = n;
-    
-    // Run the flip animation, then render new pages when it's halfway (most dramatic)
-    const goingForward = delta > 0;
-    _lastSpread = fbSpread;  // Save before update
-    fbSpread = nextSpread;
+    if (nextVal < 1) nextVal = 1;
+    if (nextVal > fbTotal) nextVal = fbTotal;
+    if (nextVal === fbSpread) return;
+
+    const prevVal = fbSpread;
+    fbSpread = nextVal;
     updatePageUI();
-    
-    if (goingForward) {
-        // Show animation first, then render new pages
-        flipAnim(nextSpread, null);
-        // Render new pages slightly into the animation for seamless reveal
-        setTimeout(() => {
-            renderPage(nextSpread,     canvasL, numL);
-            renderPage(nextSpread + 1, canvasR, numR);
-        }, 200);
+
+    if (isMobile) {
+        flipAnim(fbSpread, () => {
+            renderPage(fbSpread, canvasL, numL);
+        });
     } else {
-        renderPage(nextSpread,     canvasL, numL);
-        renderPage(nextSpread + 1, canvasR, numR);
-        flipAnim(nextSpread, null);
+        // Desktop uses the content-based true 3D flip handled inside flipAnim
+        flipAnim(fbSpread);
     }
 }
 
 function updatePageUI() {
+    const isMobile = isMobileView();
     const right = Math.min(fbSpread + 1, fbTotal);
-    spreadLbl.textContent = (fbSpread === right) || (fbTotal === 1) ? fbSpread : `${fbSpread}–${right}`;
+    
+    if (isMobile || fbTotal <= 1) {
+        spreadLbl.textContent = `Page ${fbSpread} of ${fbTotal}`;
+    } else {
+        spreadLbl.textContent = (fbSpread >= fbTotal) || (fbTotal === 1) ? fbSpread : `${fbSpread}–${right}`;
+    }
+    
     prevBtn.disabled = fbSpread <= 1;
-    nextBtn.disabled = (fbSpread + 2) > fbTotal;
+    nextBtn.disabled = isMobile ? (fbSpread >= fbTotal) : (fbSpread + 1 >= fbTotal);
+    
     const pct = fbTotal > 1 ? ((fbSpread - 1) / (fbTotal - 1)) * 100 : 0;
-    scrubFill.style.width = pct + '%';
-    scrubber.value = fbSpread;
+    if (scrubFill) scrubFill.style.width = pct + '%';
+    if (scrubber) {
+        scrubber.max = fbTotal;
+        scrubber.value = fbSpread;
+    }
 
-    // Single-page mode logic
     const wrap = document.getElementById('fb-book-wrap');
     if (wrap) {
-        if (fbTotal <= 1) wrap.classList.add('fb-single-page');
+        if (isMobile || fbTotal <= 1) wrap.classList.add('fb-single-page');
         else wrap.classList.remove('fb-single-page');
     }
 }
@@ -1305,7 +1473,7 @@ scrubFill.parentElement.addEventListener('click', (e) => {
 
 scrubber.addEventListener('input', () => {
     let v = parseInt(scrubber.value);
-    if (v % 2 === 0) v = Math.max(1, v - 1);
+    if (!isMobileView() && v > 1 && v % 2 === 0) v--;
     renderSpread(v);
 });
 

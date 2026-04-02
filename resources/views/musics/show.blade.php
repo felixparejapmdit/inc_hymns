@@ -221,6 +221,10 @@
 
                     <!-- Reconfigurable Multi-Mode Spotlight (Center) -->
                     <div id="centerSpotlight" class="center-spotlight-panel shadow-4xl custom-scrollbar-premium">
+                        <!-- Explicit Close Button -->
+                        <button id="closeSpotlight" class="spotlight-close-btn" title="Close Panel">
+                            <i class="fas fa-times"></i>
+                        </button>
                         <!-- Mode 1: Full Hymn Info (Displayed by default or on Title Hover) -->
                         <div id="spotlightHymnInfo" class="spotlight-content-mode p-5">
                             <h2 class="spotlight-title text-center mb-5">{{ $music->title }}</h2>
@@ -298,7 +302,7 @@
                         <!-- Mode 2: Per-Name Creator Spotlight (Dynamic) -->
                         <div id="spotlightNameInfo" class="spotlight-content-mode hidden p-5 text-center h-full d-flex flex-column align-items-center justify-content-center">
                             <img id="spotlightCreatorImage" src="" alt="Creator Image" class="rounded-circle mb-3 shadow-lg object-cover hidden" style="width: 140px; height: 140px; border: 4px solid white;">
-                            <span id="spotlightRole" class="spotlight-badge mb-3">CONTRBUTOR</span>
+                            <span id="spotlightRole" class="spotlight-badge mb-3">CONTRIBUTOR</span>
                             <h2 id="spotlightCreatorName" class="spotlight-hero-text">CREATOR NAME</h2>
                             <div class="spotlight-accent mt-4 mb-4"></div>
                             
@@ -566,7 +570,7 @@ body.night-mode .hub-mini-btn {
     max-height: 80vh;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(60px);
-    z-index: 2300;
+    z-index: 10001;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     border: 1px solid white;
     border-radius: 40px;
@@ -580,6 +584,7 @@ body.night-mode .hub-mini-btn {
 .center-spotlight-panel.active {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
 }
 
 .spotlight-hero-text {
@@ -593,22 +598,53 @@ body.night-mode .hub-mini-btn {
 }
 
 .spotlight-accent {
-    width: 100px;
+    width: 60px;
     height: 4px;
-    background: #3b82f6;
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
     border-radius: 2px;
 }
 
 .spotlight-badge {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 4px;
-    color: #3b82f6;
-    background: rgba(59, 130, 246, 0.1);
-    padding: 4px 12px;
-    border-radius: 4px;
+    letter-spacing: 3px;
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.08);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+/* Close Button for Spotlight */
+.spotlight-close-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(15, 23, 42, 0.04);
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2100;
+    cursor: pointer;
+}
+
+.spotlight-close-btn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    transform: rotate(90deg) scale(1.1);
+}
+
+body.night-mode .spotlight-close-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
 }
 
 .modal-overlay-premium {
@@ -619,16 +655,17 @@ body.night-mode .hub-mini-btn {
     height: 100vh;
     background: rgba(0,0,0,0.2);
     backdrop-filter: blur(10px);
-    z-index: 2250;
+    z-index: 10000;
     display: none;
     opacity: 0;
     transition: all 0.4s;
-    pointer-events: none; /* Prevents stealing hover events from drawer */
+    pointer-events: none; /* Prevents stealing hover events from drawer when inactive */
 }
 
 .modal-overlay-premium.active {
     display: block;
     opacity: 1;
+    pointer-events: auto;
 }
 
 body.night-mode .details-drawer,
@@ -678,7 +715,51 @@ body.night-mode .spotlight-title {
 }
 
 body.night-mode .spotlight-hero-text {
-    color: white;
+    color: #f1f5f9;
+}
+
+/* NEW PREMIUM SPOTLIGHT REFINEMENTS */
+#spotlightNameInfo {
+    background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.05) 0%, transparent 40%);
+    position: relative;
+    overflow: hidden;
+}
+
+#spotlightNameInfo::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#spotlightCreatorImage {
+    z-index: 10;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 6px solid white;
+}
+
+.center-spotlight-panel.active #spotlightCreatorImage {
+    transform: scale(1.05);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2) !important;
+}
+
+.spotlight-hero-text {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.5s ease;
+}
+
+#spotlightCreatorBackground {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.2px;
+    font-weight: 500;
 }
 
 /* ENHANCED DETAILS PANEL UI */
@@ -2548,18 +2629,26 @@ document.addEventListener('DOMContentLoaded', () => {
             centerSpotlight.classList.add('active');
             if(detailsOverlay) detailsOverlay.classList.add('active');
         });
-        link.addEventListener('mouseleave', () => {
-            centerSpotlight.classList.remove('active');
-            if(detailsOverlay) detailsOverlay.classList.remove('active');
-            
-            // Clean up display mode
-            setTimeout(() => {
-                if(!centerSpotlight.classList.contains('active')) {
-                    spotlightName.classList.remove('d-flex');
-                }
-            }, 500);
-        });
+        // link.addEventListener('mouseleave', (e) => {
+        //     // ... logic removed as per user request to only close via exit button ...
+        // });
     });
+
+    // Close on panel leave or close button
+    if (centerSpotlight) {
+        // centerSpotlight.addEventListener('mouseleave', (e) => {
+        //     // ... logic removed to make spotlight stay open ...
+        // });
+        
+        const closeBtnSp = document.getElementById('closeSpotlight');
+        if(closeBtnSp) {
+            closeBtnSp.addEventListener('click', () => {
+                centerSpotlight.classList.remove('active');
+                if(detailsOverlay) detailsOverlay.classList.remove('active');
+                setTimeout(() => { spotlightName.classList.remove('d-flex'); }, 500);
+            });
+        }
+    }
 
     if (closeDetails && detailsDrawer) {
         closeDetails.addEventListener('click', () => {
