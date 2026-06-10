@@ -25,7 +25,7 @@ services:
     container_name: inc_hymns-web
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "8083:80"
     volumes:
       - ./:/var/www
       - ./public/build:/var/www/html/public/build
