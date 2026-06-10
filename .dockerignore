@@ -9,6 +9,7 @@ storage/*.key
 .vscode
 public/storage
 public/build
+public/hot
 tests
 phpunit.xml
 README.md
