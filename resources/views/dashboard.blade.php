@@ -3,6 +3,60 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+@php
+    $topCategories = collect($categoryCounts ?? [])->sortByDesc('musics_count')->take(5);
+    $topLanguages = collect($languageCounts ?? [])->sortByDesc('musics_count')->take(5);
+    $topInstrumentations = collect($instrumentations->items() ?? [])->take(5);
+    $topEnsembles = collect($ensembleTypes->items() ?? [])->take(5);
+    $topCredits = collect($credits->items() ?? [])->take(5);
+    $churchHymnByName = collect($totalChurchHymns ?? [])->keyBy('name');
+    $hymnBreakdown = [
+        [
+            'key' => 'AWS',
+            'label' => 'Adult Worship',
+            'icon' => 'fa-users',
+            'color' => '#3E6D9C',
+            'bg' => 'rgba(62,109,156,0.12)',
+        ],
+        [
+            'key' => 'CWS',
+            'label' => 'Children Worship',
+            'icon' => 'fa-child',
+            'color' => '#0f766e',
+            'bg' => 'rgba(13,148,136,0.12)',
+        ],
+        [
+            'key' => 'EM',
+            'label' => 'Evangelical Mission',
+            'icon' => 'fa-bullhorn',
+            'color' => '#d97706',
+            'bg' => 'rgba(217,119,6,0.12)',
+        ],
+        [
+            'key' => 'Wedding',
+            'label' => 'Wedding',
+            'icon' => 'fa-heart',
+            'color' => '#db2777',
+            'bg' => 'rgba(219,39,119,0.12)',
+        ],
+        [
+            'key' => 'Pasalamat',
+            'label' => 'Pasalamat',
+            'icon' => 'fa-hands-praying',
+            'color' => '#7c3aed',
+            'bg' => 'rgba(124,58,237,0.12)',
+        ],
+    ];
+    $dashboardStats = [
+        ['label' => 'Total Hymns', 'value' => $totalChurchHymns->sum('musics_count') ?? 0, 'icon' => 'fa-book-open', 'bg' => 'rgba(62,109,156,0.12)', 'color' => '#3E6D9C'],
+        ['label' => 'Users', 'value' => $totalUsers ?? 0, 'icon' => 'fa-users', 'bg' => 'rgba(13,148,136,0.12)', 'color' => '#0f766e'],
+        ['label' => 'Lyricists', 'value' => $totalLyricists ?? 0, 'icon' => 'fa-pen-nib', 'bg' => 'rgba(139,92,246,0.12)', 'color' => '#8b5cf6'],
+        ['label' => 'Composers', 'value' => $totalComposers ?? 0, 'icon' => 'fa-music', 'bg' => 'rgba(217,119,6,0.12)', 'color' => '#d97706'],
+        ['label' => 'Arrangers', 'value' => $totalArrangers ?? 0, 'icon' => 'fa-sliders', 'bg' => 'rgba(239,68,68,0.12)', 'color' => '#ef4444'],
+        ['label' => 'Playlists', 'value' => isset($playlists) ? $playlists->count() : 0, 'icon' => 'fa-list-ul', 'bg' => 'rgba(22,163,74,0.12)', 'color' => '#16a34a'],
+    ];
+@endphp
+
 <style>
     :root {
         --primary-gradient: linear-gradient(to bottom, #64B5D6 0%, #3E6D9C 100%);
@@ -29,14 +83,21 @@
 
     .dashboard-card {
         background: var(--card-bg);
-        border-radius: 24px;
+        border-radius: 22px;
         border: 1px solid rgba(255, 255, 255, 0.4);
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        padding: 2rem;
+        padding: 1.5rem;
         margin-bottom: 2rem;
-        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease, border-color 0.28s ease;
         display: flex;
         flex-direction: column;
+        position: relative;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        border-color: rgba(62, 109, 156, 0.25);
     }
 
 
@@ -55,8 +116,357 @@
         border-radius: 10px;
     }
 
-    .dashboard-card.h-100 {
-        min-height: 500px;
+    .dashboard-card.h-100 { min-height: 500px; }
+
+    .dashboard-tab-nav {
+        display: inline-flex;
+        gap: 0.75rem;
+        padding: 0.4rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.22);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        backdrop-filter: blur(12px);
+        margin: 0 0 1.25rem;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+    }
+
+    .dashboard-tab-btn {
+        border: none;
+        background: transparent;
+        color: rgba(15, 23, 42, 0.72);
+        padding: 0.8rem 1.2rem;
+        border-radius: 999px;
+        font-weight: 800;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        transition: all 0.25s ease;
+    }
+
+    .dashboard-tab-btn.active {
+        background: #fff;
+        color: var(--accent-blue);
+        box-shadow: 0 8px 18px rgba(62, 109, 156, 0.14);
+    }
+
+    .dashboard-tab-panel { display: none; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .dashboard-tab-panel.active { display: block; }
+
+    .drilldown-trigger {
+        appearance: none;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+    }
+
+    .drilldown-trigger .metric-title,
+    .drilldown-trigger .metric-amount,
+    .drilldown-trigger .stat-subtitle {
+        pointer-events: none;
+    }
+
+    .drilldown-trigger .stat-subtitle {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: #64748b;
+    }
+
+    .drilldown-trigger .stat-subtitle i {
+        font-size: 0.8rem;
+    }
+
+    .hymn-drilldown-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.62);
+        backdrop-filter: blur(10px);
+        z-index: 2200;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+    }
+
+    .hymn-drilldown-modal.active {
+        display: flex;
+        animation: fadeInUp 0.2s ease;
+    }
+
+    .hymn-drilldown-panel {
+        width: min(860px, 100%);
+        max-height: min(86vh, 780px);
+        overflow: hidden;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        box-shadow: 0 35px 90px rgba(15, 23, 42, 0.3);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hymn-drilldown-header {
+        padding: 1.4rem 1.5rem;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        background: linear-gradient(180deg, rgba(248,250,252,0.96), rgba(255,255,255,0.96));
+    }
+
+    .hymn-drilldown-kicker {
+        margin: 0 0 0.25rem;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--accent-blue);
+    }
+
+    .hymn-drilldown-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: #0f172a;
+    }
+
+    .hymn-drilldown-close {
+        border: none;
+        background: #e2e8f0;
+        color: #334155;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .hymn-drilldown-close:hover {
+        background: #cbd5e1;
+        transform: scale(1.04);
+    }
+
+    .hymn-drilldown-body {
+        padding: 1.25rem 1.5rem 1.5rem;
+        overflow: auto;
+    }
+
+    .hymn-drilldown-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+    }
+
+    .hymn-breakdown-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+        padding: 1rem 1rem 1rem 1rem;
+        border-radius: 18px;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        background: #f8fafc;
+        text-decoration: none !important;
+        transition: all 0.22s ease;
+    }
+
+    .hymn-breakdown-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        border-color: rgba(62, 109, 156, 0.3);
+    }
+
+    .hymn-breakdown-left {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        min-width: 0;
+    }
+
+    .hymn-breakdown-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1rem;
+    }
+
+    .hymn-breakdown-copy {
+        min-width: 0;
+    }
+
+    .hymn-breakdown-name {
+        margin: 0;
+        font-weight: 900;
+        color: #0f172a;
+        font-size: 0.98rem;
+        line-height: 1.2;
+    }
+
+    .hymn-breakdown-hint {
+        margin: 0.2rem 0 0;
+        font-size: 0.76rem;
+        color: #64748b;
+    }
+
+    .hymn-breakdown-meta {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.45rem 0.7rem;
+        border-radius: 999px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        color: #334155;
+        font-weight: 800;
+        font-size: 0.8rem;
+    }
+
+    .hymn-drilldown-footer {
+        padding-top: 1rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .hymn-drilldown-note {
+        margin: 0;
+        color: #64748b;
+        font-size: 0.84rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+        min-height: 150px;
+        justify-content: flex-start;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card .metric-amount {
+        font-size: 2.05rem;
+    }
+
+    .stat-card .metric-title {
+        font-size: 0.8rem;
+    }
+
+    .stat-card .metric-icon-circle {
+        margin-bottom: 0.9rem;
+    }
+
+    .stat-card .stat-subtitle {
+        margin-top: 0.45rem;
+        font-size: 0.8rem;
+        color: #94a3b8;
+        z-index: 1;
+    }
+
+    .compact-card {
+        padding: 1.35rem;
+    }
+
+    .section-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .section-card-title {
+        margin: 0;
+        font-size: 1.02rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: #334155;
+    }
+
+    .section-card-title i {
+        margin-right: 0.5rem;
+        color: var(--accent-blue);
+    }
+
+    .section-link {
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--accent-blue);
+        text-decoration: none !important;
+    }
+
+    .section-link:hover { color: #64B5D6; }
+
+    .top-five-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .top-five-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.8rem 0.9rem;
+        border-radius: 14px;
+        background: rgba(248, 250, 252, 0.9);
+        border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+
+    .top-five-item:hover {
+        transform: translateX(2px);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .top-five-item .item-name {
+        font-weight: 700;
+        color: #334155;
+    }
+
+    .top-five-item .item-meta {
+        font-weight: 800;
+        color: var(--accent-blue);
+        flex-shrink: 0;
+    }
+
+    .chart-frame {
+        height: 320px;
+        position: relative;
+        border-radius: 20px;
+        padding: 0.35rem 0 0;
+    }
+
+    .chart-frame.small { height: 290px; }
+
+    .chart-frame canvas { filter: saturate(1.08) contrast(1.02); }
+
+    .collapsible-card .accordion-btn {
+        border-bottom: 0;
+        border-radius: 16px;
+        background: rgba(248, 250, 252, 0.95);
+    }
+
+    .collapsible-card .panel-content {
+        border-radius: 0 0 16px 16px;
+        background: transparent;
     }
 
     .overview-grid {
@@ -433,6 +843,22 @@
     }
 
     @media (max-width: 640px) {
+        .dashboard-tab-nav {
+            width: 100%;
+            justify-content: space-between;
+            gap: 0.35rem;
+        }
+        .dashboard-tab-btn {
+            flex: 1 1 0;
+            font-size: 0.7rem;
+            padding: 0.7rem 0.85rem;
+        }
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        .hymn-drilldown-grid {
+            grid-template-columns: 1fr;
+        }
         .stat-grid {
             grid-template-columns: 1fr;
         }
@@ -523,6 +949,17 @@
         .overview-grid {
             gap: 0.75rem;
         }
+        .stats-grid {
+            gap: 0.85rem;
+        }
+        .hymn-drilldown-panel {
+            border-radius: 22px;
+        }
+        .hymn-drilldown-header,
+        .hymn-drilldown-body {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
         .container-fluid.px-5 {
             padding-left: 0.75rem !important;
             padding-right: 0.75rem !important;
@@ -606,6 +1043,23 @@
         animation: shimmer 1.5s infinite;
         border-radius: 8px;
     }
+
+    .dashboard-loading .dashboard-card,
+    .dashboard-loading .dashboard-metric-card {
+        overflow: hidden;
+    }
+
+    .dashboard-loading .dashboard-card::after,
+    .dashboard-loading .dashboard-metric-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 80%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+        opacity: 0.28;
+        pointer-events: none;
+    }
     
     .loading-overlay {
         opacity: 0.5;
@@ -646,285 +1100,367 @@
 
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 dashboard-grid-container" style="max-width: 90%; margin: 0 auto;">
-            
-            <!-- Statistics Overview -->
-            <div class="overview-grid">
-                <!-- Total Hymns (Hero Featured Card) -->
-                <a href="{{ route('musics.index') }}" class="dashboard-metric-card highlight-metric shadow-lg">
-                    <div class="metric-left">
-                        <div class="metric-amount">{{ $totalChurchHymns->sum('musics_count') }}</div>
-                        <div class="metric-title">Total Hymns</div>
-                    </div>
-                    <i class="fas fa-layer-group metric-icon-hero"></i>
-                </a>
-
-                @foreach($totalChurchHymns as $hymn)
-                    @php
-                        $serviceDetails = match($hymn->name) {
-                            'AWS' => ['name' => 'Adult Worship', 'icon' => 'fa-users', 'color' => '#3E6D9C', 'bg' => 'rgba(62,109,156,0.12)'],
-                            'CWS' => ['name' => 'Children Worship', 'icon' => 'fa-child', 'color' => '#64B5D6', 'bg' => 'rgba(100,181,214,0.12)'],
-                            'EM' => ['name' => 'Evangelical Mission', 'icon' => 'fa-bullhorn', 'color' => '#b8860b', 'bg' => 'rgba(255,215,0,0.12)'],
-                            'Wedding' => ['name' => 'Wedding', 'icon' => 'fa-heart', 'color' => '#f472b6', 'bg' => 'rgba(244,114,182,0.12)'],
-                            default => ['name' => $hymn->name, 'icon' => 'fa-music', 'color' => '#94a3b8', 'bg' => 'rgba(148,163,184,0.12)']
-                        };
-                    @endphp
-                    <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="dashboard-metric-card">
-                        <div class="metric-icon-circle" style="background: {{ $serviceDetails['bg'] }}; color: {{ $serviceDetails['color'] }};">
-                            <i class="fas {{ $serviceDetails['icon'] }}"></i>
-                        </div>
-                        <div class="metric-amount">{{ $hymn->musics_count }}</div>
-                        <div class="metric-title">{{ $serviceDetails['name'] }}</div>
-                        <i class="fas {{ $serviceDetails['icon'] }}" style="position: absolute; right: 20px; bottom: 16px; font-size: 2.5rem; opacity: 0.06; color: {{ $serviceDetails['color'] }};"></i>
-                    </a>
-                @endforeach
-            </div>
-
-
-            <!-- Playlists Section -->
-            <div class="dashboard-card">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="section-title mb-0">
-                        <i class="fab fa-spotify text-green-500"></i> Special Occasion Playlist
-                    </h2>
-                    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
-                        <a href="{{ route('playlists_management.index') }}" class="btn btn-sm btn-outline-primary rounded-circle shadow-sm">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                    @endif
-                </div>
-
-                <div class="mt-4 card-scroll-body">
-                    @foreach($playlists as $playlist)
-                        @php $playlistId = $playlist->id; @endphp
-                        <button class="accordion-btn" onclick="toggleAccordion(this)">
-                            <span><i class="fas fa-list-ul mr-2 opacity-50"></i> {{ $playlist->name }}</span>
-                            <i class="fas fa-chevron-down text-xs opacity-50"></i>
-                        </button>
-                        <div class="panel-content">
-                            <div class="table-responsive">
-                                <table class="table-modern draggable-table" id="playlist-{{ $playlistId }}">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" width="50">#</th>
-                                            <th>Title</th>
-                                            <th class="text-center">Hymn Number</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($playlist->musics as $key => $music)
-                                            <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
-                                                <td class="text-center font-bold text-gray-400">{{ $key + 1 }}</td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="fas fa-music mr-3 text-blue-400"></i>
-                                                        <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 font-semibold hover:underline">
-                                                            {{ $music->title }}
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center font-medium">{{ $music->song_number ?? '-' }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-
-
             @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
-                <!-- Most Viewed Section -->
-                <div class="dashboard-card" id="most-viewed-card">
-                    <h3 class="section-title"><i class="fas fa-chart-line text-blue-500"></i> Most Viewed Hymns</h3>
-                    <div class="card-scroll-body flex-grow">
-                        <table class="table-modern">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Hymn #</th>
-                                    <th>Title</th>
-                                    <th class="text-center">Views</th>
-                                </tr>
-                            </thead>
-                            <tbody class="ajax-content">
-                                @foreach($mostViewedHymns as $hymn)
-                                    <tr>
-                                        <td class="text-center font-bold text-muted">{{ $hymn->song_number }}</td>
-                                        <td>
-                                            <a href="{{ route('musics.show', $hymn->id) }}" class="d-flex align-items-center text-blue-600 font-semibold hover:underline">
-                                                <i class="fas fa-music mr-2 opacity-30"></i>
-                                                {{ $hymn->title }}
-                                            </a>
-                                        </td>
-                                        <td class="text-center"><span class="badge badge-pill badge-light px-3 py-2 font-bold">{{ $hymn->views_count }}</span></td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination-centered ajax-pagination">
-                        {{ $mostViewedHymns->links() }}
-                    </div>
+                <div class="dashboard-tab-nav" role="tablist" aria-label="Dashboard sections">
+                    <button type="button" class="dashboard-tab-btn active" data-dashboard-tab="overview">Overview</button>
+                    <button type="button" class="dashboard-tab-btn" data-dashboard-tab="analytics">Detailed Analytics</button>
                 </div>
 
-                <div class="row">
-                    <!-- Recent Activity -->
-                    <div class="col-lg-7 mb-4">
-                        <div class="dashboard-card h-100" id="activity-card">
-                            <h3 class="section-title"><i class="fas fa-history text-muted"></i> Recent Activity</h3>
-                            <div class="card-scroll-body flex-grow">
-                                <table class="table-modern">
-                                    <thead>
-                                        <tr>
-                                            <th>User</th>
-                                            <th>Action</th>
-                                            <th class="text-right">Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="ajax-content">
-                                        @foreach($logs as $activity)
-                                            @php
-                                                $badgeClass = match(strtolower($activity->action)) {
-                                                    'login' => 'badge-login',
-                                                    'viewed' => 'badge-view',
-                                                    'created' => 'badge-create',
-                                                    'deleted' => 'badge-delete',
-                                                    default => 'badge-light'
-                                                };
-                                            @endphp
-                                            <tr>
-                                                <td class="font-semibold text-dark">{{ optional($activity->user)->name }}</td>
-                                                <td><span class="badge-custom {{ $badgeClass }}">{{ $activity->action }}</span></td>
-                                                <td class="small text-muted text-right">{{ $activity->created_at->diffForHumans() }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="pagination-centered ajax-pagination">
-                                {{ $logs->links() }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Hymns Chart -->
-                    <div class="col-lg-5 mb-4">
-                        <div class="dashboard-card h-100">
-                            <h3 class="section-title"><i class="fas fa-chart-pie text-purple-400"></i> Distribution</h3>
-                            <div style="height: 300px; position: relative;" class="flex-grow d-flex align-items-center">
-                                <canvas id="churchHymnsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <!-- Language Stats -->
-                    <div class="col-md-6 mb-4">
-                        <div class="dashboard-card h-100">
-                            <h3 class="section-title"><i class="fas fa-globe text-blue-400"></i> Hymns by Language</h3>
-                            <table class="table-modern">
-                                <tbody>
-                                    @foreach($languageCounts as $language)
-                                        <tr>
-                                            <td class="font-semibold">{{ $language->name }}</td>
-                                            <td class="text-right"><span class="badge badge-primary px-3 py-2" style="background-color: var(--accent-blue);">{{ $language->musics_count }}</span></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Categories Chart -->
-                    <div class="col-md-6 mb-4">
-                        <div class="dashboard-card h-100">
-                            <h3 class="section-title"><i class="fas fa-tags text-teal-400"></i> Categories Overview</h3>
-                            <div style="height: 320px; position: relative;">
-                                <canvas id="hymnCategoriesChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Footer Stats Grid -->
-                <div class="row">
-                    <div class="col-12 col-md-6 col-xl-3 mb-4">
-                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Instrumentations</h4>
-                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $instrumentations->total() }}</span>
-                            </div>
-                            <div class="mini-list flex-grow-1">
-                                @forelse($instrumentations as $item)
-                                    <div class="mini-list-item"><i class="fas fa-drum text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
-                                @empty
-                                    <div class="text-muted small">No data entries.</div>
-                                @endforelse
-                            </div>
-                            <div class="mt-3">
-                                <a href="{{ route('instrumentations.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3 mb-4">
-                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Ensemble Types</h4>
-                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $ensembleTypes->total() }}</span>
-                            </div>
-                            <div class="mini-list flex-grow-1">
-                                @forelse($ensembleTypes as $item)
-                                    <div class="mini-list-item"><i class="fas fa-users-cog text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
-                                @empty
-                                    <div class="text-muted small">No data entries.</div>
-                                @endforelse
-                            </div>
-                            <div class="mt-3">
-                                <a href="{{ route('ensemble_types.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3 mb-4">
-                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Categories</h4>
-                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $categories->total() }}</span>
-                            </div>
-                            <div class="mini-list flex-grow-1">
-                                @forelse($categories as $item)
-                                    <div class="mini-list-item"><i class="fas fa-bookmark text-muted mr-2 opacity-50"></i> {{ $item->name }}</div>
-                                @empty
-                                    <div class="text-muted small">No data entries.</div>
-                                @endforelse
-                            </div>
-                            <div class="mt-3">
-                                <a href="{{ route('categories.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xl-3 mb-4" id="hymn-credits-section">
-                        <div class="dashboard-card p-4 d-flex flex-column h-100" style="min-height: 250px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="font-bold text-muted uppercase tracking-wider mb-0" style="font-size: 1.1rem;">Hymn Credits</h4>
-                                <span class="badge badge-primary rounded-pill" style="background-color: var(--accent-blue);">{{ $credits->total() }}</span>
-                            </div>
-                            <div class="mini-list flex-grow-1">
-                                @forelse($credits as $item)
-                                    <div class="mini-list-item">
-                                        <i class="fas fa-pen-nib text-muted mr-2 opacity-50"></i>
-                                        <a href="{{ route('music_creators.profile', [$item->id, 'ref' => 'dashboard-credits']) }}" class="text-dark hover:text-blue-600 transition-colors">
-                                            {{ $item->name }}
-                                        </a>
+                <div id="dashboard-overview" class="dashboard-tab-panel active">
+                    <div class="stats-grid">
+                        @foreach($dashboardStats as $stat)
+                            @if($loop->first)
+                                <button type="button" class="dashboard-card stat-card compact-card drilldown-trigger" data-hymn-breakdown-trigger aria-haspopup="dialog" aria-controls="hymnBreakdownModal">
+                                    <div class="metric-icon-circle" style="background: {{ $stat['bg'] }}; color: {{ $stat['color'] }};">
+                                        <i class="fas {{ $stat['icon'] }}"></i>
                                     </div>
-                                @empty
-                                    <div class="text-muted small">No data entries.</div>
-                                @endforelse
+                                    <div class="metric-amount">{{ $stat['value'] }}</div>
+                                    <div class="metric-title">{{ $stat['label'] }}</div>
+                                    <div class="stat-subtitle"><i class="fas fa-caret-down"></i> Click to drill down</div>
+                                </button>
+                            @else
+                                <div class="dashboard-card stat-card compact-card">
+                                    <div class="metric-icon-circle" style="background: {{ $stat['bg'] }}; color: {{ $stat['color'] }};">
+                                        <i class="fas {{ $stat['icon'] }}"></i>
+                                    </div>
+                                    <div class="metric-amount">{{ $stat['value'] }}</div>
+                                    <div class="metric-title">{{ $stat['label'] }}</div>
+                                    <div class="stat-subtitle"></div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <div id="hymnBreakdownModal" class="hymn-drilldown-modal" aria-hidden="true">
+                        <div class="hymn-drilldown-panel" role="dialog" aria-modal="true" aria-labelledby="hymnBreakdownTitle">
+                            <div class="hymn-drilldown-header">
+                                <div>
+                                    <p class="hymn-drilldown-kicker">Hymn Breakdown</p>
+                                    <h3 class="hymn-drilldown-title" id="hymnBreakdownTitle">Total Hymns by Church Hymn</h3>
+                                </div>
+                                <button type="button" class="hymn-drilldown-close" data-hymn-breakdown-close aria-label="Close hymn breakdown">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <div class="mt-3">
-                                <a href="{{ route('credits.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                            <div class="hymn-drilldown-body">
+                                <div class="hymn-drilldown-grid">
+                                    @foreach($hymnBreakdown as $item)
+                                        @php
+                                            $hymnGroup = $churchHymnByName->get($item['key']);
+                                            $hymnCount = $hymnGroup->musics_count ?? 0;
+                                            $hymnUrl = $hymnGroup ? route('musics.index', ['church_hymn_id' => $hymnGroup->id]) : '#';
+                                        @endphp
+                                        @if($hymnGroup)
+                                            <a href="{{ $hymnUrl }}" class="hymn-breakdown-item">
+                                                <div class="hymn-breakdown-left">
+                                                    <div class="hymn-breakdown-icon" style="background: {{ $item['bg'] }}; color: {{ $item['color'] }};">
+                                                        <i class="fas {{ $item['icon'] }}"></i>
+                                                    </div>
+                                                    <div class="hymn-breakdown-copy">
+                                                        <p class="hymn-breakdown-name">{{ $item['label'] }}</p>
+                                                        <p class="hymn-breakdown-hint">{{ $item['key'] }} group</p>
+                                                    </div>
+                                                </div>
+                                                <div class="hymn-breakdown-meta">
+                                                    <span>{{ $hymnCount }}</span>
+                                                    <i class="fas fa-arrow-right"></i>
+                                                </div>
+                                            </a>
+                                        @else
+                                            <div class="hymn-breakdown-item" style="opacity:0.5; pointer-events:none;">
+                                                <div class="hymn-breakdown-left">
+                                                    <div class="hymn-breakdown-icon" style="background: {{ $item['bg'] }}; color: {{ $item['color'] }};">
+                                                        <i class="fas {{ $item['icon'] }}"></i>
+                                                    </div>
+                                                    <div class="hymn-breakdown-copy">
+                                                        <p class="hymn-breakdown-name">{{ $item['label'] }}</p>
+                                                        <p class="hymn-breakdown-hint">No data available</p>
+                                                    </div>
+                                                </div>
+                                                <div class="hymn-breakdown-meta">
+                                                    <span>0</span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <div class="hymn-drilldown-footer">
+                                    <p class="hymn-drilldown-note">Tip: click any group to open its filtered hymn list.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-7 mb-4">
+                            <div class="dashboard-card h-100" id="playlist-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-list-ul"></i> Special Occasion Playlist
+                                    </h2>
+                                    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
+                                        <a href="{{ route('playlists_management.index') }}" class="section-link">Add</a>
+                                    @endif
+                                </div>
+                                <div class="mt-2 card-scroll-body">
+                                    @foreach($playlists as $playlist)
+                                        @php $playlistId = $playlist->id; @endphp
+                                        <button class="accordion-btn" onclick="toggleAccordion(this)">
+                                            <span><i class="fas fa-list-ul mr-2 opacity-50"></i> {{ $playlist->name }}</span>
+                                            <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                                        </button>
+                                        <div class="panel-content">
+                                            <div class="table-responsive">
+                                                <table class="table-modern draggable-table" id="playlist-{{ $playlistId }}">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center" width="50">#</th>
+                                                            <th>Title</th>
+                                                            <th class="text-center">Hymn Number</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($playlist->musics as $key => $music)
+                                                            <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
+                                                                <td class="text-center font-bold text-gray-400">{{ $key + 1 }}</td>
+                                                                <td>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <i class="fas fa-music mr-3 text-blue-400"></i>
+                                                                        <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 font-semibold hover:underline">
+                                                                            {{ $music->title }}
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-center font-medium">{{ $music->song_number ?? '-' }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 mb-4">
+                            <div class="dashboard-card h-100" id="most-viewed-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-chart-line"></i> Most Viewed Hymns
+                                    </h2>
+                                </div>
+                                <div class="card-scroll-body flex-grow">
+                                    <table class="table-modern">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Hymn #</th>
+                                                <th>Title</th>
+                                                <th class="text-center">Views</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="ajax-content">
+                                            @foreach($mostViewedHymns as $hymn)
+                                                <tr>
+                                                    <td class="text-center font-bold text-muted">{{ $hymn->song_number }}</td>
+                                                    <td>
+                                                        <a href="{{ route('musics.show', $hymn->id) }}" class="d-flex align-items-center text-blue-600 font-semibold hover:underline">
+                                                            <i class="fas fa-music mr-2 opacity-30"></i>
+                                                            {{ $hymn->title }}
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center"><span class="badge badge-pill badge-light px-3 py-2 font-bold">{{ $hymn->views_count }}</span></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="pagination-centered ajax-pagination">
+                                    {{ $mostViewedHymns->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <div class="dashboard-card h-100" id="activity-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-clock"></i> Recent Activity
+                                    </h2>
+                                </div>
+                                <div class="card-scroll-body flex-grow">
+                                    <table class="table-modern">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Action</th>
+                                                <th class="text-right">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="ajax-content">
+                                            @foreach($logs as $activity)
+                                                @php
+                                                    $badgeClass = match(strtolower($activity->action)) {
+                                                        'login' => 'badge-login',
+                                                        'viewed' => 'badge-view',
+                                                        'created' => 'badge-create',
+                                                        'deleted' => 'badge-delete',
+                                                        default => 'badge-light'
+                                                    };
+                                                @endphp
+                                                <tr>
+                                                    <td class="font-semibold text-dark">{{ optional($activity->user)->name }}</td>
+                                                    <td><span class="badge-custom {{ $badgeClass }}">{{ $activity->action }}</span></td>
+                                                    <td class="small text-muted text-right">{{ $activity->created_at->diffForHumans() }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="pagination-centered ajax-pagination">
+                                    {{ $logs->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="dashboard-analytics" class="dashboard-tab-panel">
+                    <div class="row">
+                        <div class="col-lg-7 mb-4">
+                            <div class="dashboard-card h-100 compact-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-chart-pie"></i> Distribution
+                                    </h2>
+                                </div>
+                                <div class="chart-frame">
+                                    <canvas id="churchHymnsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb-4">
+                            <div class="dashboard-card h-100 compact-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-globe"></i> Hymns by Language
+                                    </h2>
+                                </div>
+                                <div class="top-five-list">
+                                    @foreach($topLanguages as $language)
+                                        <div class="top-five-item">
+                                            <span class="item-name">{{ $language->name }}</span>
+                                            <span class="item-meta">{{ $language->musics_count }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-7 mb-4">
+                            <div class="dashboard-card h-100 compact-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-tags"></i> Categories Overview
+                                    </h2>
+                                    <a href="{{ route('categories.index') }}" class="section-link">View All</a>
+                                </div>
+                                <div class="chart-frame small">
+                                    <canvas id="hymnCategoriesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb-4">
+                            <div class="dashboard-card h-100 compact-card">
+                                <div class="section-card-header">
+                                    <h2 class="section-card-title mb-0">
+                                        <i class="fas fa-tags"></i> Top 5 Categories
+                                    </h2>
+                                    <a href="{{ route('categories.index') }}" class="section-link">View All</a>
+                                </div>
+                                <div class="top-five-list">
+                                    @foreach($topCategories as $categoryCount)
+                                        <div class="top-five-item">
+                                            <span class="item-name">{{ $categoryCount->category_name }}</span>
+                                            <span class="item-meta">{{ $categoryCount->musics_count }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="dashboard-card collapsible-card compact-card">
+                                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                                    <span><i class="fas fa-sliders-h mr-2 opacity-50"></i> Instrumentations</span>
+                                    <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                                </button>
+                                <div class="panel-content">
+                                    <div class="top-five-list mt-2">
+                                        @foreach($topInstrumentations as $item)
+                                            <div class="top-five-item">
+                                                <span class="item-name"><i class="fas fa-guitar mr-2 opacity-50"></i>{{ $item->name }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="{{ route('instrumentations.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="dashboard-card collapsible-card compact-card">
+                                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                                    <span><i class="fas fa-pen-nib mr-2 opacity-50"></i> Hymn Credits</span>
+                                    <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                                </button>
+                                <div class="panel-content">
+                                    <div class="top-five-list mt-2">
+                                        @foreach($topCredits as $item)
+                                            <div class="top-five-item">
+                                                <span class="item-name">
+                                                    <a href="{{ route('music_creators.profile', [$item->id, 'ref' => 'dashboard-credits']) }}" class="text-dark hover:text-blue-600 transition-colors">
+                                                        {{ $item->name }}
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="{{ route('credits.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <div class="dashboard-card collapsible-card compact-card">
+                                <button class="accordion-btn" onclick="toggleAccordion(this)">
+                                    <span><i class="fas fa-layer-group mr-2 opacity-50"></i> Ensemble Types</span>
+                                    <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                                </button>
+                                <div class="panel-content">
+                                    <div class="top-five-list mt-2">
+                                        @foreach($topEnsembles as $item)
+                                            <div class="top-five-item">
+                                                <span class="item-name"><i class="fas fa-users mr-2 opacity-50"></i>{{ $item->name }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="{{ route('ensemble_types.index') }}" class="btn btn-sm btn-outline-primary btn-block rounded-pill">View All</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -935,6 +1471,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        document.body.classList.add('dashboard-loading');
+
         // Add ripple effect to all buttons with .login-btn or .action-btn
         document.addEventListener('pointerdown', function(e) {
             const btn = e.target.closest('.login-btn, .action-btn, .btn-fab, .btn');
@@ -942,6 +1480,58 @@
             const rect = btn.getBoundingClientRect();
             btn.style.setProperty('--x', ((e.clientX - rect.left) / rect.width * 100) + '%');
             btn.style.setProperty('--y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+        });
+
+        const dashboardTabButtons = document.querySelectorAll('.dashboard-tab-btn');
+        const dashboardTabPanels = document.querySelectorAll('.dashboard-tab-panel');
+        const hymnBreakdownModal = document.getElementById('hymnBreakdownModal');
+        const hymnBreakdownTrigger = document.querySelector('[data-hymn-breakdown-trigger]');
+        const hymnBreakdownClose = document.querySelector('[data-hymn-breakdown-close]');
+
+        function switchDashboardTab(name) {
+            dashboardTabButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.dashboardTab === name);
+            });
+            dashboardTabPanels.forEach(panel => {
+                panel.classList.toggle('active', panel.id === `dashboard-${name}`);
+            });
+        }
+
+        dashboardTabButtons.forEach(btn => {
+            btn.addEventListener('click', () => switchDashboardTab(btn.dataset.dashboardTab));
+        });
+
+        function openHymnBreakdown() {
+            if (!hymnBreakdownModal) return;
+            hymnBreakdownModal.classList.add('active');
+            hymnBreakdownModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeHymnBreakdown() {
+            if (!hymnBreakdownModal) return;
+            hymnBreakdownModal.classList.remove('active');
+            hymnBreakdownModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        if (hymnBreakdownTrigger) {
+            hymnBreakdownTrigger.addEventListener('click', openHymnBreakdown);
+        }
+        if (hymnBreakdownClose) {
+            hymnBreakdownClose.addEventListener('click', closeHymnBreakdown);
+        }
+        if (hymnBreakdownModal) {
+            hymnBreakdownModal.addEventListener('click', (e) => {
+                if (e.target === hymnBreakdownModal) {
+                    closeHymnBreakdown();
+                }
+            });
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && hymnBreakdownModal?.classList.contains('active')) {
+                closeHymnBreakdown();
+            }
         });
 
         function toggleAccordion(btn) {
@@ -961,6 +1551,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            switchDashboardTab('overview');
+
             // Distribution Chart
             var distLabels = [];
             var distData = [];
@@ -976,7 +1568,7 @@
                         labels: distLabels,
                         datasets: [{
                             data: distData,
-                            backgroundColor: ['#64B5D6', '#3E6D9C', '#2a5298', '#1e3c72', '#a5f3fc', '#06b6d4'],
+                            backgroundColor: ['#0f766e', '#1d4ed8', '#f59e0b', '#ef4444', '#8b5cf6', '#14b8a6'],
                             borderWidth: 2,
                             borderColor: '#ffffff'
                         }]
@@ -1003,7 +1595,7 @@
             // Categories Chart
             var catLabels = [];
             var catData = [];
-            @foreach($categoryCounts as $categoryCount)
+            @foreach($topCategories as $categoryCount)
                 catLabels.push('{{ $categoryCount->category_name }}');
                 catData.push({{ $categoryCount->musics_count }});
             @endforeach
@@ -1016,7 +1608,7 @@
                         datasets: [{
                             label: 'Hymns',
                             data: catData,
-                            backgroundColor: createGradient_cat(document.getElementById('hymnCategoriesChart').getContext('2d')),
+                            backgroundColor: ['#0f766e', '#1d4ed8', '#f59e0b', '#ef4444', '#8b5cf6'],
                             borderRadius: 10,
                             borderSkipped: false,
                         }]
@@ -1048,13 +1640,9 @@
                 });
             }
 
-            function createGradient_cat(ctx) {
-                const gradient = ctx.createLinearGradient(0, 0, 400, 0);
-                gradient.addColorStop(0, '#3E6D9C'); // Navy
-                gradient.addColorStop(0.5, '#64B5D6'); // Blue
-                gradient.addColorStop(1, '#FFD700'); // Gold
-                return gradient;
-            }
+            setTimeout(() => {
+                document.body.classList.remove('dashboard-loading');
+            }, 350);
         });
 
         // AJAX Pagination Logic
