@@ -12,13 +12,13 @@
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-attachment: fixed !important;
-    min-height: 100vh !important;
+    min-height: 100dvh !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 20px;
+    padding: 16px;
   }
 
   /* Entrance Animation */
@@ -37,12 +37,12 @@
   .center-glass-card {
     max-width: 480px;
     width: 100%;
-    padding: 60px 40px; 
+    padding: clamp(32px, 6vw, 60px) clamp(20px, 5vw, 40px);
     background: rgba(255, 255, 255, 0.8) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 24px;
+    border-radius: clamp(16px, 3vw, 24px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
     display: flex;
     flex-direction: column;
@@ -56,9 +56,11 @@
   .login-title {
     color: #1e3a8a; /* Deep Navy Blue */
     font-weight: 800;
-    font-size: 42px;
-    margin-bottom: 35px;
+    font-size: clamp(28px, 6.5vw, 42px);
+    margin-bottom: clamp(20px, 4vw, 35px);
     letter-spacing: -1px;
+    text-align: center;
+    line-height: 1.2;
   }
 
   /* Input Fields */
@@ -143,11 +145,42 @@
 
   @media (max-width: 480px) {
     .center-glass-card {
-      padding: 40px 25px;
+      padding: 32px 20px;
+      border-radius: 20px;
     }
     .login-title {
-      font-size: 34px;
+      font-size: 30px;
     }
+    .login-bg-container {
+      padding: 12px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .center-glass-card {
+      padding: 24px 16px;
+      border-radius: 16px;
+    }
+    .login-title {
+      font-size: 24px;
+    }
+    .login-bg-container {
+      padding: 8px;
+    }
+    input.custom-input {
+      padding: 12px 12px 12px 40px !important;
+      font-size: 14px;
+    }
+    .login-btn {
+      padding: 14px !important;
+      font-size: 13px !important;
+    }
+  }
+
+  /* Ensure images scale on small screens */
+  .logo-hover img {
+    max-width: 100%;
+    height: auto;
   }
 
   .logo-hover {

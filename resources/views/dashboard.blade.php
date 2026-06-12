@@ -19,6 +19,12 @@
 
     .glass-container {
         padding: 2px 0;
+        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .dashboard-card {
@@ -55,21 +61,26 @@
 
     .overview-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr 1fr;
         gap: 1.5rem;
         margin-bottom: 2.5rem;
         width: 100%;
     }
 
+    .overview-grid > .dashboard-metric-card:first-child {
+        grid-column: 1 / -1;
+    }
+
     @media (max-width: 1024px) {
         .overview-grid {
-            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
         }
     }
 
     @media (max-width: 640px) {
         .overview-grid {
             grid-template-columns: 1fr;
+            gap: 1rem;
         }
     }
 
@@ -79,7 +90,7 @@
         padding: 1.5rem;
         text-align: left;
         box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         border: 1px solid rgba(226, 232, 240, 0.8);
         display: flex;
         flex-direction: column;
@@ -90,47 +101,125 @@
         overflow: hidden;
     }
 
+    .dashboard-metric-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        background: linear-gradient(135deg, rgba(62, 109, 156, 0.04), rgba(100, 181, 214, 0.08));
+    }
+
+    .dashboard-metric-card:hover::before {
+        opacity: 1;
+    }
+
     .dashboard-metric-card i.metric-bg-icon {
         position: absolute;
-        right: -10px;
-        bottom: -10px;
-        font-size: 5rem;
-        opacity: 0.05;
-        transform: rotate(-15deg);
+        right: 16px;
+        bottom: 16px;
+        font-size: 3.5rem;
+        opacity: 0.08;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .dashboard-metric-card:hover i.metric-bg-icon {
+        opacity: 0.15;
+        transform: scale(1.1) rotate(-5deg);
     }
 
     .dashboard-metric-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.12);
         border-color: var(--accent-blue);
     }
 
+    .metric-icon-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        z-index: 1;
+        transition: all 0.35s ease;
+    }
+
+    .dashboard-metric-card:hover .metric-icon-circle {
+        transform: scale(1.08);
+    }
+
     .metric-amount {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         font-weight: 800;
         color: var(--accent-blue);
-        line-height: 1;
-        margin-bottom: 0.5rem;
+        line-height: 1.1;
+        margin-bottom: 0.35rem;
         z-index: 1;
     }
 
     .metric-title {
-        font-size: 1.1rem;
+        font-size: 0.85rem;
         font-weight: 700;
-        color: #475569;
+        color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.8px;
         z-index: 1;
     }
 
+    /* Hero featured card */
     .highlight-metric {
-        background: var(--accent-blue) !important;
+        background: linear-gradient(135deg, #3E6D9C 0%, #2a5298 100%) !important;
         border: none !important;
+        color: white;
+        min-height: 120px;
+        padding: 1.75rem 2rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .highlight-metric .metric-left {
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+    }
+
+    .highlight-metric .metric-amount {
+        font-size: 3rem;
         color: white;
     }
 
-    .highlight-metric .metric-amount, .highlight-metric .metric-title {
-        color: white;
+    .highlight-metric .metric-title {
+        font-size: 1rem;
+        color: rgba(255,255,255,0.85);
+        letter-spacing: 1.5px;
+    }
+
+    .highlight-metric .metric-icon-hero {
+        font-size: 3.5rem;
+        opacity: 0.2;
+        z-index: 1;
+    }
+
+    .highlight-metric::after {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        top: -50px;
+        right: -50px;
+    }
+
+    .highlight-metric:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 50px rgba(62, 109, 156, 0.35);
     }
 
     .mini-list {
@@ -348,19 +437,98 @@
             grid-template-columns: 1fr;
         }
         .dashboard-card {
-            padding: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 18px;
+        }
+        .dashboard-card.h-100 {
+            min-height: auto;
         }
         .btn-fab {
             bottom: 20px;
             right: 20px;
             width: 50px;
             height: 50px;
+            font-size: 1.25rem;
         }
         .pagination-centered nav div:last-child a,
         .pagination-centered nav div:last-child span {
             min-width: 32px;
             height: 32px;
             font-size: 0.75rem;
+        }
+        .highlight-metric {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.25rem 1.5rem;
+            min-height: 100px;
+        }
+        .highlight-metric .metric-amount {
+            font-size: 2.25rem;
+        }
+        .highlight-metric .metric-icon-hero {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            font-size: 2.5rem;
+        }
+        .dashboard-card .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .dashboard-card .row > [class*="col-"] {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .mini-list-item {
+            font-size: 0.875rem;
+        }
+        .accordion-btn {
+            padding: 1rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        .table-modern td {
+            padding: 0.875rem 0.625rem;
+            font-size: 0.8125rem;
+        }
+        .table-modern th {
+            padding: 0.75rem 0.625rem;
+            font-size: 0.6875rem;
+        }
+        .container-fluid.px-5 {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        .section-title {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dashboard-metric-card {
+            padding: 1.125rem;
+            min-height: 110px;
+        }
+        .metric-amount {
+            font-size: 1.75rem;
+        }
+        .metric-title {
+            font-size: 0.75rem;
+        }
+        .metric-icon-circle {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+        }
+        .overview-grid {
+            gap: 0.75rem;
+        }
+        .container-fluid.px-5 {
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+        }
+        .dashboard-grid-container {
+            gap: 1rem;
         }
     }
 
@@ -374,7 +542,7 @@
         border: none;
         text-align: left;
         outline: none;
-        transition: 0.4s;
+        transition: all 0.25s ease;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -388,7 +556,7 @@
     }
 
     .accordion-btn i.fa-chevron-down {
-        transition: transform 0.3s ease;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .accordion-btn.active i.fa-chevron-down {
@@ -398,13 +566,23 @@
     .panel-content {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, opacity 0.3s ease;
         background-color: white;
+        opacity: 0;
+    }
+
+    .panel-content.open {
+        opacity: 1;
     }
     /* Skeleton Loading */
     @keyframes shimmer {
         0% { background-position: -200% 0; }
         100% { background-position: 200% 0; }
+    }
+
+    @keyframes pulse-soft {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
     }
 
     .skeleton-loading {
@@ -414,11 +592,53 @@
         border-radius: 8px;
         color: transparent !important;
     }
+
+    .skeleton-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 1.5rem;
+        animation: pulse-soft 1.8s ease-in-out infinite;
+    }
+
+    .skeleton-card .s-block {
+        background: linear-gradient(90deg, #f0f4f8 25%, #e1e7ee 50%, #f0f4f8 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 8px;
+    }
     
     .loading-overlay {
         opacity: 0.5;
         pointer-events: none;
         filter: grayscale(0.5);
+        transition: all 0.3s ease;
+    }
+
+    /* Ripple effect for buttons */
+    .ripple-btn {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .ripple-btn::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    .ripple-btn:active::after {
+        opacity: 1;
+        transition: 0s;
+    }
+
+    /* Smooth scroll for card scroll bodies */
+    .card-scroll-body {
+        scroll-behavior: smooth;
     }
 </style>
 
@@ -427,29 +647,34 @@
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 dashboard-grid-container" style="max-width: 90%; margin: 0 auto;">
             
-            <!-- Statistics Overview (3x2 Grid) -->
+            <!-- Statistics Overview -->
             <div class="overview-grid">
-                <!-- Total Hymns (Featured Card) -->
+                <!-- Total Hymns (Hero Featured Card) -->
                 <a href="{{ route('musics.index') }}" class="dashboard-metric-card highlight-metric shadow-lg">
-                    <div class="metric-amount">{{ $totalChurchHymns->sum('musics_count') }}</div>
-                    <div class="metric-title">Total Hymns</div>
-                    <i class="fas fa-layer-group metric-bg-icon" style="font-size: 3.5rem; opacity: 0.2; position: absolute; right: 20px; bottom: 20px;"></i>
+                    <div class="metric-left">
+                        <div class="metric-amount">{{ $totalChurchHymns->sum('musics_count') }}</div>
+                        <div class="metric-title">Total Hymns</div>
+                    </div>
+                    <i class="fas fa-layer-group metric-icon-hero"></i>
                 </a>
 
                 @foreach($totalChurchHymns as $hymn)
                     @php
                         $serviceDetails = match($hymn->name) {
-                            'AWS' => ['name' => 'Adult Worship', 'icon' => 'fa-users', 'color' => '#3E6D9C'],
-                            'CWS' => ['name' => 'Children Worship', 'icon' => 'fa-child', 'color' => '#64B5D6'],
-                            'EM' => ['name' => 'Evangelical Mission', 'icon' => 'fa-bullhorn', 'color' => '#FFD700'],
-                            'Wedding' => ['name' => 'Wedding', 'icon' => 'fa-heart', 'color' => '#f472b6'],
-                            default => ['name' => $hymn->name, 'icon' => 'fa-music', 'color' => '#94a3b8']
+                            'AWS' => ['name' => 'Adult Worship', 'icon' => 'fa-users', 'color' => '#3E6D9C', 'bg' => 'rgba(62,109,156,0.12)'],
+                            'CWS' => ['name' => 'Children Worship', 'icon' => 'fa-child', 'color' => '#64B5D6', 'bg' => 'rgba(100,181,214,0.12)'],
+                            'EM' => ['name' => 'Evangelical Mission', 'icon' => 'fa-bullhorn', 'color' => '#b8860b', 'bg' => 'rgba(255,215,0,0.12)'],
+                            'Wedding' => ['name' => 'Wedding', 'icon' => 'fa-heart', 'color' => '#f472b6', 'bg' => 'rgba(244,114,182,0.12)'],
+                            default => ['name' => $hymn->name, 'icon' => 'fa-music', 'color' => '#94a3b8', 'bg' => 'rgba(148,163,184,0.12)']
                         };
                     @endphp
                     <a href="{{ route('musics.index', ['church_hymn_id' => $hymn->id]) }}" class="dashboard-metric-card">
+                        <div class="metric-icon-circle" style="background: {{ $serviceDetails['bg'] }}; color: {{ $serviceDetails['color'] }};">
+                            <i class="fas {{ $serviceDetails['icon'] }}"></i>
+                        </div>
                         <div class="metric-amount">{{ $hymn->musics_count }}</div>
                         <div class="metric-title">{{ $serviceDetails['name'] }}</div>
-                        <i class="fas {{ $serviceDetails['icon'] }}" style="font-size: 2.5rem; opacity: 0.6; position: absolute; right: 20px; bottom: 20px; color: {{ $serviceDetails['color'] }};"></i>
+                        <i class="fas {{ $serviceDetails['icon'] }}" style="position: absolute; right: 20px; bottom: 16px; font-size: 2.5rem; opacity: 0.06; color: {{ $serviceDetails['color'] }};"></i>
                     </a>
                 @endforeach
             </div>
@@ -508,171 +733,7 @@
                 </div>
             </div>
 
-    <script>
-        (function() {
-            "use strict";
 
-            const tables = document.querySelectorAll('.draggable-table');
-            
-            tables.forEach(table => {
-                const tbody = table.querySelector('tbody');
-                
-                let currRow = null, dragElem = null, mouseDownX = 0, mouseDownY = 0, mouseX = 0, mouseY = 0, mouseDrag = false;
-
-                function init() {
-                    bindMouse();
-                }
-
-                function bindMouse() {
-                    tbody.addEventListener('mousedown', (event) => {
-                        if (event.button != 0) return true;
-
-                        let target = getTargetRow(event.target);
-                        if (target) {
-                            currRow = target;
-                            addDraggableRow(target);
-                            currRow.classList.add('is-dragging');
-
-                            let coords = getMouseCoords(event);
-                            mouseDownX = coords.x;
-                            mouseDownY = coords.y;
-
-                            mouseDrag = true;
-                        }
-                    });
-
-                    document.addEventListener('mousemove', (event) => {
-                        if (!mouseDrag) return;
-
-                        let coords = getMouseCoords(event);
-                        mouseX = coords.x - mouseDownX;
-                        mouseY = coords.y - mouseDownY;
-
-                        moveRow(mouseX, mouseY);
-                    });
-
-                    document.addEventListener('mouseup', (event) => {
-                        if (!mouseDrag) return;
-
-                        currRow.classList.remove('is-dragging');
-                        table.removeChild(dragElem);
-
-                        dragElem = null;
-                        mouseDrag = false;
-
-                        // Save the new order
-                        //saveOrder();
-                    });
-                }
-
-                // function saveOrder() {
-                //     const rows = Array.from(tbody.children);
-                //     const order = rows.map((row, index) => ({
-                //         id: row.dataset.id,
-                //         position: index
-                //     }));
-
-                //     const playlistId = tbody.parentElement.id.split('-')[1];
-
-                //     fetch(' route("playlists.updateOrder")', {
-                //         method: 'POST',
-                //         headers: {
-                //             'Content-Type': 'application/json',
-                //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                //         },
-                //         body: JSON.stringify({ playlist_id: playlistId, order: order.map(item => item.id) })
-                //     }).then(response => response.json())
-                //       .then(data => {
-                //           if (data.success) {
-                //               console.log('Order updated successfully');
-                //           }
-                //       });
-                // }
-
-                function swapRow(row, index) {
-                    let currIndex = Array.from(tbody.children).indexOf(currRow),
-                        row1 = currIndex > index ? currRow : row,
-                        row2 = currIndex > index ? row : currRow;
-
-                    tbody.insertBefore(row1, row2);
-                }
-
-                function moveRow(x, y) {
-                    dragElem.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-
-                    let dPos = dragElem.getBoundingClientRect(),
-                        currStartY = dPos.y, currEndY = currStartY + dPos.height,
-                        rows = getRows();
-
-                    for (let i = 0; i < rows.length; i++) {
-                        let rowElem = rows[i],
-                            rowSize = rowElem.getBoundingClientRect(),
-                            rowStartY = rowSize.y, rowEndY = rowStartY + rowSize.height;
-
-                        if (currRow !== rowElem && isIntersecting(currStartY, currEndY, rowStartY, rowEndY)) {
-                            if (Math.abs(currStartY - rowStartY) < rowSize.height / 2)
-                                swapRow(rowElem, i);
-                        }
-                    }
-                }
-
-                function addDraggableRow(target) {
-                    dragElem = target.cloneNode(true);
-                    dragElem.classList.add('draggable-table__drag');
-                    dragElem.style.height = getStyle(target, 'height');
-                    dragElem.style.background = getStyle(target, 'backgroundColor');
-                    for (let i = 0; i < target.children.length; i++) {
-                        let oldTD = target.children[i],
-                            newTD = dragElem.children[i];
-                        newTD.style.width = getStyle(oldTD, 'width');
-                        newTD.style.height = getStyle(oldTD, 'height');
-                        newTD.style.padding = getStyle(oldTD, 'padding');
-                        newTD.style.margin = getStyle(oldTD, 'margin');
-                    }
-
-                    table.appendChild(dragElem);
-
-                    let tPos = target.getBoundingClientRect(),
-                        dPos = dragElem.getBoundingClientRect();
-                    dragElem.style.bottom = `${dPos.y - tPos.y - tPos.height}px`;
-                    dragElem.style.left = "-1px";
-
-                    document.dispatchEvent(new MouseEvent('mousemove', { view: window, cancelable: true, bubbles: true }));
-                }
-
-                function getRows() {
-                    return tbody.querySelectorAll('tr');
-                }
-
-                function getTargetRow(target) {
-                    let elemName = target.tagName.toLowerCase();
-
-                    if (elemName === 'tr') return target;
-                    if (elemName === 'td') return target.closest('tr');
-                }
-
-                function getMouseCoords(event) {
-                    return {
-                        x: event.clientX,
-                        y: event.clientY
-                    };
-                }
-
-                function getStyle(target, styleName) {
-                    let compStyle = getComputedStyle(target),
-                        style = compStyle[styleName];
-
-                    return style ? style : null;
-                }
-
-                function isIntersecting(min0, max0, min1, max1) {
-                    return Math.max(min0, max0) >= Math.min(min1, max1) && Math.min(min0, max0) <= Math.max(min1, max1);
-                }
-
-                init();
-            });
-        })();
-    </script>
 
             @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
                 <!-- Most Viewed Section -->
@@ -874,14 +935,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Add ripple effect to all buttons with .login-btn or .action-btn
+        document.addEventListener('pointerdown', function(e) {
+            const btn = e.target.closest('.login-btn, .action-btn, .btn-fab, .btn');
+            if (!btn) return;
+            const rect = btn.getBoundingClientRect();
+            btn.style.setProperty('--x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+            btn.style.setProperty('--y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+        });
+
         function toggleAccordion(btn) {
             btn.classList.toggle("active");
             var panel = btn.nextElementSibling;
-            if (panel.style.maxHeight) {
+            if (panel.classList.contains("open")) {
+                panel.classList.remove("open");
                 panel.style.maxHeight = null;
                 panel.style.paddingTop = "0";
                 panel.style.paddingBottom = "0";
             } else {
+                panel.classList.add("open");
                 panel.style.maxHeight = (panel.scrollHeight + 50) + "px";
                 panel.style.paddingTop = "1rem";
                 panel.style.paddingBottom = "1rem";
@@ -984,62 +1056,6 @@
                 return gradient;
             }
         });
-
-        // Draggable Table Logic
-        (function() {
-            "use strict";
-            const tables = document.querySelectorAll('.draggable-table');
-            tables.forEach(table => {
-                const tbody = table.querySelector('tbody');
-                if (!tbody) return;
-                let currRow = null, dragElem = null, mouseDownX = 0, mouseDownY = 0, mouseX = 0, mouseY = 0, mouseDrag = false;
-                
-                tbody.addEventListener('mousedown', (e) => {
-                    if (e.button != 0) return;
-                    let target = e.target.closest('tr');
-                    if (target) {
-                        currRow = target;
-                        dragElem = target.cloneNode(true);
-                        dragElem.classList.add('position-fixed');
-                        dragElem.style.zIndex = "9999";
-                        dragElem.style.opacity = "0.8";
-                        dragElem.style.pointerEvents = "none";
-                        dragElem.style.background = "#fff";
-                        dragElem.style.boxShadow = "0 5px 15px rgba(0,0,0,0.2)";
-                        dragElem.style.width = target.offsetWidth + "px";
-                        
-                        document.body.appendChild(dragElem);
-                        currRow.classList.add('opacity-25');
-                        mouseDownX = e.clientX;
-                        mouseDownY = e.clientY;
-                        mouseDrag = true;
-                    }
-                });
-
-                document.addEventListener('mousemove', (e) => {
-                    if (!mouseDrag) return;
-                    dragElem.style.left = (e.clientX - (mouseDownX - currRow.getBoundingClientRect().left)) + "px";
-                    dragElem.style.top = (e.clientY - (mouseDownY - currRow.getBoundingClientRect().top)) + "px";
-                    
-                    let target = document.elementFromPoint(e.clientX, e.clientY)?.closest('tr');
-                    if (target && target !== currRow && target.parentNode === tbody) {
-                        const relPos = e.clientY - target.getBoundingClientRect().top;
-                        if (relPos < target.offsetHeight / 2) {
-                            tbody.insertBefore(currRow, target);
-                        } else {
-                            tbody.insertBefore(currRow, target.nextSibling);
-                        }
-                    }
-                });
-
-                document.addEventListener('mouseup', () => {
-                    if (!mouseDrag) return;
-                    currRow.classList.remove('opacity-25');
-                    if (dragElem) dragElem.remove();
-                    mouseDrag = false;
-                });
-            });
-        })();
 
         // AJAX Pagination Logic
         $(document).on('click', '.ajax-pagination a', function(e) {

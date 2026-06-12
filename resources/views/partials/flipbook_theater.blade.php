@@ -16,18 +16,36 @@
 
         <div class="fb-top-center" style="display:flex; align-items:center; gap:8px;">
             {{-- Vocals: disabled if no file --}}
-            <button class="fb-track-pill {{ empty($music->vocals_mp3_path) ? 'fb-pill-disabled' : '' }}"
-                {{ !empty($music->vocals_mp3_path) ? 'data-src="'.asset('storage/'.$music->vocals_mp3_path).'" data-label="Vocals"' : 'disabled title="No Vocals file available"' }}>
+            <button type="button"
+                class="fb-track-pill {{ empty($music->vocals_mp3_path) ? 'fb-pill-disabled' : '' }}"
+                @if(!empty($music->vocals_mp3_path))
+                    data-src="{{ asset('storage/'.$music->vocals_mp3_path) }}"
+                    data-label="Vocals"
+                @else
+                    disabled title="No Vocals file available"
+                @endif>
                 <i class="fas fa-microphone"></i><span>Vocals</span>
             </button>
             {{-- Organ: disabled if no file --}}
-            <button class="fb-track-pill {{ empty($music->organ_mp3_path) ? 'fb-pill-disabled' : '' }}"
-                {{ !empty($music->organ_mp3_path) ? 'data-src="'.asset('storage/'.$music->organ_mp3_path).'" data-label="Organ"' : 'disabled title="No Organ file available"' }}>
+            <button type="button"
+                class="fb-track-pill {{ empty($music->organ_mp3_path) ? 'fb-pill-disabled' : '' }}"
+                @if(!empty($music->organ_mp3_path))
+                    data-src="{{ asset('storage/'.$music->organ_mp3_path) }}"
+                    data-label="Organ"
+                @else
+                    disabled title="No Organ file available"
+                @endif>
                 <i class="fas fa-keyboard"></i><span>Organ</span>
             </button>
             {{-- Preludes: disabled if no file --}}
-            <button class="fb-track-pill {{ empty($music->preludes_mp3_path) ? 'fb-pill-disabled' : '' }}"
-                {{ !empty($music->preludes_mp3_path) ? 'data-src="'.asset('storage/'.$music->preludes_mp3_path).'" data-label="Preludes"' : 'disabled title="No Preludes file available"' }}>
+            <button type="button"
+                class="fb-track-pill {{ empty($music->preludes_mp3_path) ? 'fb-pill-disabled' : '' }}"
+                @if(!empty($music->preludes_mp3_path))
+                    data-src="{{ asset('storage/'.$music->preludes_mp3_path) }}"
+                    data-label="Preludes"
+                @else
+                    disabled title="No Preludes file available"
+                @endif>
                 <i class="fas fa-music"></i><span>Preludes</span>
             </button>
         </div>
@@ -65,7 +83,20 @@
                 <span id="fb-zoom-label">100%</span>
                 <button id="fb-zoom-in" class="fb-ctrl-btn"><i class="fas fa-plus"></i></button>
             </div>
-            <button id="fb-dl-toggle" class="fb-ctrl-btn" style="margin-right:12px;" title="Download"><i class="fas fa-download"></i></button>
+            <div class="fb-dl-wrap" style="position:relative;">
+                <button id="fb-dl-toggle" class="fb-ctrl-btn" style="margin-right:12px;" title="Download"><i class="fas fa-download"></i></button>
+                <div id="fb-dropdown" class="fb-dropdown" style="display:none;">
+                    <a id="fb-dl-pdf" class="fb-dl-item" href="{{ !empty($music->music_score_path) ? asset('storage/'.$music->music_score_path) : '#' }}" download="{{ $music->title }} - Score.pdf" {{ empty($music->music_score_path) ? 'style=pointer-events:none;opacity:0.4;' : '' }}>
+                        <i class="fas fa-file-pdf"></i> Score (PDF)
+                    </a>
+                    <a id="fb-dl-mp3" class="fb-dl-item" href="#" download="{{ $music->title }}.mp3" style="{{ empty($music->vocals_mp3_path) && empty($music->organ_mp3_path) && empty($music->preludes_mp3_path) ? 'pointer-events:none;opacity:0.4;' : '' }}">
+                        <i class="fas fa-music"></i> Audio (MP3)
+                    </a>
+                    <a id="fb-dl-lyrics" class="fb-dl-item" href="{{ !empty($music->lyrics_path) ? asset('storage/'.$music->lyrics_path) : '#' }}" download="{{ $music->title }} - Lyrics.pdf" {{ empty($music->lyrics_path) ? 'style=pointer-events:none;opacity:0.4;' : '' }}>
+                        <i class="fas fa-align-center"></i> Lyrics
+                    </a>
+                </div>
+            </div>
             <button id="fb-fullscreen" class="fb-ctrl-btn" style="margin-right:12px;" title="Fullscreen"><i class="fas fa-expand"></i></button>
             <button id="fb-close" class="fb-ctrl-btn fb-close-btn" title="Close"><i class="fas fa-times"></i></button>
         </div>
@@ -743,23 +774,77 @@
     .fb-zoom-label { min-width:30px; font-size:0.6rem; }
     #flipbook-theater { inset: 0; }
     .fb-book { border-width: 3px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-    .fb-lyrics-view { padding: 1.5rem !important; }
-    .fb-lyrics-inner { font-size: 1rem !important; line-height: 1.8 !important; }
+    .fb-lyrics-view { padding: 1rem !important; }
+    .fb-lyrics-inner { font-size: 1rem !important; line-height: 1.8 !important; width: 100% !important; }
+    .fb-lyrics-card { border-radius: 20px; padding: 1.15rem !important; }
+    .fb-lyrics-pages { gap: 1rem; }
+    .fb-lyrics-text { font-size: 0.98rem !important; line-height: 1.85 !important; }
 }
 
 /* ── LYRICS STYLE OVERRIDES ── */
 .fb-lyrics-view {
-    display:none; width:100%; height:100%; overflow-y:auto; 
-    padding:2.5rem 4rem; scroll-behavior: smooth;
+    display:none; width:100%; height:100%; overflow-y:auto;
+    padding:2.25rem 1.5rem; scroll-behavior: smooth;
     background: transparent;
+    align-items:flex-start;
+    justify-content:center;
 }
 .fb-lyrics-inner {
-    max-width:800px; margin:0 auto; 
+    width:min(100%, 920px);
+    margin:0 auto;
     font-family:'Playfair Display',serif;
-    font-size:1.35rem; line-height:2.4; 
-    color:#e2e8f0; text-align:center; 
-    white-space:pre-wrap;
+    font-size:1.35rem; line-height:2.2;
+    color:#e2e8f0; text-align:center;
     transition: all 0.3s ease;
+}
+.fb-lyrics-shell {
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
+.fb-lyrics-card {
+    width:100%;
+    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-radius: 28px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    overflow: hidden;
+}
+.fb-lyrics-pages {
+    display:flex;
+    flex-direction:column;
+    gap:1.25rem;
+}
+.fb-lyrics-page {
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
+.fb-lyrics-page canvas {
+    display:block;
+    max-width:100%;
+    height:auto;
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.35);
+    background: #fff;
+}
+.fb-lyrics-text {
+    font-size: clamp(1rem, 1.8vw, 1.35rem);
+    line-height: 1.95;
+    text-align:center;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+.fb-lyrics-line {
+    margin: 0 0 .5rem;
+}
+.fb-lyrics-empty {
+    color:#94a3b8;
+    padding: 3rem 1.5rem;
+    text-align:center;
+    font-size: 1rem;
+    line-height: 1.8;
 }
 
 /* ── INTERAL MODAL STYLES ── */
@@ -883,12 +968,83 @@
 
 /* ── Asset Paths (from Blade) ──────────────────────────────────── */
 const PATHS = {
-    score:   '{{ $music->music_score_path   ? asset("storage/".$music->music_score_path)   : "" }}',
-    lyrics:  '{{ $music->lyrics_path        ? asset("storage/".$music->lyrics_path)        : "" }}',
-    vocals:  '{{ $music->vocals_mp3_path    ? asset("storage/".$music->vocals_mp3_path)    : "" }}',
-    organ:   '{{ $music->organ_mp3_path     ? asset("storage/".$music->organ_mp3_path)     : "" }}',
-    preludes:'{{ $music->preludes_mp3_path  ? asset("storage/".$music->preludes_mp3_path)  : "" }}',
+    score:   @json($music->music_score_path ? asset("storage/".$music->music_score_path) : ""),
+    lyrics:  @json($music->lyrics_path ? asset("storage/".$music->lyrics_path) : ""),
+    vocals:  @json($music->vocals_mp3_path ? asset("storage/".$music->vocals_mp3_path) : ""),
+    organ:   @json($music->organ_mp3_path ? asset("storage/".$music->organ_mp3_path) : ""),
+    preludes:@json($music->preludes_mp3_path ? asset("storage/".$music->preludes_mp3_path) : ""),
 };
+
+function normalizeMediaUrl(url) {
+    if (!url) return '';
+    let cleaned = String(url).trim();
+    if ((cleaned.startsWith('"') && cleaned.endsWith('"')) || (cleaned.startsWith("'") && cleaned.endsWith("'"))) {
+        cleaned = cleaned.slice(1, -1);
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = cleaned;
+    cleaned = textarea.value.trim();
+
+    return cleaned;
+}
+
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function renderLyricsTextContent(rawText) {
+    const clean = String(rawText || '')
+        .replace(/\[\d{2,}:\d{2}(\.\d+)?\]/g, '')
+        .replace(/\r/g, '')
+        .trim();
+
+    lyricsView.style.display = 'flex';
+    scoreView.style.display = 'none';
+    pageRow.style.display = 'none';
+
+    if (!clean) {
+        lyricsInner.innerHTML = '<div class="fb-lyrics-empty">No lyrics found.</div>';
+        return;
+    }
+
+    const lines = clean.split('\n');
+    const html = lines.map(line => {
+        const l = line.trim();
+        if (!l) return '<div style="height:1.1em"></div>';
+        return `<p class="fb-lyrics-line">${escapeHtml(l)}</p>`;
+    }).join('');
+
+    lyricsInner.innerHTML = `
+        <div class="fb-lyrics-shell">
+            <div class="fb-lyrics-card">
+                <div class="fb-lyrics-text">${html}</div>
+            </div>
+        </div>
+    `;
+}
+
+function renderLyricsPdfContent(pdf) {
+    if (!pdf) return;
+
+    lyricsView.style.display = 'none';
+    scoreView.style.display = 'flex';
+    pageRow.style.display = 'flex';
+
+    fbPdfDoc = pdf;
+    fbTotal  = pdf.numPages;
+    fbSpread = 1;
+
+    if (totalLbl) totalLbl.textContent = fbTotal;
+    if (scrubber) scrubber.max = Math.max(1, fbTotal);
+
+    renderSpread(1, false);
+}
 
 /* ── DOM refs ──────────────────────────────────────────────────── */
 const theater     = document.getElementById('flipbook-theater');
@@ -933,6 +1089,7 @@ const isMobileView = () => window.innerWidth < 1024;
 let scoreDoc = null, lyricsDoc = null; // Store both separately
 let currentView = 'score';   // 'score' | 'lyrics'
 let lyricsLoaded = false;
+let lyricsTextCache = '';
 
 /* ── Launch Button (inject into existing floating group) ── */
 const floatingGroup = document.querySelector('.floating-action-group');
@@ -956,16 +1113,16 @@ function openTheater() {
     theater.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 
-    // Always activate the first audio track pill on open
+    // Activate the first available audio track on open
     const firstTrack = PATHS.organ || PATHS.vocals || PATHS.preludes || '';
     if (firstTrack) {
         const trackName = PATHS.organ ? 'Organ' : (PATHS.vocals ? 'Vocals' : 'Preludes');
-        loadTrack(firstTrack, trackName);
         const firstPill = document.querySelector('.fb-track-pill[data-src]');
         if (firstPill) {
             document.querySelectorAll('.fb-track-pill').forEach(p => p.classList.remove('active'));
             firstPill.classList.add('active');
         }
+        loadTrack(firstTrack, trackName);
     }
 
     if (hasScore) {
@@ -985,6 +1142,11 @@ function openTheater() {
             loadPdf(PATHS.score);
         }
     } else if (PATHS.lyrics) {
+        // No score — show lyrics view directly (highlight the lyrics button if available)
+        if (lyricsBtnEl && !lyricsBtnEl.disabled) {
+            if (scoreBtnEl) scoreBtnEl.classList.remove('active');
+            lyricsBtnEl.classList.add('active');
+        }
         switchView('lyrics');
     }
 }
@@ -1025,7 +1187,7 @@ if (themeToggle) {
 /* ── TRACK SWITCHER ────────────────────────────────────────────── */
 document.querySelectorAll('.fb-track-pill').forEach(pill => {
     pill.addEventListener('click', () => {
-        const src   = pill.dataset.src;
+        const src   = normalizeMediaUrl(pill.dataset.src);
         const label = pill.dataset.label;
         if (!src) return;
         document.querySelectorAll('.fb-track-pill').forEach(p => p.classList.remove('active'));
@@ -1037,22 +1199,76 @@ document.querySelectorAll('.fb-track-pill').forEach(pill => {
     });
 });
 
+let userStartedExperience = false;
+let currentTrackLoadId = 0;
+
 function loadTrack(src, label) {
+    src = normalizeMediaUrl(src);
+    if (!src) return;
+    const loadId = ++currentTrackLoadId;
+
+    const startOverlay = document.getElementById('fb-start-overlay');
+
+    function attemptPlay(hasInteraction) {
+        if (loadId !== currentTrackLoadId) return;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                if (loadId !== currentTrackLoadId) return;
+                userStartedExperience = true;
+                if (startOverlay) startOverlay.classList.remove('show');
+            }).catch(() => {
+                if (loadId !== currentTrackLoadId) return;
+                if (hasInteraction) {
+                    if (startOverlay) startOverlay.classList.remove('show');
+                    const trackStatus = document.getElementById('fb-track-status');
+                    if (trackStatus) trackStatus.textContent = 'Playback unavailable';
+                    return;
+                }
+                if (startOverlay && !userStartedExperience) {
+                    startOverlay.classList.add('show');
+                    startOverlay.onclick = () => {
+                        attemptPlay(true);
+                    };
+                }
+            });
+        }
+    }
+
+    let loadTimedOut = false;
+    const loadTimeout = setTimeout(() => {
+        loadTimedOut = true;
+        audio.removeEventListener('canplay', playWhenReady);
+        audio.removeEventListener('error', onAudioError);
+        const trackStatus = document.getElementById('fb-track-status');
+        if (trackStatus) trackStatus.textContent = 'Audio load timeout';
+    }, 15000); // 15s safety net
+
+    const playWhenReady = () => {
+        clearTimeout(loadTimeout);
+        if (loadId !== currentTrackLoadId) return;
+        audio.removeEventListener('canplay', playWhenReady);
+        audio.removeEventListener('error', onAudioError);
+        if (!loadTimedOut) attemptPlay(false);
+    };
+    const onAudioError = () => {
+        clearTimeout(loadTimeout);
+        if (loadId !== currentTrackLoadId) return;
+        audio.removeEventListener('canplay', playWhenReady);
+        audio.removeEventListener('error', onAudioError);
+        loadTimedOut = true;
+        const trackStatus = document.getElementById('fb-track-status');
+        if (trackStatus) trackStatus.textContent = 'Audio unavailable';
+        if (startOverlay && startOverlay.classList.contains('show')) {
+            startOverlay.classList.remove('show');
+        }
+    };
+    audio.addEventListener('canplay', playWhenReady);
+    audio.addEventListener('error', onAudioError);
+
     audio.src = src;
     audio.load();
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-        playPromise.catch(() => {
-            const startOverlay = document.getElementById('fb-start-overlay');
-            if (startOverlay) {
-               startOverlay.classList.add('show');
-               startOverlay.onclick = () => {
-                   audio.play();
-                   startOverlay.classList.remove('show');
-               };
-            }
-        });
-    }
+
     const bars = document.querySelectorAll('.fb-eq-bar');
     const visualizer = document.getElementById('fb-eq-visualizer');
     if (visualizer) visualizer.classList.add('show');
@@ -1124,10 +1340,14 @@ function fmt(s) {
 /* ── VIEW TOGGLE ───────────────────────────────────────────────── */
 const scoreBtnEl  = document.getElementById('fb-view-score');
 const lyricsBtnEl = document.getElementById('fb-view-lyrics');
-if (scoreBtnEl)  scoreBtnEl.addEventListener('click',  () => switchView('score'));
-if (lyricsBtnEl) lyricsBtnEl.addEventListener('click', () => switchView('lyrics'));
+if (scoreBtnEl)  scoreBtnEl.addEventListener('click',  () => { if (scoreBtnEl.disabled) return; switchView('score'); });
+if (lyricsBtnEl) lyricsBtnEl.addEventListener('click', () => { if (lyricsBtnEl.disabled) return; switchView('lyrics'); });
 
 function switchView(mode) {
+    // Don't switch to a view that has no file available
+    if (mode === 'score' && !PATHS.score) return;
+    if (mode === 'lyrics' && !PATHS.lyrics) return;
+
     currentView = mode;
     if (mode === 'score') {
         scoreView.style.display  = 'flex';
@@ -1135,7 +1355,6 @@ function switchView(mode) {
         pageRow.style.display    = 'flex';
         if (scoreBtnEl)  scoreBtnEl.classList.add('active');
         if (lyricsBtnEl) lyricsBtnEl.classList.remove('active');
-        // Restore Score PDF from cache
         if (scoreDoc) {
             fbPdfDoc = scoreDoc;
             fbTotal  = scoreDoc.numPages;
@@ -1143,18 +1362,22 @@ function switchView(mode) {
             if (totalLbl) totalLbl.textContent = fbTotal;
             if (scrubber) scrubber.max = Math.max(1, fbTotal);
             renderSpread(fbSpread, false);
+        } else if (PATHS.score) {
+            loadPdf(PATHS.score);
         }
     } else {
         scoreView.style.display  = 'none';
-        lyricsView.style.display = 'block';
+        lyricsView.style.display = 'flex';
         pageRow.style.display    = 'none';
         if (lyricsBtnEl) lyricsBtnEl.classList.add('active');
         if (scoreBtnEl)  scoreBtnEl.classList.remove('active');
 
-        if (lyricsLoaded && lyricsDoc) {
-            // ✅ Already loaded — re-render from cache instantly
-            rerenderLyricsFromCache();
-        } else if (!lyricsLoaded && PATHS.lyrics) {
+        if (lyricsLoaded) {
+            if (lyricsDoc) {
+                rerenderLyricsFromCache();
+            }
+            // Text lyrics are already in DOM — just showing the view is enough
+        } else {
             loadLyrics(PATHS.lyrics);
         }
     }
@@ -1162,39 +1385,24 @@ function switchView(mode) {
 
 /* Re-renders lyrics from the cached lyricsDoc without any network fetch */
 function rerenderLyricsFromCache() {
-    if (!lyricsDoc) return;
-    if (lyricsDoc.numPages > 1) {
-        // Multi-page lyrics PDF — uses score view layout
-        fbPdfDoc = lyricsDoc;
-        fbTotal  = lyricsDoc.numPages;
-        fbSpread = 1;
-        scoreView.style.display  = 'flex';
-        lyricsView.style.display = 'none';
-        pageRow.style.display    = 'flex';
-        if (totalLbl) totalLbl.textContent = fbTotal;
-        if (scrubber) scrubber.max = Math.max(1, fbTotal);
-        renderSpread(1, false);
-    } else {
-        // Single-page PDF — re-render canvas into lyricsInner
-        lyricsInner.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2rem;width:100%;';
-        lyricsInner.innerHTML = '';
-        lyricsDoc.getPage(1).then(page => {
-            const dpr = window.devicePixelRatio || 1;
-            const padding = window.innerWidth < 768 ? 20 : 80;
-            const scale = Math.min((lyricsView.clientWidth - padding) / page.getViewport({scale:1}).width, 2.0) * fbZoom;
-            const vp = page.getViewport({ scale: scale * dpr });
-            const canvas = document.createElement('canvas');
-            canvas.width = vp.width; canvas.height = vp.height;
-            canvas.style.width  = (vp.width / dpr) + 'px';
-            canvas.style.height = (vp.height / dpr) + 'px';
-            canvas.style.cssText += 'max-width:100%;border-radius:0;box-shadow:0 20px 50px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,0.1);';
-            page.render({ canvasContext: canvas.getContext('2d'), viewport: vp });
-            lyricsInner.appendChild(canvas);
-        });
+    if (lyricsDoc) {
+        renderLyricsPdfContent(lyricsDoc);
+        return;
+    }
+    if (lyricsTextCache) {
+        renderLyricsTextContent(lyricsTextCache);
     }
 }
 
 function loadLyrics(path) {
+    path = normalizeMediaUrl(path);
+    if (!path) {
+        lyricsInner.innerHTML = '<div style="color:#ef4444;padding:2rem;text-align:center;">Failed to load lyrics.</div>';
+        return;
+    }
+    lyricsView.style.display = 'flex';
+    scoreView.style.display = 'none';
+    pageRow.style.display = 'none';
     lyricsInner.innerHTML = '<div style="color:#64748b;padding:3rem;text-align:center;"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem;display:block;margin-bottom:1rem;color:#3b82f6;"></i>Loading lyrics...</div>';
     if (path.toLowerCase().endsWith('.pdf')) {
         loadLyricsPdf(path);
@@ -1203,62 +1411,47 @@ function loadLyrics(path) {
     fetch(path)
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
-            const clean = text.replace(/\[\d{2,}:\d{2}(\.\d+)?\]/g, '').replace(/\r/g, '').trim();
-            if (!clean) { lyricsInner.innerHTML = '<div style="color:#475569;padding:3rem;text-align:center;">No lyrics found.</div>'; return; }
-            const lines = clean.split('\n');
-            lyricsInner.innerHTML = lines.map(line => {
-                const l = line.trim();
-                if (!l) return '<div style="height:1.2em"></div>';
-                return `<p style="margin:0 0 .4rem;opacity:${l.startsWith('[') ? '.45' : '1'}">${l}</p>`;
-            }).join('');
+            lyricsTextCache = text;
+            renderLyricsTextContent(text);
             lyricsLoaded = true;
         })
-        .catch(() => { lyricsInner.innerHTML = '<div style="color:#ef4444;padding:2rem;text-align:center;">Failed to load lyrics.</div>'; });
+        .catch(() => { lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics.</div>'; });
 }
 
 function loadLyricsPdf(path) {
-    const ensurePdfJs = (cb) => {
+    path = normalizeMediaUrl(path);
+    if (!path) {
+        lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics PDF.</div>';
+        return;
+    }
+    const ensurePdfJs = (cb, onError) => {
         if (typeof pdfjsLib !== 'undefined') { cb(); return; }
         const s = document.createElement('script');
         s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js';
         s.onload = cb;
+        s.onerror = onError;
         document.head.appendChild(s);
+    };
+    const showError = () => {
+        lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics PDF.</div>';
     };
     ensurePdfJs(() => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
-        pdfjsLib.getDocument(path).promise.then(pdf => {
-            lyricsDoc = pdf;
-            if (pdf.numPages > 1) {
-                fbPdfDoc = pdf; fbTotal = pdf.numPages; fbSpread = 1;
-                scoreView.style.display = 'flex'; lyricsView.style.display = 'none'; pageRow.style.display = 'flex';
-                if (totalLbl) totalLbl.textContent = fbTotal;
-                if (scrubber) scrubber.max = Math.max(1, fbTotal);
-                renderSpread(1, false);
+        pdfjsLib.getDocument(path).promise
+            .then(pdf => {
+                lyricsDoc = pdf;
                 lyricsLoaded = true;
-            } else {
-                lyricsInner.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:2rem;width:100%;';
-                lyricsInner.innerHTML = '';
-                pdf.getPage(1).then(page => {
-                    const dpr = window.devicePixelRatio || 1;
-                    const padding = window.innerWidth < 768 ? 20 : 80;
-                    const scale = Math.min((lyricsView.clientWidth - padding) / page.getViewport({scale:1}).width, 2.0) * fbZoom;
-                    const vp = page.getViewport({ scale: scale * dpr });
-                    const canvas = document.createElement('canvas');
-                    canvas.width = vp.width; canvas.height = vp.height;
-                    canvas.style.width = (vp.width / dpr) + 'px';
-                    canvas.style.height = (vp.height / dpr) + 'px';
-                    canvas.style.cssText += 'max-width:100%;border-radius:0;box-shadow:0 20px 50px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,0.1);';
-                    page.render({ canvasContext: canvas.getContext('2d'), viewport: vp });
-                    lyricsInner.appendChild(canvas);
-                });
-                lyricsLoaded = true;
-            }
-        });
-    });
+                lyricsTextCache = '';
+                renderLyricsPdfContent(pdf);
+            })
+            .catch(showError);
+    }, showError);
 }
 
 /* ── PDF LOAD ──────────────────────────────────────────────────── */
 function loadPdf(path) {
+    path = normalizeMediaUrl(path);
+    if (!path) return;
     if (typeof pdfjsLib === 'undefined') {
         const s = document.createElement('script');
         s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js';
@@ -1468,7 +1661,10 @@ function updatePageUI() {
 }
 
 scrubFill.parentElement.addEventListener('click', (e) => {
-    // Optional: allow clicking on the bar to jump
+    if (!audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
 });
 
 scrubber.addEventListener('input', () => {
@@ -1499,7 +1695,7 @@ function changeZoom(d) {
 
 /* ── DOWNLOAD DROPDOWN ─────────────────────────────────────────── */
 if (dlToggle) {
-    dlToggle.addEventListener('click', e => { e.stopPropagation(); dlDropdown.style.display = dlDropdown.style.display === 'none' ? 'block' : 'none'; });
+    dlToggle.addEventListener('click', e => { e.stopPropagation(); if (dlDropdown) dlDropdown.style.display = dlDropdown.style.display === 'none' ? 'block' : 'none'; });
     document.addEventListener('click', () => { if (dlDropdown) dlDropdown.style.display = 'none'; });
 }
 
@@ -1590,7 +1786,16 @@ document.addEventListener('DOMContentLoaded', () => { setTimeout(openTheater, 40
 let resizeTimer;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { if (theater.style.display !== 'none' && fbPdfDoc) renderSpread(fbSpread, false); }, 250);
+    resizeTimer = setTimeout(() => {
+        if (theater.style.display === 'none') return;
+        if (currentView === 'lyrics' && (lyricsDoc || lyricsTextCache)) {
+            rerenderLyricsFromCache();
+            return;
+        }
+        if (fbPdfDoc) {
+            renderSpread(fbSpread, false);
+        }
+    }, 250);
 });
 
 })();
