@@ -14,7 +14,20 @@ WORKDIR /var/www
 
 # Install system dependencies and PHP build requirements
 RUN set -eux; \
-    apk add --no-cache \
+    apk_retry() { \
+        attempt=1; \
+        max_attempts=5; \
+        delay=2; \
+        while ! "$@"; do \
+            if [ "$attempt" -ge "$max_attempts" ]; then \
+                return 1; \
+            fi; \
+            sleep "$delay"; \
+            attempt=$((attempt + 1)); \
+            delay=$((delay * 2)); \
+        done; \
+    }; \
+    apk_retry apk add --no-cache \
         curl \
         git \
         mysql-client \
@@ -26,7 +39,7 @@ RUN set -eux; \
         libzip \
         unzip \
         zip; \
-    apk add --no-cache --virtual .build-deps \
+    apk_retry apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
         libjpeg-turbo-dev \
