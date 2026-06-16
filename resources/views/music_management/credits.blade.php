@@ -380,6 +380,9 @@
                 @endif
 
                 <form action="{{ route('credits.index') }}" method="GET" id="searchForm" class="search-bar mb-4">
+                    @if(request()->filled('designation'))
+                        <input type="hidden" name="designation" value="{{ request('designation') }}">
+                    @endif
                     <i class="fas fa-search text-muted mr-3"></i>
                     <input type="text" name="query" id="liveSearch" value="{{ request('query') }}" placeholder="Search creators securely across all pages..." class="form-control" autocomplete="off">
                 </form>
@@ -459,7 +462,7 @@
                 </div>
 
                 <div class="mt-5 d-flex justify-content-center pagination">
-                    {{ $credits->appends(['query' => request()->query('query')])->links() }}
+                    {{ $credits->appends(['query' => request()->query('query'), 'designation' => request()->query('designation')])->links() }}
                 </div>
             </div>
         </div>

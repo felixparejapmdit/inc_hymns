@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ChurchHymn;
-use App\Models\MusicLyricist;
-use App\Models\MusicComposer;
-use App\Models\MusicArranger;
 use App\Models\Category;
 use App\Models\MusicCategory; // Adjusted import
 use App\Models\Instrumentation;
@@ -29,9 +26,17 @@ class DashboardController extends Controller
     public function index()
 {
     // Fetch data for display on the dashboard
-    $totalLyricists = MusicLyricist::count();
-    $totalComposers = MusicComposer::count();
-    $totalArrangers = MusicArranger::count();
+    $totalLyricists = MusicCreator::whereHas('designations', function ($query) {
+        $query->where('name', 'Lyricist');
+    })->count();
+
+    $totalComposers = MusicCreator::whereHas('designations', function ($query) {
+        $query->where('name', 'Composer');
+    })->count();
+
+    $totalArrangers = MusicCreator::whereHas('designations', function ($query) {
+        $query->where('name', 'Arranger');
+    })->count();
     
     $totalChurchHymns = ChurchHymn::withCount('musics')->get();
     $totalUsers = User::count(); // Assuming User is your model for users

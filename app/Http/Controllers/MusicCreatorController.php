@@ -14,24 +14,36 @@ class MusicCreatorController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('query');
+        $designation = $request->input('designation');
+        $designationMap = [
+            'lyricists' => 'Lyricist',
+            'composers' => 'Composer',
+            'arrangers' => 'Arranger',
+        ];
+        $designationLabel = $designation ? ($designationMap[strtolower($designation)] ?? null) : null;
+        $creatorQuery = MusicCreator::with('designations');
         
-        if ($query) {
-            $credits = MusicCreator::with('designations')
-                ->where('name', 'like', '%'. $query. '%')
-                ->orWhere('district', 'like', '%'. $query. '%')
-                ->orWhere('local', 'like', '%'. $query. '%')
-                ->orWhere('music_background', 'like', '%'. $query. '%')
-                ->orWhereHas('designations', function($q) use ($query) {
-                    $q->where('name', 'like', '%'. $query. '%');
-                })
-                ->orderBy('name', 'asc')
-                ->paginate(15)
-                ->withQueryString();
-        } else {
-            $credits = MusicCreator::with('designations')
-                ->orderBy('name', 'asc')
-                ->paginate(15);
+        if ($designationLabel) {
+            $creatorQuery->whereHas('designations', function ($q) use ($designationLabel) {
+                $q->where('name', $designationLabel);
+            });
         }
+
+        if ($query) {
+            $creatorQuery->where(function ($q) use ($query) {
+                $q->where('name', 'like', '%' . $query . '%')
+                    ->orWhere('district', 'like', '%' . $query . '%')
+                    ->orWhere('local', 'like', '%' . $query . '%')
+                    ->orWhere('music_background', 'like', '%' . $query . '%')
+                    ->orWhereHas('designations', function ($designationQuery) use ($query) {
+                        $designationQuery->where('name', 'like', '%' . $query . '%');
+                    });
+            });
+        }
+
+        $credits = $creatorQuery->orderBy('name', 'asc')
+            ->paginate(15)
+            ->withQueryString();
         
         $designations = \App\Models\Designation::all();
         return view('music_management/credits', compact('credits', 'designations'));

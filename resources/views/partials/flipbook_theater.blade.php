@@ -82,6 +82,7 @@
                 <button id="fb-zoom-out" class="fb-ctrl-btn"><i class="fas fa-minus"></i></button>
                 <span id="fb-zoom-label">100%</span>
                 <button id="fb-zoom-in" class="fb-ctrl-btn"><i class="fas fa-plus"></i></button>
+                <button id="fb-zoom-reset" class="fb-ctrl-btn" title="Reset Zoom"><i class="fas fa-rotate-left"></i></button>
             </div>
             <div class="fb-dl-wrap" style="position:relative;">
                 <button id="fb-dl-toggle" class="fb-ctrl-btn" style="margin-right:12px;" title="Download"><i class="fas fa-download"></i></button>
@@ -1336,6 +1337,7 @@ const closeBtn    = document.getElementById('fb-close');
 const fsBtn       = document.getElementById('fb-fullscreen');
 const zoomIn      = document.getElementById('fb-zoom-in');
 const zoomOut     = document.getElementById('fb-zoom-out');
+const zoomReset   = document.getElementById('fb-zoom-reset');
 const dlToggle    = document.getElementById('fb-dl-toggle');
 const dlDropdown  = document.getElementById('fb-dropdown');
 const fbStage     = document.getElementById('fb-stage');
@@ -2032,6 +2034,7 @@ lyricsView?.addEventListener('wheel', handleWheelZoom, { passive: false });
 /* ── ZOOM ──────────────────────────────────────────────────────── */
 zoomIn.addEventListener('click',  () => changeZoom(+ZOOM_STEP));
 zoomOut.addEventListener('click', () => changeZoom(-ZOOM_STEP));
+zoomReset?.addEventListener('click', () => setZoomLevel(1, 50, 50));
 function changeZoom(d) {
     setZoomLevel(fbZoom + d, 50, 50);
 }

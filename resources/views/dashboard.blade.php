@@ -48,12 +48,66 @@
         ],
     ];
     $dashboardStats = [
-        ['label' => 'Total Hymns', 'value' => $totalChurchHymns->sum('musics_count') ?? 0, 'icon' => 'fa-book-open', 'bg' => 'rgba(62,109,156,0.12)', 'color' => '#3E6D9C'],
-        ['label' => 'Users', 'value' => $totalUsers ?? 0, 'icon' => 'fa-users', 'bg' => 'rgba(13,148,136,0.12)', 'color' => '#0f766e'],
-        ['label' => 'Lyricists', 'value' => $totalLyricists ?? 0, 'icon' => 'fa-pen-nib', 'bg' => 'rgba(139,92,246,0.12)', 'color' => '#8b5cf6'],
-        ['label' => 'Composers', 'value' => $totalComposers ?? 0, 'icon' => 'fa-music', 'bg' => 'rgba(217,119,6,0.12)', 'color' => '#d97706'],
-        ['label' => 'Arrangers', 'value' => $totalArrangers ?? 0, 'icon' => 'fa-sliders', 'bg' => 'rgba(239,68,68,0.12)', 'color' => '#ef4444'],
-        ['label' => 'Playlists', 'value' => isset($playlists) ? $playlists->count() : 0, 'icon' => 'fa-list-ul', 'bg' => 'rgba(22,163,74,0.12)', 'color' => '#16a34a'],
+        [
+            'label' => 'Total Hymns',
+            'value' => $totalChurchHymns->sum('musics_count') ?? 0,
+            'icon' => 'fa-book-open',
+            'kicker' => 'Catalog',
+            'note' => 'Hymn breakdown',
+            'href' => route('musics.index'),
+            'accent' => '#2563eb',
+            'tint' => 'rgba(37, 99, 235, 0.10)',
+        ],
+        [
+            'label' => 'Users',
+            'value' => $totalUsers ?? 0,
+            'icon' => 'fa-users',
+            'kicker' => 'Directory',
+            'note' => 'Manage user accounts',
+            'href' => route('users.index'),
+            'accent' => '#0284c7',
+            'tint' => 'rgba(2, 132, 199, 0.10)',
+        ],
+        [
+            'label' => 'Lyricists',
+            'value' => $totalLyricists ?? 0,
+            'icon' => 'fa-pen-nib',
+            'kicker' => 'Credits',
+            'note' => 'Browse lyricist credits',
+            'href' => route('credits.index', ['designation' => 'lyricists']),
+            'accent' => '#0ea5e9',
+            'tint' => 'rgba(14, 165, 233, 0.10)',
+        ],
+        [
+            'label' => 'Composers',
+            'value' => $totalComposers ?? 0,
+            'icon' => 'fa-music',
+            'kicker' => 'Credits',
+            'note' => 'Browse composer credits',
+            'href' => route('credits.index', ['designation' => 'composers']),
+            'accent' => '#3b82f6',
+            'tint' => 'rgba(59, 130, 246, 0.10)',
+        ],
+        [
+            'label' => 'Arrangers',
+            'value' => $totalArrangers ?? 0,
+            'icon' => 'fa-sliders',
+            'kicker' => 'Credits',
+            'note' => 'Browse arranger credits',
+            'href' => route('credits.index', ['designation' => 'arrangers']),
+            'accent' => '#1d4ed8',
+            'tint' => 'rgba(29, 78, 216, 0.10)',
+        ],
+        [
+            'label' => 'Playlists',
+            'value' => isset($playlists) ? $playlists->count() : 0,
+            'icon' => 'fa-list-ul',
+            'kicker' => 'Planner',
+            'note' => 'Manage playlist sets',
+            'href' => route('playlists_management.index'),
+            'accent' => '#475569',
+            'tint' => 'rgba(71, 85, 105, 0.10)',
+        ],
     ];
 @endphp
 
@@ -66,7 +120,7 @@
     }
 
     body {
-        background: var(--primary-gradient) !important;
+        background: linear-gradient(to bottom, #64B5D6 0%, #3E6D9C 100%) !important;
         background-attachment: fixed !important;
         min-height: 100vh;
     }
@@ -346,33 +400,88 @@
 
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1rem;
         margin-bottom: 1.5rem;
     }
 
     .stat-card {
-        min-height: 150px;
-        justify-content: flex-start;
+        min-height: 180px;
+        justify-content: space-between;
         position: relative;
         overflow: hidden;
+        border: 1px solid #e5e7eb;
+        border-left-width: 4px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #0f172a;
+        text-decoration: none !important;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        isolation: isolate;
+        padding: 1.3rem 1.35rem;
+        transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease, border-color 0.28s ease;
     }
 
-    .stat-card .metric-amount {
-        font-size: 2.05rem;
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.015), rgba(15, 23, 42, 0));
+        pointer-events: none;
     }
 
-    .stat-card .metric-title {
-        font-size: 0.8rem;
+    .stat-card-link {
+        cursor: pointer;
+    }
+
+    .stat-card-link:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.09);
+        border-color: #dbe4ee;
     }
 
     .stat-card .metric-icon-circle {
-        margin-bottom: 0.9rem;
+        margin-bottom: 0;
+        width: 50px;
+        height: 50px;
+        border-radius: 16px;
+        background: var(--stat-tint, rgba(37, 99, 235, 0.10)) !important;
+        color: var(--stat-accent, #2563eb) !important;
+        box-shadow: none;
+    }
+
+    .stat-card-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.68rem;
+        font-weight: 900;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: #64748b;
+        margin-bottom: 0;
+    }
+
+    .stat-card-watermark {
+        display: none;
+    }
+
+    .stat-card .metric-amount {
+        font-size: 2.35rem;
+        color: #0f172a;
+        margin-bottom: 0.15rem;
+        line-height: 1;
+    }
+
+    .stat-card .metric-title {
+        font-size: 0.86rem;
+        color: #475569;
+        letter-spacing: 0.8px;
     }
 
     .stat-card .stat-subtitle {
         margin-top: 0.45rem;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: #94a3b8;
         z-index: 1;
     }
@@ -485,12 +594,18 @@
         .overview-grid {
             gap: 1.25rem;
         }
+        .stats-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
     @media (max-width: 640px) {
         .overview-grid {
             grid-template-columns: 1fr;
             gap: 1rem;
+        }
+        .stats-grid {
+            grid-template-columns: 1fr;
         }
     }
 
@@ -853,9 +968,6 @@
             font-size: 0.7rem;
             padding: 0.7rem 0.85rem;
         }
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
         .hymn-drilldown-grid {
             grid-template-columns: 1fr;
         }
@@ -865,6 +977,11 @@
         .dashboard-card {
             padding: 1.25rem;
             border-radius: 18px;
+        }
+        .stat-card {
+            min-height: 160px;
+            padding: 1rem 1rem;
+            border-radius: 22px;
         }
         .dashboard-card.h-100 {
             min-height: auto;
@@ -930,6 +1047,10 @@
     }
 
     @media (max-width: 480px) {
+        .stat-card {
+            min-height: 145px;
+            padding: 0.95rem 0.9rem;
+        }
         .dashboard-metric-card {
             padding: 1.125rem;
             min-height: 110px;
@@ -939,6 +1060,12 @@
         }
         .metric-title {
             font-size: 0.75rem;
+        }
+        .stat-card-kicker {
+            font-size: 0.62rem;
+        }
+        .stat-card-watermark {
+            font-size: 3.3rem;
         }
         .metric-icon-circle {
             width: 40px;
@@ -1100,7 +1227,10 @@
 
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 dashboard-grid-container" style="max-width: 90%; margin: 0 auto;">
-            @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline')
+            @if (
+                \App\Helpers\AccessRightsHelper::checkPermission('dashboard') == 'inline'
+                || \App\Helpers\AccessRightsHelper::checkPermission('dashboard.hymns_info') == 'inline'
+            )
                 <div class="dashboard-tab-nav" role="tablist" aria-label="Dashboard sections">
                     <button type="button" class="dashboard-tab-btn active" data-dashboard-tab="overview">Overview</button>
                     <button type="button" class="dashboard-tab-btn" data-dashboard-tab="analytics">Detailed Analytics</button>
@@ -1110,23 +1240,51 @@
                     <div class="stats-grid">
                         @foreach($dashboardStats as $stat)
                             @if($loop->first)
-                                <button type="button" class="dashboard-card stat-card compact-card drilldown-trigger" data-hymn-breakdown-trigger aria-haspopup="dialog" aria-controls="hymnBreakdownModal">
-                                    <div class="metric-icon-circle" style="background: {{ $stat['bg'] }}; color: {{ $stat['color'] }};">
-                                        <i class="fas {{ $stat['icon'] }}"></i>
+                                <button
+                                    type="button"
+                                    class="dashboard-card stat-card stat-card-link drilldown-trigger group w-full border-l-4 bg-white/95 text-left shadow-sm ring-1 ring-slate-100"
+                                    data-hymn-breakdown-trigger
+                                    aria-haspopup="dialog"
+                                    aria-controls="hymnBreakdownModal"
+                                    style="--stat-accent: {{ $stat['accent'] }}; --stat-tint: {{ $stat['tint'] }}; border-left-color: {{ $stat['accent'] }};"
+                                >
+                                    <div class="flex items-start justify-between gap-4 relative z-10">
+                                        <div class="min-w-0">
+                                            <div class="stat-card-kicker">{{ $stat['kicker'] }}</div>
+                                            <div class="metric-title mt-2">{{ $stat['label'] }}</div>
+                                        </div>
+                                        <div class="metric-icon-circle flex-shrink-0">
+                                            <i class="fas {{ $stat['icon'] }}"></i>
+                                        </div>
                                     </div>
-                                    <div class="metric-amount">{{ $stat['value'] }}</div>
-                                    <div class="metric-title">{{ $stat['label'] }}</div>
-                                    <div class="stat-subtitle"><i class="fas fa-caret-down"></i> Click to drill down</div>
+                                    <div class="mt-auto relative z-10 pt-5">
+                                        <div class="metric-amount">{{ $stat['value'] }}</div>
+                                        <div class="stat-subtitle flex items-center gap-1">
+                                            <i class="fas fa-caret-down"></i>
+                                            <span>{{ $stat['note'] }}</span>
+                                        </div>
+                                    </div>
                                 </button>
                             @else
-                                <div class="dashboard-card stat-card compact-card">
-                                    <div class="metric-icon-circle" style="background: {{ $stat['bg'] }}; color: {{ $stat['color'] }};">
-                                        <i class="fas {{ $stat['icon'] }}"></i>
+                                <a
+                                    href="{{ $stat['href'] }}"
+                                    class="dashboard-card stat-card stat-card-link group block w-full border-l-4 bg-white/95 text-left shadow-sm ring-1 ring-slate-100"
+                                    style="--stat-accent: {{ $stat['accent'] }}; --stat-tint: {{ $stat['tint'] }}; border-left-color: {{ $stat['accent'] }};"
+                                >
+                                    <div class="flex items-start justify-between gap-4 relative z-10">
+                                        <div class="min-w-0">
+                                            <div class="stat-card-kicker">{{ $stat['kicker'] }}</div>
+                                            <div class="metric-title mt-2">{{ $stat['label'] }}</div>
+                                        </div>
+                                        <div class="metric-icon-circle flex-shrink-0">
+                                            <i class="fas {{ $stat['icon'] }}"></i>
+                                        </div>
                                     </div>
-                                    <div class="metric-amount">{{ $stat['value'] }}</div>
-                                    <div class="metric-title">{{ $stat['label'] }}</div>
-                                    <div class="stat-subtitle"></div>
-                                </div>
+                                    <div class="mt-auto relative z-10 pt-5">
+                                        <div class="metric-amount">{{ $stat['value'] }}</div>
+                                        <div class="stat-subtitle">{{ $stat['note'] }}</div>
+                                    </div>
+                                </a>
                             @endif
                         @endforeach
                     </div>
@@ -1347,6 +1505,7 @@
                                     <h2 class="section-card-title mb-0">
                                         <i class="fas fa-globe"></i> Hymns by Language
                                     </h2>
+                                    <a href="{{ route('languages.index') }}" class="section-link">View All</a>
                                 </div>
                                 <div class="top-five-list">
                                     @foreach($topLanguages as $language)
@@ -1561,8 +1720,9 @@
                 distData.push({{ $hymn->musics_count }});
             @endforeach
 
-            if (distLabels.length > 0) {
-                new Chart(document.getElementById('churchHymnsChart').getContext('2d'), {
+            const churchHymnsCanvas = document.getElementById('churchHymnsChart');
+            if (distLabels.length > 0 && churchHymnsCanvas) {
+                new Chart(churchHymnsCanvas.getContext('2d'), {
                     type: 'doughnut',
                     data: {
                         labels: distLabels,
@@ -1600,8 +1760,9 @@
                 catData.push({{ $categoryCount->musics_count }});
             @endforeach
 
-            if (catLabels.length > 0) {
-                new Chart(document.getElementById('hymnCategoriesChart').getContext('2d'), {
+            const hymnCategoriesCanvas = document.getElementById('hymnCategoriesChart');
+            if (catLabels.length > 0 && hymnCategoriesCanvas) {
+                new Chart(hymnCategoriesCanvas.getContext('2d'), {
                     type: 'bar',
                     data: {
                         labels: catLabels,

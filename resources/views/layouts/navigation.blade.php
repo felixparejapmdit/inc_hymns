@@ -40,6 +40,10 @@
 </style>
 
 <nav x-data="{ open: false }" class="main-dashboard-nav bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    @php
+        $canCreateHymn = \App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline';
+        $canCreateUser = \App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline';
+    @endphp
     <!-- Primary Navigation Menu -->
     <div class="px-5 px-xl-5 mx-auto" style="max-width: 90%;">
         <div class="primary-header-wrapper">
@@ -70,7 +74,7 @@
                     </h2>
                 </div>
                 @endif
-                @if ((\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline') || (\App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline'))
+                @if ($canCreateHymn || $canCreateUser)
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition duration-150 ease-in-out">
@@ -84,16 +88,16 @@
                     </x-slot>
                     <x-slot name="content">
                         <!-- Hymn Create Link -->
-                        @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline')
+                        @if ($canCreateHymn)
                             <x-responsive-nav-link :href="route('musics.create')" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                                 {{ __('Hymn') }}
                             </x-responsive-nav-link>
                         @endif
                         <!-- User Create Link -->
-                        @if (\App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline')
-                        <x-responsive-nav-link :href="route('users.create')" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                            {{ __('User') }}
-                        </x-responsive-nav-link>
+                        @if ($canCreateUser)
+                            <x-responsive-nav-link :href="route('users.create')" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                                {{ __('User') }}
+                            </x-responsive-nav-link>
                         @endif
                     </x-slot>
                 </x-dropdown>
@@ -178,31 +182,35 @@
 
 
          <!-- Create New Hymn and User -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">Create New</div>
+        @if ($canCreateHymn || $canCreateUser)
+            <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                <div class="px-4">
+                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">Create New</div>
+                </div>
+                <div class="mt-3 space-y-1">
+                    @if ($canCreateHymn)
+                        <a href="{{ route('musics.create') }}" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                            {{ __('Hymn') }}
+                            <div class="ml-1">
+                                <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </a>
+                    @endif
+                    @if ($canCreateUser)
+                        <a href="{{ route('users.create') }}" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                            {{ __('User') }}
+                            <div class="ml-1">
+                                <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </a>
+                    @endif
+                </div>
             </div>
-            <div class="mt-3 space-y-1">
-                <!-- Hymn Create Link -->
-                <a href="{{ route('musics.create') }}" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    {{ __('Hymn') }}
-                    <div class="ml-1">
-                        <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </a>
-                <!-- User Create Link -->
-                <a href="{{ route('users.create') }}" class="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-                    {{ __('User') }}
-                    <div class="ml-1">
-                        <svg class="h-4 w-4 fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </a>
-            </div>
-        </div>
+        @endif
 
         <!-- User Profile and Logout -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
