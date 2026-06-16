@@ -48,6 +48,62 @@
     </head>
 
     <body class="font-sans antialiased">
+        @auth
+            <form id="idle-logout-form" method="POST" action="{{ route('logout') }}" class="hidden">
+                @csrf
+            </form>
+            <script>
+                (function () {
+                    const idleTimeoutMs = 60 * 60 * 1000;
+                    const logoutUrl = @json(route('logout'));
+                    const loginUrl = @json(route('login'));
+                    const form = document.getElementById('idle-logout-form');
+                    let idleTimer = null;
+                    let hasLoggedOut = false;
+
+                    function performLogout() {
+                        if (hasLoggedOut) return;
+                        hasLoggedOut = true;
+
+                        if (form) {
+                            form.submit();
+                            return;
+                        }
+
+                        fetch(logoutUrl, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json',
+                            },
+                            credentials: 'same-origin',
+                        }).finally(() => {
+                            window.location.href = loginUrl;
+                        });
+                    }
+
+                    function resetTimer() {
+                        if (hasLoggedOut) return;
+                        window.clearTimeout(idleTimer);
+                        idleTimer = window.setTimeout(performLogout, idleTimeoutMs);
+                    }
+
+                    ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'click'].forEach(eventName => {
+                        window.addEventListener(eventName, resetTimer, { passive: true });
+                    });
+
+                    window.addEventListener('focus', resetTimer);
+                    document.addEventListener('visibilitychange', () => {
+                        if (!document.hidden) {
+                            resetTimer();
+                        }
+                    });
+
+                    resetTimer();
+                })();
+            </script>
+        @endauth
 
         <div class="min-h-screen bg-white-100 dark:bg-gray-900">
             <!-- Navigation -->

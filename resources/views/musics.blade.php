@@ -531,6 +531,9 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5" style="max-width: 90%; margin: 0 auto;">
+            @php
+                $showActionsColumn = \App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline';
+            @endphp
             
             <!-- Page Header (Premium Single-Row Layout) -->
             <div class="mb-4 pt-3">
@@ -655,11 +658,12 @@
                     <table class="table-modern" id="hymnsTable">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 100px;" onclick="sortTable(0)">Hymn # <i class="fas fa-sort ml-1 opacity-30"></i></th>
-                                <th onclick="sortTable(1)">Title <i class="fas fa-sort ml-1 opacity-30"></i></th>
+                                <th class="text-center" style="width: 80px;">#</th>
+                                <th class="text-center" style="width: 100px;" onclick="sortTable(1)">Hymn # <i class="fas fa-sort ml-1 opacity-30"></i></th>
+                                <th onclick="sortTable(2)">Title <i class="fas fa-sort ml-1 opacity-30"></i></th>
                                 <th>Category</th>
                                 <th class="text-center">Language</th>
-                                @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline')
+                                @if ($showActionsColumn)
                                     <th class="text-center">Actions</th>
                                 @endif
                             </tr>
@@ -667,6 +671,9 @@
                         <tbody id="musicList" class="ajax-content">
                             @forelse($musics as $music)
                                 <tr>
+                                    <td class="text-center text-muted font-bold" style="font-size: 0.8rem;">
+                                        {{ ($musics->currentPage() - 1) * $musics->perPage() + $loop->iteration }}
+                                    </td>
                                     <td class="text-center">
                                         <span class="hymn-number">{{ $music->song_number }}</span>
                                     </td>
@@ -687,7 +694,7 @@
                                     <td class="text-center">
                                         <span class="text-slate-600 font-semibold small uppercase">{{ $music->language->name }}</span>
                                     </td>
-                                    @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline')
+                                    @if ($showActionsColumn)
                                         <td class="text-center" style="vertical-align: middle;">
                                             <div class="d-inline-flex align-items-center justify-content-center gap-2">
                                                 @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.edit') == 'inline')
@@ -717,7 +724,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-5">
+                                    <td colspan="{{ 5 + ($showActionsColumn ? 1 : 0) }}" class="text-center py-5">
                                         <p class="text-muted font-bold">No hymns found matching your search.</p>
                                     </td>
                                 </tr>

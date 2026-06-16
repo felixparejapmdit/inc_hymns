@@ -388,7 +388,7 @@
         overflow: hidden;
         border: 0;
         border-radius: 24px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%);
+        background: linear-gradient(180deg, rgba(191, 219, 254, 0.32) 0%, rgba(219, 234, 254, 0.18) 100%);
         color: #ffffff;
         text-decoration: none !important;
         box-shadow: none;
@@ -402,9 +402,9 @@
         position: absolute;
         inset: 0;
         background:
-            radial-gradient(circle at 18% 18%, rgba(255,255,255,0.09) 0 6%, transparent 7%),
-            radial-gradient(circle at 82% 78%, rgba(255,255,255,0.06) 0 10%, transparent 11%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+            radial-gradient(circle at 18% 18%, rgba(255,255,255,0.10) 0 6%, transparent 7%),
+            radial-gradient(circle at 82% 78%, rgba(255,255,255,0.05) 0 10%, transparent 11%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
         pointer-events: none;
     }
 
@@ -438,6 +438,7 @@
         flex-direction: column;
         justify-content: space-between;
         min-height: 100%;
+        gap: 1rem;
     }
 
     .stat-card .metric-amount {
@@ -513,6 +514,12 @@
         border-radius: 14px;
         background: rgba(248, 250, 252, 0.9);
         border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+
+    .top-five-link {
+        color: inherit;
+        text-decoration: none !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
     }
 
     .top-five-item:hover {
@@ -1454,10 +1461,10 @@
                                 </div>
                                 <div class="top-five-list">
                                     @foreach($topLanguages as $language)
-                                        <div class="top-five-item">
+                                        <a href="{{ route('musics.index', ['language_ids' => [$language->id]]) }}" class="top-five-item top-five-link">
                                             <span class="item-name">{{ $language->name }}</span>
                                             <span class="item-meta">{{ $language->musics_count }}</span>
-                                        </div>
+                                        </a>
                                     @endforeach
                                 </div>
                             </div>
@@ -1488,10 +1495,10 @@
                                 </div>
                                 <div class="top-five-list">
                                     @foreach($topCategories as $categoryCount)
-                                        <div class="top-five-item">
+                                        <a href="{{ route('musics.index', ['category_ids' => [$categoryCount->id]]) }}" class="top-five-item top-five-link">
                                             <span class="item-name">{{ $categoryCount->category_name }}</span>
                                             <span class="item-meta">{{ $categoryCount->musics_count }}</span>
-                                        </div>
+                                        </a>
                                     @endforeach
                                 </div>
                             </div>

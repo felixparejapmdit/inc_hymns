@@ -31,6 +31,193 @@
         position: relative;
     }
 
+    .users-page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        margin-top: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .users-page-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.9rem;
+    }
+
+    .users-page-title {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        line-height: 0.95;
+        color: #fff;
+        font-weight: 950;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.6rem;
+    }
+
+    .users-page-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 0;
+        max-width: 42rem;
+    }
+
+    .action-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+    }
+
+    .page-action-btn {
+        min-height: 48px;
+        min-width: 140px;
+        padding: 0 1.25rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+        text-decoration: none !important;
+    }
+
+    .page-action-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .page-action-btn-secondary {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-action-btn-secondary:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.24);
+    }
+
+    .page-action-btn-primary {
+        background: #fff;
+        color: var(--accent-blue);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-action-btn-primary:hover {
+        color: #22486c;
+        background: #f8fbff;
+    }
+
+    .search-panel {
+        padding: 1.2rem 1.35rem !important;
+        margin-bottom: 1.35rem;
+    }
+
+    .search-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .search-panel-title {
+        margin: 0;
+        font-size: 0.86rem;
+        font-weight: 900;
+        color: #3e4b61;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .search-panel-hint {
+        margin: 0;
+        color: #6b7a90;
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+
+    .search-shell {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+        min-height: 52px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(62, 109, 156, 0.12);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    }
+
+    .search-shell-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        color: #7c8aa0;
+        flex: 0 0 54px;
+        border-right: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .search-shell-input {
+        flex: 1;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        height: 52px;
+        padding: 0 1rem;
+        font-weight: 700;
+        color: #17324f;
+    }
+
+    .search-shell-input::placeholder {
+        color: #8aa0b8;
+        font-weight: 600;
+    }
+
+    .search-shell-button {
+        min-width: 132px;
+        padding: 0 1.1rem;
+        border: none;
+        background: var(--accent-blue);
+        color: #fff;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: background 0.2s ease, transform 0.2s ease;
+        border-left: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .search-shell-button:hover {
+        background: #2f5780;
+        transform: translateY(-1px);
+    }
+
+    .search-shell.is-loading {
+        opacity: 0.72;
+        pointer-events: none;
+    }
+
     .table-modern {
         width: 100%;
         border-collapse: separate;
@@ -144,32 +331,73 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container" style="max-width: 1200px;">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            @php
+                $isGroupView = isset($group);
+                $headerTitle = $isGroupView ? "{$group->name} Members" : 'User Directory';
+                $headerSubtitle = $isGroupView
+                    ? 'Manage the users assigned to this group.'
+                    : 'Manage platform membership and account access.';
+                $backRoute = $isGroupView ? route('groups.index') : route('admin.settings');
+                $addRoute = $isGroupView ? route('groups.create') : route('users.create');
+                $addLabel = $isGroupView ? 'Edit Group' : 'New User';
+                $addIcon = $isGroupView ? 'fas fa-edit' : 'fas fa-user-plus';
+            @endphp
+
+            <div class="users-page-header">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">
-                        {{ isset($group) ? $group->name : 'System' }} Users
+                    <div class="users-page-kicker">
+                        <i class="fas fa-users"></i>
+                        {{ $isGroupView ? 'Group Users' : 'User Management' }}
+                    </div>
+                    <h1 class="users-page-title">
+                        {{ $headerTitle }}
                     </h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Platform Membership & Accounts</p>
+                    <p class="users-page-subtitle">{{ $headerSubtitle }}</p>
                 </div>
-                <div class="d-flex gap-3">
-                    @php
-                        $currentUrl = url()->current();
-                        $isGroupView = str_contains($currentUrl, 'groups');
-                        $backRoute = $isGroupView ? route('groups.index') : route('admin.settings');
-                        $addRoute = $isGroupView ? route('groups.create') : route('users.create');
-                        $addLabel = $isGroupView ? 'Edit Group' : 'New User';
-                        $addIcon = $isGroupView ? 'fas fa-edit' : 'fas fa-user-plus';
-                    @endphp
-                    <a href="{{ $backRoute }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Back
+                <div class="action-toolbar">
+                    <a href="{{ $backRoute }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back</span>
                     </a>
-                    <a href="{{ $addRoute }}" class="btn-create">
-                        <i class="{{ $addIcon }}"></i> {{ $addLabel }}
+                    <a href="{{ $addRoute }}" class="page-action-btn page-action-btn-primary">
+                        <i class="{{ $addIcon }}"></i>
+                        <span>{{ $addLabel }}</span>
                     </a>
                 </div>
             </div>
 
-            <div class="dashboard-card shadow-lg">
+            <div class="dashboard-card search-panel">
+                <div class="search-panel-header">
+                    <div>
+                        <p class="search-panel-title">Search Users</p>
+                        <p class="search-panel-hint">Type a full name or username and the list updates automatically.</p>
+                    </div>
+                    <span class="group-pill">Live results</span>
+                </div>
+
+                <form id="users-search-form" method="GET" action="{{ url()->current() }}">
+                    <div class="search-shell" id="users-search-shell">
+                        <span class="search-shell-icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input
+                            type="text"
+                            id="user-search"
+                            name="search"
+                            value="{{ request('search') }}"
+                            class="form-control search-shell-input"
+                            placeholder="Search full name or username"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="search-shell-button">
+                            <i class="fas fa-search"></i>
+                            <span>Search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="users-results" class="dashboard-card shadow-lg">
                 @if(session('success'))
                     <div class="alert alert-success rounded-xl font-bold mb-4 shadow-sm border-none">
                         {{ session('success') }}
@@ -253,4 +481,129 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            const form = document.getElementById('users-search-form');
+            const input = document.getElementById('user-search');
+            const results = document.getElementById('users-results');
+            const shell = document.getElementById('users-search-shell');
+
+            if (!form || !input || !results) {
+                return;
+            }
+
+            let debounceTimer = null;
+            let activeController = null;
+            let requestSerial = 0;
+
+            function setLoading(isLoading) {
+                if (shell) {
+                    shell.classList.toggle('is-loading', isLoading);
+                }
+            }
+
+            function replaceResultsFromHtml(html) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const nextResults = doc.getElementById('users-results');
+
+                if (!nextResults) {
+                    return false;
+                }
+
+                results.innerHTML = nextResults.innerHTML;
+                return true;
+            }
+
+            async function fetchResults(url, historyMode = 'replace') {
+                const currentRequestId = ++requestSerial;
+
+                if (activeController) {
+                    activeController.abort();
+                }
+
+                activeController = new AbortController();
+                setLoading(true);
+
+                try {
+                    const response = await fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'text/html,application/xhtml+xml'
+                        },
+                        signal: activeController.signal
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Search request failed');
+                    }
+
+                    const html = await response.text();
+                    const didReplace = replaceResultsFromHtml(html);
+
+                    if (!didReplace) {
+                        window.location.href = url;
+                        return;
+                    }
+
+                    if (historyMode === 'push') {
+                        window.history.pushState({}, '', url);
+                    } else {
+                        window.history.replaceState({}, '', url);
+                    }
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        form.submit();
+                    }
+                } finally {
+                    if (currentRequestId === requestSerial) {
+                        setLoading(false);
+                    }
+                }
+            }
+
+            input.addEventListener('input', function () {
+                clearTimeout(debounceTimer);
+
+                const url = new URL(form.action, window.location.origin);
+                const query = this.value.trim();
+
+                if (query !== '') {
+                    url.searchParams.set('search', query);
+                }
+
+                url.searchParams.delete('page');
+
+                debounceTimer = window.setTimeout(function () {
+                    fetchResults(url.toString(), 'replace');
+                }, 300);
+            });
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const url = new URL(form.action, window.location.origin);
+                const query = input.value.trim();
+
+                if (query !== '') {
+                    url.searchParams.set('search', query);
+                }
+
+                url.searchParams.delete('page');
+                fetchResults(url.toString(), 'replace');
+            });
+
+            document.addEventListener('click', function (event) {
+                const link = event.target.closest('#users-results .pagination a');
+                if (!link) {
+                    return;
+                }
+
+                const pageUrl = new URL(link.href, window.location.origin);
+                event.preventDefault();
+                fetchResults(pageUrl.toString(), 'push');
+            });
+        })();
+    </script>
 </x-app-layout>

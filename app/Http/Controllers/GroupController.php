@@ -234,11 +234,21 @@ class GroupController extends Controller
         return redirect()->route('groups.index')->with('success', 'Group deleted successfully.');
     }
 
-    public function showUsers($id)
+    public function showUsers(Request $request, $id)
     {
 
         $group = Group::findOrFail($id);
-        $users = $group->users()->paginate(10);
+        $search = trim((string) $request->input('search', ''));
+
+        $usersQuery = $group->users();
+        if ($search !== '') {
+            $usersQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('username', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $usersQuery->paginate(10)->withQueryString();
         return view('users.index', compact('group', 'users'));
     }
 

@@ -52,12 +52,9 @@ class DashboardController extends Controller
     $credits = MusicCreator::paginate(10)->onEachSide(2);
 
 
-    $categoryCounts = Category::selectRaw('categories.id, categories.name as category_name, COUNT(musics.id) as musics_count')
+    $categoryCounts = Category::selectRaw('categories.id, categories.name as category_name, COUNT(DISTINCT musics.id) as musics_count')
         ->leftJoin('music_category', 'categories.id', '=', 'music_category.category_id')
-        ->leftJoin('musics', function($join) {
-            $join->on('music_category.music_id', '=', 'musics.id')
-                 ->where('musics.language_id', '=', 1);
-        })
+        ->leftJoin('musics', 'music_category.music_id', '=', 'musics.id')
         ->groupBy('categories.id', 'categories.name')
         ->get();
 
