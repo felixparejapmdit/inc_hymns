@@ -110,7 +110,7 @@
             <button class="fb-nav-arrow" id="fb-prev" disabled>
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <div class="fb-book-wrap" id="fb-book-wrap">
+            <div class="fb-book-wrap fb-zoom-surface" id="fb-book-wrap">
                 <div class="fb-book" id="fb-book">
                     <div class="fb-page fb-page-left">
                         <div class="fb-page-inner">
@@ -141,7 +141,7 @@
 
         {{-- LYRICS VIEW --}}
         <div id="fb-lyrics-view" class="fb-lyrics-view">
-            <div id="fb-lyrics-inner" class="fb-lyrics-inner"></div>
+            <div id="fb-lyrics-inner" class="fb-lyrics-inner fb-zoom-surface"></div>
         </div>
     </div>
 
@@ -240,10 +240,11 @@
                             <div class="fb-credit-item">
                                 <i class="fas fa-feather"></i> <strong>Lyricist:</strong> 
                                 @foreach ($music->lyricists as $lyricist)
-                                    <span class="creator-item-inline" 
+                                    <span class="fb-creator-link"
                                         data-creator-id="{{ $lyricist->id }}" 
                                         data-name="{{ $lyricist->name }}" 
                                         data-role="Lyricist"
+                                        data-profile-url="{{ route('music_creators.profile', $lyricist->id) }}"
                                         data-local="{{ $lyricist->local ?? '' }}"
                                         data-district="{{ $lyricist->district ?? '' }}"
                                         data-duty="{{ $lyricist->duty ?? '' }}"
@@ -256,10 +257,11 @@
                             <div class="fb-credit-item">
                                 <i class="fas fa-music"></i> <strong>Composer:</strong> 
                                 @foreach ($music->composers as $composer)
-                                    <span class="creator-item-inline" 
+                                    <span class="fb-creator-link"
                                         data-creator-id="{{ $composer->id }}" 
                                         data-name="{{ $composer->name }}" 
                                         data-role="Composer"
+                                        data-profile-url="{{ route('music_creators.profile', $composer->id) }}"
                                         data-local="{{ $composer->local ?? '' }}"
                                         data-district="{{ $composer->district ?? '' }}"
                                         data-duty="{{ $composer->duty ?? '' }}"
@@ -272,10 +274,11 @@
                             <div class="fb-credit-item">
                                 <i class="fas fa-headphones"></i> <strong>Arranger:</strong> 
                                 @foreach ($music->arrangers as $arranger)
-                                    <span class="creator-item-inline" 
+                                    <span class="fb-creator-link"
                                         data-creator-id="{{ $arranger->id }}" 
                                         data-name="{{ $arranger->name }}" 
                                         data-role="Arranger"
+                                        data-profile-url="{{ route('music_creators.profile', $arranger->id) }}"
                                         data-local="{{ $arranger->local ?? '' }}"
                                         data-district="{{ $arranger->district ?? '' }}"
                                         data-duty="{{ $arranger->duty ?? '' }}"
@@ -291,6 +294,40 @@
                     <div class="fb-detail-card full">
                         <span class="fb-detail-label"><i class="fas fa-book-bible"></i> Scriptural Basis</span>
                         <p class="fb-verse-text">{{ $music->verses_used ?: 'No specific scriptural references documented.' }}</p>
+                    </div>
+
+                    <div id="fb-creator-spotlight" class="fb-creator-spotlight" hidden>
+                        <div class="fb-creator-spotlight-head">
+                            <div>
+                                <span class="fb-detail-label"><i class="fas fa-user-pen"></i> Creator Spotlight</span>
+                                <h4 id="fb-creator-name" class="fb-creator-name">Select a creator</h4>
+                                <p id="fb-creator-role" class="fb-creator-role">Hover or click a name to inspect their profile.</p>
+                            </div>
+                            <button type="button" class="fb-creator-spotlight-close" id="fb-creator-close" aria-label="Close creator spotlight">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="fb-creator-spotlight-body">
+                            <img id="fb-creator-image" class="fb-creator-image" src="{{ asset('images/blank_image.png') }}" alt="Creator portrait">
+                            <div class="fb-creator-meta">
+                                <div class="fb-creator-meta-row">
+                                    <span class="fb-creator-meta-label">Location</span>
+                                    <span id="fb-creator-location" class="fb-creator-meta-value">-</span>
+                                </div>
+                                <div class="fb-creator-meta-row">
+                                    <span class="fb-creator-meta-label">Birthday</span>
+                                    <span id="fb-creator-birthday" class="fb-creator-meta-value">-</span>
+                                </div>
+                                <div class="fb-creator-meta-row">
+                                    <span class="fb-creator-meta-label">Duty</span>
+                                    <span id="fb-creator-duty" class="fb-creator-meta-value">-</span>
+                                </div>
+                                <a id="fb-creator-profile-link" class="fb-creator-profile-link" href="#" target="_blank" rel="noopener">
+                                    View full profile
+                                </a>
+                            </div>
+                        </div>
+                        <p id="fb-creator-background" class="fb-creator-background"></p>
                     </div>
                 </div>
             </div>
@@ -456,6 +493,7 @@
     flex:1; position:relative; z-index:5;
     display:flex; align-items:center; justify-content:center;
     overflow:hidden; padding:25px; /* Consistent internal margins */
+    touch-action: none;
 }
 
 /* ─── BOOK ───────────────────────────────────────────────── */
@@ -465,6 +503,12 @@
     width: 100%; height: 100%;
     perspective: 1400px;
     perspective-origin: 50% 50%;
+}
+.fb-zoom-surface {
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition: transform 140ms ease-out;
+    will-change: transform;
 }
 .fb-book {
     display:flex; align-items:stretch;
@@ -849,19 +893,53 @@
 
 /* ── INTERAL MODAL STYLES ── */
 .fb-sub-overlay {
-    position: absolute; inset: 0; z-index: 200;
-    background: rgba(15,23,42,0.7); /* Dark semi-transparent without blur */
-    display: none; align-items: center; justify-content: center;
-    padding: 2rem;
+    position: fixed; inset: 0; z-index: 220;
+    background: transparent;
+    display: none; align-items: stretch; justify-content: flex-end;
+    pointer-events: none;
 }
 .fb-sub-overlay.active { display: flex; animation: fb-fade-in 0.3s ease; }
 
 .fb-sub-modal {
-    display: none; background: #ffffff; width: 100%; max-width: 550px;
-    border-radius: 0; box-shadow: 0 40px 80px rgba(0,0,0,0.4);
-    overflow: hidden; flex-direction: column; max-height: 85%;
+    display: none; background: #ffffff; width: 100%; max-width: none;
+    height: 100%; border-radius: 0; box-shadow: -24px 0 60px rgba(0,0,0,0.35);
+    overflow: hidden; flex-direction: column; pointer-events: auto;
 }
-.fb-sub-modal.active { display: flex; animation: fb-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.fb-sub-modal.active { display: flex; animation: fb-slide-right 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+
+.fb-sub-overlay.active .fb-sub-modal {
+    width: var(--fb-drawer-width, clamp(320px, 34vw, 460px));
+    min-width: 300px;
+}
+
+#flipbook-theater.fb-right-drawer-open {
+    --fb-drawer-width: clamp(320px, 34vw, 460px);
+}
+#flipbook-theater.fb-right-drawer-open .fb-top-bar,
+#flipbook-theater.fb-right-drawer-open .fb-stage,
+#flipbook-theater.fb-right-drawer-open .fb-command-center {
+    padding-right: calc(24px + var(--fb-drawer-width));
+}
+#flipbook-theater.fb-right-drawer-open .fb-stage {
+    min-width: 0;
+}
+
+@media (max-width: 1200px) {
+    #flipbook-theater.fb-right-drawer-open {
+        --fb-drawer-width: min(42vw, 400px);
+    }
+}
+
+@media (max-width: 768px) {
+    #flipbook-theater.fb-right-drawer-open {
+        --fb-drawer-width: min(82vw, 340px);
+    }
+    #flipbook-theater.fb-right-drawer-open .fb-top-bar,
+    #flipbook-theater.fb-right-drawer-open .fb-stage,
+    #flipbook-theater.fb-right-drawer-open .fb-command-center {
+        padding-right: calc(16px + var(--fb-drawer-width));
+    }
+}
 
 .fb-modal-header {
     background: #f8fafc; padding: 1.25rem 1.5rem; border-bottom: 1px solid #e2e8f0;
@@ -884,8 +962,141 @@
 .fb-tag.ensemble { background: #eff6ff; color: #2563eb; }
 .fb-credits-list { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; color: #334155; }
 .fb-verse-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: #0c4a6e; line-height: 1.6; }
+.fb-creator-link {
+    cursor: pointer;
+    color: #2563eb;
+    font-weight: 700;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease, opacity 0.2s ease;
+}
+.fb-creator-link:hover,
+.fb-creator-link:focus {
+    color: #1d4ed8;
+    text-decoration: underline;
+    outline: none;
+}
 
-@keyframes fb-slide-up { from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+.fb-creator-spotlight {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+.fb-creator-spotlight-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.fb-creator-name {
+    margin: 0.15rem 0 0.2rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 1rem;
+    line-height: 1.25;
+}
+.fb-creator-role {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #64748b;
+    line-height: 1.6;
+}
+.fb-creator-spotlight-close {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border: none;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: #ef4444;
+    cursor: pointer;
+}
+.fb-creator-spotlight-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+}
+.fb-creator-image {
+    width: 74px;
+    height: 74px;
+    border-radius: 16px;
+    object-fit: cover;
+    flex: 0 0 74px;
+    background: #e2e8f0;
+    border: 1px solid #cbd5e1;
+}
+.fb-creator-meta {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: 0.55rem;
+}
+.fb-creator-meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+.fb-creator-meta-label {
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+.fb-creator-meta-value {
+    font-size: 0.88rem;
+    color: #1e293b;
+    line-height: 1.4;
+    word-break: break-word;
+}
+.fb-creator-profile-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.15rem;
+    border-radius: 0;
+    background: #e0f2fe;
+    color: #0f4c81;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+.fb-creator-profile-link:hover {
+    transform: translateY(-1px);
+    background: #bae6fd;
+}
+.fb-creator-background {
+    margin: 0;
+    padding-top: 0.2rem;
+    border-top: 1px solid #e2e8f0;
+    color: #334155;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+    .fb-creator-spotlight-body {
+        flex-direction: column;
+    }
+    .fb-creator-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        max-width: 140px;
+    }
+}
+
+@keyframes fb-slide-right { from{opacity:0; transform:translateX(32px)} to{opacity:1; transform:translateX(0)} }
 
 /* ─── LIGHT MODE OVERRIDES ────────────────────────────── */
 #flipbook-theater.fb-light-mode {
@@ -1027,6 +1238,7 @@ function renderLyricsTextContent(rawText) {
             </div>
         </div>
     `;
+    applyZoomTransform(50, 50);
 }
 
 function renderLyricsPdfContent(pdf) {
@@ -1044,6 +1256,51 @@ function renderLyricsPdfContent(pdf) {
     if (scrubber) scrubber.max = Math.max(1, fbTotal);
 
     renderSpread(1, false);
+    applyZoomTransform(50, 50);
+}
+
+function getActiveZoomTarget() {
+    if (scoreView && scoreView.style.display !== 'none' && fbBookWrap) {
+        return fbBookWrap;
+    }
+    return lyricsInner;
+}
+
+function clampZoom(value) {
+    return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
+}
+
+function applyZoomTransform(originX = 50, originY = 50) {
+    const target = getActiveZoomTarget();
+    if (!target) return;
+
+    zoomOrigin = {
+        x: Math.max(0, Math.min(100, originX)),
+        y: Math.max(0, Math.min(100, originY)),
+    };
+
+    target.style.transformOrigin = `${zoomOrigin.x}% ${zoomOrigin.y}%`;
+    target.style.transform = `scale(${fbZoom})`;
+
+    if (zoomLabel) {
+        zoomLabel.textContent = Math.round(fbZoom * 100) + '%';
+    }
+}
+
+function setZoomLevel(nextZoom, originX = zoomOrigin.x, originY = zoomOrigin.y) {
+    fbZoom = clampZoom(nextZoom);
+    applyZoomTransform(originX, originY);
+}
+
+function getZoomOriginFromPoint(target, clientX, clientY) {
+    if (!target) return { x: 50, y: 50 };
+    const rect = target.getBoundingClientRect();
+    if (!rect.width || !rect.height) return { x: 50, y: 50 };
+
+    return {
+        x: ((clientX - rect.left) / rect.width) * 100,
+        y: ((clientY - rect.top) / rect.height) * 100,
+    };
 }
 
 /* ── DOM refs ──────────────────────────────────────────────────── */
@@ -1060,6 +1317,7 @@ const scrubFill   = document.getElementById('fb-scrub-fill');
 const prevBtn     = document.getElementById('fb-prev');
 const nextBtn     = document.getElementById('fb-next');
 const scoreView   = document.getElementById('fb-score-view');
+const fbBookWrap  = document.getElementById('fb-book-wrap');
 const lyricsView  = document.getElementById('fb-lyrics-view');
 const lyricsInner = document.getElementById('fb-lyrics-inner');
 const pageRow     = document.getElementById('fb-page-row');
@@ -1085,11 +1343,15 @@ const themeToggle = document.getElementById('fb-theme-toggle');
 
 /* ── State ─────────────────────────────────────────────────────── */
 let fbPdfDoc = null, fbTotal = 0, fbSpread = 1, fbZoom = 1.0;
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 3.0;
+const ZOOM_STEP = 0.15;
 const isMobileView = () => window.innerWidth < 1024;
 let scoreDoc = null, lyricsDoc = null; // Store both separately
 let currentView = 'score';   // 'score' | 'lyrics'
 let lyricsLoaded = false;
 let lyricsTextCache = '';
+let zoomOrigin = { x: 50, y: 50 };
 
 /* ── Launch Button (inject into existing floating group) ── */
 const floatingGroup = document.querySelector('.floating-action-group');
@@ -1137,6 +1399,7 @@ function openTheater() {
             lyricsView.style.display = 'none';
             pageRow.style.display    = 'flex';
             renderSpread(1, false);
+            applyZoomTransform(50, 50);
         } else {
             // First open — fetch from server
             loadPdf(PATHS.score);
@@ -1371,6 +1634,7 @@ function switchView(mode) {
         pageRow.style.display    = 'none';
         if (lyricsBtnEl) lyricsBtnEl.classList.add('active');
         if (scoreBtnEl)  scoreBtnEl.classList.remove('active');
+        applyZoomTransform(50, 50);
 
         if (lyricsLoaded) {
             if (lyricsDoc) {
@@ -1586,7 +1850,7 @@ function renderPage(pageNum, canvas, numEl) {
         const native = page.getViewport({ scale: 1 });
         
         // Strict containment logic: fit to both width AND height
-        let scale = Math.min(availableW / native.width, availableH / native.height) * fbZoom;
+        let scale = Math.min(availableW / native.width, availableH / native.height);
         
         // Update CSS variables so the .fb-page / .fb-book hierarchy matches the canvas exactly
         document.documentElement.style.setProperty('--fb-page-width', (native.width * scale) + 'px');
@@ -1673,24 +1937,103 @@ scrubber.addEventListener('input', () => {
     renderSpread(v);
 });
 
-/* ── SWIPE SUPPORT ─────────────────────────────────────────────── */
+/* ── TOUCH GESTURES ───────────────────────────────────────────── */
 let touchStartX = 0;
-fbStage.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
-fbStage.addEventListener('touchend',   (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-        if (diff > 0) goSpread(2); else goSpread(-2);
+let pinchStartDistance = 0;
+let pinchStartZoom = fbZoom;
+let pinchOrigin = { x: 50, y: 50 };
+let pinchActive = false;
+
+function getTouchDistance(t1, t2) {
+    const dx = t2.clientX - t1.clientX;
+    const dy = t2.clientY - t1.clientY;
+    return Math.hypot(dx, dy);
+}
+
+function getTouchMidpoint(t1, t2) {
+    return {
+        x: (t1.clientX + t2.clientX) / 2,
+        y: (t1.clientY + t2.clientY) / 2,
+    };
+}
+
+fbStage.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+        pinchActive = true;
+        pinchStartDistance = getTouchDistance(e.touches[0], e.touches[1]);
+        pinchStartZoom = fbZoom;
+        const activeTarget = getActiveZoomTarget();
+        const midpoint = getTouchMidpoint(e.touches[0], e.touches[1]);
+        pinchOrigin = getZoomOriginFromPoint(activeTarget, midpoint.x, midpoint.y);
+        return;
     }
-}, {passive: true});
+
+    if (e.touches.length === 1) {
+        pinchActive = false;
+        touchStartX = e.touches[0].screenX;
+    }
+}, { passive: false });
+
+fbStage.addEventListener('touchmove', (e) => {
+    if (pinchActive && e.touches.length === 2 && pinchStartDistance > 0) {
+        e.preventDefault();
+        const distance = getTouchDistance(e.touches[0], e.touches[1]);
+        const nextZoom = pinchStartZoom * (distance / pinchStartDistance);
+        setZoomLevel(nextZoom, pinchOrigin.x, pinchOrigin.y);
+    }
+}, { passive: false });
+
+fbStage.addEventListener('touchend', (e) => {
+    if (pinchActive) {
+        if (e.touches.length < 2) {
+            pinchActive = false;
+            pinchStartDistance = 0;
+        }
+        return;
+    }
+
+    if (e.changedTouches.length === 1) {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) goSpread(2); else goSpread(-2);
+        }
+    }
+}, { passive: false });
+
+fbStage.addEventListener('touchcancel', () => {
+    pinchActive = false;
+    pinchStartDistance = 0;
+}, { passive: false });
+
+/* ── WHEEL ZOOM ────────────────────────────────────────────────── */
+function handleWheelZoom(e) {
+    if (!e.ctrlKey) return;
+
+    const activeTarget = getActiveZoomTarget();
+    if (!activeTarget) return;
+
+    const isScoreSurface = scoreView && scoreView.style.display !== 'none';
+    if (isScoreSurface) {
+        if (!e.target.closest('#fb-book-wrap')) return;
+    } else if (!e.target.closest('#fb-lyrics-view')) {
+        return;
+    }
+
+    e.preventDefault();
+    const origin = getZoomOriginFromPoint(activeTarget, e.clientX, e.clientY);
+    const nextZoom = fbZoom * (e.deltaY > 0 ? 0.92 : 1.08);
+    setZoomLevel(nextZoom, origin.x, origin.y);
+}
+
+scoreView?.addEventListener('wheel', handleWheelZoom, { passive: false });
+lyricsView?.addEventListener('wheel', handleWheelZoom, { passive: false });
 
 /* ── ZOOM ──────────────────────────────────────────────────────── */
-zoomIn.addEventListener('click',  () => changeZoom(+0.15));
-zoomOut.addEventListener('click', () => changeZoom(-0.15));
+zoomIn.addEventListener('click',  () => changeZoom(+ZOOM_STEP));
+zoomOut.addEventListener('click', () => changeZoom(-ZOOM_STEP));
 function changeZoom(d) {
-    fbZoom = Math.min(2.5, Math.max(0.5, fbZoom + d));
-    zoomLabel.textContent = Math.round(fbZoom * 100) + '%';
-    if (fbPdfDoc) renderSpread(fbSpread, false);
+    setZoomLevel(fbZoom + d, 50, 50);
 }
 
 /* ── DOWNLOAD DROPDOWN ─────────────────────────────────────────── */
@@ -1705,31 +2048,101 @@ const playlistBtn = document.getElementById('fb-playlist-btn');
 const subOverlay = document.getElementById('fb-sub-overlay');
 const detailsModal = document.getElementById('fb-details-modal');
 const playlistModalLocal = document.getElementById('fb-playlist-modal');
+const creatorSpotlight = document.getElementById('fb-creator-spotlight');
+const creatorNameEl = document.getElementById('fb-creator-name');
+const creatorRoleEl = document.getElementById('fb-creator-role');
+const creatorImageEl = document.getElementById('fb-creator-image');
+const creatorLocationEl = document.getElementById('fb-creator-location');
+const creatorBirthdayEl = document.getElementById('fb-creator-birthday');
+const creatorDutyEl = document.getElementById('fb-creator-duty');
+const creatorBackgroundEl = document.getElementById('fb-creator-background');
+const creatorProfileLinkEl = document.getElementById('fb-creator-profile-link');
+const creatorCloseBtn = document.getElementById('fb-creator-close');
+const creatorLinks = document.querySelectorAll('.fb-creator-link');
+const creatorFallbackImage = "{{ asset('images/blank_image.png') }}";
+
+function hideCreatorSpotlight() {
+    if (creatorSpotlight) {
+        creatorSpotlight.hidden = true;
+    }
+}
+
+function showCreatorSpotlight(link) {
+    if (!creatorSpotlight || !link) return;
+
+    const name = link.getAttribute('data-name') || 'Unnamed creator';
+    const role = link.getAttribute('data-role') || 'Creator';
+    const local = link.getAttribute('data-local') || '';
+    const district = link.getAttribute('data-district') || '';
+    const birthday = link.getAttribute('data-birthday') || '';
+    const duty = link.getAttribute('data-duty') || '';
+    const image = link.getAttribute('data-image') || '';
+    const background = link.getAttribute('data-background') || '';
+    const profileUrl = link.getAttribute('data-profile-url') || '#';
+
+    if (creatorNameEl) creatorNameEl.textContent = name;
+    if (creatorRoleEl) creatorRoleEl.textContent = role;
+    if (creatorLocationEl) {
+        const locationText = [local, district].filter(Boolean).join(', ');
+        creatorLocationEl.textContent = locationText || '-';
+    }
+    if (creatorBirthdayEl) creatorBirthdayEl.textContent = birthday || '-';
+    if (creatorDutyEl) creatorDutyEl.textContent = duty || '-';
+    if (creatorBackgroundEl) creatorBackgroundEl.textContent = background || 'No background information available.';
+    if (creatorProfileLinkEl) creatorProfileLinkEl.href = profileUrl;
+    if (creatorImageEl) {
+        creatorImageEl.src = image || creatorFallbackImage;
+        creatorImageEl.alt = `${name} portrait`;
+    }
+
+    creatorSpotlight.hidden = false;
+}
+
+function openSubModal(modalToOpen) {
+    theater.classList.add('fb-right-drawer-open');
+    subOverlay.classList.add('active');
+    detailsModal.classList.remove('active');
+    playlistModalLocal.classList.remove('active');
+    modalToOpen.classList.add('active');
+}
 
 if (detailsBtn) {
     detailsBtn.addEventListener('click', () => {
-        subOverlay.classList.add('active');
-        detailsModal.classList.add('active');
-        playlistModalLocal.classList.remove('active');
+        openSubModal(detailsModal);
     });
 }
 if (playlistBtn) {
     playlistBtn.addEventListener('click', () => {
-        subOverlay.classList.add('active');
-        playlistModalLocal.classList.add('active');
-        detailsModal.classList.remove('active');
+        openSubModal(playlistModalLocal);
         loadTheaterPlaylist();
     });
 }
+
+creatorLinks.forEach(link => {
+    link.setAttribute('tabindex', '0');
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showCreatorSpotlight(link);
+    });
+    link.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            showCreatorSpotlight(link);
+        }
+    });
+});
+
+creatorCloseBtn?.addEventListener('click', hideCreatorSpotlight);
 
 function closeSubModals() {
     subOverlay.classList.remove('active');
     detailsModal.classList.remove('active');
     playlistModalLocal.classList.remove('active');
+    theater.classList.remove('fb-right-drawer-open');
+    hideCreatorSpotlight();
 }
 document.getElementById('fb-close-details')?.addEventListener('click', closeSubModals);
 document.getElementById('fb-close-playlist')?.addEventListener('click', closeSubModals);
-subOverlay?.addEventListener('click', (e) => { if(e.target === subOverlay) closeSubModals(); });
 
 function loadTheaterPlaylist() {
     const content = document.getElementById('fb-playlist-content');
