@@ -107,7 +107,7 @@
     <div class="fb-stage" id="fb-stage">
 
         {{-- SCORE VIEW (Flipbook) --}}
-        <div id="fb-score-view" style="display:flex;width:100%;height:100%;align-items:center;justify-content:center;">
+        <div id="fb-score-view" style="display:flex;width:100%;height:100%;min-width:100%;min-height:100%;align-items:center;justify-content:center;gap:12px;box-sizing:border-box;">
             <button class="fb-nav-arrow" id="fb-prev" disabled>
                 <i class="fas fa-chevron-left"></i>
             </button>
@@ -493,8 +493,12 @@
 .fb-stage {
     flex:1; position:relative; z-index:5;
     display:flex; align-items:center; justify-content:center;
-    overflow:hidden; padding:25px; /* Consistent internal margins */
-    touch-action: none;
+    overflow:auto; padding:25px; /* Consistent internal margins */
+    touch-action: auto;
+}
+.fb-stage.fb-zoomed {
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 /* ─── BOOK ───────────────────────────────────────────────── */
@@ -502,6 +506,9 @@
 .fb-book-wrap {
     display:flex; align-items:center; justify-content:center;
     width: 100%; height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    flex: 0 0 auto;
     perspective: 1400px;
     perspective-origin: 50% 50%;
 }
@@ -824,11 +831,12 @@
     .fb-lyrics-card { border-radius: 20px; padding: 1.15rem !important; }
     .fb-lyrics-pages { gap: 1rem; }
     .fb-lyrics-text { font-size: 0.98rem !important; line-height: 1.85 !important; }
+    .fb-stage { padding: 14px !important; }
 }
 
 /* ── LYRICS STYLE OVERRIDES ── */
 .fb-lyrics-view {
-    display:none; width:100%; height:100%; overflow-y:auto;
+    display:none; width:100%; height:100%; overflow:auto;
     padding:2.25rem 1.5rem; scroll-behavior: smooth;
     background: transparent;
     align-items:flex-start;
@@ -836,6 +844,7 @@
 }
 .fb-lyrics-inner {
     width:min(100%, 920px);
+    min-height: 100%;
     margin:0 auto;
     font-family:'Playfair Display',serif;
     font-size:1.35rem; line-height:2.2;
@@ -883,6 +892,29 @@
 }
 .fb-lyrics-line {
     margin: 0 0 .5rem;
+    padding: .25rem .5rem;
+    border-radius: 999px;
+    transition: background-color .18s ease, color .18s ease, box-shadow .18s ease, opacity .18s ease;
+    scroll-margin-block: 35vh;
+    will-change: background-color, color, box-shadow;
+}
+.fb-lyrics-line--timed {
+    display: inline-block;
+    min-width: min(100%, 18rem);
+}
+.fb-lyrics-line.is-active {
+    background: rgba(59, 130, 246, 0.18);
+    color: #f8fafc;
+    box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.22), 0 8px 24px rgba(37, 99, 235, 0.14);
+}
+.fb-lyrics-line--spacer {
+    height: 1.1em;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    will-change: auto;
 }
 .fb-lyrics-empty {
     color:#94a3b8;
@@ -1187,6 +1219,11 @@ const PATHS = {
     preludes:@json($music->preludes_mp3_path ? asset("storage/".$music->preludes_mp3_path) : ""),
 };
 
+const TIMED_SYNC = {
+    lyrics: @json($music->lyrics_sync ?? null),
+    score: @json($music->score_sync ?? null),
+};
+
 function normalizeMediaUrl(url) {
     if (!url) return '';
     let cleaned = String(url).trim();
@@ -1210,11 +1247,159 @@ function escapeHtml(text) {
         .replace(/'/g, '&#39;');
 }
 
+function toFiniteNumber(value) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+}
+
+function normalizeTimedEntries(source) {
+    if (!Array.isArray(source)) return [];
+
+    return source
+        .map((entry, index) => {
+            const start = toFiniteNumber(entry?.start ?? entry?.time ?? entry?.begin);
+            if (start === null || start < 0) {
+                return null;
+            }
+
+            return {
+                id: entry?.id || `fb-sync-${index}`,
+                text: String(entry?.text ?? entry?.lyric ?? entry?.label ?? '').trim(),
+                start,
+                end: toFiniteNumber(entry?.end ?? entry?.stop ?? entry?.finish),
+                page: toFiniteNumber(entry?.page ?? entry?.pageIndex),
+                x: toFiniteNumber(entry?.x),
+                y: toFiniteNumber(entry?.y),
+                w: toFiniteNumber(entry?.w ?? entry?.width),
+                h: toFiniteNumber(entry?.h ?? entry?.height),
+                kind: entry?.kind || 'line',
+                measure: entry?.measure ?? null,
+            };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.start - b.start)
+        .map((entry, index, entries) => {
+            const next = entries[index + 1];
+            const fallbackEnd = next ? Math.max(entry.start, next.start - 0.01) : entry.start + 2.5;
+            const end = entry.end !== null && entry.end > entry.start ? entry.end : fallbackEnd;
+            return { ...entry, end };
+        });
+}
+
+function parseLrcTimedEntries(rawText) {
+    const lines = String(rawText || '').replace(/\r/g, '').split('\n');
+    const entries = [];
+    let sawTimedLine = false;
+
+    lines.forEach(line => {
+        const tagRegex = /\[(\d{2,}):(\d{2}(?:\.\d{1,3})?)\]/g;
+        const tags = [...line.matchAll(tagRegex)];
+        const text = line.replace(/\[\d{2,}:\d{2}(?:\.\d{1,3})?\]/g, '').trim();
+
+        if (!tags.length) {
+            return;
+        }
+
+        sawTimedLine = true;
+
+        tags.forEach(tag => {
+            const minutes = parseInt(tag[1], 10);
+            const seconds = parseFloat(tag[2]);
+            entries.push({
+                text,
+                start: (minutes * 60) + seconds,
+                end: null,
+                kind: 'line',
+            });
+        });
+    });
+
+    return sawTimedLine ? normalizeTimedEntries(entries) : [];
+}
+
+function getTimedLyricsEntries(rawText) {
+    const syncEntries = normalizeTimedEntries(TIMED_SYNC.lyrics);
+    if (syncEntries.length) {
+        return syncEntries;
+    }
+    return parseLrcTimedEntries(rawText);
+}
+
+let lyricsSyncEntries = [];
+let lyricsSyncNodes = [];
+let activeLyricsSyncIndex = -1;
+
+function setActiveLyricsLine(nextIndex) {
+    if (!lyricsSyncNodes.length) return;
+
+    if (activeLyricsSyncIndex >= 0 && lyricsSyncNodes[activeLyricsSyncIndex]) {
+        lyricsSyncNodes[activeLyricsSyncIndex].classList.remove('is-active');
+        lyricsSyncNodes[activeLyricsSyncIndex].removeAttribute('aria-current');
+    }
+
+    activeLyricsSyncIndex = nextIndex;
+
+    if (activeLyricsSyncIndex >= 0 && lyricsSyncNodes[activeLyricsSyncIndex]) {
+        const node = lyricsSyncNodes[activeLyricsSyncIndex];
+        node.classList.add('is-active');
+        node.setAttribute('aria-current', 'true');
+    }
+}
+
+function syncLyricsHighlight(currentTime, forceScroll = false) {
+    if (!lyricsSyncEntries.length || currentView !== 'lyrics') return;
+
+    const leadIn = 0.25;
+    let activeIndex = -1;
+    const previousIndex = activeLyricsSyncIndex;
+
+    let low = 0;
+    let high = lyricsSyncEntries.length - 1;
+    while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const entry = lyricsSyncEntries[mid];
+        if (currentTime + leadIn < entry.start) {
+            high = mid - 1;
+        } else if (currentTime > entry.end) {
+            low = mid + 1;
+        } else {
+            activeIndex = mid;
+            break;
+        }
+    }
+
+    if (activeIndex === -1) {
+        activeIndex = Math.max(0, low - 1);
+        const candidate = lyricsSyncEntries[activeIndex];
+        if (!candidate || currentTime + leadIn < candidate.start) {
+            activeIndex = -1;
+        }
+    }
+
+    if (activeIndex === previousIndex && !forceScroll) {
+        return;
+    }
+
+    setActiveLyricsLine(activeIndex);
+
+    if (activeIndex >= 0 && lyricsSyncNodes[activeIndex] && (forceScroll || activeIndex !== previousIndex)) {
+        lyricsSyncNodes[activeIndex].scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'nearest',
+        });
+    }
+}
+
 function renderLyricsTextContent(rawText) {
     const clean = String(rawText || '')
         .replace(/\[\d{2,}:\d{2}(\.\d+)?\]/g, '')
         .replace(/\r/g, '')
         .trim();
+
+    lyricsSyncEntries = getTimedLyricsEntries(rawText);
+    activeLyricsSyncIndex = -1;
+    lyricsSyncNodes = [];
 
     lyricsView.style.display = 'flex';
     scoreView.style.display = 'none';
@@ -1225,11 +1410,33 @@ function renderLyricsTextContent(rawText) {
         return;
     }
 
-    const lines = clean.split('\n');
-    const html = lines.map(line => {
-        const l = line.trim();
-        if (!l) return '<div style="height:1.1em"></div>';
-        return `<p class="fb-lyrics-line">${escapeHtml(l)}</p>`;
+    const timedLines = lyricsSyncEntries.length ? lyricsSyncEntries : [];
+    const lines = timedLines.length
+        ? timedLines
+        : clean.split('\n').map((line, index) => ({
+            id: `fb-line-${index}`,
+            text: line.trim(),
+            start: null,
+            end: null,
+            kind: 'line',
+        }));
+
+    const html = lines.map((line, index) => {
+        const text = String(line.text || '').trim();
+        if (!text) {
+            return '<div class="fb-lyrics-line fb-lyrics-line--spacer" aria-hidden="true"></div>';
+        }
+
+        const startAttr = line.start !== null && line.start !== undefined ? ` data-start="${line.start}"` : '';
+        const endAttr = line.end !== null && line.end !== undefined ? ` data-end="${line.end}"` : '';
+        const dataAttr = line.start !== null && line.start !== undefined
+            ? ` data-sync-index="${index}" tabindex="-1"${startAttr}${endAttr}`
+            : '';
+        const lineClass = line.start !== null && line.start !== undefined
+            ? 'fb-lyrics-line fb-lyrics-line--timed'
+            : 'fb-lyrics-line';
+
+        return `<p class="${lineClass}"${dataAttr}>${escapeHtml(text)}</p>`;
     }).join('');
 
     lyricsInner.innerHTML = `
@@ -1239,7 +1446,9 @@ function renderLyricsTextContent(rawText) {
             </div>
         </div>
     `;
+    lyricsSyncNodes = Array.from(lyricsInner.querySelectorAll('.fb-lyrics-line--timed'));
     applyZoomTransform(50, 50);
+    syncLyricsHighlight(audio.currentTime || 0, true);
 }
 
 function renderLyricsPdfContent(pdf) {
@@ -1248,6 +1457,8 @@ function renderLyricsPdfContent(pdf) {
     lyricsView.style.display = 'none';
     scoreView.style.display = 'flex';
     pageRow.style.display = 'flex';
+    lyricsSyncNodes = [];
+    activeLyricsSyncIndex = -1;
 
     fbPdfDoc = pdf;
     fbTotal  = pdf.numPages;
@@ -1282,6 +1493,9 @@ function applyZoomTransform(originX = 50, originY = 50) {
 
     target.style.transformOrigin = `${zoomOrigin.x}% ${zoomOrigin.y}%`;
     target.style.transform = `scale(${fbZoom})`;
+    if (fbStage) {
+        fbStage.classList.toggle('fb-zoomed', fbZoom > 1.01);
+    }
 
     if (zoomLabel) {
         zoomLabel.textContent = Math.round(fbZoom * 100) + '%';
@@ -1579,19 +1793,26 @@ audio.addEventListener('timeupdate', () => {
     audioFill.style.width = pct + '%';
     audioScrub.value = pct;
     curTime.textContent = fmt(audio.currentTime);
+    syncLyricsHighlight(audio.currentTime);
 });
 
 audio.addEventListener('loadedmetadata', () => {
     durTime.textContent = fmt(audio.duration);
+    syncLyricsHighlight(audio.currentTime || 0, true);
 });
 
 audio.addEventListener('ended', () => {
     updatePlayUI(false);
 });
 
+audio.addEventListener('seeked', () => {
+    syncLyricsHighlight(audio.currentTime || 0, true);
+});
+
 audioScrub.addEventListener('input', () => {
     if (!audio.duration) return;
     audio.currentTime = (audioScrub.value / 100) * audio.duration;
+    syncLyricsHighlight(audio.currentTime || 0, true);
 });
 
 volSlider.addEventListener('input', () => { audio.volume = volSlider.value; });
@@ -1618,6 +1839,8 @@ function switchView(mode) {
         scoreView.style.display  = 'flex';
         lyricsView.style.display = 'none';
         pageRow.style.display    = 'flex';
+        lyricsSyncNodes = [];
+        activeLyricsSyncIndex = -1;
         if (scoreBtnEl)  scoreBtnEl.classList.add('active');
         if (lyricsBtnEl) lyricsBtnEl.classList.remove('active');
         if (scoreDoc) {
@@ -1643,6 +1866,7 @@ function switchView(mode) {
                 rerenderLyricsFromCache();
             }
             // Text lyrics are already in DOM — just showing the view is enough
+            syncLyricsHighlight(audio.currentTime || 0, true);
         } else {
             loadLyrics(PATHS.lyrics);
         }

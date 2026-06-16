@@ -21,7 +21,14 @@ class Music extends Model
         'created_by',
         'updated_by',
         'lyrics',
+        'lyrics_sync',
+        'score_sync',
         'position'
+    ];
+
+    protected $casts = [
+        'lyrics_sync' => 'array',
+        'score_sync' => 'array',
     ];
 
     // Define relationships

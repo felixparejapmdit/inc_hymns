@@ -52,61 +52,37 @@
             'label' => 'Total Hymns',
             'value' => $totalChurchHymns->sum('musics_count') ?? 0,
             'icon' => 'fa-book-open',
-            'kicker' => 'Catalog',
-            'note' => 'Hymn breakdown',
             'href' => route('musics.index'),
-            'accent' => '#2563eb',
-            'tint' => 'rgba(37, 99, 235, 0.10)',
         ],
         [
             'label' => 'Users',
             'value' => $totalUsers ?? 0,
             'icon' => 'fa-users',
-            'kicker' => 'Directory',
-            'note' => 'Manage user accounts',
             'href' => route('users.index'),
-            'accent' => '#0284c7',
-            'tint' => 'rgba(2, 132, 199, 0.10)',
         ],
         [
             'label' => 'Lyricists',
             'value' => $totalLyricists ?? 0,
             'icon' => 'fa-pen-nib',
-            'kicker' => 'Credits',
-            'note' => 'Browse lyricist credits',
             'href' => route('credits.index', ['designation' => 'lyricists']),
-            'accent' => '#0ea5e9',
-            'tint' => 'rgba(14, 165, 233, 0.10)',
         ],
         [
             'label' => 'Composers',
             'value' => $totalComposers ?? 0,
             'icon' => 'fa-music',
-            'kicker' => 'Credits',
-            'note' => 'Browse composer credits',
             'href' => route('credits.index', ['designation' => 'composers']),
-            'accent' => '#3b82f6',
-            'tint' => 'rgba(59, 130, 246, 0.10)',
         ],
         [
             'label' => 'Arrangers',
             'value' => $totalArrangers ?? 0,
             'icon' => 'fa-sliders',
-            'kicker' => 'Credits',
-            'note' => 'Browse arranger credits',
             'href' => route('credits.index', ['designation' => 'arrangers']),
-            'accent' => '#1d4ed8',
-            'tint' => 'rgba(29, 78, 216, 0.10)',
         ],
         [
             'label' => 'Playlists',
             'value' => isset($playlists) ? $playlists->count() : 0,
             'icon' => 'fa-list-ul',
-            'kicker' => 'Planner',
-            'note' => 'Manage playlist sets',
             'href' => route('playlists_management.index'),
-            'accent' => '#475569',
-            'tint' => 'rgba(71, 85, 105, 0.10)',
         ],
     ];
 @endphp
@@ -410,13 +386,12 @@
         justify-content: space-between;
         position: relative;
         overflow: hidden;
-        border: 1px solid #e5e7eb;
-        border-left-width: 4px;
+        border: 0;
         border-radius: 24px;
-        background: rgba(255, 255, 255, 0.96);
-        color: #0f172a;
+        background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%);
+        color: #ffffff;
         text-decoration: none !important;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        box-shadow: none;
         isolation: isolate;
         padding: 1.3rem 1.35rem;
         transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s ease, border-color 0.28s ease;
@@ -426,7 +401,10 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.015), rgba(15, 23, 42, 0));
+        background:
+            radial-gradient(circle at 18% 18%, rgba(255,255,255,0.09) 0 6%, transparent 7%),
+            radial-gradient(circle at 82% 78%, rgba(255,255,255,0.06) 0 10%, transparent 11%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
         pointer-events: none;
     }
 
@@ -436,54 +414,51 @@
 
     .stat-card-link:hover {
         transform: translateY(-4px);
-        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.09);
-        border-color: #dbe4ee;
-    }
-
-    .stat-card .metric-icon-circle {
-        margin-bottom: 0;
-        width: 50px;
-        height: 50px;
-        border-radius: 16px;
-        background: var(--stat-tint, rgba(37, 99, 235, 0.10)) !important;
-        color: var(--stat-accent, #2563eb) !important;
         box-shadow: none;
     }
 
-    .stat-card-kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        font-size: 0.68rem;
-        font-weight: 900;
-        letter-spacing: 1.8px;
-        text-transform: uppercase;
-        color: #64748b;
-        margin-bottom: 0;
-    }
-
-    .stat-card-watermark {
+    .stat-card .metric-icon-circle {
         display: none;
     }
 
+    .stat-card-watermark {
+        position: absolute;
+        right: 1rem;
+        bottom: 0.9rem;
+        font-size: 4.25rem;
+        color: rgba(255, 255, 255, 0.2);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .stat-card-body {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100%;
+    }
+
     .stat-card .metric-amount {
-        font-size: 2.35rem;
-        color: #0f172a;
+        font-size: clamp(3rem, 4vw, 4.35rem);
+        font-weight: 900;
+        color: #ffffff;
         margin-bottom: 0.15rem;
         line-height: 1;
+        letter-spacing: -0.04em;
     }
 
     .stat-card .metric-title {
-        font-size: 0.86rem;
-        color: #475569;
-        letter-spacing: 0.8px;
+        font-size: 0.9rem;
+        font-weight: 800;
+        color: rgba(255,255,255,0.82);
+        letter-spacing: 0.9px;
+        text-transform: uppercase;
     }
 
     .stat-card .stat-subtitle {
-        margin-top: 0.45rem;
-        font-size: 0.78rem;
-        color: #94a3b8;
-        z-index: 1;
+        display: none;
     }
 
     .compact-card {
@@ -1056,22 +1031,13 @@
             min-height: 110px;
         }
         .metric-amount {
-            font-size: 1.75rem;
+            font-size: 2.2rem;
         }
         .metric-title {
-            font-size: 0.75rem;
-        }
-        .stat-card-kicker {
-            font-size: 0.62rem;
+            font-size: 0.72rem;
         }
         .stat-card-watermark {
-            font-size: 3.3rem;
-        }
-        .metric-icon-circle {
-            width: 40px;
-            height: 40px;
-            font-size: 1.1rem;
-            border-radius: 12px;
+            font-size: 3.5rem;
         }
         .overview-grid {
             gap: 0.75rem;
@@ -1242,48 +1208,27 @@
                             @if($loop->first)
                                 <button
                                     type="button"
-                                    class="dashboard-card stat-card stat-card-link drilldown-trigger group w-full border-l-4 bg-white/95 text-left shadow-sm ring-1 ring-slate-100"
+                                    class="dashboard-card stat-card stat-card-link drilldown-trigger group w-full text-left"
                                     data-hymn-breakdown-trigger
                                     aria-haspopup="dialog"
                                     aria-controls="hymnBreakdownModal"
-                                    style="--stat-accent: {{ $stat['accent'] }}; --stat-tint: {{ $stat['tint'] }}; border-left-color: {{ $stat['accent'] }};"
                                 >
-                                    <div class="flex items-start justify-between gap-4 relative z-10">
-                                        <div class="min-w-0">
-                                            <div class="stat-card-kicker">{{ $stat['kicker'] }}</div>
-                                            <div class="metric-title mt-2">{{ $stat['label'] }}</div>
-                                        </div>
-                                        <div class="metric-icon-circle flex-shrink-0">
-                                            <i class="fas {{ $stat['icon'] }}"></i>
-                                        </div>
-                                    </div>
-                                    <div class="mt-auto relative z-10 pt-5">
+                                    <div class="stat-card-body">
+                                        <div class="metric-title">{{ $stat['label'] }}</div>
                                         <div class="metric-amount">{{ $stat['value'] }}</div>
-                                        <div class="stat-subtitle flex items-center gap-1">
-                                            <i class="fas fa-caret-down"></i>
-                                            <span>{{ $stat['note'] }}</span>
-                                        </div>
                                     </div>
+                                    <i class="fas {{ $stat['icon'] }} stat-card-watermark" aria-hidden="true"></i>
                                 </button>
                             @else
                                 <a
                                     href="{{ $stat['href'] }}"
-                                    class="dashboard-card stat-card stat-card-link group block w-full border-l-4 bg-white/95 text-left shadow-sm ring-1 ring-slate-100"
-                                    style="--stat-accent: {{ $stat['accent'] }}; --stat-tint: {{ $stat['tint'] }}; border-left-color: {{ $stat['accent'] }};"
+                                    class="dashboard-card stat-card stat-card-link group block w-full text-left"
                                 >
-                                    <div class="flex items-start justify-between gap-4 relative z-10">
-                                        <div class="min-w-0">
-                                            <div class="stat-card-kicker">{{ $stat['kicker'] }}</div>
-                                            <div class="metric-title mt-2">{{ $stat['label'] }}</div>
-                                        </div>
-                                        <div class="metric-icon-circle flex-shrink-0">
-                                            <i class="fas {{ $stat['icon'] }}"></i>
-                                        </div>
-                                    </div>
-                                    <div class="mt-auto relative z-10 pt-5">
+                                    <div class="stat-card-body">
+                                        <div class="metric-title">{{ $stat['label'] }}</div>
                                         <div class="metric-amount">{{ $stat['value'] }}</div>
-                                        <div class="stat-subtitle">{{ $stat['note'] }}</div>
                                     </div>
+                                    <i class="fas {{ $stat['icon'] }} stat-card-watermark" aria-hidden="true"></i>
                                 </a>
                             @endif
                         @endforeach

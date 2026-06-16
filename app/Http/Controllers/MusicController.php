@@ -256,6 +256,8 @@ public function search(Request $request)
             'preludes_mp3_path' => 'nullable|file|mimes:mp3',
             'music_score_path' => 'nullable|file|mimes:pdf',
             'lyrics_path' => 'nullable|file|mimes:pdf',
+            'lyrics_sync' => 'nullable',
+            'score_sync' => 'nullable',
             'category_id' => 'nullable|array',
             'instrumentation_id' => 'nullable|array',
             'ensembletype_id' => 'nullable|array',
@@ -293,6 +295,8 @@ public function search(Request $request)
             'updated_by' => $userId,
             'song_number' => $songNumber, // Add 'song_number'
             'verses_used' => $request->input('versesused'), // Add 'verses_used' from the request
+            'lyrics_sync' => $request->input('lyrics_sync'),
+            'score_sync' => $request->input('score_sync'),
         ], $filePaths); // Merge other file paths if any
         
        // dd($filePaths);
@@ -501,6 +505,8 @@ public function show($id, $songNumber = null, $languageId = null, $playlistId = 
             'edit_preludes_mp3_path' => 'nullable|file|mimes:mp3',
             'edit_music_score_path' => 'nullable|file|mimes:pdf',
             'edit_lyrics_path' => 'nullable|file|mimes:pdf',
+            'lyrics_sync' => 'nullable',
+            'score_sync' => 'nullable',
             'category_id' => 'nullable|array',
             'instrumentation_id' => 'nullable|array',
             'ensembletype_id' => 'nullable|array',
@@ -557,6 +563,8 @@ public function show($id, $songNumber = null, $languageId = null, $playlistId = 
             'song_number' => $request->edit_song_number,
             'verses_used' => $request->edit_versesused,
             'language_id' => $request->edit_language_id,
+            'lyrics_sync' => $request->input('lyrics_sync'),
+            'score_sync' => $request->input('score_sync'),
         ] + $filePaths);
 
         ActivityLogHelper::log('updated', $music->title, $music->id, 'update hymn');
