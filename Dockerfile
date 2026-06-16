@@ -12,24 +12,32 @@ FROM php:8.2-fpm-alpine
 # Set working directory
 WORKDIR /var/www
 
-# Install system dependencies
-RUN apk add --no-cache \
-    curl \
-    libpng-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    git \
-    oniguruma-dev \
-    libzip-dev \
-    mysql-client \
-    linux-headers \
-    libjpeg-turbo-dev \
-    freetype-dev
-
-# Install and configure PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+# Install system dependencies and PHP build requirements
+RUN set -eux; \
+    apk add --no-cache \
+        curl \
+        git \
+        mysql-client \
+        freetype \
+        libjpeg-turbo \
+        oniguruma \
+        libpng \
+        libxml2 \
+        libzip \
+        unzip \
+        zip; \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libxml2-dev \
+        libzip-dev \
+        linux-headers \
+        oniguruma-dev; \
+    docker-php-ext-configure gd --with-freetype --with-jpeg; \
+    docker-php-ext-install -j"$(nproc)" pdo_mysql mbstring exif pcntl bcmath gd zip; \
+    apk del .build-deps
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -57,4 +65,3 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
-
