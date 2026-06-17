@@ -10,10 +10,14 @@ class Playlist extends Model
 
     public function musics()
     {
-        return $this->belongsToMany(Music::class, 'music_playlist');
+        return $this->belongsToMany(Music::class, 'music_playlist')
+            ->withPivot('position')
+            ->orderBy('music_playlist.position');
     }
     public function hymns()
     {
-        return $this->belongsToMany(Music::class, 'music_playlist');
+        return $this->belongsToMany(Music::class, 'music_playlist')
+            ->withPivot('position')
+            ->orderBy('music_playlist.position');
     }
 }

@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class PlaylistController extends Controller
 {
+    private function nextPlaylistPosition(int $playlistId): int
+    {
+        $maxPosition = DB::table('music_playlist')
+            ->where('playlist_id', $playlistId)
+            ->max('position');
+
+        return ((int) $maxPosition) + 1;
+    }
+
     public function store(Request $request)
     {
         $playlist = Playlist::create([
@@ -16,7 +25,9 @@ class PlaylistController extends Controller
         ]);
 
         if ($request->music_id) {
-            $playlist->musics()->attach($request->music_id);
+            $playlist->musics()->attach($request->music_id, [
+                'position' => $this->nextPlaylistPosition($playlist->id),
+            ]);
         }
 
         return redirect()->route('playlists_management.index')->with('success', 'Playlist created successfully');
@@ -40,14 +51,19 @@ class PlaylistController extends Controller
         return redirect()->route('playlists_management.index')->with('success', 'Playlist deleted successfully');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // $playlists = Playlist::with('musics')->get(); // Include the musics relation if needed
-        // return response()->json(['playlists' => $playlists]);
+        $search = trim((string) $request->input('search', ''));
 
-        $playlists = Playlist::with('musics')->get();
+        $playlists = Playlist::query()
+            ->with('musics')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy('name')
+            ->paginate(10)
+            ->withQueryString();
 
-        
         return view('playlists_management.index', compact('playlists'));
     }
 
@@ -68,13 +84,15 @@ class PlaylistController extends Controller
         $musics = DB::table('music_playlist')
                     ->join('musics', 'music_playlist.music_id', '=', 'musics.id')
                     ->where('music_playlist.playlist_id', $playlistId)
-                    ->select('musics.id', 'musics.title', 'musics.song_number')
+                    ->orderByRaw('COALESCE(music_playlist.position, music_playlist.id) ASC')
+                    ->select('musics.id', 'musics.title', 'musics.song_number', 'music_playlist.position')
                     ->get()
                     ->map(function($music) use ($playlistId) { // Add use ($playlistId) here
                         return [
                             'id' => $music->id,
                             'title' => $music->title,
                             'song_number' => $music->song_number,
+                            'position' => $music->position,
                             'delete_url' => route('playlist.removeMusic', [$playlistId, $music->id])
                         ];
                     });
@@ -135,6 +153,7 @@ public function validateMusicPlaylist(Request $request, $playlistId, $musicId)
         DB::table('music_playlist')->insert([
             'music_id' => $musicId,
             'playlist_id' => $playlistId,
+            'position' => $this->nextPlaylistPosition((int) $playlistId),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -145,12 +164,23 @@ public function validateMusicPlaylist(Request $request, $playlistId, $musicId)
 
    public function updateOrder(Request $request)
     {
-        $playlistId = $request->playlist_id;
-        $order = $request->order;
+        $validated = $request->validate([
+            'playlist_id' => ['required', 'integer', 'exists:playlists,id'],
+            'order' => ['required', 'array'],
+            'order.*' => ['integer', 'exists:musics,id'],
+        ]);
+
+        $playlistId = (int) $validated['playlist_id'];
+        $order = $validated['order'];
 
         foreach ($order as $position => $musicId) {
-            $playlist = Playlist::find($playlistId);
-            $playlist->musics()->updateExistingPivot($musicId, ['position' => $position]);
+            DB::table('music_playlist')
+                ->where('playlist_id', $playlistId)
+                ->where('music_id', $musicId)
+                ->update([
+                    'position' => $position + 1,
+                    'updated_at' => now(),
+                ]);
         }
 
         return response()->json(['success' => true]);
@@ -158,7 +188,9 @@ public function validateMusicPlaylist(Request $request, $playlistId, $musicId)
 
     public function addMusic(Request $request, Playlist $playlist)
     {
-        $playlist->musics()->attach($request->music_id);
+        $playlist->musics()->attach($request->music_id, [
+            'position' => $this->nextPlaylistPosition($playlist->id),
+        ]);
         return response()->json(['success' => true]);
     }
 
@@ -173,7 +205,11 @@ public function validateMusicPlaylist(Request $request, $playlistId, $musicId)
     $playlist->save();
 
     // Add the music to the playlist
-    $playlist->musics()->attach($musicId);
+    if ($musicId) {
+        $playlist->musics()->attach($musicId, [
+            'position' => $this->nextPlaylistPosition($playlist->id),
+        ]);
+    }
 
     return response()->json(['success' => true, 'essage' => 'Music added to new playlist']);
 }

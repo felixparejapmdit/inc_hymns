@@ -193,30 +193,190 @@
         border-bottom-right-radius: 50px !important;
     }
 
+    .page-header-shell {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin: 0.5rem 0 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .page-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.9rem;
+    }
+
+    .page-title {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        line-height: 0.95;
+        color: #fff;
+        font-weight: 950;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.6rem;
+    }
+
+    .page-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 0;
+        max-width: 42rem;
+    }
+
+    .toolbar-stack {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .page-action-btn {
+        min-height: 48px;
+        min-width: 140px;
+        padding: 0 1.25rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+        text-decoration: none !important;
+    }
+
+    .page-action-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .page-action-btn-secondary {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-action-btn-secondary:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.24);
+    }
+
+    .page-action-btn-primary {
+        background: #fff;
+        color: var(--accent-blue);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-action-btn-primary:hover {
+        color: #22486c;
+        background: #f8fbff;
+    }
+
+    .search-shell {
+        display: flex;
+        align-items: stretch;
+        width: min(100%, 440px);
+        min-height: 48px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(62, 109, 156, 0.12);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    }
+
+    .search-shell-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        color: #7c8aa0;
+        flex: 0 0 54px;
+        border-right: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .search-shell-input {
+        flex: 1;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        height: 48px;
+        padding: 0 1rem;
+        font-weight: 700;
+        color: #17324f;
+    }
+
+    .search-shell-input::placeholder {
+        color: #8aa0b8;
+        font-weight: 600;
+    }
+
+    .search-shell-button {
+        min-width: 118px;
+        padding: 0 1rem;
+        border: none;
+        background: var(--accent-blue);
+        color: #fff;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        transition: background 0.2s ease, transform 0.2s ease;
+        border-left: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .search-shell-button:hover {
+        background: #2f5780;
+        transform: translateY(-1px);
+    }
+
 </style>
 
 <x-app-layout>
     <div class="glass-container">
         <div class="container" style="max-width: 1100px;">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">Permissions</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Access Control & Security</p>
-                </div>
-                <div class="d-flex gap-3 align-items-center">
-                    <div class="input-group mr-2">
-                        <input type="text" id="permissionSearch" class="form-control rounded-pill-left border-0 px-4 font-bold shadow-sm" style="width: 250px; height: 45px;" placeholder="Search permissions...">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-white border-0 rounded-pill-right shadow-sm px-3">
-                                <i class="fas fa-search text-primary"></i>
-                            </span>
-                        </div>
+                    <div class="page-kicker">
+                        <i class="fas fa-shield-alt"></i>
+                        Access Control
                     </div>
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm d-flex align-items-center" style="height: 45px;">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                    <h1 class="page-title">Permissions</h1>
+                    <p class="page-subtitle">Access control and security rules that shape what each role can do.</p>
+                </div>
+                <div class="toolbar-stack">
+                    <div class="search-shell">
+                        <span class="search-shell-icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="permissionSearch" class="form-control search-shell-input" placeholder="Search permissions...">
+                        <button type="button" id="permissionSearchBtn" class="search-shell-button">
+                            <i class="fas fa-search"></i>
+                            <span>Search</span>
+                        </button>
+                    </div>
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
-                    <a href="{{ route('permissions.create') }}" class="btn-create" style="height: 45px;">
-                        <i class="fas fa-shield-alt"></i> New Permission
+                    <a href="{{ route('permissions.create') }}" class="page-action-btn page-action-btn-primary">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>New Permission</span>
                     </a>
                 </div>
             </div>
@@ -315,8 +475,8 @@
     });
 
     // Client-side search logic
-    $('#permissionSearch').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
+    function filterPermissions() {
+        var value = $('#permissionSearch').val().toLowerCase();
         
         $('.category-container').each(function() {
             var hasVisible = false;
@@ -330,7 +490,6 @@
             
             if (hasVisible) {
                 $container.fadeIn(200);
-                // If searching, ensure matched categories are expanded
                 if (value.length > 0) {
                     $container.find('.dashboard-card').slideDown();
                     $container.find('.toggle-accordion').removeClass('collapsed').find('.fa-chevron-down').css('transform', 'rotate(0deg)');
@@ -339,5 +498,20 @@
                 $container.fadeOut(100);
             }
         });
+    }
+
+    $('#permissionSearch').on('input keyup', function() {
+        filterPermissions();
+    });
+
+    $('#permissionSearch').on('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            filterPermissions();
+        }
+    });
+
+    $('#permissionSearchBtn').on('click', function() {
+        filterPermissions();
     });
 </script>

@@ -176,6 +176,7 @@ Route::resource('playlists_management', PlaylistController::class);
 Route::post('playlists_management/playlist', [PlaylistController::class, 'store'])->name('playlists.store');
 Route::put('playlists_management/{playlist}', [PlaylistController::class, 'update'])->name('playlists.update');
 Route::delete('playlists_management/{playlist}', [PlaylistController::class, 'destroy'])->name('playlists.destroy');
+Route::post('playlists_management/update-order', [PlaylistController::class, 'updateOrder'])->name('playlists.updateOrder');
 
 //Route::get('get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
 Route::get('/get-music-list/{playlistId}', [PlaylistController::class, 'getMusicList'])->name('getMusicList');
@@ -193,4 +194,3 @@ Route::get('/bible-verse', [BibleVerseController::class, 'fetch'])->name('bible.
 // Helper: list available Bibles from API.Bible to discover version IDs
 // GET /bible-verse/list-bibles?lang=eng  (or lang=tgl for Tagalog)
 Route::get('/bible-verse/list-bibles', [BibleVerseController::class, 'listBibles'])->name('bible.list');
-

@@ -493,7 +493,9 @@
 .fb-stage {
     flex:1; position:relative; z-index:5;
     display:flex; align-items:center; justify-content:center;
-    overflow:auto; padding:25px; /* Consistent internal margins */
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:25px; /* Consistent internal margins */
     touch-action: auto;
 }
 .fb-stage.fb-zoomed {
@@ -517,6 +519,7 @@
     transform-origin: 50% 50%;
     transition: transform 140ms ease-out;
     will-change: transform;
+    overflow-x: hidden;
 }
 .fb-book {
     display:flex; align-items:stretch;
@@ -836,7 +839,7 @@
 
 /* ── LYRICS STYLE OVERRIDES ── */
 .fb-lyrics-view {
-    display:none; width:100%; height:100%; overflow:auto;
+    display:none; width:100%; height:100%; overflow-y:auto; overflow-x:hidden;
     padding:2.25rem 1.5rem; scroll-behavior: smooth;
     background: transparent;
     align-items:flex-start;
@@ -955,6 +958,9 @@
 }
 #flipbook-theater.fb-right-drawer-open .fb-stage {
     min-width: 0;
+}
+#flipbook-theater {
+    overflow-x: hidden;
 }
 
 @media (max-width: 1200px) {

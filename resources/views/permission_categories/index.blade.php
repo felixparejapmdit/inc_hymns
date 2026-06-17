@@ -123,22 +123,121 @@
         font-size: 0.9rem;
     }
 
+    .page-header-shell {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin: 0.5rem 0 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .page-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.9rem;
+    }
+
+    .page-title {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        line-height: 0.95;
+        color: #fff;
+        font-weight: 950;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.6rem;
+    }
+
+    .page-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 0;
+        max-width: 42rem;
+    }
+
+    .toolbar-stack {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .page-action-btn {
+        min-height: 48px;
+        min-width: 140px;
+        padding: 0 1.25rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+        text-decoration: none !important;
+    }
+
+    .page-action-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .page-action-btn-secondary {
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-action-btn-secondary:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.24);
+    }
+
+    .page-action-btn-primary {
+        background: #fff;
+        color: var(--accent-blue);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-action-btn-primary:hover {
+        color: #22486c;
+        background: #f8fbff;
+    }
+
 </style>
 
 <x-app-layout>
     <div class="glass-container">
         <div class="container" style="max-width: 1000px;">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">Permission Groups</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Categorization of system access</p>
+                    <div class="page-kicker">
+                        <i class="fas fa-layer-group"></i>
+                        Permission Groups
+                    </div>
+                    <h1 class="page-title">Permission Groups</h1>
+                    <p class="page-subtitle">Categorize system access into clear, manageable groups.</p>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                <div class="toolbar-stack">
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
-                    <a href="{{ route('permission_categories.create') }}" class="btn-create">
-                        <i class="fas fa-plus-circle"></i> New Group
+                    <a href="{{ route('permission_categories.create') }}" class="page-action-btn page-action-btn-primary">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>New Group</span>
                     </a>
                 </div>
             </div>
