@@ -171,12 +171,25 @@
         text-transform: uppercase;
         font-size: 0.78rem;
         transition: all 0.25s ease;
+        outline: none;
+        box-shadow: none;
     }
 
     .dashboard-tab-btn.active {
         background: #fff;
         color: var(--accent-blue);
-        box-shadow: 0 8px 18px rgba(62, 109, 156, 0.14);
+        border: 1px solid rgba(100, 181, 214, 0.75);
+        box-shadow:
+            0 8px 18px rgba(62, 109, 156, 0.14),
+            0 0 0 2px rgba(100, 181, 214, 0.12);
+    }
+
+    .dashboard-tab-btn:focus,
+    .dashboard-tab-btn:focus-visible {
+        outline: none;
+        box-shadow:
+            0 0 0 2px rgba(100, 181, 214, 0.22),
+            0 8px 18px rgba(62, 109, 156, 0.14);
     }
 
     .dashboard-tab-panel { display: none; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
