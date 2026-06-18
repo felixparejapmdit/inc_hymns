@@ -15,18 +15,25 @@
 
   html, body {
     height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
   }
 
   body {
     font-family: 'Inter', sans-serif;
+    overscroll-behavior: none;
   }
 
   .login-bg-container {
-    position: relative;
+    position: fixed;
+    inset: 0;
     min-height: 100dvh !important;
-    width: 100% !important;
+    width: 100vw !important;
+    height: 100dvh !important;
     margin: 0 !important;
-    padding: 24px;
+    padding: clamp(12px, 2vw, 24px);
+    box-sizing: border-box;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -35,7 +42,7 @@
       radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.16), transparent 26%),
       radial-gradient(circle at 82% 78%, rgba(255, 255, 255, 0.10), transparent 22%),
       linear-gradient(to bottom, var(--login-blue-1) 0%, var(--login-blue-2) 60%, #4b7eab 100%) !important;
-    background-attachment: fixed !important;
+    background-attachment: scroll !important;
   }
 
   .login-bg-container::before,

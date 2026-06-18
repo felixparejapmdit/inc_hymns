@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
+    <body class="font-sans text-gray-900 antialiased" style="margin:0; width:100%; height:100%; overflow:hidden;">
         <div class="login-bg-container">
             {{ $slot }}
         </div>
