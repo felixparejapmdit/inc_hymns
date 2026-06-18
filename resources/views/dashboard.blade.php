@@ -220,6 +220,15 @@
         font-size: 0.8rem;
     }
 
+    .most-viewed-link {
+        color: #2c527b;
+        transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .most-viewed-link:hover {
+        color: #1f3d5a;
+    }
+
     .hymn-drilldown-modal {
         position: fixed;
         inset: 0;
@@ -1619,7 +1628,7 @@
                                                 <tr>
                                                     <td class="text-center font-bold text-muted">{{ $hymn->song_number }}</td>
                                                     <td>
-                                                        <a href="{{ route('musics.show', $hymn->id) }}" class="d-flex align-items-center text-blue-600 font-semibold hover:underline">
+                                                        <a href="{{ route('musics.show', $hymn->id) }}" class="d-flex align-items-center font-semibold hover:underline most-viewed-link">
                                                             <i class="fas fa-music mr-2 opacity-30"></i>
                                                             {{ $hymn->title }}
                                                         </a>
