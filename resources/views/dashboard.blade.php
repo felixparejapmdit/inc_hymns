@@ -247,9 +247,9 @@
         position: fixed;
         inset: 0;
         background:
-            radial-gradient(circle at top left, rgba(100, 181, 214, 0.16), transparent 32%),
-            radial-gradient(circle at bottom right, rgba(62, 109, 156, 0.14), transparent 28%),
-            rgba(62, 109, 156, 0.28);
+            radial-gradient(circle at top left, rgba(100, 181, 214, 0.20), transparent 32%),
+            radial-gradient(circle at bottom right, rgba(62, 109, 156, 0.18), transparent 28%),
+            rgba(15, 23, 42, 0.56);
         backdrop-filter: blur(14px);
         z-index: 2200;
         display: none;
@@ -268,8 +268,8 @@
         max-height: min(88vh, 820px);
         overflow: hidden;
         border-radius: 18px;
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: linear-gradient(to bottom, #64B5D6 0%, #3E6D9C 100%);
+        border: 1px solid rgba(255, 255, 255, 0.22);
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: column;
@@ -278,12 +278,12 @@
 
     .hymn-drilldown-header {
         padding: 1.5rem 1.6rem;
-        border-bottom: 1px solid rgba(219, 227, 238, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         gap: 1rem;
-        background: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 0.98));
+        background: transparent;
         position: relative;
         overflow: hidden;
     }
@@ -295,7 +295,7 @@
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(62, 109, 156, 0.08), transparent 68%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 68%);
         pointer-events: none;
     }
 
@@ -305,14 +305,14 @@
         font-weight: 900;
         letter-spacing: 1.6px;
         text-transform: uppercase;
-        color: var(--accent-blue);
+        color: rgba(255, 255, 255, 0.9);
     }
 
     .hymn-drilldown-title {
         margin: 0;
         font-size: 1.3rem;
         font-weight: 900;
-        color: #0f172a;
+        color: #ffffff;
     }
 
     .hymn-drilldown-close {
@@ -340,7 +340,7 @@
     .hymn-drilldown-body {
         padding: 1.35rem 1.5rem 1.45rem;
         overflow: auto;
-        background: linear-gradient(180deg, rgba(248, 250, 252, 0.7), rgba(255, 255, 255, 0.98));
+        background: transparent;
     }
 
     .hymn-drilldown-grid {
@@ -356,29 +356,26 @@
         gap: 1rem;
         width: 100%;
         padding: 1rem 1.05rem;
-        border-radius: 16px;
-        border: 1px solid rgba(226, 232, 240, 0.95);
-        background: #ffffff;
+        border-radius: 24px;
+        border: 0;
+        background: linear-gradient(180deg, rgba(102, 172, 208, 0.92) 0%, rgba(62, 109, 156, 0.94) 100%);
         text-decoration: none !important;
         transition: all 0.22s ease;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        box-shadow: none;
     }
 
     .hymn-breakdown-item:hover {
         transform: translateY(-3px);
-        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
-        border-color: rgba(62, 109, 156, 0.25);
+        box-shadow: none;
     }
 
     .hymn-breakdown-item::before {
         content: '';
         position: absolute;
         inset: 0 auto 0 0;
-        width: 4px;
-        background: var(--item-accent, #3E6D9C);
-        opacity: 0.9;
+        width: 0;
     }
 
     .hymn-breakdown-left {
@@ -399,9 +396,9 @@
         justify-content: center;
         flex-shrink: 0;
         font-size: 1rem;
-        background: var(--item-soft, rgba(62, 109, 156, 0.12));
-        color: var(--item-accent, #3E6D9C);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.62);
+        background: rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.9);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
     }
 
     .hymn-breakdown-copy {
@@ -411,7 +408,7 @@
     .hymn-breakdown-name {
         margin: 0;
         font-weight: 900;
-        color: #0f172a;
+        color: #ffffff;
         font-size: 1rem;
         line-height: 1.2;
     }
@@ -419,7 +416,7 @@
     .hymn-breakdown-hint {
         margin: 0.2rem 0 0;
         font-size: 0.76rem;
-        color: #64748b;
+        color: rgba(255, 255, 255, 0.78);
     }
 
     .hymn-breakdown-meta {
@@ -429,9 +426,9 @@
         gap: 0.35rem;
         padding: 0.52rem 0.78rem;
         border-radius: 999px;
-        background: rgba(62, 109, 156, 0.08);
-        border: 1px solid rgba(62, 109, 156, 0.12);
-        color: #1d4f7a;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #ffffff;
         font-weight: 800;
         font-size: 0.8rem;
         position: relative;
