@@ -107,7 +107,7 @@
     <div class="fb-stage" id="fb-stage">
 
         {{-- SCORE VIEW (Flipbook) --}}
-        <div id="fb-score-view" style="display:flex;width:100%;height:100%;min-width:100%;min-height:100%;align-items:center;justify-content:center;gap:12px;box-sizing:border-box;">
+        <div id="fb-score-view" style="display:flex;width:100%;height:100%;min-width:100%;min-height:100%;align-items:center;justify-content:center;gap:12px;box-sizing:border-box;position:relative;">
             <button class="fb-nav-arrow" id="fb-prev" disabled>
                 <i class="fas fa-chevron-left"></i>
             </button>
@@ -366,62 +366,75 @@
 
 /* ─── THEATER OVERLAY ──────────────────────────────────── */
 #flipbook-theater {
-    position:fixed; 
-    inset: 0; /* Full view without margins */
+    position:fixed;
+    inset: 0;
     z-index: 9999;
-    background: radial-gradient(circle at 30% 20%, #1e293b 0%, #0f172a 100%);
-    display: flex; 
-    flex-direction: column; 
+    background: radial-gradient(ellipse at 20% 10%, #1a2744 0%, #0c1628 55%, #0a0f1e 100%);
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     border-radius: 0;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 50px 100px -20px rgba(0,0,0,0.8);
-    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 60px 120px -20px rgba(0,0,0,0.95);
+    border: none;
 }
 #flipbook-theater::before {
     content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
-    background: 
-        radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 100% 100%, rgba(29,78,216,0.08) 0%, transparent 50%);
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 90%, rgba(29,78,216,0.10) 0%, transparent 45%),
+        radial-gradient(ellipse at 5% 80%, rgba(15,50,150,0.07) 0%, transparent 40%);
 }
 
 /* ─── TOP BAR ──────────────────────────────────────────── */
 .fb-top-bar {
     position:relative; z-index:10; flex-shrink:0;
     display:flex; align-items:center; justify-content:space-between; gap:16px;
-    padding:10px 24px;
-    background:rgba(15,23,42,0.95);
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:10px 22px;
+    background: rgba(10,17,36,0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.03), 0 4px 24px rgba(0,0,0,0.3);
 }
 
 /* Track pills */
 .fb-track-group { display:flex; align-items:center; gap:6px; flex-shrink:0; }
 .fb-track-pill {
-    display:flex; align-items:center; gap:8px;
-    padding:6px 14px; border-radius:0; border:1px solid rgba(255,255,255,.1);
+    display:flex; align-items:center; gap:7px;
+    padding:6px 13px; border-radius:20px; border:1px solid rgba(255,255,255,.09);
     background:rgba(255,255,255,.05); color:#94a3b8;
-    font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px;
-    cursor:pointer; transition:all .25s; white-space:nowrap;
+    font-size:.67rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px;
+    cursor:pointer; transition:all .22s cubic-bezier(0.4,0,0.2,1); white-space:nowrap;
+    position:relative; overflow:hidden;
 }
-.fb-track-pill i { font-size:.75rem; }
-.fb-track-pill:hover { background:rgba(59,130,246,.15); border-color:rgba(59,130,246,.3); color:#93c5fd; }
+.fb-track-pill::before {
+    content:''; position:absolute; inset:0; border-radius:20px;
+    background: rgba(255,255,255,0);
+    transition: background 0.22s;
+    pointer-events:none;
+}
+.fb-track-pill i { font-size:.72rem; transition:color .22s; }
+.fb-track-pill:hover:not(:disabled) { background:rgba(59,130,246,.12); border-color:rgba(59,130,246,.28); color:#93c5fd; transform:translateY(-1px); box-shadow:0 4px 12px rgba(37,99,235,.12); }
+.fb-track-pill:active:not(:disabled) { transform:translateY(0); box-shadow:none; }
 .fb-track-pill.active {
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    border-color:#3b82f6; color:#fff;
-    box-shadow:0 4px 16px rgba(37,99,235,.35);
+    background:linear-gradient(135deg,#2563eb,#1e50d9);
+    border-color:rgba(96,165,250,.45); color:#fff;
+    box-shadow:0 4px 18px rgba(37,99,235,.38), inset 0 1px 0 rgba(255,255,255,.12);
 }
 .fb-track-pill.active i { color:#bfdbfe; }
 
 /* Disabled pill state */
 .fb-pill-disabled {
-    opacity: 0.35 !important;
+    opacity: 0.32 !important;
     cursor: not-allowed !important;
     pointer-events: none;
-    border-color: rgba(255,255,255,0.05) !important;
+    border-color: rgba(255,255,255,0.04) !important;
     background: rgba(255,255,255,0.02) !important;
-    color: #475569 !important;
+    color: #3d4f6a !important;
     box-shadow: none !important;
+    transform: none !important;
 }
-.fb-pill-disabled i { color: #334155 !important; }
+.fb-pill-disabled i { color: #2d3d52 !important; }
 
 /* Title center */
 .fb-title-center { flex:1; text-align:center; min-width:0; }
@@ -433,60 +446,64 @@
 .fb-hymn-sub { font-size:.6rem; color:#475569; font-weight:600; letter-spacing:.4px; }
 
 /* Right group - Fixed alignment */
-.fb-top-right { 
-    display:flex; 
-    align-items:center; 
-    gap:10px; 
-    flex-shrink:0; 
+.fb-top-right {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-shrink:0;
 }
-.fb-vdivider { width:1px; height:24px; background:rgba(255,255,255,.08); margin:0 4px; }
+.fb-vdivider { width:1px; height:22px; background:rgba(255,255,255,.07); margin:0 2px; }
 .fb-ctrl-btn {
-    width:36px; height:36px; border-radius:10px; border:none;
-    background:rgba(255,255,255,.05); color:#94a3b8;
-    font-size:.85rem; display:flex; align-items:center; justify-content:center;
-    cursor:pointer; transition:all .2s; flex-shrink:0;
+    width:34px; height:34px; border-radius:10px; border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.04); color:#7a90ab;
+    font-size:.82rem; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all .2s cubic-bezier(0.4,0,0.2,1); flex-shrink:0;
 }
 .fb-ctrl-btn i {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.fb-ctrl-btn:hover { background:rgba(59,130,246,.18); color:#60a5fa; }
-.fb-close-btn:hover { background:rgba(239,68,68,.18); color:#f87171; }
-.fb-zoom-label { font-size:.7rem; color:#64748b; font-weight:700; min-width:38px; text-align:center; font-family:'Outfit',sans-serif; }
+.fb-ctrl-btn:hover { background:rgba(59,130,246,.16); border-color:rgba(59,130,246,.25); color:#60a5fa; transform:translateY(-1px); }
+.fb-ctrl-btn:active { transform:translateY(0); }
+.fb-close-btn:hover { background:rgba(239,68,68,.16); border-color:rgba(239,68,68,.25); color:#f87171; transform:translateY(-1px); }
+.fb-zoom-label { font-size:.68rem; color:#5a6f88; font-weight:700; min-width:36px; text-align:center; font-family:'Outfit',sans-serif; }
 
 /* View toggle - Fixed alignment */
 .fb-view-toggle, .fb-extra-ctrls {
-    display:flex; align-items:center; gap:6px;
-    background:rgba(15,23,42,0.4); padding:4px; border-radius:0;
-    border:1px solid rgba(255,255,255,0.05);
+    display:flex; align-items:center; gap:4px;
+    background:rgba(10,18,38,0.55); padding:3px; border-radius:14px;
+    border:1px solid rgba(255,255,255,0.07);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
 }
 
 /* Zoom control row */
 .fb-zoom-ctrl {
-    display:flex; align-items:center; gap:4px;
-    background:rgba(15,23,42,0.4); padding:4px; border-radius:0;
-    border:1px solid rgba(255,255,255,0.05);
+    display:flex; align-items:center; gap:3px;
+    background:rgba(10,18,38,0.55); padding:3px; border-radius:14px;
+    border:1px solid rgba(255,255,255,0.07);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
 }
-.fb-zoom-ctrl .fb-ctrl-btn { width:32px; height:32px; background:transparent; font-size:0.75rem; }
-.fb-zoom-ctrl .fb-ctrl-btn:hover { background:rgba(255,255,255,0.05); }
+.fb-zoom-ctrl .fb-ctrl-btn { width:30px; height:30px; background:transparent; border:none; font-size:0.72rem; }
+.fb-zoom-ctrl .fb-ctrl-btn:hover { background:rgba(255,255,255,0.06); border:none; transform:none; }
 
 /* Download */
 .fb-dl-wrap { position:relative; }
 .fb-dropdown {
-    display:none; position:absolute; top:calc(100% + 8px); right:0;
-    background:rgba(15,23,42,.98);
-    border:1px solid rgba(255,255,255,.12); border-radius:14px;
-    padding:6px; min-width:160px; z-index:100;
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    display:none; position:absolute; top:calc(100% + 10px); right:0;
+    background:rgba(10,18,38,0.97);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.1); border-radius:16px;
+    padding:6px; min-width:170px; z-index:100;
+    box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
 }
 .fb-dl-item {
-    display:flex; align-items:center; gap:8px;
-    padding:8px 12px; border-radius:9px; color:#94a3b8;
-    font-size:.72rem; font-weight:700; text-decoration:none; transition:all .15s;
+    display:flex; align-items:center; gap:9px;
+    padding:9px 13px; border-radius:10px; color:#94a3b8;
+    font-size:.71rem; font-weight:700; text-decoration:none; transition:all .15s;
     white-space:nowrap;
 }
-.fb-dl-item:hover { background:rgba(59,130,246,.15); color:#93c5fd; }
+.fb-dl-item:hover { background:rgba(59,130,246,.14); color:#93c5fd; }
 .fb-dl-item i { width:14px; text-align:center; color:#3b82f6; }
 
 /* ─── STAGE ─────────────────────────────────────────────── */
@@ -511,36 +528,49 @@
     min-width: 100%;
     min-height: 100%;
     flex: 0 0 auto;
-    perspective: 1400px;
-    perspective-origin: 50% 50%;
+    perspective: 1600px;
+    perspective-origin: 50% 48%;
 }
 .fb-zoom-surface {
     transform: scale(1);
     transform-origin: 50% 50%;
-    transition: transform 140ms ease-out;
+    transition: transform 150ms cubic-bezier(0.4,0,0.2,1);
     will-change: transform;
     overflow-x: hidden;
 }
 .fb-book {
     display:flex; align-items:stretch;
-    box-shadow:0 70px 140px rgba(0,0,0,.9),0 25px 60px rgba(0,0,0,.7);
-    border: 6px double #ffffff;
+    box-shadow:
+        0 80px 160px rgba(0,0,0,.95),
+        0 30px 70px rgba(0,0,0,.75),
+        0 0 0 1px rgba(255,255,255,.06),
+        0 0 0 3px rgba(0,0,0,.4);
+    border: none;
     overflow: visible;
     position: relative;
     transform-style: preserve-3d;
     box-sizing: border-box;
     max-width: 100%;
     max-height: 100%;
+    border-radius: 2px 6px 6px 2px;
+    transition: box-shadow 0.3s ease;
 }
-.fb-page { 
-    background:#fff; overflow:hidden; position:relative; flex-shrink:0; 
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.05); 
+.fb-book.is-flipping {
+    box-shadow:
+        0 100px 200px rgba(0,0,0,.98),
+        0 40px 90px rgba(0,0,0,.8),
+        0 0 0 1px rgba(255,255,255,.07),
+        0 0 0 3px rgba(0,0,0,.5);
+}
+.fb-page {
+    background:#fff; overflow:hidden; position:relative; flex-shrink:0;
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.04);
     width: var(--fb-page-width, 400px);
     height: var(--fb-page-height, 600px);
     box-sizing: border-box;
 }
-.fb-page-left  { border-radius:4px 0 0 4px; }
-.fb-page-right { border-radius:0 4px 4px 0; }
+.fb-page-left  { border-radius:3px 0 0 3px; }
+.fb-page-right { border-radius:0 5px 5px 0; }
 .fb-page-inner { width:100%; height:100%; position:relative; overflow:hidden; }
 .fb-canvas { display:block; width:100% !important; height:auto !important; max-width: 100%; }
 
@@ -551,14 +581,19 @@
     display: none !important;
 }
 .fb-book-wrap.fb-single-page .fb-page-left {
-    border-radius: 4px !important;
+    border-radius: 4px 6px 6px 4px !important;
 }
-.fb-page-num { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); font-size:.6rem; font-weight:700; color:#9ca3af; font-family:'Outfit',sans-serif; }
-.fb-page-curl { position:absolute; width:44px; height:44px; pointer-events:none; z-index:10; }
-.fb-curl-tl { top:0; left:0; background:linear-gradient(135deg,#c8cdd5 0%,rgba(255,255,255,0) 65%); border-radius:0 0 100% 0; box-shadow:3px 3px 8px rgba(0,0,0,.1); }
-.fb-curl-br { bottom:0; right:0; background:linear-gradient(315deg,#c8cdd5 0%,rgba(255,255,255,0) 65%); border-radius:100% 0 0 0; box-shadow:-3px -3px 8px rgba(0,0,0,.1); }
-.fb-spine { width:14px; flex-shrink:0; background:linear-gradient(to right,#94a3b8,#e2e8f0,#cbd5e1); display:flex; align-items:center; justify-content:center; box-shadow:inset -3px 0 6px rgba(0,0,0,.12),inset 3px 0 6px rgba(0,0,0,.06); }
-.fb-spine-line { width:2px; height:90%; background:rgba(0,0,0,.07); border-radius:2px; }
+.fb-page-num { position:absolute; bottom:9px; left:50%; transform:translateX(-50%); font-size:.58rem; font-weight:700; color:#b0b8c4; font-family:'Outfit',sans-serif; letter-spacing:.3px; }
+.fb-page-curl { position:absolute; width:40px; height:40px; pointer-events:none; z-index:10; opacity:0.7; }
+.fb-curl-tl { top:0; left:0; background:linear-gradient(135deg,#c0c6cd 0%,rgba(255,255,255,0) 60%); border-radius:0 0 100% 0; box-shadow:2px 2px 6px rgba(0,0,0,.08); }
+.fb-curl-br { bottom:0; right:0; background:linear-gradient(315deg,#c0c6cd 0%,rgba(255,255,255,0) 60%); border-radius:100% 0 0 0; box-shadow:-2px -2px 6px rgba(0,0,0,.08); }
+.fb-spine {
+    width:16px; flex-shrink:0;
+    background:linear-gradient(to right, #7a8898 0%, #b8c4d0 35%, #d4dce6 55%, #c8d0da 70%, #a0acba 100%);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:inset -4px 0 8px rgba(0,0,0,.18),inset 3px 0 6px rgba(255,255,255,.12), inset 1px 0 0 rgba(255,255,255,.2);
+}
+.fb-spine-line { width:1px; height:88%; background:rgba(0,0,0,.08); border-radius:1px; }
 
 /* ══ PAGE TURN ANIMATION ══════════════════════════════════════════ */
 
@@ -572,7 +607,8 @@
     pointer-events: none;
     z-index: 50;
     display: none;
-    will-change: transform;
+    will-change: transform, opacity, filter;
+    border-radius: 0 5px 5px 0;
 }
 
 /* Front face: the page you see while it lifts */
@@ -583,32 +619,41 @@
 }
 .fb-tp-front {
     background: #ffffff;
-    /* Left-edge shadow: deepens as the page rises, fades as it lands */
-    box-shadow: inset -8px 0 20px rgba(0,0,0,0.08);
+    box-shadow: inset -10px 0 24px rgba(0,0,0,0.06);
+    border-radius: 0 5px 5px 0;
 }
 .fb-tp-back {
-    /* Reverse page face — warm paper tone, flipped */
-    background: #f5f5f0;
+    /* Reverse page face — warm paper, subtly tinted */
+    background: linear-gradient(to right, #f0ece6 0%, #f5f3ef 100%);
     transform: rotateY(180deg);
-    box-shadow: inset 8px 0 20px rgba(0,0,0,0.06);
+    box-shadow: inset 10px 0 24px rgba(0,0,0,0.05);
+    border-radius: 0 5px 5px 0;
 }
 
 /*
- * Forward flip: right page (pivot = left/spine edge) rotates -180°.
- * Arc features a 3D lift (Z-axis) and variable lighting.
+ * Forward flip: right page pivots from left/spine edge.
+ * Natural arc with 3D lift, gradient shadow, and page curl feel.
  */
 @keyframes fb-turn-forward {
     0%   {
         transform: rotateY(0deg) translateZ(0px);
-        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        filter: brightness(1);
+    }
+    25%  {
+        transform: rotateY(-45deg) translateZ(55px);
+        filter: brightness(0.95);
     }
     50%  {
-        transform: rotateY(-90deg) translateZ(80px) scale(1.05);
-        box-shadow: -40px 20px 80px rgba(0,0,0,0.4);
+        transform: rotateY(-90deg) translateZ(90px) scale(1.02);
+        filter: brightness(0.85);
+    }
+    75%  {
+        transform: rotateY(-135deg) translateZ(55px);
+        filter: brightness(0.92);
     }
     100% {
         transform: rotateY(-180deg) translateZ(0px);
-        box-shadow: -2px 0 8px rgba(0,0,0,0.05);
+        filter: brightness(1);
     }
 }
 
@@ -616,54 +661,76 @@
 @keyframes fb-turn-backward {
     0%   {
         transform: rotateY(-180deg) translateZ(0px);
-        box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+        filter: brightness(1);
+    }
+    25%  {
+        transform: rotateY(-135deg) translateZ(55px);
+        filter: brightness(0.92);
     }
     50%  {
-        transform: rotateY(-90deg) translateZ(80px) scale(1.05);
-        box-shadow: 40px 20px 80px rgba(0,0,0,0.4);
+        transform: rotateY(-90deg) translateZ(90px) scale(1.02);
+        filter: brightness(0.85);
+    }
+    75%  {
+        transform: rotateY(-45deg) translateZ(55px);
+        filter: brightness(0.95);
     }
     100% {
         transform: rotateY(0deg) translateZ(0px);
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        filter: brightness(1);
     }
 }
 
 /* Single page (Mobile) Slide Flip */
 @keyframes fb-mobile-flip-next {
-    0% { transform: translateX(0) rotateY(0); opacity: 1; }
-    40% { transform: translateX(-20%) rotateY(-20deg) scale(0.95); opacity: 0.8; }
-    100% { transform: translateX(-100%) rotateY(-60deg); opacity: 0; }
+    0%   { transform: translateX(0) rotateY(0deg); opacity: 1; }
+    35%  { transform: translateX(-15%) rotateY(-18deg) scale(0.96); opacity: 0.85; }
+    100% { transform: translateX(-100%) rotateY(-50deg); opacity: 0; }
 }
 @keyframes fb-mobile-flip-prev {
-    0% { transform: translateX(-100%) rotateY(60deg); opacity: 0; }
-    100% { transform: translateX(0) rotateY(0); opacity: 1; }
+    0%   { transform: translateX(-100%) rotateY(50deg); opacity: 0; }
+    65%  { transform: translateX(-15%) rotateY(8deg) scale(0.97); opacity: 0.9; }
+    100% { transform: translateX(0) rotateY(0deg); opacity: 1; }
 }
 
 .fb-turning-right {
     right: 0; left: auto;
     transform-origin: left center;
-    animation: fb-turn-forward 0.75s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+    animation: fb-turn-forward 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .fb-turning-left {
     left: 0; right: auto;
     transform-origin: right center;
-    animation: fb-turn-backward 0.75s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+    animation: fb-turn-backward 0.82s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Mobile specific classes */
-.fb-mobile-anim-next { animation: fb-mobile-flip-next 0.5s ease-in forwards; }
-.fb-mobile-anim-prev { animation: fb-mobile-flip-prev 0.5s ease-out forwards; }
+.fb-mobile-anim-next { animation: fb-mobile-flip-next 0.45s cubic-bezier(0.4,0,0.8,1) forwards; }
+.fb-mobile-anim-prev { animation: fb-mobile-flip-prev 0.45s cubic-bezier(0.2,0,0.6,1) forwards; }
 
 /* Nav arrows */
 .fb-nav-arrow {
-    width:48px; height:48px; border-radius:0; flex-shrink:0; margin:0 18px;
-    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.09);
-    color:#64748b; font-size:1rem;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:56px; height:56px; border-radius:16px; flex-shrink:0; margin:0;
+    background:rgba(8,14,30,.82); border:1px solid rgba(148,163,184,.28);
+    color:#e2e8f0; font-size:1.15rem;
     display:flex; align-items:center; justify-content:center;
-    cursor:pointer; transition:all .25s;
+    cursor:pointer; transition:all .22s cubic-bezier(0.4,0,0.2,1);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 10px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.08);
+    z-index:80;
 }
-.fb-nav-arrow:hover:not(:disabled) { background:rgba(37,99,235,.25); border-color:#3b82f6; color:#60a5fa; transform:scale(1.08); box-shadow:0 0 24px rgba(37,99,235,.2); }
-.fb-nav-arrow:disabled { opacity:.2; cursor:not-allowed; }
+#fb-prev { left: 14px; }
+#fb-next { right: 14px; }
+.fb-nav-arrow:hover:not(:disabled) {
+    background:rgba(37,99,235,.32); border-color:rgba(96,165,250,.5); color:#dbeafe;
+    transform:translateY(-50%) scale(1.06);
+    box-shadow:0 6px 24px rgba(37,99,235,.22), 0 0 0 1px rgba(96,165,250,.15);
+}
+.fb-nav-arrow:active:not(:disabled) { transform:translateY(-50%) scale(1); }
+.fb-nav-arrow:disabled { opacity:.42; cursor:not-allowed; }
 
 /* Lyrics view */
 #fb-lyrics-view::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:4px; }
@@ -692,9 +759,12 @@
 /* ─── BOTTOM COMMAND CENTER ────────────────────────────── */
 .fb-command-center {
     position:relative; z-index:10; flex-shrink:0;
-    padding-bottom: 20px;
-    background:rgba(15,23,42,0.95);
-    border-top:1px solid rgba(255,255,255,0.08);
+    padding-bottom: 18px;
+    background: rgba(8,14,30,0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.03), 0 -6px 30px rgba(0,0,0,0.4);
 }
 
 /* Title Strip — centered hymn title at the top of the command center */
@@ -703,97 +773,105 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 10px 24px 6px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 9px 24px 7px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .fb-hymn-title-bottom {
     margin: 0;
     font-family: 'Playfair Display', serif;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #f1f5f9;
     text-align: center;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 60vw;
-    /* Subtle gradient shimmer */
-    background: linear-gradient(90deg, #c7d2fe, #f1f5f9, #bfdbfe);
+    max-width: 58vw;
+    background: linear-gradient(90deg, #a5b4fc, #e2e8f0, #93c5fd);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 .fb-track-status-bottom {
-    font-size: .6rem;
+    font-size: .57rem;
     font-weight: 700;
-    color: #475569;
+    color: #3d5068;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.8px;
     white-space: nowrap;
     flex-shrink: 0;
 }
 
 /* Audio Row */
 .fb-audio-row {
-    display:flex; align-items:center; gap:12px;
+    display:flex; align-items:center; gap:11px;
     padding:10px 20px 6px;
 }
 .fb-play-sphere {
-    width:42px; height:42px; border-radius:0; flex-shrink:0;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    border:none; color:#fff; font-size:1rem;
+    width:40px; height:40px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(145deg,#2d6cf0,#1a47c2);
+    border: 1px solid rgba(96,165,250,.3);
+    color:#fff; font-size:.95rem;
     display:flex; align-items:center; justify-content:center;
-    cursor:pointer; transition:all .3s;
-    box-shadow:0 8px 20px rgba(37,99,235,.35);
+    cursor:pointer; transition:all .25s cubic-bezier(0.4,0,0.2,1);
+    box-shadow:0 6px 18px rgba(37,99,235,.38), inset 0 1px 0 rgba(255,255,255,.15);
 }
-.fb-play-sphere:hover { transform:scale(1.1); box-shadow:0 12px 28px rgba(37,99,235,.45); }
-.fb-now-playing {
-    padding:6px 14px; background:rgba(255,255,255,0.05); border-radius:12px;
-    border:1px solid rgba(255,255,255,0.05); min-width:120px; text-align:center;
+.fb-play-sphere:hover {
+    transform:scale(1.1) translateY(-1px);
+    box-shadow:0 10px 28px rgba(37,99,235,.5), inset 0 1px 0 rgba(255,255,255,.15);
+    background:linear-gradient(145deg,#3b80ff,#2256d6);
 }
-.fb-timestamp { font-size:.65rem; font-weight:800; color:#475569; font-family:'Outfit',monospace; white-space:nowrap; }
+.fb-play-sphere:active { transform:scale(0.96); }
+.fb-now-playing-wrap {
+    padding:5px 12px; background:rgba(255,255,255,0.04); border-radius:20px;
+    border:1px solid rgba(255,255,255,0.06); min-width:110px; text-align:center;
+}
+.fb-timestamp { font-size:.63rem; font-weight:800; color:#3d5068; font-family:'Outfit',monospace; white-space:nowrap; }
 .fb-audio-track-wrap {
-    flex:1; position:relative; height:5px;
-    background:rgba(255,255,255,.08); border-radius:8px;
+    flex:1; position:relative; height:4px;
+    background:rgba(255,255,255,.07); border-radius:8px;
     display:flex; align-items:center; min-width:80px;
+    cursor:pointer;
 }
+.fb-audio-track-wrap:hover { height:5px; }
 .fb-audio-scrubber {
     position:absolute; width:100%; height:100%;
     -webkit-appearance:none; background:transparent; cursor:pointer; z-index:5;
 }
 .fb-audio-scrubber::-webkit-slider-thumb {
-    -webkit-appearance:none; width:14px; height:14px; border-radius:50%;
-    background:#3b82f6; border:2px solid #fff;
-    box-shadow:0 0 10px rgba(59,130,246,.5); cursor:pointer; transition:transform .2s;
+    -webkit-appearance:none; width:13px; height:13px; border-radius:50%;
+    background:#3b82f6; border:2px solid rgba(255,255,255,.9);
+    box-shadow:0 0 8px rgba(59,130,246,.5); cursor:pointer; transition:transform .18s;
 }
-.fb-audio-scrubber::-webkit-slider-thumb:hover { transform:scale(1.3); }
-.fb-audio-fill { position:absolute; height:100%; background:linear-gradient(to right,#3b82f6,#60a5fa); border-radius:8px; pointer-events:none; width:0%; }
+.fb-audio-scrubber::-webkit-slider-thumb:hover { transform:scale(1.35); }
+.fb-audio-fill { position:absolute; height:100%; background:linear-gradient(to right,#2d6cf0,#60a5fa); border-radius:8px; pointer-events:none; width:0%; }
 .fb-vol-wrap { display:flex; align-items:center; gap:6px; flex-shrink:0; }
-.fb-vol-icon { color:#475569; font-size:.7rem; }
-.fb-vol-slider { width:70px; height:3px; -webkit-appearance:none; background:rgba(255,255,255,.1); border-radius:4px; cursor:pointer; }
-.fb-vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:12px; height:12px; border-radius:50%; background:#3b82f6; cursor:pointer; }
-.fb-now-playing { display:flex; align-items:center; gap:8px; padding:4px 12px; background:rgba(255,255,255,.04); border-radius:20px; border:1px solid rgba(255,255,255,.07); flex-shrink:0; }
+.fb-vol-icon { color:#3d5068; font-size:.68rem; }
+.fb-vol-slider { width:68px; height:3px; -webkit-appearance:none; background:rgba(255,255,255,.09); border-radius:4px; cursor:pointer; }
+.fb-vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:11px; height:11px; border-radius:50%; background:#3b82f6; cursor:pointer; }
+.fb-now-playing { display:flex; align-items:center; gap:8px; padding:4px 12px; background:rgba(255,255,255,.04); border-radius:20px; border:1px solid rgba(255,255,255,.06); flex-shrink:0; }
 .fb-eq-dot {
-    width:8px; height:8px; border-radius:50%;
+    width:7px; height:7px; border-radius:50%;
     background:#3b82f6; flex-shrink:0;
     box-shadow:0 0 0 0 rgba(59,130,246,.5);
 }
 .fb-eq-dot.playing { animation:fb-eq-pulse 1.4s ease infinite; }
-@keyframes fb-eq-pulse { 0%{box-shadow:0 0 0 0 rgba(59,130,246,.5)} 70%{box-shadow:0 0 0 7px rgba(59,130,246,0)} 100%{box-shadow:0 0 0 0 rgba(59,130,246,0)} }
+@keyframes fb-eq-pulse { 0%{box-shadow:0 0 0 0 rgba(59,130,246,.5)} 70%{box-shadow:0 0 0 6px rgba(59,130,246,0)} 100%{box-shadow:0 0 0 0 rgba(59,130,246,0)} }
 
 /* Page scrubber row */
 .fb-page-row {
     display:flex; align-items:center; gap:14px;
     padding:4px 20px 10px;
 }
-.fb-page-counter,.fb-hint { font-size:.63rem; font-weight:700; color:#334155; white-space:nowrap; }
-.fb-page-counter strong { color:#64748b; }
-.fb-scrub-wrap { flex:1; position:relative; height:4px; background:rgba(255,255,255,.06); border-radius:8px; display:flex; align-items:center; }
+.fb-page-counter,.fb-hint { font-size:.61rem; font-weight:700; color:#2d3f54; white-space:nowrap; }
+.fb-page-counter strong { color:#4a6278; }
+.fb-scrub-wrap { flex:1; position:relative; height:3px; background:rgba(255,255,255,.05); border-radius:8px; display:flex; align-items:center; cursor:pointer; }
+.fb-scrub-wrap:hover { height:4px; }
 .fb-scrubber { position:absolute; width:100%; height:100%; -webkit-appearance:none; background:transparent; cursor:pointer; z-index:5; }
-.fb-scrubber::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#3b82f6; border:2px solid #0f172a; cursor:pointer; box-shadow:0 0 8px rgba(59,130,246,.4); transition:transform .2s; }
+.fb-scrubber::-webkit-slider-thumb { -webkit-appearance:none; width:13px; height:13px; border-radius:50%; background:#3b82f6; border:2px solid #0a0f1e; cursor:pointer; box-shadow:0 0 7px rgba(59,130,246,.4); transition:transform .18s; }
 .fb-scrubber::-webkit-slider-thumb:hover { transform:scale(1.3); }
-.fb-scrub-fill { position:absolute; height:100%; background:rgba(59,130,246,.5); border-radius:8px; pointer-events:none; width:0%; }
+.fb-scrub-fill { position:absolute; height:100%; background:rgba(59,130,246,.45); border-radius:8px; pointer-events:none; width:0%; }
 
 /* Responsive — icon-only pills on small screens (≤900px) */
 @media(max-width:900px){
@@ -815,26 +893,26 @@
 /* Extra-small screens */
 @media(max-width:768px){
     .fb-hymn-title { font-size:0.8rem !important; }
-    .fb-nav-arrow { 
-        width:40px; height:40px; margin:0 4px; font-size:.8rem; 
-        position: absolute; z-index: 100; background: rgba(15,23,42,0.4); border-radius: 50%;
+    .fb-nav-arrow {
+        width:42px; height:42px; font-size:.9rem;
+        background: rgba(8,14,30,0.9); border-radius: 13px;
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
-    #fb-prev { left: 10px; }
-    #fb-next { right: 10px; }
-    .fb-stage { padding: 5px !important; }
+    #fb-prev { left: 8px; }
+    #fb-next { right: 8px; }
+    .fb-stage { padding: 6px !important; }
     .fb-vol-wrap,.fb-hint { display:none; }
     .fb-now-playing { display:none; }
-    .fb-ctrl-btn { width:32px; height:32px; border-radius:8px; }
-    .fb-view-btn { width:32px; height:32px; }
-    .fb-zoom-label { min-width:30px; font-size:0.6rem; }
+    .fb-ctrl-btn { width:31px; height:31px; border-radius:9px; }
+    .fb-view-btn { width:31px; height:31px; }
+    .fb-zoom-label { min-width:28px; font-size:0.58rem; }
     #flipbook-theater { inset: 0; }
-    .fb-book { border-width: 3px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .fb-book { box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05); }
     .fb-lyrics-view { padding: 1rem !important; }
     .fb-lyrics-inner { font-size: 1rem !important; line-height: 1.8 !important; width: 100% !important; }
-    .fb-lyrics-card { border-radius: 20px; padding: 1.15rem !important; }
+    .fb-lyrics-card { border-radius: 20px; padding: 1.1rem !important; }
     .fb-lyrics-pages { gap: 1rem; }
-    .fb-lyrics-text { font-size: 0.98rem !important; line-height: 1.85 !important; }
-    .fb-stage { padding: 14px !important; }
+    .fb-lyrics-text { font-size: 0.96rem !important; line-height: 1.85 !important; }
 }
 
 /* ── LYRICS STYLE OVERRIDES ── */
@@ -990,17 +1068,17 @@
 .fb-modal-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
 
 /* Details UI */
-.fb-details-grid { display: flex; flex-direction: column; gap: 1.25rem; }
-.fb-detail-card { background: #f8fafc; padding: 1.25rem; border-radius: 0; border: 1px solid #f1f5f9; }
-.fb-detail-card.main { background: #0f172a; color: white; border: none; text-align: center; }
-.fb-detail-label { display: block; font-size: 0.65rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-.fb-detail-title { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 900; margin-bottom: 0.5rem; }
-.fb-detail-number { font-size: 0.8rem; font-weight: 800; font-family: 'Outfit', sans-serif; }
-.fb-detail-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.fb-tag { background: white; padding: 4px 10px; border-radius: 0; font-size: 0.75rem; font-weight: 700; color: #475569; }
-.fb-tag.ensemble { background: #eff6ff; color: #2563eb; }
-.fb-credits-list { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; color: #334155; }
-.fb-verse-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: #0c4a6e; line-height: 1.6; }
+.fb-details-grid { display: flex; flex-direction: column; gap: 1rem; }
+.fb-detail-card { background: #f8fafc; padding: 1.15rem 1.25rem; border-radius: 14px; border: 1px solid #eef2f7; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.fb-detail-card.main { background: linear-gradient(135deg,#0c1628,#14204a); color: white; border: none; text-align: center; border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.18); }
+.fb-detail-label { display: block; font-size: 0.63rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+.fb-detail-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; margin-bottom: 0.5rem; }
+.fb-detail-number { font-size: 0.78rem; font-weight: 800; font-family: 'Outfit', sans-serif; }
+.fb-detail-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.fb-tag { background: white; padding: 3px 10px; border-radius: 8px; font-size: 0.73rem; font-weight: 700; color: #475569; border: 1px solid #e2e8f0; }
+.fb-tag.ensemble { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+.fb-credits-list { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.84rem; color: #334155; }
+.fb-verse-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: #0c4a6e; line-height: 1.65; margin: 0; }
 .fb-creator-link {
     cursor: pointer;
     color: #2563eb;
@@ -1019,6 +1097,7 @@
     padding: 1rem;
     background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     border: 1px solid #e2e8f0;
+    border-radius: 16px;
     box-shadow: 0 10px 30px rgba(15,23,42,0.08);
     display: flex;
     flex-direction: column;
@@ -1097,21 +1176,22 @@
     align-items: center;
     justify-content: center;
     width: fit-content;
-    padding: 0.5rem 0.8rem;
+    padding: 0.5rem 0.9rem;
     margin-top: 0.15rem;
-    border-radius: 0;
+    border-radius: 10px;
     background: #e0f2fe;
     color: #0f4c81;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.7px;
     text-decoration: none;
-    transition: transform 0.2s ease, background 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 .fb-creator-profile-link:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     background: #bae6fd;
+    box-shadow: 0 4px 12px rgba(14,116,144,0.15);
 }
 .fb-creator-background {
     margin: 0;
@@ -1139,45 +1219,48 @@
 
 /* ─── LIGHT MODE OVERRIDES ────────────────────────────── */
 #flipbook-theater.fb-light-mode {
-    background: radial-gradient(circle at 30% 20%, #f1f5f9 0%, #cbd5e1 100%);
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 50px 100px -20px rgba(0,0,0,0.3);
-    border: 1px solid rgba(0,0,0,0.1);
+    background: radial-gradient(ellipse at 20% 10%, #e8eef6 0%, #d4dde8 55%, #c8d4e0 100%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 50px 100px -20px rgba(0,0,0,0.25);
 }
 #flipbook-theater.fb-light-mode::before {
-    background: 
-        radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 100% 100%, rgba(29,78,216,0.04) 0%, transparent 50%);
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 90%, rgba(29,78,216,0.04) 0%, transparent 45%);
 }
 #flipbook-theater.fb-light-mode .fb-top-bar,
 #flipbook-theater.fb-light-mode .fb-command-center {
-    background: rgba(255,255,255,0.95);
-    border-color: rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-color: rgba(0,0,0,0.07);
+    box-shadow: none;
 }
 #flipbook-theater.fb-light-mode .fb-badge {
-    color: #2563eb !important; border-color: rgba(37,99,235,0.4) !important; background: rgba(37,99,235,0.1) !important;
+    color: #2563eb !important; border-color: rgba(37,99,235,0.35) !important; background: rgba(37,99,235,0.08) !important;
 }
 #flipbook-theater.fb-light-mode .fb-track-pill {
-    background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.08); color: #475569;
+    background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.09); color: #475569;
 }
 #flipbook-theater.fb-light-mode .fb-track-pill:hover:not(:disabled) {
-    background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.15); color: #0f172a;
+    background: rgba(255,255,255,0.85); border-color: rgba(0,0,0,0.14); color: #0f172a; box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 #flipbook-theater.fb-light-mode .fb-track-pill.active {
-    background: #3b82f6; color: #ffffff; border-color: #2563eb;
+    background: linear-gradient(135deg,#2563eb,#1d4ed8); color: #ffffff; border-color: #3b82f6;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.3);
 }
 #flipbook-theater.fb-light-mode .fb-pill-disabled {
     background: rgba(0,0,0,0.02) !important; border-color: rgba(0,0,0,0.04) !important; color: #94a3b8 !important;
 }
-#flipbook-theater.fb-light-mode .fb-pill-disabled i { color: #cbd5e1 !important; }
+#flipbook-theater.fb-light-mode .fb-pill-disabled i { color: #c0ccd8 !important; }
 #flipbook-theater.fb-light-mode .fb-view-toggle,
-#flipbook-theater.fb-light-mode .fb-extra-ctrls {
-    background: rgba(241,245,249,0.5); border-color: rgba(0,0,0,0.05);
+#flipbook-theater.fb-light-mode .fb-extra-ctrls,
+#flipbook-theater.fb-light-mode .fb-zoom-ctrl {
+    background: rgba(241,245,249,0.7); border-color: rgba(0,0,0,0.07); box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
 }
 #flipbook-theater.fb-light-mode .fb-ctrl-btn {
-    background: rgba(0,0,0,0.04); border-color: transparent; color: #64748b;
+    background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.07); color: #5a6f88;
 }
-#flipbook-theater.fb-light-mode .fb-ctrl-btn:hover { background: rgba(37,99,235,0.1); color: #2563eb; }
-#flipbook-theater.fb-light-mode .fb-close-btn:hover { background: rgba(239,68,68,0.1); color: #dc2626; }
+#flipbook-theater.fb-light-mode .fb-ctrl-btn:hover { background: rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.2); color: #2563eb; transform:translateY(-1px); }
+#flipbook-theater.fb-light-mode .fb-close-btn:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); color: #dc2626; }
 #flipbook-theater.fb-light-mode .fb-title-strip { border-color: rgba(0,0,0,0.05); }
 #flipbook-theater.fb-light-mode .fb-hymn-title-bottom {
     background: linear-gradient(90deg, #1e3a8a, #0f172a, #1e40af);
@@ -1187,28 +1270,29 @@
 #flipbook-theater.fb-light-mode .fb-timestamp,
 #flipbook-theater.fb-light-mode .fb-zoom-label,
 #flipbook-theater.fb-light-mode .fb-vol-icon,
-#flipbook-theater.fb-light-mode .fb-page-counter, 
+#flipbook-theater.fb-light-mode .fb-page-counter,
 #flipbook-theater.fb-light-mode .fb-page-counter strong {
     color: #475569;
 }
 #flipbook-theater.fb-light-mode .fb-audio-track-wrap,
-#flipbook-theater.fb-light-mode .fb-scrub-wrap { background: rgba(0,0,0,0.08); }
+#flipbook-theater.fb-light-mode .fb-scrub-wrap { background: rgba(0,0,0,0.09); }
 #flipbook-theater.fb-light-mode .fb-vol-slider { background: rgba(0,0,0,0.12); }
 #flipbook-theater.fb-light-mode .fb-now-playing { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.05); }
 #flipbook-theater.fb-light-mode #fb-track-label { color: #475569 !important; }
 #flipbook-theater.fb-light-mode .fb-nav-arrow {
-    background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.1); color: #64748b; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.88); border-color: rgba(15,23,42,0.1); color: #475569;
+    box-shadow: 0 6px 18px rgba(15,23,42,0.12); backdrop-filter: none;
 }
 #flipbook-theater.fb-light-mode .fb-nav-arrow:hover:not(:disabled) {
-    background: #ffffff; color: #2563eb; border-color: rgba(37,99,235,0.3); box-shadow: 0 4px 15px rgba(37,99,235,0.15);
+    background: #ffffff; color: #2563eb; border-color: rgba(37,99,235,0.28); box-shadow: 0 8px 20px rgba(37,99,235,0.16); transform:scale(1.06) translateY(-1px);
 }
-#flipbook-theater.fb-light-mode .fb-nav-arrow:disabled { background: transparent; opacity: 0.5; color: #cbd5e1; border-color: transparent; box-shadow: none; }
+#flipbook-theater.fb-light-mode .fb-nav-arrow:disabled { background: rgba(255,255,255,0.35); opacity: 0.5; color: #cbd5e1; border-color: transparent; box-shadow: none; }
 #flipbook-theater.fb-light-mode .fb-book {
-    border-color: #cbd5e1; box-shadow: 0 40px 80px rgba(0,0,0,0.15), 0 15px 35px rgba(0,0,0,0.1);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.16), 0 12px 32px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.08);
 }
 #flipbook-theater.fb-light-mode .fb-spine {
-    background: linear-gradient(to right, #e2e8f0, #ffffff, #f1f5f9);
-    box-shadow: inset -3px 0 6px rgba(0,0,0,.08), inset 3px 0 6px rgba(0,0,0,.04);
+    background: linear-gradient(to right, #d8e0ea, #f4f7fb, #e8eef4);
+    box-shadow: inset -3px 0 6px rgba(0,0,0,.07), inset 3px 0 5px rgba(255,255,255,.5);
 }
 </style>
 
@@ -1575,6 +1659,204 @@ let lyricsLoaded = false;
 let lyricsTextCache = '';
 let zoomOrigin = { x: 50, y: 50 };
 
+function nextPaint() {
+    return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+function freezeBookLayout() {
+    if (!fbBook) return null;
+    const rect = fbBook.getBoundingClientRect();
+    const snapshot = {
+        width: fbBook.style.width,
+        height: fbBook.style.height,
+        minWidth: fbBook.style.minWidth,
+        minHeight: fbBook.style.minHeight,
+        maxWidth: fbBook.style.maxWidth,
+        maxHeight: fbBook.style.maxHeight,
+    };
+
+    fbBook.style.width = `${rect.width}px`;
+    fbBook.style.height = `${rect.height}px`;
+    fbBook.style.minWidth = `${rect.width}px`;
+    fbBook.style.minHeight = `${rect.height}px`;
+    fbBook.style.maxWidth = `${rect.width}px`;
+    fbBook.style.maxHeight = `${rect.height}px`;
+
+    return snapshot;
+}
+
+function restoreBookLayout(snapshot) {
+    if (!fbBook || !snapshot) return;
+    fbBook.style.width = snapshot.width || '';
+    fbBook.style.height = snapshot.height || '';
+    fbBook.style.minWidth = snapshot.minWidth || '';
+    fbBook.style.minHeight = snapshot.minHeight || '';
+    fbBook.style.maxWidth = snapshot.maxWidth || '';
+    fbBook.style.maxHeight = snapshot.maxHeight || '';
+}
+
+const PAGE_CACHE_LIMIT = 12;
+let renderCacheSignature = '';
+const renderedPageCache = new Map();
+const renderedPagePromises = new Map();
+let prefetchTimer = null;
+
+function cancelPagePrefetch() {
+    if (prefetchTimer === null) return;
+    if ('cancelIdleCallback' in window) {
+        cancelIdleCallback(prefetchTimer);
+    } else {
+        clearTimeout(prefetchTimer);
+    }
+    prefetchTimer = null;
+}
+
+function createRenderCanvas(width, height) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
+}
+
+function getPageCacheSignature() {
+    const docKey = fbPdfDoc?.fingerprint || scoreDoc?.fingerprint || 'no-doc';
+    const stageW = fbStage ? Math.round(fbStage.clientWidth) : 0;
+    const stageH = fbStage ? Math.round(fbStage.clientHeight) : 0;
+    const dpr = Math.round((window.devicePixelRatio || 1) * 100);
+
+    return [
+        docKey,
+        isMobileView() ? 'mobile' : 'desktop',
+        `${stageW}x${stageH}`,
+        `dpr${dpr}`,
+    ].join('|');
+}
+
+function ensurePageCacheSignature() {
+    const signature = getPageCacheSignature();
+    if (signature !== renderCacheSignature) {
+        renderCacheSignature = signature;
+        renderedPageCache.clear();
+        renderedPagePromises.clear();
+    }
+    return signature;
+}
+
+function trimPageCache() {
+    while (renderedPageCache.size > PAGE_CACHE_LIMIT) {
+        const oldestKey = renderedPageCache.keys().next().value;
+        renderedPageCache.delete(oldestKey);
+    }
+}
+
+function getPrefetchPages(centerSpread) {
+    return [
+        centerSpread - 2,
+        centerSpread - 1,
+        centerSpread + 1,
+        centerSpread + 2,
+        centerSpread + 3,
+    ].filter(pageNum => pageNum >= 1 && pageNum <= fbTotal);
+}
+
+function schedulePagePrefetch(centerSpread) {
+    if (!fbPdfDoc) return;
+    cancelPagePrefetch();
+    const runPrefetch = () => {
+        prefetchTimer = null;
+        getPrefetchPages(centerSpread).forEach(pageNum => {
+            const key = `${ensurePageCacheSignature()}|p:${pageNum}`;
+            if (renderedPageCache.has(key) || renderedPagePromises.has(key)) return;
+            getRenderedPage(pageNum, { updateLayout: false }).catch(() => {});
+        });
+    };
+
+    if ('requestIdleCallback' in window) {
+        prefetchTimer = requestIdleCallback(runPrefetch, { timeout: 300 });
+    } else {
+        prefetchTimer = setTimeout(runPrefetch, 80);
+    }
+}
+
+function getRenderedPage(pageNum, options = {}) {
+    const updateLayout = options.updateLayout !== false;
+    if (!fbPdfDoc || pageNum < 1 || pageNum > fbTotal) {
+        return Promise.resolve(null);
+    }
+
+    const signature = ensurePageCacheSignature();
+    const key = `${signature}|p:${pageNum}`;
+
+    if (renderedPageCache.has(key)) {
+        return Promise.resolve(renderedPageCache.get(key));
+    }
+
+    if (renderedPagePromises.has(key)) {
+        return renderedPagePromises.get(key);
+    }
+
+    const promise = fbPdfDoc.getPage(pageNum).then(page => {
+        const isMobile = isMobileView();
+        const dpr = window.devicePixelRatio || 1;
+        const buffer = isMobile ? 40 : 120;
+
+        const availableW = isMobile
+            ? (fbStage.clientWidth - buffer)
+            : (fbStage.clientWidth / 2) - (buffer / 2) - 30;
+        const availableH = fbStage.clientHeight - (isMobile ? 20 : 80);
+        const native = page.getViewport({ scale: 1 });
+        const scale = Math.min(availableW / native.width, availableH / native.height);
+
+        if (updateLayout) {
+            document.documentElement.style.setProperty('--fb-page-width', (native.width * scale) + 'px');
+            document.documentElement.style.setProperty('--fb-page-height', (native.height * scale) + 'px');
+        }
+
+        const vp = page.getViewport({ scale: scale * dpr });
+        const bufferCanvas = createRenderCanvas(vp.width, vp.height);
+        const ctx = bufferCanvas.getContext('2d');
+
+        return page.render({
+            canvasContext: ctx,
+            viewport: vp
+        }).promise.then(() => {
+            const raster = {
+                canvas: bufferCanvas,
+                width: vp.width,
+                height: vp.height,
+                cssWidth: `${native.width * scale}px`,
+                cssHeight: `${native.height * scale}px`,
+            };
+
+            if (renderCacheSignature === signature) {
+                renderedPageCache.set(key, raster);
+                trimPageCache();
+            }
+
+            return raster;
+        });
+    }).finally(() => {
+        renderedPagePromises.delete(key);
+    });
+
+    renderedPagePromises.set(key, promise);
+    return promise;
+}
+
+function paintRenderedPage(raster, canvas, numEl, pageNum) {
+    if (!raster) return Promise.resolve();
+    canvas.width = raster.width;
+    canvas.height = raster.height;
+    canvas.style.width = raster.cssWidth;
+    canvas.style.height = raster.cssHeight;
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(raster.canvas, 0, 0);
+    numEl.textContent = pageNum;
+    return Promise.resolve();
+}
+
 /* ── Launch Button (inject into existing floating group) ── */
 const floatingGroup = document.querySelector('.floating-action-group');
 if (floatingGroup) {
@@ -1640,14 +1922,11 @@ function openTheater() {
 closeBtn.addEventListener('click', () => {
     theater.style.display = 'none';
     document.body.style.overflow = '';
-    // Pause audio but keep src & state so reopening is instant
-    audio.pause();
-    const dots = document.querySelectorAll('.fb-eq-bar');
-    dots.forEach(d => d.classList.remove('animating'));
-    playIcon.className = 'fas fa-play';
-    // NOTE: we do NOT reset fbPdfDoc, scoreDoc, lyricsDoc, or lyricsLoaded here.
-    // These are preserved in memory so reopening re-renders instantly from cache.
+    cancelPagePrefetch();
+    audio.pause(); // fires 'pause' → updatePlayUI(false) handles icon + EQ
     if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+    // NOTE: fbPdfDoc, scoreDoc, lyricsDoc, lyricsLoaded intentionally preserved
+    // for instant re-render on reopen without any network call.
 });
 
 /* ── FULLSCREEN ────────────────────────────────────────────────── */
@@ -1754,29 +2033,39 @@ function loadTrack(src, label) {
     audio.src = src;
     audio.load();
 
-    const bars = document.querySelectorAll('.fb-eq-bar');
+    /* Reset playback UI immediately on track switch */
+    updatePlayUI(false);
     const visualizer = document.getElementById('fb-eq-visualizer');
-    if (visualizer) visualizer.classList.add('show');
-    bars.forEach(b => b.classList.add('animating'));
-
-    const trackStatus = document.getElementById('fb-track-status');
-    if (trackStatus) trackStatus.textContent = label || 'Playing';
-    
-    trackLabel.textContent = label || 'Playing';
+    if (visualizer) visualizer.classList.remove('show');
     audioScrub.value = 0;
     audioFill.style.width = '0%';
+    curTime.textContent = '0:00';
+    durTime.textContent = '0:00';
+
+    const trackLoadStatus = document.getElementById('fb-track-status');
+    if (trackLoadStatus) trackLoadStatus.textContent = label || 'Loading...';
+    if (trackLabel) trackLabel.textContent = label || 'Loading...';
 }
 
 function updatePlayUI(isPlaying) {
+    if (!playIcon) return;
     playIcon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
     const bars = document.querySelectorAll('.fb-eq-bar');
     const visualizer = document.getElementById('fb-eq-visualizer');
-    
+    const trackStatus = document.getElementById('fb-track-status');
+
     if (isPlaying) {
         if (visualizer) visualizer.classList.add('show');
         bars.forEach(b => b.classList.add('animating'));
+        if (trackStatus && (trackStatus.textContent === 'Ready' || trackStatus.textContent === 'Paused')) {
+            trackStatus.textContent = 'Playing';
+        }
     } else {
+        if (visualizer) visualizer.classList.remove('show');
         bars.forEach(b => b.classList.remove('animating'));
+        if (trackStatus && trackStatus.textContent === 'Playing') {
+            trackStatus.textContent = 'Paused';
+        }
     }
 }
 
@@ -1786,12 +2075,15 @@ window.loadTheaterTrack = loadTrack;
 playBtn.addEventListener('click', () => {
     if (audio.paused) {
         audio.play().catch(()=>{});
-        updatePlayUI(true);
     } else {
         audio.pause();
-        updatePlayUI(false);
     }
 });
+
+/* Single source of truth: audio element events drive the icon */
+audio.addEventListener('play',  () => updatePlayUI(true));
+audio.addEventListener('pause', () => updatePlayUI(false));
+audio.addEventListener('ended', () => updatePlayUI(false));
 
 audio.addEventListener('timeupdate', () => {
     if (!audio.duration) return;
@@ -1805,10 +2097,6 @@ audio.addEventListener('timeupdate', () => {
 audio.addEventListener('loadedmetadata', () => {
     durTime.textContent = fmt(audio.duration);
     syncLyricsHighlight(audio.currentTime || 0, true);
-});
-
-audio.addEventListener('ended', () => {
-    updatePlayUI(false);
 });
 
 audio.addEventListener('seeked', () => {
@@ -1981,6 +2269,7 @@ function renderSpread(leftNum, animate) {
     if (!isMobile) {
         renderPage(fbSpread + 1, canvasR, numR);
     }
+    schedulePagePrefetch(fbSpread);
     if (animate !== false && !isMobile) flipAnim(fbSpread);
 }
 
@@ -1988,7 +2277,7 @@ let _lastSpread = 1;
 let _isAnimating = false;
 
 
-function flipAnim(targetSpread, onDone) {
+async function flipAnim(targetSpread, onDone) {
     const turningPage = document.getElementById('fb-turning-page');
     const turnFront   = document.getElementById('fb-canvas-turn-front');
     const turnBack    = document.getElementById('fb-canvas-turn-back');
@@ -2006,6 +2295,7 @@ function flipAnim(targetSpread, onDone) {
         const book = document.getElementById('fb-book');
         book.classList.add(goingForward ? 'fb-mobile-anim-next' : 'fb-mobile-anim-prev');
         setTimeout(() => {
+            schedulePagePrefetch(targetSpread);
             if (onDone) onDone();
             book.classList.remove('fb-mobile-anim-next', 'fb-mobile-anim-prev');
             _isAnimating = false;
@@ -2018,86 +2308,86 @@ function flipAnim(targetSpread, onDone) {
     const goingForward = targetSpread > _lastSpread;
     const oldSpread = _lastSpread;
     _lastSpread = targetSpread;
+    const layoutSnapshot = freezeBookLayout();
 
-    // 1. Prepare Content for the "Turning" Leaf
-    if (goingForward) {
-        // Turning from (old) to (target)
-        // Static Left remains 'old' until mid-flip
-        // Front of leaf = old right (page old+1)
-        // Back of leaf  = target left (page target)
-        renderPage(oldSpread + 1, turnFront, { textContent:'' });
-        renderPage(targetSpread,  turnBack,  { textContent:'' });
-        // Underneath, pre-render the target right
-        renderPage(targetSpread + 1, canvasR, numR);
-    } else {
-        // Turning back
-        // Front of leaf = old left (page old)
-        // Back of leaf  = target right (page target+1)
-        renderPage(oldSpread,     turnFront, { textContent:'' });
-        renderPage(targetSpread + 1, turnBack, { textContent:'' });
-        // Underneath, pre-render target left
-        renderPage(targetSpread, canvasL, numL);
-    }
+    try {
+        // 1. Prepare Content for the "Turning" Leaf before the animation starts
+        if (goingForward) {
+            // Turning from (old) to (target)
+            // Static Left remains 'old' until mid-flip
+            // Front of leaf = old right (page old+1)
+            // Back of leaf  = target left (page target)
+            await Promise.all([
+                renderPage(oldSpread + 1, turnFront, { textContent:'' }, { updateLayout: false }),
+                renderPage(targetSpread,  turnBack,  { textContent:'' }, { updateLayout: false }),
+                renderPage(targetSpread + 1, canvasR, numR, { updateLayout: false }),
+            ]);
+        } else {
+            // Turning back
+            // Front of leaf = old left (page old)
+            // Back of leaf  = target right (page target+1)
+            await Promise.all([
+                renderPage(oldSpread,     turnFront, { textContent:'' }, { updateLayout: false }),
+                renderPage(targetSpread + 1, turnBack, { textContent:'' }, { updateLayout: false }),
+                renderPage(targetSpread, canvasL, numL, { updateLayout: false }),
+            ]);
+        }
 
-    // 2. Execute Animation
-    turningPage.style.display = 'block';
-    turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
-    void turningPage.offsetWidth; 
-    turningPage.classList.add(goingForward ? 'fb-turning-right' : 'fb-turning-left');
+        await nextPaint();
 
-    const cleanup = () => {
+        // 2. Execute Animation
+        const fbBookEl = document.getElementById('fb-book');
+        if (fbBookEl) fbBookEl.classList.add('is-flipping');
+
+        turningPage.style.display = 'block';
+        turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+        void turningPage.offsetWidth;
+        turningPage.classList.add(goingForward ? 'fb-turning-right' : 'fb-turning-left');
+
+        const cleanup = () => {
+            turningPage.style.display = 'none';
+            turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+            if (fbBookEl) fbBookEl.classList.remove('is-flipping');
+            restoreBookLayout(layoutSnapshot);
+
+            // Finalize the static spread after the flip has fully completed.
+            renderPage(targetSpread,     canvasL, numL);
+            renderPage(targetSpread + 1, canvasR, numR);
+            schedulePagePrefetch(targetSpread);
+
+            _isAnimating = false;
+            if (onDone) onDone();
+        };
+
+        turningPage.addEventListener('animationend', cleanup, { once: true });
+    } catch (error) {
+        restoreBookLayout(layoutSnapshot);
         turningPage.style.display = 'none';
         turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
-        
-        // Finalize static pages
-        renderPage(targetSpread,     canvasL, numL);
-        renderPage(targetSpread + 1, canvasR, numR);
-        
+        const fbBookEl = document.getElementById('fb-book');
+        if (fbBookEl) fbBookEl.classList.remove('is-flipping');
         _isAnimating = false;
         if (onDone) onDone();
-    };
-
-    turningPage.addEventListener('animationend', cleanup, { once: true });
+    }
 }
 
-function renderPage(pageNum, canvas, numEl) {
+function renderPage(pageNum, canvas, numEl, options = {}) {
     if (!fbPdfDoc || pageNum < 1 || pageNum > fbTotal) {
         const ctx = canvas.getContext('2d');
         canvas.width = canvas.width || 420; canvas.height = canvas.height || 590;
         const isLight = theater.classList.contains('fb-light-mode');
         ctx.fillStyle = isLight ? '#f8fafc' : '#0f172a';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        numEl.textContent = ''; return;
+        numEl.textContent = '';
+        return Promise.resolve();
     }
-    fbPdfDoc.getPage(pageNum).then(page => {
-        const isMobile = isMobileView();
-        const dpr = window.devicePixelRatio || 1;
-        // Total internal buffer to safely clear Borders + Stage padding + Spacing
-        const buffer = isMobile ? 40 : 120;
-        
-        // Calculate the maximum actual available area in the flex stage
-        const availableW = isMobile ? (fbStage.clientWidth - buffer) : (fbStage.clientWidth / 2) - (buffer / 2) - 30;
-        const availableH = fbStage.clientHeight - (isMobile ? 20 : 80);
-        
-        const native = page.getViewport({ scale: 1 });
-        
-        // Strict containment logic: fit to both width AND height
-        let scale = Math.min(availableW / native.width, availableH / native.height);
-        
-        // Update CSS variables so the .fb-page / .fb-book hierarchy matches the canvas exactly
-        document.documentElement.style.setProperty('--fb-page-width', (native.width * scale) + 'px');
-        document.documentElement.style.setProperty('--fb-page-height', (native.height * scale) + 'px');
-        
-        const vp = page.getViewport({ scale: scale * dpr });
-        canvas.width = vp.width; canvas.height = vp.height;
-        canvas.style.width = (native.width * scale) + "px";
-        canvas.style.height = (native.height * scale) + "px";
-
-        page.render({ 
-            canvasContext: canvas.getContext('2d'), 
-            viewport: vp 
-        });
-        numEl.textContent = pageNum;
+    return getRenderedPage(pageNum, options).then(raster => {
+        if (!raster) return null;
+        if (options.updateLayout !== false) {
+            document.documentElement.style.setProperty('--fb-page-width', raster.cssWidth);
+            document.documentElement.style.setProperty('--fb-page-height', raster.cssHeight);
+        }
+        return paintRenderedPage(raster, canvas, numEl, pageNum);
     });
 }
 

@@ -49,38 +49,17 @@
 
     <body class="font-sans antialiased">
         @auth
-            <form id="idle-logout-form" method="POST" action="{{ route('logout') }}" class="hidden">
-                @csrf
-            </form>
             <script>
                 (function () {
                     const idleTimeoutMs = 60 * 60 * 1000;
-                    const logoutUrl = @json(route('logout'));
-                    const loginUrl = @json(route('login'));
-                    const form = document.getElementById('idle-logout-form');
+                    const loginUrl = @json(url('/login'));
                     let idleTimer = null;
                     let hasLoggedOut = false;
 
                     function performLogout() {
                         if (hasLoggedOut) return;
                         hasLoggedOut = true;
-
-                        if (form) {
-                            form.submit();
-                            return;
-                        }
-
-                        fetch(logoutUrl, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Accept': 'application/json',
-                            },
-                            credentials: 'same-origin',
-                        }).finally(() => {
-                            window.location.href = loginUrl;
-                        });
+                        window.location.replace(loginUrl);
                     }
 
                     function resetTimer() {
