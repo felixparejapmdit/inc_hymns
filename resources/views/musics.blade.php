@@ -23,6 +23,47 @@
         padding: 2px 0;
     }
 
+    .music-page-shell {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
+    .music-library-title {
+        font-size: clamp(2.1rem, 3.4vw, 3.8rem);
+        font-weight: 950;
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+        color: #ffffff;
+        text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.25),
+            0 10px 24px rgba(15, 47, 95, 0.18);
+    }
+
+    .music-title-row {
+        gap: 1rem;
+    }
+
+    .music-headline-actions {
+        flex-shrink: 0;
+    }
+
+    .music-sort-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        white-space: nowrap;
+        line-height: 1;
+    }
+
+    .music-sort-label .sort-icon {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.82rem;
+        line-height: 1;
+        opacity: 0.38;
+    }
+
     .dashboard-card {
         background: var(--card-bg);
         border-radius: 24px;
@@ -531,31 +572,16 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container-fluid px-5 px-xl-5" style="max-width: 90%; margin: 0 auto;">
+        <div class="container-fluid px-5 px-xl-5 music-page-shell">
             @php
                 $showActionsColumn = \App\Helpers\AccessRightsHelper::checkPermission('musics.action') == 'inline';
             @endphp
             
             <!-- Page Header (Premium Single-Row Layout) -->
             <div class="mb-4 pt-3">
-                <div class="d-flex align-items-center flex-wrap gap-3">
+                <div class="d-flex align-items-center flex-wrap music-title-row">
                     <div class="d-flex align-items-center">
-                        <h1
-                            class="mb-0 uppercase"
-                            style="
-                                font-size: clamp(2.1rem, 3.4vw, 3.8rem);
-                                font-weight: 950;
-                                line-height: 0.96;
-                                letter-spacing: -0.06em;
-                                background: linear-gradient(135deg, #0f2f5f 0%, #235182 48%, #4f86b8 100%);
-                                -webkit-background-clip: text;
-                                background-clip: text;
-                                color: transparent;
-                                text-shadow:
-                                    0 1px 0 rgba(255,255,255,0.55),
-                                    0 10px 24px rgba(15, 47, 95, 0.12);
-                            "
-                        >
+                        <h1 class="mb-0 uppercase music-library-title">
                             Hymn Library
                         </h1>
                         
@@ -567,7 +593,7 @@
                         @endif
                     </div>
 
-                    <button id="showCategoriesBtn" class="btn btn-white rounded-circle shadow-sm border p-0 d-flex align-items-center justify-content-center hover-scale transition-all" title="Browse Categories" style="width: 45px; height: 45px; border-color: #e2e8f0 !important;">
+                    <button id="showCategoriesBtn" class="btn btn-white rounded-circle shadow-sm border p-0 d-flex align-items-center justify-content-center hover-scale transition-all music-headline-actions" title="Browse Categories" style="width: 45px; height: 45px; border-color: #e2e8f0 !important;">
                         <i class="fas fa-tags text-blue-500" style="font-size: 1.1rem;"></i>
                     </button>
                 </div>
@@ -677,8 +703,18 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 80px;">#</th>
-                                <th class="text-center" style="width: 100px;" onclick="sortTable(1)">Hymn # <i class="fas fa-sort ml-1 opacity-30"></i></th>
-                                <th onclick="sortTable(2)">Title <i class="fas fa-sort ml-1 opacity-30"></i></th>
+                                <th class="text-center" style="width: 100px;" onclick="sortTable(1)">
+                                    <span class="music-sort-label" style="justify-content:center;">
+                                        <span>Hymn #</span>
+                                        <i class="fas fa-sort sort-icon"></i>
+                                    </span>
+                                </th>
+                                <th onclick="sortTable(2)">
+                                    <span class="music-sort-label" style="justify-content:flex-start;">
+                                        <span>Title</span>
+                                        <i class="fas fa-sort sort-icon"></i>
+                                    </span>
+                                </th>
                                 <th>Category</th>
                                 <th class="text-center">Language</th>
                                 @if ($showActionsColumn)

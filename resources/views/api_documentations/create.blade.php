@@ -103,7 +103,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container">
+        <div class="container-fluid px-5 px-xl-5 page-shell">
             <h1 class="page-title text-5xl">New API Endpoint</h1>
 
             <div class="form-card">

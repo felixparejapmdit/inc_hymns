@@ -22,6 +22,11 @@
         padding: 2px 0;
     }
 
+    .settings-page-shell {
+        max-width: 90%;
+        margin: 0 auto;
+    }
+
     .section-title {
         color: white;
         text-transform: uppercase;
@@ -151,7 +156,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container" style="max-width: 1400px;">
+        <div class="container-fluid px-5 px-xl-5 settings-page-shell">
             <div class="text-center mb-3 mt-2">
                 <h1 class="font-black text-4xl text-white tracking-tighter uppercase mb-1">Admin Settings</h1>
                 <p class="text-white opacity-70 font-bold uppercase tracking-widest small">Manage your hymns system configuration</p>

@@ -31,7 +31,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container" style="max-width: 900px;">
+        <div class="container-fluid px-5 px-xl-5 page-shell">
             <div class="text-center mb-4">
                 <h1 class="font-black text-4xl text-white tracking-tighter uppercase mb-2">My Profile</h1>
                 <p class="text-white opacity-75 font-bold uppercase tracking-widest small">Manage your account settings and security</p>

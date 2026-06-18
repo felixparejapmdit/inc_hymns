@@ -199,7 +199,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container" style="max-width: 1200px;">
+        <div class="container-fluid px-5 px-xl-5 page-shell">
             <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
                 <div>
                     <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">API Documentation</h1>

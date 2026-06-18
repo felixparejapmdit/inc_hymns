@@ -210,7 +210,7 @@
 </style>
 
 <x-app-layout>
-    <div class="container py-5">
+    <div class="container-fluid px-5 px-xl-5 page-shell py-5">
         <div class="profile-card">
             @php
                 $backUrl = url()->previous();

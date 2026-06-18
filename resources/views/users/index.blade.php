@@ -330,7 +330,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container" style="max-width: 1200px;">
+        <div class="container-fluid px-5 px-xl-5 page-shell">
             @php
                 $isGroupView = isset($group);
                 $headerTitle = $isGroupView ? "{$group->name} Members" : 'User Directory';

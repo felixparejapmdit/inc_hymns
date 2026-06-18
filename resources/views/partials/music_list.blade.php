@@ -4,9 +4,18 @@
         display: flex;
         justify-content: center;
     }
+
+    .music-sort-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        white-space: nowrap;
+        line-height: 1;
+    }
 </style>
 
-<div class="container text-center">
+<div class="container-fluid px-0 text-center">
             {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
         </div>
         
@@ -14,10 +23,16 @@
     <thead>
         <tr>
             <th style="width: 18% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-center text-s font-large text-white uppercase tracking-wider" onclick="sortTable(2)">
-                Hymn # <i id="hymnSortIcon" class="fas fa-sort"></i>
+                <span class="music-sort-label">
+                    <span>Hymn #</span>
+                    <i id="hymnSortIcon" class="fas fa-sort"></i>
+                </span>
             </th>
             <th style="width: 35% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider" onclick="sortTable(1)">
-                Title <i id="titleSortIcon" class="fas fa-sort"></i>
+                <span class="music-sort-label" style="justify-content:flex-start;">
+                    <span>Title</span>
+                    <i id="titleSortIcon" class="fas fa-sort"></i>
+                </span>
             </th>
             <th style="width: 25% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Category</th>
             <th style="width: 15% !important; white-space: normal;" scope="col" class="px-4 py-2 bg-gray-50 text-left text-s font-large text-white uppercase tracking-wider">Language</th>

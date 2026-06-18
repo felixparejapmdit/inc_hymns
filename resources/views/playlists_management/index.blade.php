@@ -466,7 +466,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container" style="max-width: 1000px;">
+        <div class="container-fluid px-5 px-xl-5 page-shell">
             @php
                 $playlistSearch = request('search');
             @endphp

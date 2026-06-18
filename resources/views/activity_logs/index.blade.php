@@ -267,7 +267,7 @@
 
 <x-app-layout>
     <div class="glass-container">
-        <div class="container-fluid" style="padding: 0 40px; max-width: 1600px;">
+        <div class="container-fluid px-5 px-xl-5 page-shell">
             <div class="page-header-shell">
                 <div>
                     <div class="page-kicker">
