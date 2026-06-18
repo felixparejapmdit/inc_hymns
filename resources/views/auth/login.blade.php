@@ -126,7 +126,7 @@
     left: 0;
     right: 0;
     height: 6px;
-    background: linear-gradient(90deg, var(--login-blue-1), var(--login-blue-2), #567fb3);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.95));
   }
 
   .center-glass-card::after {
