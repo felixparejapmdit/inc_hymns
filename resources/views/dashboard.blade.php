@@ -163,7 +163,7 @@
     .dashboard-tab-btn {
         border: none;
         background: transparent;
-        color: rgba(15, 23, 42, 0.72);
+        color: rgba(255, 255, 255, 0.95);
         padding: 0.8rem 1.2rem;
         border-radius: 999px;
         font-weight: 800;

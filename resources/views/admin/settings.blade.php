@@ -4,6 +4,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
+
     :root {
         --primary-gradient: linear-gradient(to bottom, #64B5D6 0%, #3E6D9C 100%);
         --card-bg: rgba(255, 255, 255, 0.9);
@@ -16,6 +18,33 @@
         background-attachment: fixed !important;
         min-height: 100vh;
         font-family: 'Outfit', sans-serif;
+    }
+
+    .settings-hero {
+        margin-bottom: 1.3rem;
+    }
+
+    .settings-hero-title {
+        margin: 0 0 0.35rem;
+        color: #ffffff;
+        font-family: 'Manrope', 'Outfit', sans-serif;
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        line-height: 1.05;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    .settings-hero-subtitle {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.84);
+        font-family: 'Manrope', 'Outfit', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        line-height: 1.5;
     }
 
     .glass-container {
@@ -157,9 +186,9 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 settings-page-shell">
-            <div class="text-center mb-3 mt-2">
-                <h1 class="font-black text-4xl text-white tracking-tighter uppercase mb-1">Admin Settings</h1>
-                <p class="text-white opacity-70 font-bold uppercase tracking-widest small">Manage your hymns system configuration</p>
+            <div class="text-center mt-2 settings-hero">
+                <h1 class="settings-hero-title">Admin Settings</h1>
+                <p class="settings-hero-subtitle">Manage your hymns system configuration</p>
             </div>
 
             <div class="search-wrapper">
