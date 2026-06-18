@@ -439,7 +439,7 @@
 /* Title center */
 .fb-title-center { flex:1; text-align:center; min-width:0; }
 .fb-hymn-title {
-    font-family:'Playfair Display',serif;
+    font-family:'Outfit',sans-serif;
     font-size:1rem; font-weight:800; color:#f1f5f9; margin:0; line-height:1.2;
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
@@ -778,7 +778,7 @@
 }
 .fb-hymn-title-bottom {
     margin: 0;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 1rem;
     font-weight: 800;
     color: #f1f5f9;
@@ -788,10 +788,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 58vw;
-    background: linear-gradient(90deg, #a5b4fc, #e2e8f0, #93c5fd);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 .fb-track-status-bottom {
     font-size: .57rem;
@@ -1263,8 +1259,11 @@
 #flipbook-theater.fb-light-mode .fb-close-btn:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); color: #dc2626; }
 #flipbook-theater.fb-light-mode .fb-title-strip { border-color: rgba(0,0,0,0.05); }
 #flipbook-theater.fb-light-mode .fb-hymn-title-bottom {
-    background: linear-gradient(90deg, #1e3a8a, #0f172a, #1e40af);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+    color: #0f172a;
 }
 #flipbook-theater.fb-light-mode .fb-track-status-bottom,
 #flipbook-theater.fb-light-mode .fb-timestamp,

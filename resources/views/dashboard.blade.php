@@ -229,6 +229,20 @@
         color: #1f3d5a;
     }
 
+    .most-viewed-song-number {
+        color: #1f2937;
+        font-weight: 700;
+    }
+
+    .activity-user-name {
+        color: #64748b;
+        font-weight: 700;
+    }
+
+    .activity-user-name:hover {
+        color: #334155;
+    }
+
     .hymn-drilldown-modal {
         position: fixed;
         inset: 0;
@@ -1632,7 +1646,7 @@
                                         <tbody class="ajax-content">
                                             @foreach($mostViewedHymns as $hymn)
                                                 <tr>
-                                                    <td class="text-center font-bold text-muted">{{ $hymn->song_number }}</td>
+                                                    <td class="text-center most-viewed-song-number">{{ $hymn->song_number }}</td>
                                                     <td>
                                                         <a href="{{ route('musics.show', $hymn->id) }}" class="d-flex align-items-center font-semibold hover:underline most-viewed-link">
                                                             <i class="fas fa-music mr-2 opacity-30"></i>
@@ -1681,7 +1695,7 @@
                                                     };
                                                 @endphp
                                                 <tr>
-                                                    <td class="font-semibold text-dark">{{ optional($activity->user)->name }}</td>
+                                                    <td class="activity-user-name">{{ optional($activity->user)->name }}</td>
                                                     <td><span class="badge-custom {{ $badgeClass }}">{{ $activity->action }}</span></td>
                                                     <td class="small text-muted text-right">{{ $activity->created_at->diffForHumans() }}</td>
                                                 </tr>
