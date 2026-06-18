@@ -210,8 +210,11 @@
     .hymn-drilldown-modal {
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.62);
-        backdrop-filter: blur(10px);
+        background:
+            radial-gradient(circle at top left, rgba(100, 181, 214, 0.22), transparent 32%),
+            radial-gradient(circle at bottom right, rgba(62, 109, 156, 0.20), transparent 28%),
+            rgba(15, 23, 42, 0.62);
+        backdrop-filter: blur(14px);
         z-index: 2200;
         display: none;
         align-items: center;
@@ -225,25 +228,39 @@
     }
 
     .hymn-drilldown-panel {
-        width: min(860px, 100%);
-        max-height: min(86vh, 780px);
+        width: min(920px, 100%);
+        max-height: min(88vh, 820px);
         overflow: hidden;
-        border-radius: 28px;
-        background: rgba(255, 255, 255, 0.96);
-        border: 1px solid rgba(255, 255, 255, 0.55);
-        box-shadow: 0 35px 90px rgba(15, 23, 42, 0.3);
+        border-radius: 32px;
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(255, 255, 255, 0.68);
+        box-shadow: 0 40px 110px rgba(15, 23, 42, 0.34);
         display: flex;
         flex-direction: column;
+        transform: translateY(0);
     }
 
     .hymn-drilldown-header {
-        padding: 1.4rem 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
+        padding: 1.5rem 1.6rem;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.9);
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         gap: 1rem;
-        background: linear-gradient(180deg, rgba(248,250,252,0.96), rgba(255,255,255,0.96));
+        background: linear-gradient(135deg, rgba(100, 181, 214, 0.16), rgba(255, 255, 255, 0.98));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hymn-drilldown-header::after {
+        content: '';
+        position: absolute;
+        inset: auto -10% -52% auto;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(62, 109, 156, 0.12), transparent 68%);
+        pointer-events: none;
     }
 
     .hymn-drilldown-kicker {
@@ -257,39 +274,43 @@
 
     .hymn-drilldown-title {
         margin: 0;
-        font-size: 1.25rem;
+        font-size: 1.3rem;
         font-weight: 900;
         color: #0f172a;
     }
 
     .hymn-drilldown-close {
         border: none;
-        background: #e2e8f0;
+        background: rgba(255, 255, 255, 0.88);
         color: #334155;
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         border-radius: 999px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
         transition: all 0.2s ease;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        position: relative;
+        z-index: 1;
     }
 
     .hymn-drilldown-close:hover {
-        background: #cbd5e1;
-        transform: scale(1.04);
+        background: #fff;
+        transform: translateY(-1px) scale(1.04);
     }
 
     .hymn-drilldown-body {
-        padding: 1.25rem 1.5rem 1.5rem;
+        padding: 1.35rem 1.5rem 1.45rem;
         overflow: auto;
+        background: linear-gradient(180deg, rgba(248, 250, 252, 0.7), rgba(255, 255, 255, 0.98));
     }
 
     .hymn-drilldown-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.9rem;
+        gap: 1rem;
     }
 
     .hymn-breakdown-item {
@@ -298,18 +319,30 @@
         justify-content: space-between;
         gap: 1rem;
         width: 100%;
-        padding: 1rem 1rem 1rem 1rem;
-        border-radius: 18px;
-        border: 1px solid rgba(226, 232, 240, 0.95);
-        background: #f8fafc;
+        padding: 1rem 1.05rem;
+        border-radius: 20px;
+        border: 1px solid rgba(203, 213, 225, 0.72);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 249, 255, 0.96));
         text-decoration: none !important;
         transition: all 0.22s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
     }
 
     .hymn-breakdown-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-        border-color: rgba(62, 109, 156, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+        border-color: rgba(62, 109, 156, 0.28);
+    }
+
+    .hymn-breakdown-item::before {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 5px;
+        background: var(--item-accent, #3E6D9C);
+        opacity: 0.9;
     }
 
     .hymn-breakdown-left {
@@ -317,17 +350,22 @@
         align-items: center;
         gap: 0.9rem;
         min-width: 0;
+        position: relative;
+        z-index: 1;
     }
 
     .hymn-breakdown-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 14px;
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
         font-size: 1rem;
+        background: var(--item-soft, rgba(62, 109, 156, 0.12));
+        color: var(--item-accent, #3E6D9C);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.62);
     }
 
     .hymn-breakdown-copy {
@@ -338,7 +376,7 @@
         margin: 0;
         font-weight: 900;
         color: #0f172a;
-        font-size: 0.98rem;
+        font-size: 1rem;
         line-height: 1.2;
     }
 
@@ -353,17 +391,19 @@
         display: inline-flex;
         align-items: center;
         gap: 0.35rem;
-        padding: 0.45rem 0.7rem;
+        padding: 0.52rem 0.78rem;
         border-radius: 999px;
-        background: white;
-        border: 1px solid #e2e8f0;
-        color: #334155;
+        background: rgba(62, 109, 156, 0.1);
+        border: 1px solid rgba(62, 109, 156, 0.14);
+        color: #1d4f7a;
         font-weight: 800;
         font-size: 0.8rem;
+        position: relative;
+        z-index: 1;
     }
 
     .hymn-drilldown-footer {
-        padding-top: 1rem;
+        padding-top: 0.95rem;
         display: flex;
         justify-content: flex-end;
     }
@@ -372,6 +412,23 @@
         margin: 0;
         color: #64748b;
         font-size: 0.84rem;
+    }
+
+    @media (max-width: 768px) {
+        .hymn-drilldown-panel {
+            max-height: 90vh;
+            border-radius: 26px;
+        }
+
+        .hymn-drilldown-header,
+        .hymn-drilldown-body {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .hymn-drilldown-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
     .stats-grid {
@@ -498,6 +555,186 @@
     }
 
     .section-link:hover { color: #64B5D6; }
+
+    .section-icon-link {
+        min-width: 116px;
+        height: 40px;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        border-radius: 999px;
+        border: 1px solid rgba(62, 109, 156, 0.22);
+        background: linear-gradient(135deg, rgba(62,109,156,0.14), rgba(100,181,214,0.18));
+        color: #1d4f7a;
+        text-decoration: none !important;
+        appearance: none;
+        transition: all 0.22s ease;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 2;
+        flex-shrink: 0;
+    }
+
+    .section-icon-link:hover {
+        background: linear-gradient(135deg, #3e6d9c, #64b5d6);
+        color: #fff;
+        border-color: rgba(62, 109, 156, 0.9);
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 10px 20px rgba(62, 109, 156, 0.24);
+    }
+
+    .section-icon-link i {
+        font-size: 0.9rem;
+    }
+
+    .section-icon-link span {
+        font-size: 0.78rem;
+    }
+
+    @media (max-width: 576px) {
+        .section-icon-link {
+            min-width: 44px;
+            width: 44px;
+            padding: 0;
+        }
+
+        .section-icon-link span {
+            display: none;
+        }
+    }
+
+    .playlist-create-modal {
+        z-index: 2400;
+    }
+
+    .playlist-create-modal.show {
+        display: block;
+        animation: fadeInUp 0.2s ease;
+    }
+
+    .playlist-create-modal .modal-dialog {
+        max-width: min(520px, calc(100% - 1.5rem));
+        margin: 1.75rem auto;
+    }
+
+    .playlist-create-modal .modal-content {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .playlist-create-panel {
+        border-radius: 28px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.97);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        box-shadow: 0 35px 90px rgba(15, 23, 42, 0.3);
+    }
+
+    .playlist-create-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.4rem 1.5rem;
+        border-bottom: 1px solid #e2e8f0;
+        background: linear-gradient(180deg, rgba(248,250,252,0.96), rgba(255,255,255,0.96));
+    }
+
+    .playlist-create-kicker {
+        margin: 0 0 0.25rem;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--accent-blue);
+    }
+
+    .playlist-create-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: #0f172a;
+    }
+
+    .playlist-create-close {
+        border: none;
+        background: #e2e8f0;
+        color: #334155;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .playlist-create-close:hover {
+        background: #cbd5e1;
+        transform: scale(1.04);
+    }
+
+    .playlist-create-body {
+        padding: 1.25rem 1.5rem 1.5rem;
+    }
+
+    .playlist-create-note {
+        margin: 0.25rem 0 1rem;
+        color: #64748b;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .playlist-create-label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: #64748b;
+        margin-bottom: 0.55rem;
+    }
+
+    .playlist-create-input {
+        width: 100%;
+        border: 1px solid #dbe3ee;
+        border-radius: 18px;
+        padding: 0.95rem 1rem;
+        font-weight: 700;
+        color: #0f172a;
+        background: #f8fafc;
+        transition: all 0.2s ease;
+    }
+
+    .playlist-create-input:focus {
+        outline: none;
+        background: #fff;
+        border-color: rgba(62, 109, 156, 0.6);
+        box-shadow: 0 0 0 4px rgba(62, 109, 156, 0.12);
+    }
+
+    .playlist-create-footer {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        margin-top: 1.25rem;
+    }
+
+    .playlist-create-btn {
+        min-height: 46px;
+        border-radius: 999px;
+        padding: 0 1.35rem;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
 
     .top-five-list {
         display: flex;
@@ -1261,9 +1498,9 @@
                                             $hymnUrl = $hymnGroup ? route('musics.index', ['church_hymn_id' => $hymnGroup->id]) : '#';
                                         @endphp
                                         @if($hymnGroup)
-                                            <a href="{{ $hymnUrl }}" class="hymn-breakdown-item">
+                                            <a href="{{ $hymnUrl }}" class="hymn-breakdown-item" style="--item-accent: {{ $item['color'] }}; --item-soft: {{ $item['bg'] }};">
                                                 <div class="hymn-breakdown-left">
-                                                    <div class="hymn-breakdown-icon" style="background: {{ $item['bg'] }}; color: {{ $item['color'] }};">
+                                                    <div class="hymn-breakdown-icon">
                                                         <i class="fas {{ $item['icon'] }}"></i>
                                                     </div>
                                                     <div class="hymn-breakdown-copy">
@@ -1277,9 +1514,9 @@
                                                 </div>
                                             </a>
                                         @else
-                                            <div class="hymn-breakdown-item" style="opacity:0.5; pointer-events:none;">
+                                            <div class="hymn-breakdown-item" style="opacity:0.52; pointer-events:none; --item-accent: {{ $item['color'] }}; --item-soft: {{ $item['bg'] }};">
                                                 <div class="hymn-breakdown-left">
-                                                    <div class="hymn-breakdown-icon" style="background: {{ $item['bg'] }}; color: {{ $item['color'] }};">
+                                                    <div class="hymn-breakdown-icon">
                                                         <i class="fas {{ $item['icon'] }}"></i>
                                                     </div>
                                                     <div class="hymn-breakdown-copy">
@@ -1294,9 +1531,6 @@
                                         @endif
                                     @endforeach
                                 </div>
-                                <div class="hymn-drilldown-footer">
-                                    <p class="hymn-drilldown-note">Tip: click any group to open its filtered hymn list.</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1308,9 +1542,7 @@
                                     <h2 class="section-card-title mb-0">
                                         <i class="fas fa-list-ul"></i> Special Occasion Playlist
                                     </h2>
-                                    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
-                                        <a href="{{ route('playlists_management.index') }}" class="section-link">Add</a>
-                                    @endif
+
                                 </div>
                                 <div class="mt-2 card-scroll-body">
                                     @foreach($playlists as $playlist)
@@ -1580,6 +1812,49 @@
         </div>
     </div>
 
+    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
+        <div class="modal fade playlist-create-modal" id="playlistCreateModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content playlist-create-panel">
+                    <div class="playlist-create-header">
+                        <div>
+                            <p class="playlist-create-kicker">Special Occasion</p>
+                            <h3 class="playlist-create-title" id="playlistCreateTitle">New Playlist</h3>
+                        </div>
+                        <button type="button" class="playlist-create-close" id="closePlaylistCreateModal" aria-label="Close playlist modal" data-dismiss="modal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="playlist-create-body">
+                        <p class="playlist-create-note">
+                            Create a new playlist here, then organize hymns from the playlist management page.
+                        </p>
+
+                        <form action="{{ route('playlists_management.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="source" value="dashboard">
+                            <label class="playlist-create-label" for="playlistName">Playlist Name</label>
+                            <input
+                                type="text"
+                                id="playlistName"
+                                name="name"
+                                class="playlist-create-input"
+                                placeholder="e.g. Wedding Service"
+                                required
+                                autocomplete="off"
+                            >
+
+                            <div class="playlist-create-footer">
+                                <button type="button" class="btn btn-light rounded-pill px-4 font-bold" id="cancelPlaylistCreateModal" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary playlist-create-btn" style="background: var(--accent-blue); border-color: var(--accent-blue);">Create Playlist</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.body.classList.add('dashboard-loading');
@@ -1598,6 +1873,11 @@
         const hymnBreakdownModal = document.getElementById('hymnBreakdownModal');
         const hymnBreakdownTrigger = document.querySelector('[data-hymn-breakdown-trigger]');
         const hymnBreakdownClose = document.querySelector('[data-hymn-breakdown-close]');
+        const playlistCreateModal = document.getElementById('playlistCreateModal');
+        const openPlaylistCreateModalBtn = document.getElementById('openPlaylistCreateModal');
+        const closePlaylistCreateModalBtn = document.getElementById('closePlaylistCreateModal');
+        const cancelPlaylistCreateModalBtn = document.getElementById('cancelPlaylistCreateModal');
+        const playlistNameInput = document.getElementById('playlistName');
 
         function switchDashboardTab(name) {
             dashboardTabButtons.forEach(btn => {
@@ -1626,6 +1906,32 @@
             document.body.style.overflow = '';
         }
 
+        function closePlaylistCreateModal() {
+            if (!playlistCreateModal) return;
+            if (window.jQuery && typeof jQuery.fn.modal === 'function') {
+                $('#playlistCreateModal').modal('hide');
+                return;
+            }
+            playlistCreateModal.classList.remove('active');
+            playlistCreateModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        function openPlaylistCreateModal() {
+            if (!playlistCreateModal) return;
+            if (window.jQuery && typeof jQuery.fn.modal === 'function') {
+                $('#playlistCreateModal').modal('show');
+                return;
+            }
+            playlistCreateModal.classList.add('active');
+            playlistCreateModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            window.setTimeout(() => playlistNameInput?.focus(), 80);
+        }
+
+        window.openPlaylistCreateModal = openPlaylistCreateModal;
+        window.closePlaylistCreateModal = closePlaylistCreateModal;
+
         if (hymnBreakdownTrigger) {
             hymnBreakdownTrigger.addEventListener('click', openHymnBreakdown);
         }
@@ -1644,6 +1950,28 @@
                 closeHymnBreakdown();
             }
         });
+
+        if (openPlaylistCreateModalBtn) {
+            openPlaylistCreateModalBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                openPlaylistCreateModal();
+            });
+        }
+        if (closePlaylistCreateModalBtn) {
+            closePlaylistCreateModalBtn.addEventListener('click', closePlaylistCreateModal);
+        }
+        if (cancelPlaylistCreateModalBtn) {
+            cancelPlaylistCreateModalBtn.addEventListener('click', closePlaylistCreateModal);
+        }
+        if (playlistCreateModal && window.jQuery && typeof jQuery.fn.modal === 'function') {
+            $('#playlistCreateModal').on('shown.bs.modal', function () {
+                window.setTimeout(() => playlistNameInput?.focus(), 80);
+            });
+            $('#playlistCreateModal').on('hidden.bs.modal', function () {
+                playlistNameInput?.blur();
+            });
+        }
 
         function toggleAccordion(btn) {
             btn.classList.toggle("active");

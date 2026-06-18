@@ -30,6 +30,10 @@ class PlaylistController extends Controller
             ]);
         }
 
+        if ($request->input('source') === 'dashboard') {
+            return redirect()->route('dashboard')->with('success', 'Playlist created successfully');
+        }
+
         return redirect()->route('playlists_management.index')->with('success', 'Playlist created successfully');
     }
 

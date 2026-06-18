@@ -110,8 +110,9 @@
         margin-bottom: 2.5rem;
         border: 1px solid rgba(255, 255, 255, 0.3);
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        position: relative;
-        z-index: 50;
+        position: sticky;
+        top: 100px;
+        z-index: 45;
     }
 
     .custom-input, .custom-select {
@@ -460,7 +461,7 @@
     }
 
     @media (max-width: 768px) {
-        .filter-bar { padding: 1rem !important; border-radius: 20px !important; }
+        .filter-bar { padding: 1rem !important; border-radius: 20px !important; top: 84px; }
         .options-container { width: 100% !important; position: fixed !important; bottom: 0; left: 0; border-radius: 20px 20px 0 0 !important; max-height: 80vh !important; }
         .search-pill-container { margin-bottom: 0.5rem; }
         .pagination-centered nav div:last-child { gap: 4px; }
@@ -539,7 +540,24 @@
             <div class="mb-4 pt-3">
                 <div class="d-flex align-items-center flex-wrap gap-3">
                     <div class="d-flex align-items-center">
-                        <h1 class="font-black text-4xl text-slate-800 tracking-tighter mb-0 uppercase">Hymn Library</h1>
+                        <h1
+                            class="mb-0 uppercase"
+                            style="
+                                font-size: clamp(2.1rem, 3.4vw, 3.8rem);
+                                font-weight: 950;
+                                line-height: 0.96;
+                                letter-spacing: -0.06em;
+                                background: linear-gradient(135deg, #0f2f5f 0%, #235182 48%, #4f86b8 100%);
+                                -webkit-background-clip: text;
+                                background-clip: text;
+                                color: transparent;
+                                text-shadow:
+                                    0 1px 0 rgba(255,255,255,0.55),
+                                    0 10px 24px rgba(15, 47, 95, 0.12);
+                            "
+                        >
+                            Hymn Library
+                        </h1>
                         
                         @if($churchHymn)
                             <div class="mx-3 d-none d-md-block" style="width: 2px; height: 30px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div>
@@ -556,7 +574,7 @@
             </div>
             
             <!-- Filter Bar -->
-            <div class="filter-bar shadow-sm border-0" style="background: rgba(255, 255, 255, 0.4); border-radius: 30px; padding: 1.2rem 2rem; position: relative; z-index: 100; overflow: visible;">
+            <div class="filter-bar shadow-sm border-0" style="background: rgba(255, 255, 255, 0.4); border-radius: 30px; padding: 1.2rem 2rem; overflow: visible;">
                 <form id="searchForm" method="GET" action="{{ route('musics.index') }}">
                     <input type="hidden" name="church_hymn_id" value="{{ request()->input('church_hymn_id') }}">
                     <div class="row align-items-center g-3" style="position: relative; z-index: 100;">
