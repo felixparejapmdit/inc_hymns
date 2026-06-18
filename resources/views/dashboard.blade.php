@@ -233,9 +233,9 @@
         position: fixed;
         inset: 0;
         background:
-            radial-gradient(circle at top left, rgba(100, 181, 214, 0.22), transparent 32%),
-            radial-gradient(circle at bottom right, rgba(62, 109, 156, 0.20), transparent 28%),
-            rgba(15, 23, 42, 0.62);
+            radial-gradient(circle at top left, rgba(100, 181, 214, 0.16), transparent 32%),
+            radial-gradient(circle at bottom right, rgba(62, 109, 156, 0.14), transparent 28%),
+            rgba(62, 109, 156, 0.28);
         backdrop-filter: blur(14px);
         z-index: 2200;
         display: none;
@@ -253,10 +253,10 @@
         width: min(920px, 100%);
         max-height: min(88vh, 820px);
         overflow: hidden;
-        border-radius: 32px;
-        background: rgba(255, 255, 255, 0.94);
-        border: 1px solid rgba(255, 255, 255, 0.68);
-        box-shadow: 0 40px 110px rgba(15, 23, 42, 0.34);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: column;
         transform: translateY(0);
@@ -264,12 +264,12 @@
 
     .hymn-drilldown-header {
         padding: 1.5rem 1.6rem;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+        border-bottom: 1px solid rgba(219, 227, 238, 0.9);
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         gap: 1rem;
-        background: linear-gradient(135deg, rgba(100, 181, 214, 0.16), rgba(255, 255, 255, 0.98));
+        background: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 0.98));
         position: relative;
         overflow: hidden;
     }
@@ -278,10 +278,10 @@
         content: '';
         position: absolute;
         inset: auto -10% -52% auto;
-        width: 240px;
-        height: 240px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(62, 109, 156, 0.12), transparent 68%);
+        background: radial-gradient(circle, rgba(62, 109, 156, 0.08), transparent 68%);
         pointer-events: none;
     }
 
@@ -342,27 +342,27 @@
         gap: 1rem;
         width: 100%;
         padding: 1rem 1.05rem;
-        border-radius: 20px;
-        border: 1px solid rgba(203, 213, 225, 0.72);
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 249, 255, 0.96));
+        border-radius: 16px;
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        background: #ffffff;
         text-decoration: none !important;
         transition: all 0.22s ease;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     }
 
     .hymn-breakdown-item:hover {
         transform: translateY(-3px);
-        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
-        border-color: rgba(62, 109, 156, 0.28);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        border-color: rgba(62, 109, 156, 0.25);
     }
 
     .hymn-breakdown-item::before {
         content: '';
         position: absolute;
         inset: 0 auto 0 0;
-        width: 5px;
+        width: 4px;
         background: var(--item-accent, #3E6D9C);
         opacity: 0.9;
     }
@@ -379,7 +379,7 @@
     .hymn-breakdown-icon {
         width: 48px;
         height: 48px;
-        border-radius: 16px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -415,8 +415,8 @@
         gap: 0.35rem;
         padding: 0.52rem 0.78rem;
         border-radius: 999px;
-        background: rgba(62, 109, 156, 0.1);
-        border: 1px solid rgba(62, 109, 156, 0.14);
+        background: rgba(62, 109, 156, 0.08);
+        border: 1px solid rgba(62, 109, 156, 0.12);
         color: #1d4f7a;
         font-weight: 800;
         font-size: 0.8rem;
@@ -439,7 +439,7 @@
     @media (max-width: 768px) {
         .hymn-drilldown-panel {
             max-height: 90vh;
-            border-radius: 26px;
+            border-radius: 16px;
         }
 
         .hymn-drilldown-header,
@@ -467,7 +467,7 @@
         overflow: hidden;
         border: 0;
         border-radius: 24px;
-        background: linear-gradient(180deg, rgba(191, 219, 254, 0.32) 0%, rgba(219, 234, 254, 0.18) 100%);
+        background: linear-gradient(180deg, rgba(102, 172, 208, 0.92) 0%, rgba(62, 109, 156, 0.94) 100%);
         color: #ffffff;
         text-decoration: none !important;
         box-shadow: none;
@@ -480,10 +480,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background:
-            radial-gradient(circle at 18% 18%, rgba(255,255,255,0.10) 0 6%, transparent 7%),
-            radial-gradient(circle at 82% 78%, rgba(255,255,255,0.05) 0 10%, transparent 11%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
         pointer-events: none;
     }
 
@@ -503,11 +500,13 @@
     .stat-card-watermark {
         position: absolute;
         right: 1rem;
-        bottom: 0.9rem;
-        font-size: 4.25rem;
-        color: rgba(255, 255, 255, 0.2);
+        bottom: 1rem;
+        font-size: clamp(3.1rem, 4vw, 4.2rem);
+        color: rgba(255, 255, 255, 0.14);
+        opacity: 1;
         pointer-events: none;
         z-index: 0;
+        line-height: 1;
     }
 
     .stat-card-body {
@@ -530,10 +529,10 @@
     }
 
     .stat-card .metric-title {
-        font-size: 0.9rem;
-        font-weight: 800;
+        font-size: 1.18rem;
+        font-weight: 900;
         color: rgba(255,255,255,0.82);
-        letter-spacing: 0.9px;
+        letter-spacing: 0.7px;
         text-transform: uppercase;
     }
 
@@ -556,7 +555,7 @@
     .section-card-title {
         margin: 0;
         font-size: 1.02rem;
-        font-weight: 800;
+        font-weight: 950;
         text-transform: uppercase;
         letter-spacing: 0.4px;
         color: #334155;
@@ -565,6 +564,13 @@
     .section-card-title i {
         margin-right: 0.5rem;
         color: var(--accent-blue);
+    }
+
+    #playlist-card .section-card-title,
+    #most-viewed-card .section-card-title,
+    #activity-card .section-card-title {
+        font-weight: 950;
+        color: #20344f;
     }
 
     .section-link {
@@ -1312,7 +1318,7 @@
             gap: 0.85rem;
         }
         .hymn-drilldown-panel {
-            border-radius: 22px;
+            border-radius: 16px;
         }
         .hymn-drilldown-header,
         .hymn-drilldown-body {

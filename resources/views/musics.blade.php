@@ -45,6 +45,14 @@
 
     .music-headline-actions {
         flex-shrink: 0;
+        background: linear-gradient(135deg, #3e6d9c, #64b5d6) !important;
+        border-color: rgba(62, 109, 156, 0.65) !important;
+        color: #fff !important;
+    }
+
+    .music-headline-actions:hover {
+        background: linear-gradient(135deg, #355f88, #4f9fc8) !important;
+        color: #fff !important;
     }
 
     .music-sort-label {
@@ -593,8 +601,8 @@
                         @endif
                     </div>
 
-                    <button id="showCategoriesBtn" class="btn btn-white rounded-circle shadow-sm border p-0 d-flex align-items-center justify-content-center hover-scale transition-all music-headline-actions" title="Browse Categories" style="width: 45px; height: 45px; border-color: #e2e8f0 !important;">
-                        <i class="fas fa-tags text-blue-500" style="font-size: 1.1rem;"></i>
+                    <button id="showCategoriesBtn" class="btn btn-white rounded-circle shadow-sm border p-0 d-flex align-items-center justify-content-center hover-scale transition-all music-headline-actions" title="Browse Categories" style="width: 45px; height: 45px;">
+                        <i class="fas fa-tags text-white" style="font-size: 1.1rem;"></i>
                     </button>
                 </div>
             </div>

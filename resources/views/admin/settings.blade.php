@@ -78,7 +78,7 @@
 
     .settings-card {
         background: var(--card-bg);
-        border-radius: 24px;
+        border-radius: 16px;
         border: 1px solid rgba(255, 255, 255, 0.4);
         padding: 1.5rem;
         text-align: center;

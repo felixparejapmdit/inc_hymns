@@ -37,6 +37,14 @@
         top: 0;
         z-index: 1000;
     }
+
+    .nav-brand-text,
+    .nav-user-text {
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
+        background: none !important;
+        font-weight: 800 !important;
+    }
 </style>
 
 <nav x-data="{ open: false }" class="main-dashboard-nav bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -59,7 +67,7 @@
                 <!-- Navigation Links -->
                 <div class="flex items-center space-x-8 sm:-my-px ml-4">
                     <a href="{{ route('dashboard') }}" class="flex items-center no-underline hover:opacity-80 transition-opacity">
-                        <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; font-size: 1.1rem;">INC Hymns</span>
+                        <span class="nav-brand-text" style="font-size: 1.1rem;">INC Hymns</span>
                     </a>
                 </div>
 
@@ -106,7 +114,7 @@
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition duration-150 ease-in-out">
                             <div>
-                                <span style="background: linear-gradient(to right, #475b9a, #6aa8c4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;">{{ Auth::user()?->name ?? 'Guest' }}</span>
+                                <span class="nav-user-text">{{ Auth::user()?->name ?? 'Guest' }}</span>
                             </div>
 
                             <div class="ml-1">
