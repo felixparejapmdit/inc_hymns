@@ -396,6 +396,11 @@
     border-bottom: 1px solid rgba(255,255,255,0.07);
     box-shadow: 0 1px 0 rgba(255,255,255,0.03), 0 4px 24px rgba(0,0,0,0.3);
 }
+.fb-top-left,
+.fb-top-center,
+.fb-top-right {
+    min-width: 0;
+}
 
 /* Track pills */
 .fb-track-group { display:flex; align-items:center; gap:6px; flex-shrink:0; }
@@ -562,12 +567,17 @@
         0 0 0 1px rgba(255,255,255,.07),
         0 0 0 3px rgba(0,0,0,.5);
 }
+.fb-book.is-flipping .fb-page {
+    opacity: 0.94;
+    filter: brightness(0.985) saturate(0.98);
+}
 .fb-page {
     background:#fff; overflow:hidden; position:relative; flex-shrink:0;
     box-shadow: inset 0 0 80px rgba(0,0,0,0.04);
     width: var(--fb-page-width, 400px);
     height: var(--fb-page-height, 600px);
     box-sizing: border-box;
+    transition: opacity 0.16s ease, filter 0.16s ease;
 }
 .fb-page-left  { border-radius:3px 0 0 3px; }
 .fb-page-right { border-radius:0 5px 5px 0; }
@@ -701,7 +711,7 @@
 .fb-turning-left {
     left: 0; right: auto;
     transform-origin: right center;
-    animation: fb-turn-backward 0.82s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: fb-turn-backward 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Mobile specific classes */
@@ -888,6 +898,21 @@
 
 /* Extra-small screens */
 @media(max-width:768px){
+    .fb-top-bar {
+        gap: 8px;
+        padding: 8px 10px;
+        flex-wrap: wrap;
+    }
+    .fb-top-left,
+    .fb-top-center,
+    .fb-top-right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .fb-top-left {
+        justify-content: space-between;
+    }
     .fb-hymn-title { font-size:0.8rem !important; }
     .fb-nav-arrow {
         width:42px; height:42px; font-size:.9rem;
@@ -897,8 +922,23 @@
     #fb-prev { left: 8px; }
     #fb-next { right: 8px; }
     .fb-stage { padding: 6px !important; }
-    .fb-vol-wrap,.fb-hint { display:none; }
-    .fb-now-playing { display:none; }
+    .fb-vol-wrap,
+    .fb-hint,
+    .fb-now-playing {
+        display: flex;
+    }
+    .fb-vol-wrap {
+        gap: 4px;
+    }
+    .fb-vol-slider {
+        width: 54px;
+    }
+    .fb-now-playing {
+        padding: 3px 8px;
+    }
+    .fb-hint {
+        font-size: 0.56rem;
+    }
     .fb-ctrl-btn { width:31px; height:31px; border-radius:9px; }
     .fb-view-btn { width:31px; height:31px; }
     .fb-zoom-label { min-width:28px; font-size:0.58rem; }
@@ -1750,6 +1790,7 @@ function trimPageCache() {
 
 function getPrefetchPages(centerSpread) {
     return [
+        centerSpread - 3,
         centerSpread - 2,
         centerSpread - 1,
         centerSpread + 1,
@@ -1758,16 +1799,29 @@ function getPrefetchPages(centerSpread) {
     ].filter(pageNum => pageNum >= 1 && pageNum <= fbTotal);
 }
 
+function warmPages(pageNums) {
+    if (!fbPdfDoc) return;
+    const pages = Array.from(new Set(pageNums)).filter(pageNum => pageNum >= 1 && pageNum <= fbTotal);
+    if (!pages.length) return;
+
+    const signature = ensurePageCacheSignature();
+    pages.forEach(pageNum => {
+        const key = `${signature}|p:${pageNum}`;
+        if (renderedPageCache.has(key) || renderedPagePromises.has(key)) return;
+        getRenderedPage(pageNum, { updateLayout: false }).catch(() => {});
+    });
+}
+
+function warmFlipTransition(centerSpread) {
+    warmPages(getPrefetchPages(centerSpread));
+}
+
 function schedulePagePrefetch(centerSpread) {
     if (!fbPdfDoc) return;
     cancelPagePrefetch();
     const runPrefetch = () => {
         prefetchTimer = null;
-        getPrefetchPages(centerSpread).forEach(pageNum => {
-            const key = `${ensurePageCacheSignature()}|p:${pageNum}`;
-            if (renderedPageCache.has(key) || renderedPagePromises.has(key)) return;
-            getRenderedPage(pageNum, { updateLayout: false }).catch(() => {});
-        });
+        warmPages(getPrefetchPages(centerSpread));
     };
 
     if ('requestIdleCallback' in window) {
@@ -2268,6 +2322,7 @@ function renderSpread(leftNum, animate) {
     if (!isMobile) {
         renderPage(fbSpread + 1, canvasR, numR);
     }
+    warmFlipTransition(fbSpread);
     schedulePagePrefetch(fbSpread);
     if (animate !== false && !isMobile) flipAnim(fbSpread);
 }
@@ -2310,6 +2365,8 @@ async function flipAnim(targetSpread, onDone) {
     const layoutSnapshot = freezeBookLayout();
 
     try {
+        warmFlipTransition(targetSpread);
+
         // 1. Prepare Content for the "Turning" Leaf before the animation starts
         if (goingForward) {
             // Turning from (old) to (target)
@@ -2350,8 +2407,8 @@ async function flipAnim(targetSpread, onDone) {
             restoreBookLayout(layoutSnapshot);
 
             // Finalize the static spread after the flip has fully completed.
-            renderPage(targetSpread,     canvasL, numL);
-            renderPage(targetSpread + 1, canvasR, numR);
+            renderPage(targetSpread,     canvasL, numL, { updateLayout: false });
+            renderPage(targetSpread + 1, canvasR, numR, { updateLayout: false });
             schedulePagePrefetch(targetSpread);
 
             _isAnimating = false;
@@ -2393,6 +2450,10 @@ function renderPage(pageNum, canvas, numEl, options = {}) {
 /* ── NAV ───────────────────────────────────────────────────────── */
 prevBtn.addEventListener('click', () => goSpread(-2));
 nextBtn.addEventListener('click', () => goSpread(+2));
+prevBtn.addEventListener('pointerdown', () => warmFlipTransition(isMobileView() ? Math.max(1, fbSpread - 1) : Math.max(1, fbSpread - 2)));
+nextBtn.addEventListener('pointerdown', () => warmFlipTransition(isMobileView() ? Math.min(fbTotal, fbSpread + 1) : Math.min(fbTotal, fbSpread + 2)));
+prevBtn.addEventListener('mouseenter', () => warmFlipTransition(isMobileView() ? Math.max(1, fbSpread - 1) : Math.max(1, fbSpread - 2)));
+nextBtn.addEventListener('mouseenter', () => warmFlipTransition(isMobileView() ? Math.min(fbTotal, fbSpread + 1) : Math.min(fbTotal, fbSpread + 2)));
 function goSpread(delta) {
     if (_isAnimating) return;
     const isMobile = isMobileView();
@@ -2407,6 +2468,7 @@ function goSpread(delta) {
     const prevVal = fbSpread;
     fbSpread = nextVal;
     updatePageUI();
+    warmFlipTransition(nextVal);
 
     if (isMobile) {
         flipAnim(fbSpread, () => {
