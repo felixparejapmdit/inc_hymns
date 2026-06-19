@@ -370,10 +370,7 @@
                             <span>Search</span>
                         </button>
                     </div>
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
+                   
                     <a href="{{ route('permissions.create') }}" class="page-action-btn page-action-btn-primary">
                         <i class="fas fa-shield-alt"></i>
                         <span>New Permission</span>

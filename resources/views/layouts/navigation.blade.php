@@ -132,6 +132,119 @@
         line-height: 1.2;
         margin-top: 0.1rem;
     }
+
+    .logout-confirm-modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: rgba(15, 23, 42, 0.52);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 5000;
+    }
+
+    .logout-confirm-modal.active {
+        display: flex;
+    }
+
+    .logout-confirm-panel {
+        position: relative;
+        width: min(100%, 420px);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        box-shadow: 0 30px 70px rgba(15, 23, 42, 0.24);
+        overflow: hidden;
+        animation: logoutPopIn 0.22s ease;
+    }
+
+    @keyframes logoutPopIn {
+        from { opacity: 0; transform: scale(0.98); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .logout-confirm-header {
+        padding: 1.35rem 1.35rem 0.9rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.9rem;
+    }
+
+    .logout-confirm-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(62, 109, 156, 0.12);
+        color: #3e6d9c;
+        flex-shrink: 0;
+    }
+
+    .logout-confirm-kicker {
+        margin: 0 0 0.25rem;
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #64748b;
+    }
+
+    .logout-confirm-title {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: #1e293b;
+    }
+
+    .logout-confirm-copy {
+        margin: 0.15rem 0 0;
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .logout-confirm-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        padding: 0 1.35rem 1.35rem;
+    }
+
+    .logout-confirm-btn {
+        min-height: 44px;
+        padding: 0 1.2rem;
+        border-radius: 999px;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        border: none;
+        transition: all 0.2s ease;
+    }
+
+    .logout-confirm-btn-cancel {
+        background: #f8fafc;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+    }
+
+    .logout-confirm-btn-cancel:hover {
+        background: #eef2f7;
+    }
+
+    .logout-confirm-btn-primary {
+        background: linear-gradient(135deg, #3e6d9c, #64b5d6);
+        color: #fff;
+        box-shadow: 0 10px 22px rgba(62, 109, 156, 0.22);
+    }
+
+    .logout-confirm-btn-primary:hover {
+        transform: translateY(-1px);
+        color: #fff;
+    }
 </style>
 
 <nav x-data="{ open: false }" class="main-dashboard-nav bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -249,10 +362,10 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
+                        <x-dropdown-link :href="route('logout')" class="logout-trigger" onclick="event.preventDefault(); openLogoutConfirm(this.closest('form')); return false;">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
 
                           <!-- List of Settings -->
                             @if (\App\Helpers\AccessRightsHelper::checkPermission('settings.view_admin') == 'inline')
@@ -377,7 +490,7 @@
                 <!-- Logout Link -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                    <x-responsive-nav-link :href="route('logout')" class="logout-trigger" onclick="event.preventDefault(); openLogoutConfirm(this.closest('form')); return false;">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
@@ -420,3 +533,67 @@
         </div>
     </div>
 </nav>
+
+<div id="logoutConfirmModal" class="logout-confirm-modal" aria-hidden="true">
+    <div class="logout-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="logoutConfirmTitle">
+        <div class="logout-confirm-header">
+            <div class="logout-confirm-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <div>
+                <p class="logout-confirm-kicker">Confirm action</p>
+                <h3 class="logout-confirm-title" id="logoutConfirmTitle">Log out of INC Hymns?</h3>
+                <p class="logout-confirm-copy">You’ll be safely signed out and sent back to the login page.</p>
+            </div>
+        </div>
+        <div class="logout-confirm-actions">
+            <button type="button" class="logout-confirm-btn logout-confirm-btn-cancel" onclick="closeLogoutConfirm()">Cancel</button>
+            <button type="button" class="logout-confirm-btn logout-confirm-btn-primary" onclick="confirmLogout()">Log Out</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        let logoutForm = null;
+        const modal = document.getElementById('logoutConfirmModal');
+
+        if (modal && modal.parentElement !== document.body) {
+            document.body.appendChild(modal);
+        }
+
+        window.openLogoutConfirm = function (form) {
+            logoutForm = form;
+            if (!modal) return;
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+        };
+
+        window.closeLogoutConfirm = function () {
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            logoutForm = null;
+        };
+
+        window.confirmLogout = function () {
+            if (logoutForm) {
+                logoutForm.submit();
+            }
+        };
+
+        if (modal) {
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closeLogoutConfirm();
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && modal.classList.contains('active')) {
+                    closeLogoutConfirm();
+                }
+            });
+        }
+    })();
+</script>

@@ -162,10 +162,7 @@
                     <p class="page-subtitle">Classification Management</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
+                 
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('categories.create') === 'inline')
                         <button id="addCategoryButton" data-toggle="modal" data-target="#addCategoryModal" class="btn-create">
                             <i class="fas fa-plus-circle"></i> New Category

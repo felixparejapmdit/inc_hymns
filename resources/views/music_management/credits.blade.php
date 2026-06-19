@@ -361,10 +361,7 @@
                     <p class="page-subtitle">Management & Credits List</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
+               
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('credits.create') == 'inline')
                         <button data-toggle="modal" data-target="#addCreditModal" class="btn-create shadow-lg">
                             <i class="fas fa-plus-circle mr-2"></i> New Credit

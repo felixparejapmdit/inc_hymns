@@ -288,6 +288,12 @@
         margin-bottom: 1.35rem;
     }
 
+    .playlist-list-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+    }
+
     .search-shell {
         display: flex;
         align-items: stretch;
@@ -480,18 +486,6 @@
                     <h1 class="page-title">Playlist Management</h1>
                     <p class="page-subtitle">Curate and organize hymn collections with search, pagination, and drag-sort ordering.</p>
                 </div>
-                <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
-                    @if (\App\Helpers\AccessRightsHelper::checkPermission('dashboard.playlist.add') == 'inline')
-                        <button id="addPlaylistButton" class="page-action-btn page-action-btn-primary" type="button">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>New Playlist</span>
-                        </button>
-                    @endif
-                </div>
             </div>
 
             <div class="dashboard-card search-card">
@@ -517,6 +511,13 @@
             </div>
 
             <div class="dashboard-card playlist-list-card">
+                <div class="playlist-list-actions">
+                         <button id="addPlaylistButton" class="page-action-btn page-action-btn-primary" type="button">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>New Playlist</span>
+                        </button>
+                </div>
+
                 @if(session('success'))
                     <div class="alert alert-success rounded-xl font-bold mb-4 border-none shadow-sm">
                         {{ session('success') }}

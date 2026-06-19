@@ -251,10 +251,7 @@
                     <p class="page-subtitle">Multi-language Support</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
+                
                     <button class="btn-create add-language-btn" data-toggle="modal" data-target="#addLanguageModal">
                         <i class="fas fa-plus-circle"></i> New Language
                     </button>

@@ -151,10 +151,7 @@
                     <p class="page-subtitle">User Roles & Organizational Units</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
+               
                     <a href="{{ route('groups.create') }}" class="btn-create">
                         <i class="fas fa-users-cog"></i> New Group
                     </a>

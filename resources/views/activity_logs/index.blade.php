@@ -290,10 +290,6 @@
                             </button>
                         </div>
                     </form>
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
                 </div>
             </div>
 

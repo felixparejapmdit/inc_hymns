@@ -231,10 +231,6 @@
                     <p class="page-subtitle">Categorize system access into clear, manageable groups.</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
                     <a href="{{ route('permission_categories.create') }}" class="page-action-btn page-action-btn-primary">
                         <i class="fas fa-plus-circle"></i>
                         <span>New Group</span>

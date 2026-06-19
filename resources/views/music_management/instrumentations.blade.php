@@ -162,10 +162,7 @@
                     <p class="page-subtitle">Instruments & Arrangements</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
+               
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('instrumentations.create') === 'inline')
                         <button id="addInstrumentationButton" data-toggle="modal" data-target="#addInstrumentationModal" class="btn-create">
                             <i class="fas fa-plus-circle"></i> New Instrumentation

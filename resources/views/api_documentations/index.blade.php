@@ -210,10 +210,6 @@
                     <p class="page-subtitle">Endpoints & Integration Guide</p>
                 </div>
                 <div class="toolbar-stack">
-                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Settings</span>
-                    </a>
                     <a href="{{ route('api_documentations.create') }}" class="btn-create">
                         <i class="fas fa-terminal"></i> New Endpoint
                     </a>

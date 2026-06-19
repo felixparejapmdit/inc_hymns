@@ -355,10 +355,7 @@
                     <p class="users-page-subtitle">{{ $headerSubtitle }}</p>
                 </div>
                 <div class="action-toolbar">
-                    <a href="{{ $backRoute }}" class="page-action-btn page-action-btn-secondary">
-                        <i class="fas fa-arrow-left"></i>
-                        <span>Back</span>
-                    </a>
+              
                     <a href="{{ $addRoute }}" class="page-action-btn page-action-btn-primary">
                         <i class="{{ $addIcon }}"></i>
                         <span>{{ $addLabel }}</span>
