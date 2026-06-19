@@ -45,12 +45,129 @@
         background: none !important;
         font-weight: 800 !important;
     }
+
+    .settings-dropdown-trigger {
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(100, 116, 139, 0.15);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+        transition: all 0.2s ease;
+    }
+
+    .settings-dropdown-trigger:hover {
+        color: #3e6d9c;
+        background: #fff;
+        transform: translateY(-1px);
+    }
+
+    .settings-dropdown-panel {
+        padding: 0.85rem;
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 18px;
+        box-shadow: 0 24px 55px rgba(15, 23, 42, 0.14);
+    }
+
+    .settings-dropdown-section + .settings-dropdown-section {
+        margin-top: 0.9rem;
+        padding-top: 0.9rem;
+        border-top: 1px solid rgba(226, 232, 240, 0.95);
+    }
+
+    .settings-dropdown-kicker {
+        margin: 0 0 0.55rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-weight: 900;
+        color: #64748b;
+        padding: 0 0.15rem;
+    }
+
+    .settings-dropdown-link {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 0.9rem;
+        border-radius: 14px;
+        text-decoration: none !important;
+        color: #334155 !important;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+
+    .settings-dropdown-link:hover {
+        background: #f8fbff;
+        color: #1d4f7a !important;
+        transform: translateX(2px);
+    }
+
+    .settings-dropdown-link i {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(62, 109, 156, 0.12);
+        color: #3e6d9c;
+        flex-shrink: 0;
+    }
+
+    .settings-dropdown-link .menu-title {
+        font-weight: 800;
+        line-height: 1.15;
+    }
+
+    .settings-dropdown-link .menu-desc {
+        font-size: 0.74rem;
+        color: #64748b;
+        line-height: 1.2;
+        margin-top: 0.1rem;
+    }
 </style>
 
 <nav x-data="{ open: false }" class="main-dashboard-nav bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     @php
         $canCreateHymn = \App\Helpers\AccessRightsHelper::checkPermission('musics.create') == 'inline';
         $canCreateUser = \App\Helpers\AccessRightsHelper::checkPermission('users.create') == 'inline';
+        $settingsSections = [
+            [
+                'title' => 'Music Resources',
+                'items' => [
+                    ['route' => 'categories.index', 'icon' => 'fa-tags', 'title' => 'Categories', 'desc' => 'Hymn groupings', 'perm' => 'categories.view'],
+                    ['route' => 'instrumentations.index', 'icon' => 'fa-sliders-h', 'title' => 'Instrumentations', 'desc' => 'Instruments & arrangements', 'perm' => 'instrumentations.view'],
+                    ['route' => 'ensemble_types.index', 'icon' => 'fa-microphone-alt', 'title' => 'Ensemble Types', 'desc' => 'Group & choir classification', 'perm' => 'ensemble_types.view'],
+                    ['route' => 'credits.index', 'icon' => 'fa-user-edit', 'title' => 'Credits', 'desc' => 'Creator profiles', 'perm' => 'credits.view'],
+                    ['route' => 'church_hymns.index', 'icon' => 'fa-church', 'title' => 'Church Hymns', 'desc' => 'Worship service types', 'perm' => 'church_hymns.view'],
+                    ['route' => 'playlists_management.index', 'icon' => 'fa-list-ul', 'title' => 'Playlists', 'desc' => 'Special occasion collections', 'perm' => null],
+                    ['route' => 'languages.index', 'icon' => 'fa-language', 'title' => 'Languages', 'desc' => 'Available hymn languages', 'perm' => null],
+                ],
+            ],
+            [
+                'title' => 'Security & Access',
+                'items' => [
+                    ['route' => 'users.index', 'icon' => 'fa-users-cog', 'title' => 'Users', 'desc' => 'Accounts and access', 'perm' => 'users.view'],
+                    ['route' => 'groups.index', 'icon' => 'fa-user-shield', 'title' => 'Groups', 'desc' => 'Roles and organization', 'perm' => 'groups.view'],
+                    ['route' => 'permissions.index', 'icon' => 'fa-key', 'title' => 'Permissions', 'desc' => 'Access levels', 'perm' => 'permissions.view'],
+                    ['route' => 'permission_categories.index', 'icon' => 'fa-layer-group', 'title' => 'Permission Categories', 'desc' => 'Permission sets', 'perm' => 'permission_categories.view'],
+                ],
+            ],
+            [
+                'title' => 'System Maintenance',
+                'items' => [
+                    ['route' => 'activity_logs.index', 'icon' => 'fa-clipboard-list', 'title' => 'Activity Logs', 'desc' => 'Audit trail', 'perm' => 'activity_logs.view'],
+                    ['route' => 'api_documentations.index', 'icon' => 'fa-book-code', 'title' => 'API Docs', 'desc' => 'Endpoints guide', 'perm' => 'api_documentation.view'],
+                ],
+            ],
+        ];
     @endphp
     <!-- Primary Navigation Menu -->
     <div class="px-5 px-xl-5 mx-auto" style="max-width: 90%;">
@@ -149,9 +266,33 @@
 
                 <!-- List of Settings -->
                 @if (\App\Helpers\AccessRightsHelper::checkPermission('settings.view') == 'inline')
-                <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
-                    <i class="fa fa-cogs fa-fw" aria-hidden="true"></i>
-                </x-nav-link>
+                <x-dropdown align="right" width="80" contentClasses="settings-dropdown-panel">
+                    <x-slot name="trigger">
+                        <button type="button" class="settings-dropdown-trigger" aria-label="Open settings menu">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </x-slot>
+                    <x-slot name="content">
+                        @foreach ($settingsSections as $section)
+                            <div class="settings-dropdown-section">
+                                <p class="settings-dropdown-kicker">{{ $section['title'] }}</p>
+                                <div class="space-y-1">
+                                    @foreach ($section['items'] as $item)
+                                        @if (!$item['perm'] || \App\Helpers\AccessRightsHelper::checkPermission($item['perm']) == 'inline')
+                                            <a href="{{ route($item['route']) }}" class="settings-dropdown-link">
+                                                <i class="fas {{ $item['icon'] }}"></i>
+                                                <div>
+                                                    <div class="menu-title">{{ $item['title'] }}</div>
+                                                    <div class="menu-desc">{{ $item['desc'] }}</div>
+                                                </div>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </x-slot>
+                </x-dropdown>
                 @endif
             </div>
 
@@ -248,9 +389,33 @@
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <!-- List of Settings -->
                 @if (\App\Helpers\AccessRightsHelper::checkPermission('settings.view') == 'inline')
-                <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
-                    <i class="fa fa-cogs fa-fw" aria-hidden="true"></i>
-                </x-nav-link>
+                <x-dropdown align="right" width="80" contentClasses="settings-dropdown-panel">
+                    <x-slot name="trigger">
+                        <button type="button" class="settings-dropdown-trigger" aria-label="Open settings menu">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </x-slot>
+                    <x-slot name="content">
+                        @foreach ($settingsSections as $section)
+                            <div class="settings-dropdown-section">
+                                <p class="settings-dropdown-kicker">{{ $section['title'] }}</p>
+                                <div class="space-y-1">
+                                    @foreach ($section['items'] as $item)
+                                        @if (!$item['perm'] || \App\Helpers\AccessRightsHelper::checkPermission($item['perm']) == 'inline')
+                                            <a href="{{ route($item['route']) }}" class="settings-dropdown-link">
+                                                <i class="fas {{ $item['icon'] }}"></i>
+                                                <div>
+                                                    <div class="menu-title">{{ $item['title'] }}</div>
+                                                    <div class="menu-desc">{{ $item['desc'] }}</div>
+                                                </div>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </x-slot>
+                </x-dropdown>
                 @endif
         </div>
     </div>

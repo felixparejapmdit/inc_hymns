@@ -357,13 +357,13 @@
         width: 100%;
         padding: 1rem 1.05rem;
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(191, 219, 254, 0.75);
+        background: rgba(255, 255, 255, 0.98);
         text-decoration: none !important;
         transition: all 0.22s ease;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
@@ -378,7 +378,7 @@
         position: absolute;
         inset: 0 auto 0 0;
         width: 4px;
-        background: var(--item-accent, #3E6D9C);
+        background: linear-gradient(180deg, rgba(102, 172, 208, 0.98) 0%, rgba(62, 109, 156, 0.98) 100%);
     }
 
     .hymn-breakdown-left {
@@ -399,9 +399,9 @@
         justify-content: center;
         flex-shrink: 0;
         font-size: 1rem;
-        background: var(--item-soft, rgba(62, 109, 156, 0.12));
-        color: var(--item-accent, #3E6D9C);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+        background: linear-gradient(180deg, rgba(102, 172, 208, 0.98) 0%, rgba(62, 109, 156, 0.98) 100%);
+        color: #ffffff;
+        box-shadow: 0 10px 20px rgba(62, 109, 156, 0.22);
     }
 
     .hymn-breakdown-copy {
@@ -429,13 +429,18 @@
         gap: 0.35rem;
         padding: 0.52rem 0.78rem;
         border-radius: 999px;
-        background: #ffffff;
-        border: 1px solid rgba(62, 109, 156, 0.14);
-        color: #1d4f7a;
+        background: linear-gradient(180deg, rgba(102, 172, 208, 0.98) 0%, rgba(62, 109, 156, 0.98) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #ffffff;
         font-weight: 800;
         font-size: 0.8rem;
         position: relative;
         z-index: 1;
+        box-shadow: 0 10px 20px rgba(62, 109, 156, 0.22);
+    }
+
+    .hymn-breakdown-meta i {
+        color: #ffffff;
     }
 
     .hymn-drilldown-footer {

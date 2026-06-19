@@ -116,7 +116,87 @@
         border-color: #ef4444;
     }
 
+    .btn-create i,
+    .btn-icon i {
+        line-height: 1;
+    }
+
     /* Modal Styling */
+    .language-modal .modal-dialog {
+        max-width: 520px;
+    }
+
+    .language-modal .modal-content {
+        border-radius: 24px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+
+    .language-modal .modal-header {
+        border-bottom: 1px solid #f1f5f9;
+        padding: 1.5rem 1.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .language-modal .modal-body {
+        padding: 1.75rem;
+    }
+
+    .language-modal .modal-footer {
+        padding: 0 1.75rem 1.75rem;
+        border-top: none;
+    }
+
+    .language-modal .modal-title {
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -0.5px;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .language-modal .close {
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafc;
+        color: #64748b;
+        opacity: 1;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+        margin: -0.25rem -0.25rem -0.25rem auto;
+    }
+
+    .language-modal .close:hover {
+        background: #eef2f7;
+        color: #0f172a;
+    }
+
+    .language-modal .language-modal-action {
+        min-width: 180px;
+        height: 46px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .language-modal .language-modal-action i {
+        line-height: 1;
+    }
+
     .modal-content {
         border-radius: 30px;
         border: none;
@@ -147,6 +227,15 @@
         box-shadow: 0 0 0 4px rgba(62, 109, 156, 0.1) !important;
     }
 
+    .add-language-btn,
+    .modal-trigger-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        line-height: 1;
+    }
+
 </style>
 
 <x-app-layout>
@@ -166,7 +255,7 @@
                         <i class="fas fa-arrow-left"></i>
                         <span>Settings</span>
                     </a>
-                    <button class="btn-create" data-toggle="modal" data-target="#addLanguageModal">
+                    <button class="btn-create add-language-btn" data-toggle="modal" data-target="#addLanguageModal">
                         <i class="fas fa-plus-circle"></i> New Language
                     </button>
                 </div>
@@ -208,22 +297,27 @@
                                 </tr>
 
                                 <!-- Edit Language Modal -->
-                                <div class="modal fade" id="editLanguageModal{{ $language->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal fade language-modal" id="editLanguageModal{{ $language->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Edit Language</h5>
-                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                                                <h5 class="modal-title"><i class="fas fa-language text-primary"></i> Edit Language</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
-                                            <form action="{{ route('languages.update', $language->id) }}" method="POST" class="p-4">
+                                            <form action="{{ route('languages.update', $language->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                <div class="form-group mb-4">
+                                                <div class="modal-body">
+                                                    <div class="form-group mb-0">
                                                     <label class="font-bold small uppercase text-slate-500 mb-2">Language Name</label>
                                                     <input type="text" class="form-control rounded-pill-custom" name="name" value="{{ $language->name }}" required>
                                                 </div>
-                                                <div class="text-right">
-                                                    <button type="submit" class="btn btn-primary rounded-pill px-5 font-black uppercase shadow-lg">Save Changes</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary language-modal-action shadow-lg">
+                                                        <i class="fas fa-save"></i>
+                                                        <span>Save Changes</span>
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -231,21 +325,28 @@
                                 </div>
 
                                 <!-- Delete Confirmation Modal -->
-                                <div class="modal fade" id="deleteLanguageModal{{ $language->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal fade language-modal" id="deleteLanguageModal{{ $language->id }}" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                            <div class="p-5 text-center">
+                                            <div class="modal-body text-center">
                                                 <i class="fas fa-exclamation-circle text-danger mb-4" style="font-size: 4rem;"></i>
                                                 <h3 class="font-black uppercase text-slate-800">Are you sure?</h3>
                                                 <p class="text-muted font-bold">You are about to delete <b>{{ $language->name }}</b>.</p>
-                                                <div class="d-flex justify-content-center gap-3 mt-5">
+                                            </div>
+                                            <div class="modal-footer justify-content-center gap-3">
                                                     <form action="{{ route('languages.destroy', $language->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger rounded-pill px-5 font-black uppercase shadow-lg">Delete</button>
+                                                        <button type="submit" class="btn btn-danger language-modal-action shadow-lg">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                            <span>Delete</span>
+                                                        </button>
                                                     </form>
-                                                    <button type="button" class="btn btn-light rounded-pill px-5 font-black uppercase border" data-dismiss="modal">Cancel</button>
-                                                </div>
+                                                    <button type="button" class="btn btn-light language-modal-action border" data-dismiss="modal">
+                                                        <i class="fas fa-times"></i>
+                                                        <span>Cancel</span>
+                                                    </button>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -263,21 +364,26 @@
     </div>
 
     <!-- Add Language Modal -->
-    <div class="modal fade" id="addLanguageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade language-modal" id="addLanguageModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">New Language</h5>
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h5 class="modal-title"><i class="fas fa-plus-circle text-primary"></i> New Language</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <form action="{{ route('languages.store') }}" method="POST" class="p-4">
+                <form action="{{ route('languages.store') }}" method="POST">
                     @csrf
-                    <div class="form-group mb-4">
-                        <label class="font-bold small uppercase text-slate-500 mb-2">Language Name</label>
-                        <input type="text" class="form-control rounded-pill-custom" name="name" required placeholder="e.g. English">
+                    <div class="modal-body">
+                        <div class="form-group mb-0">
+                            <label class="font-bold small uppercase text-slate-500 mb-2">Language Name</label>
+                            <input type="text" class="form-control rounded-pill-custom" name="name" required placeholder="e.g. English">
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary rounded-pill px-5 font-black uppercase shadow-lg">Create Language</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary language-modal-action shadow-lg">
+                            <i class="fas fa-plus"></i>
+                            <span>Create Language</span>
+                        </button>
                     </div>
                 </form>
             </div>
