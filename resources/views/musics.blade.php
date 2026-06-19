@@ -287,16 +287,22 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .discovery-search {
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 50px;
-        padding: 12px 24px;
+        background: transparent;
+        border: none;
+        border-radius: 999px;
+        padding: 0.95rem 0.9rem 0.95rem 0.25rem;
         font-weight: 800;
         width: 100%;
-        max-width: 400px;
-        transition: all 0.3s;
+        color: #1f2937;
+        box-shadow: none !important;
+        transition: color 0.2s ease;
+        min-width: 260px;
     }
-    .discovery-search:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 5px rgba(62,109,156,0.1); outline: none; }
+    .discovery-search::placeholder {
+        color: #94a3b8;
+        font-weight: 700;
+    }
+    .discovery-search:focus { outline: none; }
 
     #context-menu {
         display: none;
@@ -318,27 +324,131 @@
     #context-menu.visible { opacity: 1; }
 
     .modal-content-glass {
-        background: rgba(255, 255, 255, 0.9);
+        background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(246,250,255,0.96) 100%);
         border-radius: 32px;
-        padding: 3rem;
+        padding: 2.5rem 2.5rem 2.25rem;
         width: 100%;
         max-width: 1100px;
         margin: 0 auto;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 30px 60px -18px rgba(15, 23, 42, 0.45);
+        border: 1px solid rgba(148, 163, 184, 0.16);
         transform: translateY(20px);
         transition: transform 0.4s ease;
+        overflow: hidden;
+        position: relative;
     }
 
     #context-menu.visible .modal-content-glass { transform: translateY(0); }
 
+    .discovery-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.1rem;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .discovery-header-copy {
+        max-width: 22rem;
+    }
+
+    .discovery-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        flex: 1;
+    }
+
+    .discovery-search-shell {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex: 1 1 380px;
+        min-width: min(100%, 320px);
+        height: 52px;
+        padding: 0 0.85rem 0 0.95rem;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(248, 250, 252, 0.98) 0%, rgba(255, 255, 255, 0.96) 100%);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 24px rgba(15, 23, 42, 0.06);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .discovery-search-shell:focus-within {
+        border-color: rgba(62, 109, 156, 0.35);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.96), 0 0 0 5px rgba(62, 109, 156, 0.09), 0 14px 28px rgba(15, 23, 42, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .discovery-search-shell i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+        border-radius: 999px;
+        background: rgba(62, 109, 156, 0.1);
+        color: #3e6d9c;
+        pointer-events: none;
+    }
+
+    .discovery-search-clear {
+        width: 34px;
+        height: 34px;
+        border: none;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.14);
+        color: #64748b;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .discovery-search-clear:hover {
+        background: rgba(62, 109, 156, 0.12);
+        color: #3e6d9c;
+    }
+
+    .discovery-search-clear[hidden] {
+        display: none !important;
+    }
+
+    .discovery-clear-btn {
+        min-height: 42px;
+        border-radius: 999px;
+        padding: 0 1rem;
+        border: 1px solid rgba(62, 109, 156, 0.18);
+        background: rgba(62, 109, 156, 0.08);
+        color: #3e6d9c;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        white-space: nowrap;
+    }
+
+    .discovery-clear-btn:hover {
+        background: rgba(62, 109, 156, 0.14);
+        border-color: rgba(62, 109, 156, 0.28);
+        transform: translateY(-1px);
+    }
+
     .category-card {
-        background: white;
-        border-radius: 20px;
-        padding: 1.75rem 1rem;
+        background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+        border-radius: 22px;
+        padding: 1.55rem 1rem;
         text-align: center;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 1px solid rgba(226, 232, 240, 0.95);
+        transition: all 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
         cursor: pointer;
         height: 100%;
         display: flex;
@@ -350,15 +460,48 @@
     }
 
     .category-card i {
-        font-size: 1.5rem;
-        color: var(--accent-blue);
-        margin-bottom: 0.75rem;
-        opacity: 0.8;
+        font-size: 1.45rem;
+        color: #5c84ad;
+        margin-bottom: 0.8rem;
+        opacity: 0.92;
+        transition: transform 0.2s ease, color 0.2s ease;
     }
 
-    .category-card:hover { border-color: var(--accent-blue); transform: translateY(-8px); box-shadow: 0 12px 20px rgba(62, 109, 156, 0.1); }
-    .category-card.active { background: var(--accent-blue); color: white; }
+    .category-card:hover {
+        border-color: rgba(62, 109, 156, 0.28);
+        transform: translateY(-8px);
+        box-shadow: 0 14px 26px rgba(62, 109, 156, 0.12);
+    }
+    .category-card:hover i { transform: translateY(-1px); }
+    .category-card.active {
+        background: linear-gradient(180deg, #5f8fb8 0%, #3e6d9c 100%);
+        color: white;
+        border-color: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 16px 28px rgba(62, 109, 156, 0.2);
+    }
     .category-card.active i { color: white; }
+    .category-card.active .font-bold,
+    .category-card.active .small {
+        color: white !important;
+    }
+
+    .discovery-grid-note {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0 0 1.15rem;
+        padding: 0.75rem 1rem;
+        border-radius: 16px;
+        background: rgba(62, 109, 156, 0.06);
+        color: #4b647f;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+    }
+
+    .discovery-grid-note i {
+        color: #3e6d9c;
+    }
 
     /* Custom Snackbar/Toast */
     #snackbar {
@@ -834,18 +977,29 @@
     <!-- Discovery Modal Overlay -->
     <div id="context-menu">
         <div class="modal-content-glass">
-            <div class="d-flex justify-between items-center mb-5">
-                <div>
+            <div class="discovery-header">
+                <div class="discovery-header-copy">
                     <h2 class="text-3xl font-black text-slate-800 uppercase tracking-tighter mb-0">Discovery</h2>
                     <p class="text-muted small font-bold uppercase tracking-widest pl-1 mt-1 opacity-60">Browse hymns by category</p>
                 </div>
-                <div class="flex-grow-1 px-5">
-                    <div class="position-relative">
-                        <i class="fas fa-search position-absolute" style="left: 20px; top: 50%; translate: 0 -50%; color: #94a3b8;"></i>
-                        <input type="text" id="modalSearch" class="discovery-search" placeholder="Search categories..." style="padding-left: 50px; max-width: 100%;">
+                <div class="discovery-header-actions">
+                    <div class="discovery-search-shell">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="modalSearch" class="discovery-search" placeholder="Search categories..." style="max-width: 100%;">
+                        <button type="button" id="clearDiscoverySearch" class="discovery-search-clear" title="Clear search" hidden>
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
+                    <button type="button" id="clearCategoryFilters" class="discovery-clear-btn" title="Clear selected categories">
+                        <i class="fas fa-eraser"></i>
+                        Clear
+                    </button>
+                    <button onclick="closeCategoryModal()" class="btn btn-light rounded-circle shadow-sm p-3" aria-label="Close discovery modal"><i class="fas fa-times"></i></button>
                 </div>
-                <button onclick="closeCategoryModal()" class="btn btn-light rounded-circle shadow-sm p-3"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="discovery-grid-note">
+                <i class="fas fa-info-circle"></i>
+                Tap a category to filter the hymn list. Clear resets the category filter and shows all hymns again.
             </div>
             <div class="row" id="modalCategoryList">
                 @foreach($topCategories as $category)
@@ -937,6 +1091,16 @@
             performLiveSearch();
         }
 
+        function clearCategoryFilters() {
+            const options = $('#category-options');
+            options.find('input').prop('checked', false);
+            $('#selected-categories').empty();
+            $('#category-search').val('');
+            $('#modalSearch').val('');
+            $('#modalCategoryList .col-6').show();
+            updateFilterTags('category');
+        }
+
         // Dropdown Search Listeners
         ['language', 'category'].forEach(type => {
             $(`#${type}-search`).on('input', function() {
@@ -951,10 +1115,21 @@
         // Discovery Modal Search
         $('#modalSearch').on('input', function() {
             const val = $(this).val().toUpperCase();
+            $('#clearDiscoverySearch').prop('hidden', !$(this).val().length);
             $('#modalCategoryList .col-6').each(function() {
                 const text = $(this).find('.font-bold').text().toUpperCase();
                 $(this).toggle(text.includes(val));
             });
+        });
+
+        $(document).on('click', '#clearDiscoverySearch', function(e) {
+            e.preventDefault();
+            $('#modalSearch').val('').trigger('input').focus();
+        });
+
+        $(document).on('click', '#clearCategoryFilters', function(e) {
+            e.preventDefault();
+            clearCategoryFilters();
         });
 
         // Close dropdowns on outside click
@@ -1199,6 +1374,7 @@
         
         function selectCategoryExplicitly(id) {
             const url = new URL(window.location.href);
+            url.searchParams.delete('category_ids[]');
             url.searchParams.set('category_ids[]', id);
             window.location.href = url.href;
         }
