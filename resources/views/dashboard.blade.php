@@ -582,16 +582,16 @@
 
     .section-card-title {
         margin: 0;
-        font-size: 1.02rem;
+        font-size: 1.1rem;
         font-weight: 950;
         text-transform: uppercase;
-        letter-spacing: 0.4px;
-        color: #334155;
+        letter-spacing: 0.55px;
+        color: #1f3550;
     }
 
     .section-card-title i {
         margin-right: 0.5rem;
-        color: var(--accent-blue);
+        color: #4f759b;
     }
 
     #playlist-card .section-card-title,
@@ -601,6 +601,32 @@
         font-size: 1.08rem;
         letter-spacing: 0.55px;
         color: #1f3550;
+    }
+
+    .analytics-card-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 1.05rem;
+        font-weight: 950;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        color: #1f3550;
+    }
+
+    .analytics-card-title i,
+    .analytics-accordion-btn i.fa-chevron-down {
+        color: #64748b;
+    }
+
+    .analytics-accordion-btn {
+        background: rgba(248, 250, 252, 0.95);
+        color: #1f3550;
+    }
+
+    .analytics-accordion-btn:hover {
+        color: #0f2840;
+        background: #f8fafc;
     }
 
     .section-link {
@@ -842,7 +868,9 @@
 
     .chart-frame.small { height: 290px; }
 
-    .chart-frame canvas { filter: saturate(1.08) contrast(1.02); }
+    .chart-frame canvas {
+        filter: saturate(0.88) contrast(0.98);
+    }
 
     .collapsible-card .accordion-btn {
         border-bottom: 0;
@@ -1824,8 +1852,8 @@
                     <div class="row">
                         <div class="col-lg-6 mb-4">
                             <div class="dashboard-card collapsible-card compact-card">
-                                <button class="accordion-btn" onclick="toggleAccordion(this)">
-                                    <span><i class="fas fa-sliders-h mr-2 opacity-50"></i> Instrumentations</span>
+                                <button class="accordion-btn analytics-accordion-btn" onclick="toggleAccordion(this)">
+                                    <span class="analytics-card-title"><i class="fas fa-sliders-h"></i> Instrumentations</span>
                                     <i class="fas fa-chevron-down text-xs opacity-50"></i>
                                 </button>
                                 <div class="panel-content">
@@ -1845,8 +1873,8 @@
 
                         <div class="col-lg-6 mb-4">
                             <div class="dashboard-card collapsible-card compact-card">
-                                <button class="accordion-btn" onclick="toggleAccordion(this)">
-                                    <span><i class="fas fa-pen-nib mr-2 opacity-50"></i> Hymn Credits</span>
+                                <button class="accordion-btn analytics-accordion-btn" onclick="toggleAccordion(this)">
+                                    <span class="analytics-card-title"><i class="fas fa-pen-nib"></i> Hymn Credits</span>
                                     <i class="fas fa-chevron-down text-xs opacity-50"></i>
                                 </button>
                                 <div class="panel-content">
@@ -1872,8 +1900,8 @@
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="dashboard-card collapsible-card compact-card">
-                                <button class="accordion-btn" onclick="toggleAccordion(this)">
-                                    <span><i class="fas fa-layer-group mr-2 opacity-50"></i> Ensemble Types</span>
+                                <button class="accordion-btn analytics-accordion-btn" onclick="toggleAccordion(this)">
+                                    <span class="analytics-card-title"><i class="fas fa-layer-group"></i> Ensemble Types</span>
                                     <i class="fas fa-chevron-down text-xs opacity-50"></i>
                                 </button>
                                 <div class="panel-content">
@@ -2086,15 +2114,16 @@
 
             const churchHymnsCanvas = document.getElementById('churchHymnsChart');
             if (distLabels.length > 0 && churchHymnsCanvas) {
+                const softChartColors = ['#5e9a93', '#6f8fc6', '#dbb463', '#db8484', '#9a7ad7', '#7bbfb7'];
                 new Chart(churchHymnsCanvas.getContext('2d'), {
                     type: 'doughnut',
                     data: {
                         labels: distLabels,
                         datasets: [{
                             data: distData,
-                            backgroundColor: ['#0f766e', '#1d4ed8', '#f59e0b', '#ef4444', '#8b5cf6', '#14b8a6'],
+                            backgroundColor: distData.map((_, index) => softChartColors[index % softChartColors.length]),
                             borderWidth: 2,
-                            borderColor: '#ffffff'
+                            borderColor: 'rgba(255, 255, 255, 0.9)'
                         }]
                     },
                     options: {
@@ -2126,6 +2155,7 @@
 
             const hymnCategoriesCanvas = document.getElementById('hymnCategoriesChart');
             if (catLabels.length > 0 && hymnCategoriesCanvas) {
+                const softBarColors = ['#5e9a93', '#6f8fc6', '#dbb463', '#db8484', '#9a7ad7'];
                 new Chart(hymnCategoriesCanvas.getContext('2d'), {
                     type: 'bar',
                     data: {
@@ -2133,7 +2163,7 @@
                         datasets: [{
                             label: 'Hymns',
                             data: catData,
-                            backgroundColor: ['#0f766e', '#1d4ed8', '#f59e0b', '#ef4444', '#8b5cf6'],
+                            backgroundColor: catData.map((_, index) => softBarColors[index % softBarColors.length]),
                             borderRadius: 10,
                             borderSkipped: false,
                         }]
