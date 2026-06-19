@@ -79,18 +79,21 @@ Route::put('/musics/{music}', [MusicController::class, 'update'])->name('musics.
 // Route::resource('musics', MusicController::class)->except('destroy');
 Route::delete('/musics/{music}', [MusicController::class, 'destroy'])->name('musics.destroy');
 
-// Route for showing a single music details
-Route::get('/musics/{id}', [MusicController::class, 'show'])->name('musics.show');
-
 Route::get('musics/fetchByLanguage/{languageId?}', [MusicController::class, 'fetchMusicsByLanguage'])->name('musics.fetchByLanguage');
-
-Route::get('musics/{id}/{languageId?}', [MusicController::class, 'show'])->name('musics.show');
 
 Route::get('/musicplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.musicPlayer');
 
 Route::get('mplayer/{id}', [MusicController::class, 'musicPlayer'])->name('musics.mplayer');
 
 Route::get('/musics/search', [MusicController::class, 'search'])->name('musics.search');
+Route::get('/musics/global-search', [MusicController::class, 'globalSearch'])
+    ->middleware('auth')
+    ->name('musics.global_search');
+
+// Route for showing a single music details
+Route::get('/musics/{id}', [MusicController::class, 'show'])->name('musics.show');
+
+Route::get('musics/{id}/{languageId?}', [MusicController::class, 'show'])->name('musics.show');
 
 Route::get('/creators/{creatorId}', [MusicCreatorController::class, 'showinfo'])->name('creators.showinfo');
 

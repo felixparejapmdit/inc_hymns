@@ -210,6 +210,70 @@ public function search(Request $request)
 
     return view('musics', compact('musics', 'categories', 'languages'));
 }
+
+    public function globalSearch(Request $request)
+    {
+        $query = trim((string) $request->query('q', ''));
+
+        if ($query === '') {
+            return response()->json([
+                'data' => [],
+                'query' => $query,
+            ]);
+        }
+
+        $like = '%' . $query . '%';
+
+        $musics = Music::query()
+            ->with([
+                'language:id,name',
+                'churchHymn:id,name',
+            ])
+            ->where(function ($builder) use ($like) {
+                $builder->where('title', 'like', $like)
+                    ->orWhere('song_number', 'like', $like)
+                    ->orWhere('lyrics', 'like', $like)
+                    ->orWhereHas('categories', function ($categoryQuery) use ($like) {
+                        $categoryQuery->where('name', 'like', $like);
+                    })
+                    ->orWhereHas('lyricists', function ($creatorQuery) use ($like) {
+                        $creatorQuery->where('name', 'like', $like);
+                    })
+                    ->orWhereHas('composers', function ($creatorQuery) use ($like) {
+                        $creatorQuery->where('name', 'like', $like);
+                    })
+                    ->orWhereHas('arrangers', function ($creatorQuery) use ($like) {
+                        $creatorQuery->where('name', 'like', $like);
+                    })
+                    ->orWhereHas('churchHymn', function ($churchHymnQuery) use ($like) {
+                        $churchHymnQuery->where('name', 'like', $like);
+                    })
+                    ->orWhereHas('language', function ($languageQuery) use ($like) {
+                        $languageQuery->where('name', 'like', $like);
+                    });
+            })
+            ->orderByRaw(
+                'CASE WHEN title LIKE ? THEN 0 WHEN song_number LIKE ? THEN 1 ELSE 2 END',
+                [$like, $like]
+            )
+            ->limit(8)
+            ->get()
+            ->map(function (Music $music) {
+                return [
+                    'id' => $music->id,
+                    'title' => $music->title,
+                    'song_number' => $music->song_number,
+                    'language' => $music->language?->name,
+                    'church_hymn' => $music->churchHymn?->name,
+                    'url' => route('musics.show', $music->id),
+                ];
+            });
+
+        return response()->json([
+            'data' => $musics,
+            'query' => $query,
+        ]);
+    }
     public function musicDetails($id, $language_id = null)
 {
     $music = Music::find($id);
