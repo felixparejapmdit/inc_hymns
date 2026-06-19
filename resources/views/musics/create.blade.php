@@ -86,17 +86,19 @@
                         </div>
                         <div>
                             <label class="custom-label">Music Score (PDF)</label>
-                            <div class="file-upload-card" style="display:flex; align-items:center; justify-content:center; padding: 1.5rem;" onclick="document.getElementById('music_score_path').click()">
-                                <i class="fas fa-file-pdf mr-3 mb-0" style="color: #ef4444;"></i>
-                                <div class="text-left font-bold small text-slate-500 uppercase">Score PDF <div id="score_preview" class="file-name-preview"></div></div>
+                            <div class="file-upload-card" onclick="document.getElementById('music_score_path').click()">
+                                <i class="fas fa-file-pdf"></i>
+                                <div class="font-bold small text-slate-500 uppercase">Score PDF</div>
+                                <div id="score_preview" class="file-name-preview"></div>
                                 <input type="file" id="music_score_path" name="music_score_path" hidden accept=".pdf" onchange="updateFileLabel(this, 'score_preview')">
                             </div>
                         </div>
                         <div style="grid-column: 1 / -1;">
                             <label class="custom-label">Lyrics (PDF)</label>
-                            <div class="file-upload-card" style="display:flex; align-items:center; justify-content:center; padding: 1.5rem;" onclick="document.getElementById('lyrics_path').click()">
-                                <i class="fas fa-pen-fancy mr-3 mb-0 text-blue-400"></i>
-                                <div class="text-left font-bold small text-slate-500 uppercase">Lyrics PDF <div id="lyrics_preview" class="file-name-preview"></div></div>
+                            <div class="file-upload-card" onclick="document.getElementById('lyrics_path').click()">
+                                <i class="fas fa-pen-fancy"></i>
+                                <div class="font-bold small text-slate-500 uppercase">Lyrics PDF</div>
+                                <div id="lyrics_preview" class="file-name-preview"></div>
                                 <input type="file" id="lyrics_path" name="lyrics_path" hidden accept=".pdf" onchange="updateFileLabel(this, 'lyrics_preview')">
                             </div>
                         </div>

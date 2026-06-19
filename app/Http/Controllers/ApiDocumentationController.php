@@ -11,7 +11,9 @@ class ApiDocumentationController extends Controller
 {
     public function index()
     {
-        $apiDocumentations = ApiDocumentation::all();
+        $apiDocumentations = ApiDocumentation::orderBy('id', 'desc')
+            ->paginate(10)
+            ->withQueryString();
         
         return view('api_documentations.index', compact('apiDocumentations'));
     }

@@ -152,14 +152,19 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 page-shell">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">Hymn Categories</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Classification Management</p>
+                    <div class="page-kicker">
+                        <i class="fas fa-tags"></i>
+                        Music Resources
+                    </div>
+                    <h1 class="page-title">Hymn Categories</h1>
+                    <p class="page-subtitle">Classification Management</p>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                <div class="toolbar-stack">
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('categories.create') === 'inline')
                         <button id="addCategoryButton" data-toggle="modal" data-target="#addCategoryModal" class="btn-create">
@@ -215,7 +220,7 @@
                     </table>
                 </div>
 
-                <div class="mt-5 d-flex justify-content-center">
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
                     {{ $categories->links() }}
                 </div>
             </div>

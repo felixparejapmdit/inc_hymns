@@ -475,7 +475,7 @@
                     </table>
                 </div>
 
-                <div class="mt-5 d-flex justify-content-center">
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
                     {{ $users->withQueryString()->links() }}
                 </div>
             </div>
@@ -595,7 +595,7 @@
             });
 
             document.addEventListener('click', function (event) {
-                const link = event.target.closest('#users-results .pagination a');
+                const link = event.target.closest('#users-results a[href*="page="]');
                 if (!link) {
                     return;
                 }

@@ -152,14 +152,19 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 page-shell">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">Languages</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Multi-language Support</p>
+                    <div class="page-kicker">
+                        <i class="fas fa-language"></i>
+                        Music Resources
+                    </div>
+                    <h1 class="page-title">Languages</h1>
+                    <p class="page-subtitle">Multi-language Support</p>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                <div class="toolbar-stack">
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
                     <button class="btn-create" data-toggle="modal" data-target="#addLanguageModal">
                         <i class="fas fa-plus-circle"></i> New Language
@@ -186,7 +191,7 @@
                         <tbody>
                             @foreach ($languages as $language)
                                 <tr>
-                                    <td class="text-center font-bold text-muted" style="font-size: 0.85rem;">{{ $loop->iteration }}</td>
+                                    <td class="text-center font-bold text-muted" style="font-size: 0.85rem;">{{ ($languages->currentPage() - 1) * $languages->perPage() + $loop->iteration }}</td>
                                     <td>
                                         <div class="font-black text-slate-800">{{ $language->name }}</div>
                                     </td>
@@ -248,6 +253,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
+                    {{ $languages->withQueryString()->links() }}
                 </div>
             </div>
         </div>

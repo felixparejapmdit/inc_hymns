@@ -12,7 +12,9 @@ class LanguageController extends Controller
     // Display a listing of the languages
     public function index()
     {
-        $languages = Language::all();
+        $languages = Language::orderBy('name')
+            ->paginate(10)
+            ->withQueryString();
         return view('languages.index', compact('languages'));
     }
 

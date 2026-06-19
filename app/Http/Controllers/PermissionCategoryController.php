@@ -10,7 +10,10 @@ class PermissionCategoryController extends Controller
 {
     public function index()
     {
-        $categories = PermissionCategory::whereNotNull('name')->get();
+        $categories = PermissionCategory::whereNotNull('name')
+            ->orderBy('name')
+            ->paginate(10)
+            ->withQueryString();
         return view('permission_categories.index', compact('categories'));
     }
     

@@ -141,14 +141,19 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 page-shell">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">Group Management</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">User Roles & Organizational Units</p>
+                    <div class="page-kicker">
+                        <i class="fas fa-users"></i>
+                        Security & Access
+                    </div>
+                    <h1 class="page-title">Group Management</h1>
+                    <p class="page-subtitle">User Roles & Organizational Units</p>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                <div class="toolbar-stack">
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
                     <a href="{{ route('groups.create') }}" class="btn-create">
                         <i class="fas fa-users-cog"></i> New Group
@@ -208,6 +213,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
+                    {{ $groups->withQueryString()->links() }}
                 </div>
             </div>
         </div>

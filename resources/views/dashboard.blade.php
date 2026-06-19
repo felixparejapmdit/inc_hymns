@@ -356,26 +356,29 @@
         gap: 1rem;
         width: 100%;
         padding: 1rem 1.05rem;
-        border-radius: 24px;
-        border: 0;
-        background: linear-gradient(180deg, rgba(102, 172, 208, 0.92) 0%, rgba(62, 109, 156, 0.94) 100%);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.96);
         text-decoration: none !important;
         transition: all 0.22s ease;
         position: relative;
         overflow: hidden;
-        box-shadow: none;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 
     .hymn-breakdown-item:hover {
         transform: translateY(-3px);
-        box-shadow: none;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
     }
 
     .hymn-breakdown-item::before {
         content: '';
         position: absolute;
         inset: 0 auto 0 0;
-        width: 0;
+        width: 4px;
+        background: var(--item-accent, #3E6D9C);
     }
 
     .hymn-breakdown-left {
@@ -396,9 +399,9 @@
         justify-content: center;
         flex-shrink: 0;
         font-size: 1rem;
-        background: rgba(255, 255, 255, 0.14);
-        color: rgba(255, 255, 255, 0.9);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+        background: var(--item-soft, rgba(62, 109, 156, 0.12));
+        color: var(--item-accent, #3E6D9C);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
     }
 
     .hymn-breakdown-copy {
@@ -408,7 +411,7 @@
     .hymn-breakdown-name {
         margin: 0;
         font-weight: 900;
-        color: #ffffff;
+        color: #0f172a;
         font-size: 1rem;
         line-height: 1.2;
     }
@@ -416,7 +419,7 @@
     .hymn-breakdown-hint {
         margin: 0.2rem 0 0;
         font-size: 0.76rem;
-        color: rgba(255, 255, 255, 0.78);
+        color: #64748b;
     }
 
     .hymn-breakdown-meta {
@@ -426,9 +429,9 @@
         gap: 0.35rem;
         padding: 0.52rem 0.78rem;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.16);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        color: #ffffff;
+        background: #ffffff;
+        border: 1px solid rgba(62, 109, 156, 0.14);
+        color: #1d4f7a;
         font-weight: 800;
         font-size: 0.8rem;
         position: relative;

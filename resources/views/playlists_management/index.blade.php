@@ -592,7 +592,7 @@
                     </table>
                 </div>
 
-                <div class="mt-5 d-flex justify-content-center">
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
                     {{ $playlists->withQueryString()->links() }}
                 </div>
             </div>

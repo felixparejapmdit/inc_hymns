@@ -13,7 +13,10 @@ class GroupController extends Controller
 {
     public function index()
     {
-        $groups = Group::withCount('users')->get();
+        $groups = Group::withCount('users')
+            ->orderBy('name')
+            ->paginate(10)
+            ->withQueryString();
         return view('groups.index', compact('groups'));
     }
 

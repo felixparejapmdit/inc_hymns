@@ -262,7 +262,7 @@
                         <tbody>
                             @foreach($categories as $category)
                                 <tr>
-                                    <td class="text-center font-bold text-muted" style="font-size: 0.85rem;">{{ $loop->iteration }}</td>
+                                    <td class="text-center font-bold text-muted" style="font-size: 0.85rem;">{{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}</td>
                                     <td>
                                         <div class="font-black text-slate-800">{{ $category->name }}</div>
                                     </td>
@@ -287,6 +287,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
+                    {{ $categories->withQueryString()->links() }}
                 </div>
             </div>
         </div>

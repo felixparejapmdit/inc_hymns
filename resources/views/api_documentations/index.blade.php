@@ -200,14 +200,19 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 page-shell">
-            <div class="d-flex justify-content-between align-items-center mb-5 mt-2">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">API Documentation</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Endpoints & Integration Guide</p>
+                    <div class="page-kicker">
+                        <i class="fas fa-terminal"></i>
+                        System Maintenance
+                    </div>
+                    <h1 class="page-title">API Documentation</h1>
+                    <p class="page-subtitle">Endpoints & Integration Guide</p>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                <div class="toolbar-stack">
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
                     <a href="{{ route('api_documentations.create') }}" class="btn-create">
                         <i class="fas fa-terminal"></i> New Endpoint
@@ -256,7 +261,7 @@
                                     $methodClass = 'method-' . strtolower($method);
                                 @endphp
                                 <tr class="api-row" data-method="{{ $method }}">
-                                    <td class="text-center text-muted font-bold" style="font-size: 0.8rem;">{{ $loop->iteration }}</td>
+                                    <td class="text-center text-muted font-bold" style="font-size: 0.8rem;">{{ ($apiDocumentations->currentPage() - 1) * $apiDocumentations->perPage() + $loop->iteration }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <span class="method-badge {{ $methodClass }}">{{ $method }}</span>
@@ -287,6 +292,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
+                    {{ $apiDocumentations->withQueryString()->links() }}
                 </div>
             </div>
         </div>

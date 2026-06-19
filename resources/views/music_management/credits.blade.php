@@ -79,7 +79,7 @@
 
     .creator-name {
         font-weight: 800;
-        color: #1e293b;
+        color: #475569;
         text-decoration: none !important;
         transition: color 0.2s;
         display: flex;
@@ -351,14 +351,19 @@
 <x-app-layout>
     <div class="glass-container">
         <div class="container-fluid px-5 px-xl-5 page-shell">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="page-header-shell">
                 <div>
-                    <h1 class="font-black text-4xl text-white tracking-tighter mb-0 uppercase">Music Creators</h1>
-                    <p class="text-white opacity-80 font-bold uppercase tracking-wider small mt-1">Management & Credits List</p>
+                    <div class="page-kicker">
+                        <i class="fas fa-pen-nib"></i>
+                        Music Resources
+                    </div>
+                    <h1 class="page-title">Music Creators</h1>
+                    <p class="page-subtitle">Management & Credits List</p>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="{{ route('admin.settings') }}" class="btn btn-light rounded-pill px-4 font-bold shadow-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Settings
+                <div class="toolbar-stack">
+                    <a href="{{ route('admin.settings') }}" class="page-action-btn page-action-btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Settings</span>
                     </a>
                     @if (\App\Helpers\AccessRightsHelper::checkPermission('credits.create') == 'inline')
                         <button data-toggle="modal" data-target="#addCreditModal" class="btn-create shadow-lg">
@@ -461,7 +466,7 @@
                     </table>
                 </div>
 
-                <div class="mt-5 d-flex justify-content-center pagination">
+                <div class="mt-5 d-flex justify-content-center pagination-centered">
                     {{ $credits->appends(['query' => request()->query('query'), 'designation' => request()->query('designation')])->links() }}
                 </div>
             </div>

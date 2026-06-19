@@ -15,8 +15,8 @@
     }
 </style>
 
-<div class="container-fluid px-0 text-center">
-            {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
+<div class="container-fluid px-0 text-center pagination-centered">
+            {{ $musics->appends(['query' => request()->query('query')])->links() }}
         </div>
         
         <table class="min-w-full mt-3 mb-3">
@@ -90,6 +90,6 @@
         @endforeach
     </tbody>
 </table>
-<div class="container text-center">
-            {{ $musics->appends(['query' => request()->query('query')])->links('pagination::bootstrap-4') }}
+<div class="container text-center pagination-centered">
+            {{ $musics->appends(['query' => request()->query('query')])->links() }}
         </div>

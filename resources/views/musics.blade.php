@@ -798,7 +798,7 @@
                 <!-- Pagination Area (Centered Dashboard Style) -->
                 <div class="mt-4 pt-4 border-top text-center">
                     <div class="pagination-centered ajax-pagination">
-                        {{ $musics->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
+                        {{ $musics->appends(request()->except('page'))->links() }}
                     </div>
                     <div class="text-muted small mt-3 font-bold opacity-60">
                         Showing {{ $musics->firstItem() }} to {{ $musics->lastItem() }} of {{ $musics->total() }} results
@@ -1094,9 +1094,9 @@
                     let endY = e.changedTouches[0].pageY;
                     if (Math.abs(startY - endY) > 80) { // Swipe sensitivity
                         if (startY > endY) { // Swipe Up -> Next
-                            $('.pagination a[rel="next"]').first().click();
+                            $('a[rel="next"]').first().click();
                         } else { // Swipe Down -> Prev
-                            $('.pagination a[rel="prev"]').first().click();
+                            $('a[rel="prev"]').first().click();
                         }
                     }
                 });
