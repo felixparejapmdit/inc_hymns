@@ -230,8 +230,17 @@
     }
 
     .most-viewed-song-number {
-        color: #1f2937;
+        color: #64748b;
         font-weight: 700;
+    }
+
+    .playlist-song-link {
+        color: #64748b;
+        transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .playlist-song-link:hover {
+        color: #475569;
     }
 
     .activity-user-name {
@@ -588,8 +597,10 @@
     #playlist-card .section-card-title,
     #most-viewed-card .section-card-title,
     #activity-card .section-card-title {
-        font-weight: 950;
-        color: #20344f;
+        font-weight: 900;
+        font-size: 1.08rem;
+        letter-spacing: 0.55px;
+        color: #1f3550;
     }
 
     .section-link {
@@ -1372,6 +1383,32 @@
         border-radius: 12px;
     }
 
+    .playlist-accordion-btn {
+        color: #64748b;
+    }
+
+    .playlist-accordion-btn:hover {
+        color: #475569;
+    }
+
+    .playlist-accordion-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 700;
+        color: #64748b;
+    }
+
+    .playlist-accordion-label i,
+    .playlist-accordion-btn i.fa-chevron-down {
+        color: #64748b;
+    }
+
+    .playlist-song-number {
+        color: #64748b;
+        font-weight: 700;
+    }
+
     .accordion-btn:hover {
         background-color: #f8fafc;
     }
@@ -1594,9 +1631,9 @@
                                 <div class="mt-2 card-scroll-body">
                                     @foreach($playlists as $playlist)
                                         @php $playlistId = $playlist->id; @endphp
-                                        <button class="accordion-btn" onclick="toggleAccordion(this)">
-                                            <span><i class="fas fa-list-ul mr-2 opacity-50"></i> {{ $playlist->name }}</span>
-                                            <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                                        <button class="accordion-btn playlist-accordion-btn" onclick="toggleAccordion(this)">
+                                            <span class="playlist-accordion-label"><i class="fas fa-list-ul"></i> {{ $playlist->name }}</span>
+                                            <i class="fas fa-chevron-down text-xs"></i>
                                         </button>
                                         <div class="panel-content">
                                             <div class="table-responsive">
@@ -1611,16 +1648,16 @@
                                                     <tbody>
                                                         @foreach($playlist->musics as $key => $music)
                                                             <tr data-id="{{ $music->id }}" data-playlist-id="{{ $playlistId }}">
-                                                                <td class="text-center font-bold text-gray-400">{{ $key + 1 }}</td>
+                                                                <td class="text-center playlist-song-number">{{ $key + 1 }}</td>
                                                                 <td>
                                                                     <div class="d-flex align-items-center">
                                                                         <i class="fas fa-music mr-3 text-blue-400"></i>
-                                                                        <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="text-blue-600 font-semibold hover:underline">
+                                                                        <a href="{{ route('musics.show', [$music->id, 'playlist_id' => $playlistId ?? null]) }}" class="font-semibold hover:underline playlist-song-link">
                                                                             {{ $music->title }}
                                                                         </a>
                                                                     </div>
                                                                 </td>
-                                                                <td class="text-center font-medium">{{ $music->song_number ?? '-' }}</td>
+                                                                <td class="text-center playlist-song-number">{{ $music->song_number ?? '-' }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
