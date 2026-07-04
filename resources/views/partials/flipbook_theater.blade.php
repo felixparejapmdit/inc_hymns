@@ -7,7 +7,7 @@
     <div class="fb-top-bar">
         <div class="fb-top-left" style="display:flex; align-items:center; gap:8px;">
             <span class="fb-badge" style="background:rgba(59,130,246,.15); color:#60a5fa; padding:4px 10px; border-radius:6px; font-size:.6rem; font-weight:800; letter-spacing:1px; border:1px solid rgba(59,130,246,.3);">
-                INC Hymns <span id="fb-load-pct" style="margin-left:4px; display:none;">0%</span>
+                HYMNS <span id="fb-load-pct" style="margin-left:4px; display:none;">0%</span>
             </span>
             <button id="fb-theme-toggle" class="fb-ctrl-btn" title="Toggle Light/Dark Mode" style="width:30px;height:30px;font-size:0.8rem;">
                 <i class="fas fa-sun"></i>
@@ -159,7 +159,10 @@
     <audio id="fb-audio" preload="auto"></audio>
 
     {{-- ── BOTTOM COMMAND CENTER ───────────────────────── --}}
-    <div class="fb-command-center">
+    <div class="fb-command-center" id="fb-command-center">
+        <button class="fb-cc-handle" id="fb-cc-handle" title="Collapse/Expand Player">
+            <i class="fas fa-chevron-down" id="fb-cc-toggle-icon"></i>
+        </button>
 
         {{-- Title Strip: Hymn Title centered at the top of the command center --}}
         <div class="fb-title-strip">
@@ -369,6 +372,10 @@
     position:fixed;
     inset: 0;
     z-index: 9999;
+    --fb-turn-duration: 840ms;
+    --fb-turn-ease: cubic-bezier(0.18, 0.88, 0.22, 1);
+    --fb-turn-mobile-duration: 500ms;
+    --fb-turn-mobile-ease: cubic-bezier(0.24, 0.82, 0.18, 1);
     background: radial-gradient(ellipse at 20% 10%, #1a2744 0%, #0c1628 55%, #0a0f1e 100%);
     display: flex;
     flex-direction: column;
@@ -523,7 +530,10 @@
 .fb-stage.fb-zoomed {
     align-items: flex-start;
     justify-content: flex-start;
+    cursor: grab;
 }
+.fb-stage.fb-zoomed.fb-panning { cursor: grabbing; }
+.fb-zoom-surface.fb-no-anim { transition: none !important; }
 
 /* ─── BOOK ───────────────────────────────────────────────── */
 /* perspective on wrap; preserve-3d on book so children inherit 3D context */
@@ -568,8 +578,8 @@
         0 0 0 3px rgba(0,0,0,.5);
 }
 .fb-book.is-flipping .fb-page {
-    opacity: 0.94;
-    filter: brightness(0.985) saturate(0.98);
+    opacity: 0.98;
+    filter: brightness(0.995) saturate(0.99);
 }
 .fb-page {
     background:#fff; overflow:hidden; position:relative; flex-shrink:0;
@@ -619,6 +629,27 @@
     display: none;
     will-change: transform, opacity, filter;
     border-radius: 0 5px 5px 0;
+    overflow: visible;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.fb-turning-page::before,
+.fb-turning-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.fb-turning-page::before {
+    opacity: 0;
+}
+
+.fb-turning-page::after {
+    opacity: 0.08;
 }
 
 /* Front face: the page you see while it lifts */
@@ -640,55 +671,85 @@
     border-radius: 0 5px 5px 0;
 }
 
-/*
- * Forward flip: right page pivots from left/spine edge.
- * Natural arc with 3D lift, gradient shadow, and page curl feel.
- */
 @keyframes fb-turn-forward {
     0%   {
         transform: rotateY(0deg) translateZ(0px);
         filter: brightness(1);
     }
-    25%  {
-        transform: rotateY(-45deg) translateZ(55px);
-        filter: brightness(0.95);
+    16%  {
+        transform: translateX(-1.2%) rotateY(-14deg) translateZ(14px) scaleX(0.996) scaleY(1.003);
+        filter: brightness(0.99) saturate(0.995);
     }
-    50%  {
-        transform: rotateY(-90deg) translateZ(90px) scale(1.02);
-        filter: brightness(0.85);
+    38%  {
+        transform: translateX(-4.4%) rotateY(-60deg) translateZ(46px) scaleX(0.976) scaleY(1.008);
+        filter: brightness(0.94) saturate(0.988);
     }
-    75%  {
-        transform: rotateY(-135deg) translateZ(55px);
-        filter: brightness(0.92);
+    60%  {
+        transform: translateX(-7%) rotateY(-94deg) translateZ(68px) scaleX(0.958) scaleY(1.012);
+        filter: brightness(0.87) saturate(0.984);
+    }
+    82%  {
+        transform: translateX(-4%) rotateY(-136deg) translateZ(38px) scaleX(0.975) scaleY(1.006);
+        filter: brightness(0.95) saturate(0.99);
     }
     100% {
-        transform: rotateY(-180deg) translateZ(0px);
-        filter: brightness(1);
+        transform: translateX(0) rotateY(-180deg) translateZ(0px) scaleX(1) scaleY(1);
+        filter: brightness(1) saturate(1);
     }
 }
 
-/* Backward flip: mirror of forward */
 @keyframes fb-turn-backward {
     0%   {
         transform: rotateY(-180deg) translateZ(0px);
         filter: brightness(1);
     }
-    25%  {
-        transform: rotateY(-135deg) translateZ(55px);
-        filter: brightness(0.92);
+    16%  {
+        transform: translateX(1.2%) rotateY(-166deg) translateZ(14px) scaleX(0.996) scaleY(1.003);
+        filter: brightness(0.99) saturate(0.995);
     }
-    50%  {
-        transform: rotateY(-90deg) translateZ(90px) scale(1.02);
-        filter: brightness(0.85);
+    38%  {
+        transform: translateX(4.4%) rotateY(-120deg) translateZ(46px) scaleX(0.976) scaleY(1.008);
+        filter: brightness(0.94) saturate(0.988);
     }
-    75%  {
-        transform: rotateY(-45deg) translateZ(55px);
-        filter: brightness(0.95);
+    60%  {
+        transform: translateX(7%) rotateY(-86deg) translateZ(68px) scaleX(0.958) scaleY(1.012);
+        filter: brightness(0.87) saturate(0.984);
+    }
+    82%  {
+        transform: translateX(4%) rotateY(-44deg) translateZ(38px) scaleX(0.975) scaleY(1.006);
+        filter: brightness(0.95) saturate(0.99);
     }
     100% {
-        transform: rotateY(0deg) translateZ(0px);
-        filter: brightness(1);
+        transform: translateX(0) rotateY(0deg) translateZ(0px) scaleX(1) scaleY(1);
+        filter: brightness(1) saturate(1);
     }
+}
+
+@keyframes fb-turn-shadow-forward {
+    0%   { opacity: 0; transform: translateX(-1%) scaleX(0.98); }
+    18%  { opacity: 0.18; }
+    48%  { opacity: 0.82; transform: translateX(-6%) scaleX(0.92); }
+    76%  { opacity: 0.5; transform: translateX(-2%) scaleX(0.96); }
+    100% { opacity: 0; transform: translateX(-1%) scaleX(0.98); }
+}
+@keyframes fb-turn-shadow-backward {
+    0%   { opacity: 0; transform: translateX(1%) scaleX(0.98); }
+    18%  { opacity: 0.18; }
+    48%  { opacity: 0.82; transform: translateX(6%) scaleX(0.92); }
+    76%  { opacity: 0.5; transform: translateX(2%) scaleX(0.96); }
+    100% { opacity: 0; transform: translateX(1%) scaleX(0.98); }
+}
+@keyframes fb-turn-glow-forward {
+    0%   { opacity: 0.06; transform: translateX(1%) scaleX(0.98); }
+    34%  { opacity: 0.16; }
+    56%  { opacity: 0.24; transform: translateX(-4%) scaleX(0.9); }
+    100% { opacity: 0.06; transform: translateX(1%) scaleX(0.98); }
+}
+@keyframes fb-turn-glow-backward {
+    0%   { opacity: 0.06; transform: translateX(-1%) scaleX(0.98); }
+    34%  { opacity: 0.16; }
+    56%  { opacity: 0.24; transform: translateX(4%) scaleX(0.9); }
+    100% { opacity: 0.06; transform: translateX(-1%) scaleX(0.98); }
 }
 
 /* Single page (Mobile) Slide Flip */
@@ -706,41 +767,74 @@
 .fb-turning-right {
     right: 0; left: auto;
     transform-origin: left center;
-    animation: fb-turn-forward 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: fb-turn-forward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
 }
 .fb-turning-left {
     left: 0; right: auto;
     transform-origin: right center;
-    animation: fb-turn-backward 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: fb-turn-backward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
+}
+.fb-turning-right::before {
+    background: linear-gradient(to right, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 22%, rgba(0,0,0,0.06) 44%, transparent 78%);
+    animation: fb-turn-shadow-forward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
+}
+.fb-turning-left::before {
+    background: linear-gradient(to left, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 22%, rgba(0,0,0,0.06) 44%, transparent 78%);
+    animation: fb-turn-shadow-backward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
+}
+.fb-turning-right::after {
+    background: linear-gradient(to left, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 28%, transparent 74%);
+    animation: fb-turn-glow-forward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
+}
+.fb-turning-left::after {
+    background: linear-gradient(to right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 28%, transparent 74%);
+    animation: fb-turn-glow-backward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
 }
 
 /* Mobile specific classes */
-.fb-mobile-anim-next { animation: fb-mobile-flip-next 0.45s cubic-bezier(0.4,0,0.8,1) forwards; }
-.fb-mobile-anim-prev { animation: fb-mobile-flip-prev 0.45s cubic-bezier(0.2,0,0.6,1) forwards; }
+.fb-mobile-anim-next { animation: fb-mobile-flip-next var(--fb-turn-mobile-duration) var(--fb-turn-mobile-ease) forwards; }
+.fb-mobile-anim-prev { animation: fb-mobile-flip-prev var(--fb-turn-mobile-duration) var(--fb-turn-mobile-ease) forwards; }
 
-/* Nav arrows */
+/* Nav arrows — Publuu-inspired: circular, ghost by default, reveal on hover */
 .fb-nav-arrow {
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    width:56px; height:56px; border-radius:16px; flex-shrink:0; margin:0;
-    background:rgba(8,14,30,.82); border:1px solid rgba(148,163,184,.28);
-    color:#e2e8f0; font-size:1.15rem;
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; transition:all .22s cubic-bezier(0.4,0,0.2,1);
-    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    box-shadow:0 10px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.08);
-    z-index:80;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(10,16,34,0.62);
+    color: rgba(226,232,240,0.9);
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.24s ease, background 0.22s ease, border-color 0.22s ease,
+                box-shadow 0.22s ease, transform 0.18s cubic-bezier(0.4,0,0.2,1);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
+    z-index: 80;
+    opacity: 0.18;
 }
-#fb-prev { left: 14px; }
-#fb-next { right: 14px; }
+#fb-prev { left: 16px; }
+#fb-next { right: 16px; }
+#fb-stage:hover .fb-nav-arrow:not(:disabled) { opacity: 0.82; }
 .fb-nav-arrow:hover:not(:disabled) {
-    background:rgba(37,99,235,.32); border-color:rgba(96,165,250,.5); color:#dbeafe;
-    transform:translateY(-50%) scale(1.06);
-    box-shadow:0 6px 24px rgba(37,99,235,.22), 0 0 0 1px rgba(96,165,250,.15);
+    background: rgba(37,99,235,0.45);
+    border-color: rgba(96,165,250,0.5);
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 22px rgba(37,99,235,0.32), inset 0 1px 0 rgba(255,255,255,0.1);
+    opacity: 1 !important;
 }
-.fb-nav-arrow:active:not(:disabled) { transform:translateY(-50%) scale(1); }
-.fb-nav-arrow:disabled { opacity:.42; cursor:not-allowed; }
+.fb-nav-arrow:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+    box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+}
+.fb-nav-arrow:disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+}
 
 /* Lyrics view */
 #fb-lyrics-view::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:4px; }
@@ -769,12 +863,13 @@
 /* ─── BOTTOM COMMAND CENTER ────────────────────────────── */
 .fb-command-center {
     position:relative; z-index:10; flex-shrink:0;
-    padding-bottom: 18px;
-    background: rgba(8,14,30,0.92);
+    padding-bottom: 10px;
+    background: rgba(8,14,30,0.95);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 -1px 0 rgba(255,255,255,0.03), 0 -6px 30px rgba(0,0,0,0.4);
+    border-top: none;
+    box-shadow: 0 -20px 40px rgba(0,0,0,0.55);
+    overflow: visible;
 }
 
 /* Title Strip — centered hymn title at the top of the command center */
@@ -782,14 +877,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 9px 24px 7px;
+    gap: 8px;
+    padding: 5px 20px 4px;
     border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .fb-hymn-title-bottom {
     margin: 0;
     font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
+    font-size: 0.88rem;
     font-weight: 800;
     color: #f1f5f9;
     text-align: center;
@@ -811,17 +906,17 @@
 
 /* Audio Row */
 .fb-audio-row {
-    display:flex; align-items:center; gap:11px;
-    padding:10px 20px 6px;
+    display:flex; align-items:center; gap:10px;
+    padding:6px 18px 4px;
 }
 .fb-play-sphere {
-    width:40px; height:40px; border-radius:50%; flex-shrink:0;
+    width:36px; height:36px; border-radius:50%; flex-shrink:0;
     background:linear-gradient(145deg,#2d6cf0,#1a47c2);
     border: 1px solid rgba(96,165,250,.3);
-    color:#fff; font-size:.95rem;
+    color:#fff; font-size:.85rem;
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; transition:all .25s cubic-bezier(0.4,0,0.2,1);
-    box-shadow:0 6px 18px rgba(37,99,235,.38), inset 0 1px 0 rgba(255,255,255,.15);
+    box-shadow:0 4px 14px rgba(37,99,235,.38), inset 0 1px 0 rgba(255,255,255,.15);
 }
 .fb-play-sphere:hover {
     transform:scale(1.1) translateY(-1px);
@@ -867,8 +962,72 @@
 
 /* Page scrubber row */
 .fb-page-row {
-    display:flex; align-items:center; gap:14px;
-    padding:4px 20px 10px;
+    display:flex; align-items:center; gap:12px;
+    padding:2px 18px 6px;
+}
+
+/* ── COLLAPSIBLE PLAYER HANDLE ──────────────────────────────────── */
+.fb-cc-handle {
+    position: absolute;
+    top: -16px; left: 50%;
+    transform: translateX(-50%);
+    width: 48px; height: 18px;
+    background: rgba(8,14,30,0.92);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #3d5068; font-size: 0.5rem;
+    transition: color 0.2s ease, background 0.2s ease;
+    z-index: 11;
+}
+.fb-cc-handle:hover { color: #60a5fa; background: rgba(12,20,42,0.96); }
+.fb-command-center {
+    position: relative; /* ensure handle positions relative to it */
+}
+.fb-command-center.fb-cc-collapsed .fb-audio-row,
+.fb-command-center.fb-cc-collapsed .fb-page-row {
+    display: none !important;
+}
+.fb-command-center.fb-cc-collapsed .fb-title-strip {
+    padding: 5px 20px;
+    border-bottom: none;
+}
+.fb-command-center.fb-cc-collapsed {
+    padding-bottom: 4px;
+}
+
+/* ── FLIP SHADOW CAST ────────────────────────────────────────────── */
+.fb-book::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 50%; height: 100%;
+    background: linear-gradient(to left, rgba(0,0,0,0.22) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 45;
+    opacity: 0;
+    border-radius: 3px 0 0 3px;
+}
+.fb-book.is-flipping::after {
+    animation: fb-book-shadow var(--fb-turn-duration) var(--fb-turn-ease) forwards;
+}
+@keyframes fb-book-shadow {
+    0%   { opacity: 0; }
+    28%  { opacity: 1; }
+    72%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ── SEAMLESS THEATER BACKGROUND ─────────────────────────────────── */
+.fb-command-center::before {
+    content: '';
+    position: absolute;
+    top: -18px; left: 0; right: 0;
+    height: 18px;
+    background: linear-gradient(to bottom, transparent, rgba(8,14,30,0.92));
+    pointer-events: none;
+    z-index: -1;
 }
 .fb-page-counter,.fb-hint { font-size:.61rem; font-weight:700; color:#2d3f54; white-space:nowrap; }
 .fb-page-counter strong { color:#4a6278; }
@@ -916,8 +1075,8 @@
     .fb-hymn-title { font-size:0.8rem !important; }
     .fb-nav-arrow {
         width:42px; height:42px; font-size:.9rem;
-        background: rgba(8,14,30,0.9); border-radius: 13px;
-        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        background: rgba(8,14,30,0.72); border-radius: 50%;
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     }
     #fb-prev { left: 8px; }
     #fb-next { right: 8px; }
@@ -1319,19 +1478,38 @@
 #flipbook-theater.fb-light-mode .fb-now-playing { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.05); }
 #flipbook-theater.fb-light-mode #fb-track-label { color: #475569 !important; }
 #flipbook-theater.fb-light-mode .fb-nav-arrow {
-    background: rgba(255,255,255,0.88); border-color: rgba(15,23,42,0.1); color: #475569;
-    box-shadow: 0 6px 18px rgba(15,23,42,0.12); backdrop-filter: none;
+    background: rgba(255,255,255,0.78); border-color: rgba(15,23,42,0.1); color: #475569;
+    box-shadow: 0 4px 14px rgba(15,23,42,0.1);
 }
+#flipbook-theater.fb-light-mode #fb-stage:hover .fb-nav-arrow:not(:disabled) { opacity: 0.88; }
 #flipbook-theater.fb-light-mode .fb-nav-arrow:hover:not(:disabled) {
-    background: #ffffff; color: #2563eb; border-color: rgba(37,99,235,0.28); box-shadow: 0 8px 20px rgba(37,99,235,0.16); transform:scale(1.06) translateY(-1px);
+    background: #ffffff; color: #2563eb; border-color: rgba(37,99,235,0.3);
+    box-shadow: 0 6px 18px rgba(37,99,235,0.18); transform: translateY(-50%) scale(1.1);
+    opacity: 1 !important;
 }
-#flipbook-theater.fb-light-mode .fb-nav-arrow:disabled { background: rgba(255,255,255,0.35); opacity: 0.5; color: #cbd5e1; border-color: transparent; box-shadow: none; }
+#flipbook-theater.fb-light-mode .fb-nav-arrow:disabled { opacity: 0 !important; pointer-events: none; }
 #flipbook-theater.fb-light-mode .fb-book {
     box-shadow: 0 40px 80px rgba(0,0,0,0.16), 0 12px 32px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.08);
 }
 #flipbook-theater.fb-light-mode .fb-spine {
     background: linear-gradient(to right, #d8e0ea, #f4f7fb, #e8eef4);
     box-shadow: inset -3px 0 6px rgba(0,0,0,.07), inset 3px 0 5px rgba(255,255,255,.5);
+}
+#flipbook-theater.fb-light-mode .fb-command-center {
+    background: rgba(245,248,252,0.97);
+    box-shadow: 0 -20px 40px rgba(0,0,0,0.1);
+}
+#flipbook-theater.fb-light-mode .fb-command-center::before {
+    background: linear-gradient(to bottom, transparent, rgba(245,248,252,0.97));
+}
+#flipbook-theater.fb-light-mode .fb-cc-handle {
+    background: rgba(245,248,252,0.97);
+    border-color: rgba(0,0,0,0.07);
+    color: #94a3b8;
+}
+#flipbook-theater.fb-light-mode .fb-cc-handle:hover { color: #2563eb; }
+#flipbook-theater.fb-light-mode .fb-book::after {
+    background: linear-gradient(to left, rgba(0,0,0,0.1) 0%, transparent 65%);
 }
 </style>
 
@@ -1611,6 +1789,16 @@ function clampZoom(value) {
     return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
 }
 
+function clampPanValues() {
+    if (fbZoom <= 1.01) { panX = 0; panY = 0; return; }
+    const target = getActiveZoomTarget();
+    if (!target || !fbStage) return;
+    const maxX = Math.max(0, (target.offsetWidth * fbZoom - fbStage.clientWidth) / 2 + 60);
+    const maxY = Math.max(0, (target.offsetHeight * fbZoom - fbStage.clientHeight) / 2 + 60);
+    panX = Math.min(maxX, Math.max(-maxX, panX));
+    panY = Math.min(maxY, Math.max(-maxY, panY));
+}
+
 function applyZoomTransform(originX = 50, originY = 50) {
     const target = getActiveZoomTarget();
     if (!target) return;
@@ -1620,8 +1808,9 @@ function applyZoomTransform(originX = 50, originY = 50) {
         y: Math.max(0, Math.min(100, originY)),
     };
 
+    clampPanValues();
     target.style.transformOrigin = `${zoomOrigin.x}% ${zoomOrigin.y}%`;
-    target.style.transform = `scale(${fbZoom})`;
+    target.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${fbZoom})`;
     if (fbStage) {
         fbStage.classList.toggle('fb-zoomed', fbZoom > 1.01);
     }
@@ -1634,6 +1823,7 @@ function applyZoomTransform(originX = 50, originY = 50) {
 function setZoomLevel(nextZoom, originX = zoomOrigin.x, originY = zoomOrigin.y) {
     fbZoom = clampZoom(nextZoom);
     applyZoomTransform(originX, originY);
+    scheduleZoomRerender();
 }
 
 function getZoomOriginFromPoint(target, clientX, clientY) {
@@ -1697,9 +1887,45 @@ let currentView = 'score';   // 'score' | 'lyrics'
 let lyricsLoaded = false;
 let lyricsTextCache = '';
 let zoomOrigin = { x: 50, y: 50 };
+let panX = 0, panY = 0;
 
 function nextPaint() {
     return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+function copyCanvasContents(sourceCanvas, targetCanvas, numEl, pageNum) {
+    if (!sourceCanvas || !targetCanvas) return;
+
+    const width = sourceCanvas.width || sourceCanvas.clientWidth;
+    const height = sourceCanvas.height || sourceCanvas.clientHeight;
+    if (!width || !height) return;
+
+    if (targetCanvas.width !== width) targetCanvas.width = width;
+    if (targetCanvas.height !== height) targetCanvas.height = height;
+
+    const cssWidth = sourceCanvas.style.width || (sourceCanvas.clientWidth ? `${sourceCanvas.clientWidth}px` : '');
+    const cssHeight = sourceCanvas.style.height || (sourceCanvas.clientHeight ? `${sourceCanvas.clientHeight}px` : '');
+    if (cssWidth) targetCanvas.style.width = cssWidth;
+    if (cssHeight) targetCanvas.style.height = cssHeight;
+
+    const ctx = targetCanvas.getContext('2d');
+    ctx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
+    ctx.drawImage(sourceCanvas, 0, 0);
+
+    if (numEl && typeof pageNum !== 'undefined' && pageNum !== null) {
+        numEl.textContent = pageNum;
+    }
+}
+
+function clearCanvasContents(targetCanvas) {
+    if (!targetCanvas) return;
+    const ctx = targetCanvas.getContext('2d');
+    ctx.clearRect(0, 0, targetCanvas.width || targetCanvas.clientWidth || 0, targetCanvas.height || targetCanvas.clientHeight || 0);
+}
+
+function clearPageContents(canvas, numEl) {
+    clearCanvasContents(canvas);
+    if (numEl) numEl.textContent = '';
 }
 
 function freezeBookLayout() {
@@ -1735,10 +1961,35 @@ function restoreBookLayout(snapshot) {
 }
 
 const PAGE_CACHE_LIMIT = 12;
+const MAX_ZOOM_QUALITY = 3;
+const MAX_PAGE_PIXELS = 12000000; // per-page raster budget (~48MB RGBA) to avoid canvas limits
 let renderCacheSignature = '';
 const renderedPageCache = new Map();
 const renderedPagePromises = new Map();
 let prefetchTimer = null;
+let zoomRerenderTimer = null;
+
+/* Bucketed render quality: pages are re-rasterized at the zoom level so the
+   vector PDF stays crisp instead of CSS-stretching a fixed-size canvas. */
+function getZoomQuality() {
+    if (fbZoom <= 1.01) return 1;
+    return Math.min(MAX_ZOOM_QUALITY, Math.ceil(fbZoom * 2) / 2);
+}
+
+/* After zoom settles, re-render the visible spread at the new quality bucket.
+   The CSS scale() transform gives instant feedback; this swaps in sharp pixels. */
+function scheduleZoomRerender() {
+    clearTimeout(zoomRerenderTimer);
+    zoomRerenderTimer = setTimeout(() => {
+        zoomRerenderTimer = null;
+        if (!fbPdfDoc || theater.style.display === 'none') return;
+        if (_isAnimating) { scheduleZoomRerender(); return; }
+        if (getPageCacheSignature() === renderCacheSignature) return;
+        if (scoreView && scoreView.style.display !== 'none') {
+            renderSpread(fbSpread, false);
+        }
+    }, 200);
+}
 
 function cancelPagePrefetch() {
     if (prefetchTimer === null) return;
@@ -1768,6 +2019,7 @@ function getPageCacheSignature() {
         isMobileView() ? 'mobile' : 'desktop',
         `${stageW}x${stageH}`,
         `dpr${dpr}`,
+        `q${getZoomQuality()}`,
     ].join('|');
 }
 
@@ -1793,6 +2045,7 @@ function getPrefetchPages(centerSpread) {
         centerSpread - 3,
         centerSpread - 2,
         centerSpread - 1,
+        centerSpread,
         centerSpread + 1,
         centerSpread + 2,
         centerSpread + 3,
@@ -1865,7 +2118,14 @@ function getRenderedPage(pageNum, options = {}) {
             document.documentElement.style.setProperty('--fb-page-height', (native.height * scale) + 'px');
         }
 
-        const vp = page.getViewport({ scale: scale * dpr });
+        // Rasterize at fit-scale × devicePixelRatio × zoom quality so the page
+        // stays sharp when the CSS transform scales it up, capped by the
+        // per-page pixel budget so huge scores can't exhaust canvas memory.
+        let renderScale = scale * dpr * getZoomQuality();
+        const budgetScale = Math.sqrt(MAX_PAGE_PIXELS / (native.width * native.height));
+        renderScale = Math.min(renderScale, budgetScale);
+
+        const vp = page.getViewport({ scale: renderScale });
         const bufferCanvas = createRenderCanvas(vp.width, vp.height);
         const ctx = bufferCanvas.getContext('2d');
 
@@ -1906,7 +2166,9 @@ function paintRenderedPage(raster, canvas, numEl, pageNum) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(raster.canvas, 0, 0);
-    numEl.textContent = pageNum;
+    if (numEl && typeof pageNum !== 'undefined' && pageNum !== null) {
+        numEl.textContent = pageNum;
+    }
     return Promise.resolve();
 }
 
@@ -1938,7 +2200,7 @@ function openTheater() {
         const trackName = PATHS.organ ? 'Organ' : (PATHS.vocals ? 'Vocals' : 'Preludes');
         const firstPill = document.querySelector('.fb-track-pill[data-src]');
         if (firstPill) {
-            document.querySelectorAll('.fb-track-pill').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.fb-track-pill[data-src]').forEach(p => p.classList.remove('active'));
             firstPill.classList.add('active');
         }
         loadTrack(firstTrack, trackName);
@@ -1950,6 +2212,7 @@ function openTheater() {
             fbPdfDoc = scoreDoc;
             fbTotal  = scoreDoc.numPages;
             fbSpread = 1;
+            syncViewButtons('score');
             if (totalLbl) totalLbl.textContent = fbTotal;
             if (scrubber) scrubber.max = Math.max(1, fbTotal);
             scoreView.style.display  = 'flex';
@@ -1963,10 +2226,7 @@ function openTheater() {
         }
     } else if (PATHS.lyrics) {
         // No score — show lyrics view directly (highlight the lyrics button if available)
-        if (lyricsBtnEl && !lyricsBtnEl.disabled) {
-            if (scoreBtnEl) scoreBtnEl.classList.remove('active');
-            lyricsBtnEl.classList.add('active');
-        }
+        syncViewButtons('lyrics');
         switchView('lyrics');
     }
 }
@@ -2007,7 +2267,7 @@ document.querySelectorAll('.fb-track-pill').forEach(pill => {
         const src   = normalizeMediaUrl(pill.dataset.src);
         const label = pill.dataset.label;
         if (!src) return;
-        document.querySelectorAll('.fb-track-pill').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.fb-track-pill[data-src]').forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
         loadTrack(src, label);
         // Update download mp3 link
@@ -2176,20 +2436,24 @@ const lyricsBtnEl = document.getElementById('fb-view-lyrics');
 if (scoreBtnEl)  scoreBtnEl.addEventListener('click',  () => { if (scoreBtnEl.disabled) return; switchView('score'); });
 if (lyricsBtnEl) lyricsBtnEl.addEventListener('click', () => { if (lyricsBtnEl.disabled) return; switchView('lyrics'); });
 
+function syncViewButtons(mode) {
+    currentView = mode;
+    if (scoreBtnEl) scoreBtnEl.classList.toggle('active', mode === 'score');
+    if (lyricsBtnEl) lyricsBtnEl.classList.toggle('active', mode === 'lyrics');
+}
+
 function switchView(mode) {
     // Don't switch to a view that has no file available
     if (mode === 'score' && !PATHS.score) return;
     if (mode === 'lyrics' && !PATHS.lyrics) return;
 
-    currentView = mode;
+    syncViewButtons(mode);
     if (mode === 'score') {
         scoreView.style.display  = 'flex';
         lyricsView.style.display = 'none';
         pageRow.style.display    = 'flex';
         lyricsSyncNodes = [];
         activeLyricsSyncIndex = -1;
-        if (scoreBtnEl)  scoreBtnEl.classList.add('active');
-        if (lyricsBtnEl) lyricsBtnEl.classList.remove('active');
         if (scoreDoc) {
             fbPdfDoc = scoreDoc;
             fbTotal  = scoreDoc.numPages;
@@ -2204,8 +2468,6 @@ function switchView(mode) {
         scoreView.style.display  = 'none';
         lyricsView.style.display = 'flex';
         pageRow.style.display    = 'none';
-        if (lyricsBtnEl) lyricsBtnEl.classList.add('active');
-        if (scoreBtnEl)  scoreBtnEl.classList.remove('active');
         applyZoomTransform(50, 50);
 
         if (lyricsLoaded) {
@@ -2306,6 +2568,7 @@ function doLoadPdf(path) {
     loadingTask.promise.then(pdf => {
         if (pctLabel) pctLabel.style.display = 'none';
         scoreDoc = pdf; fbPdfDoc = pdf; fbTotal = pdf.numPages; fbSpread = 1;
+        syncViewButtons('score');
         totalLbl.textContent = fbTotal; scrubber.max = Math.max(1, fbTotal); renderSpread(1, false);
     });
 }
@@ -2318,13 +2581,21 @@ function renderSpread(leftNum, animate) {
     if (!isMobile && fbSpread > 1 && fbSpread % 2 === 0) fbSpread--;
     
     updatePageUI();
+    if (scoreView && scoreView.style.display !== 'none') {
+        syncViewButtons('score');
+    } else if (lyricsView && lyricsView.style.display !== 'none') {
+        syncViewButtons('lyrics');
+    }
+    warmFlipTransition(fbSpread);
+    schedulePagePrefetch(fbSpread);
+    if (animate !== false && !isMobile) {
+        flipAnim(fbSpread);
+        return;
+    }
     renderPage(fbSpread, canvasL, numL);
     if (!isMobile) {
         renderPage(fbSpread + 1, canvasR, numR);
     }
-    warmFlipTransition(fbSpread);
-    schedulePagePrefetch(fbSpread);
-    if (animate !== false && !isMobile) flipAnim(fbSpread);
 }
 
 let _lastSpread = 1;
@@ -2360,39 +2631,28 @@ async function flipAnim(targetSpread, onDone) {
     // DESKTOP: True Content-Based 3D Flip
     _isAnimating = true;
     const goingForward = targetSpread > _lastSpread;
-    const oldSpread = _lastSpread;
     _lastSpread = targetSpread;
     const layoutSnapshot = freezeBookLayout();
+    const fbBookEl = document.getElementById('fb-book');
 
     try {
         warmFlipTransition(targetSpread);
 
-        // 1. Prepare Content for the "Turning" Leaf before the animation starts
-        if (goingForward) {
-            // Turning from (old) to (target)
-            // Static Left remains 'old' until mid-flip
-            // Front of leaf = old right (page old+1)
-            // Back of leaf  = target left (page target)
-            await Promise.all([
-                renderPage(oldSpread + 1, turnFront, { textContent:'' }, { updateLayout: false }),
-                renderPage(targetSpread,  turnBack,  { textContent:'' }, { updateLayout: false }),
-                renderPage(targetSpread + 1, canvasR, numR, { updateLayout: false }),
-            ]);
-        } else {
-            // Turning back
-            // Front of leaf = old left (page old)
-            // Back of leaf  = target right (page target+1)
-            await Promise.all([
-                renderPage(oldSpread,     turnFront, { textContent:'' }, { updateLayout: false }),
-                renderPage(targetSpread + 1, turnBack, { textContent:'' }, { updateLayout: false }),
-                renderPage(targetSpread, canvasL, numL, { updateLayout: false }),
-            ]);
-        }
+        // Keep the old spread visible while the leaf turns, then swap in the
+        // destination spread once the motion completes.
+        copyCanvasContents(goingForward ? canvasR : canvasL, turnFront);
+        clearCanvasContents(turnBack);
 
-        await nextPaint();
+        const targetLeftPromise = getRenderedPage(targetSpread, { updateLayout: false });
+        const targetRightPromise = getRenderedPage(targetSpread + 1, { updateLayout: false });
+        const turnBackPageNum = goingForward ? targetSpread : targetSpread + 1;
+        const turnBackPromise = getRenderedPage(turnBackPageNum, { updateLayout: false });
+        turnBackPromise.then(turnBackRaster => {
+            if (turnBackRaster && _isAnimating) {
+                paintRenderedPage(turnBackRaster, turnBack, null, turnBackPageNum).catch(() => {});
+            }
+        }).catch(() => {});
 
-        // 2. Execute Animation
-        const fbBookEl = document.getElementById('fb-book');
         if (fbBookEl) fbBookEl.classList.add('is-flipping');
 
         turningPage.style.display = 'block';
@@ -2400,27 +2660,50 @@ async function flipAnim(targetSpread, onDone) {
         void turningPage.offsetWidth;
         turningPage.classList.add(goingForward ? 'fb-turning-right' : 'fb-turning-left');
 
-        const cleanup = () => {
+        await nextPaint();
+
+        const finalizeFlip = async () => {
+            const [leftRaster, rightRaster] = await Promise.all([targetLeftPromise, targetRightPromise]);
+            if (leftRaster) {
+                await paintRenderedPage(leftRaster, canvasL, numL, targetSpread);
+            } else {
+                clearPageContents(canvasL, numL);
+            }
+            if (rightRaster) {
+                await paintRenderedPage(rightRaster, canvasR, numR, targetSpread + 1);
+            } else {
+                clearPageContents(canvasR, numR);
+            }
+
+            fbSpread = targetSpread;
+            updatePageUI();
+            schedulePagePrefetch(targetSpread);
             turningPage.style.display = 'none';
             turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
             if (fbBookEl) fbBookEl.classList.remove('is-flipping');
             restoreBookLayout(layoutSnapshot);
-
-            // Finalize the static spread after the flip has fully completed.
-            renderPage(targetSpread,     canvasL, numL, { updateLayout: false });
-            renderPage(targetSpread + 1, canvasR, numR, { updateLayout: false });
-            schedulePagePrefetch(targetSpread);
-
             _isAnimating = false;
             if (onDone) onDone();
         };
 
-        turningPage.addEventListener('animationend', cleanup, { once: true });
+        const expectedAnimation = goingForward ? 'fb-turn-forward' : 'fb-turn-backward';
+        const onTurnEnd = (event) => {
+            if (event.animationName !== expectedAnimation) return;
+            turningPage.removeEventListener('animationend', onTurnEnd);
+            finalizeFlip().catch(() => {
+                turningPage.style.display = 'none';
+                turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+                if (fbBookEl) fbBookEl.classList.remove('is-flipping');
+                restoreBookLayout(layoutSnapshot);
+                _isAnimating = false;
+                if (onDone) onDone();
+            });
+        };
+        turningPage.addEventListener('animationend', onTurnEnd);
     } catch (error) {
         restoreBookLayout(layoutSnapshot);
         turningPage.style.display = 'none';
         turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
-        const fbBookEl = document.getElementById('fb-book');
         if (fbBookEl) fbBookEl.classList.remove('is-flipping');
         _isAnimating = false;
         if (onDone) onDone();
@@ -2429,16 +2712,15 @@ async function flipAnim(targetSpread, onDone) {
 
 function renderPage(pageNum, canvas, numEl, options = {}) {
     if (!fbPdfDoc || pageNum < 1 || pageNum > fbTotal) {
-        const ctx = canvas.getContext('2d');
         canvas.width = canvas.width || 420; canvas.height = canvas.height || 590;
-        const isLight = theater.classList.contains('fb-light-mode');
-        ctx.fillStyle = isLight ? '#f8fafc' : '#0f172a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        numEl.textContent = '';
+        clearPageContents(canvas, numEl);
         return Promise.resolve();
     }
     return getRenderedPage(pageNum, options).then(raster => {
-        if (!raster) return null;
+        if (!raster) {
+            clearPageContents(canvas, numEl);
+            return null;
+        }
         if (options.updateLayout !== false) {
             document.documentElement.style.setProperty('--fb-page-width', raster.cssWidth);
             document.documentElement.style.setProperty('--fb-page-height', raster.cssHeight);
@@ -2465,18 +2747,17 @@ function goSpread(delta) {
     if (nextVal > fbTotal) nextVal = fbTotal;
     if (nextVal === fbSpread) return;
 
-    const prevVal = fbSpread;
-    fbSpread = nextVal;
-    updatePageUI();
     warmFlipTransition(nextVal);
 
     if (isMobile) {
+        fbSpread = nextVal;
+        updatePageUI();
         flipAnim(fbSpread, () => {
             renderPage(fbSpread, canvasL, numL);
         });
     } else {
         // Desktop uses the content-based true 3D flip handled inside flipAnim
-        flipAnim(fbSpread);
+        flipAnim(nextVal);
     }
 }
 
@@ -2517,7 +2798,7 @@ scrubFill.parentElement.addEventListener('click', (e) => {
 scrubber.addEventListener('input', () => {
     let v = parseInt(scrubber.value);
     if (!isMobileView() && v > 1 && v % 2 === 0) v--;
-    renderSpread(v);
+    renderSpread(v, false);
 });
 
 /* ── TOUCH GESTURES ───────────────────────────────────────────── */
@@ -2526,6 +2807,15 @@ let pinchStartDistance = 0;
 let pinchStartZoom = fbZoom;
 let pinchOrigin = { x: 50, y: 50 };
 let pinchActive = false;
+let touchPanLast = null;
+
+function setGestureMode(active) {
+    // Kill the transform transition during continuous gestures so pinch/pan
+    // tracks the finger 1:1 instead of lagging 150ms behind.
+    const target = getActiveZoomTarget();
+    if (target) target.classList.toggle('fb-no-anim', active);
+    if (fbStage) fbStage.classList.toggle('fb-panning', active && fbZoom > 1.01);
+}
 
 function getTouchDistance(t1, t2) {
     const dx = t2.clientX - t1.clientX;
@@ -2543,17 +2833,20 @@ function getTouchMidpoint(t1, t2) {
 fbStage.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
         pinchActive = true;
+        touchPanLast = null;
         pinchStartDistance = getTouchDistance(e.touches[0], e.touches[1]);
         pinchStartZoom = fbZoom;
         const activeTarget = getActiveZoomTarget();
         const midpoint = getTouchMidpoint(e.touches[0], e.touches[1]);
         pinchOrigin = getZoomOriginFromPoint(activeTarget, midpoint.x, midpoint.y);
+        setGestureMode(true);
         return;
     }
 
     if (e.touches.length === 1) {
         pinchActive = false;
         touchStartX = e.touches[0].screenX;
+        touchPanLast = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     }
 }, { passive: false });
 
@@ -2563,6 +2856,19 @@ fbStage.addEventListener('touchmove', (e) => {
         const distance = getTouchDistance(e.touches[0], e.touches[1]);
         const nextZoom = pinchStartZoom * (distance / pinchStartDistance);
         setZoomLevel(nextZoom, pinchOrigin.x, pinchOrigin.y);
+        return;
+    }
+
+    // Single-finger pan while zoomed in (score view only)
+    if (!pinchActive && e.touches.length === 1 && touchPanLast
+        && fbZoom > 1.01 && currentView === 'score') {
+        e.preventDefault();
+        const touch = e.touches[0];
+        panX += touch.clientX - touchPanLast.x;
+        panY += touch.clientY - touchPanLast.y;
+        touchPanLast = { x: touch.clientX, y: touch.clientY };
+        setGestureMode(true);
+        applyZoomTransform(zoomOrigin.x, zoomOrigin.y);
     }
 }, { passive: false });
 
@@ -2571,9 +2877,16 @@ fbStage.addEventListener('touchend', (e) => {
         if (e.touches.length < 2) {
             pinchActive = false;
             pinchStartDistance = 0;
+            setGestureMode(false);
         }
         return;
     }
+
+    setGestureMode(false);
+    touchPanLast = null;
+
+    // While zoomed, swipes pan the page instead of flipping it
+    if (fbZoom > 1.01) return;
 
     if (e.changedTouches.length === 1) {
         const touchEndX = e.changedTouches[0].screenX;
@@ -2587,7 +2900,51 @@ fbStage.addEventListener('touchend', (e) => {
 fbStage.addEventListener('touchcancel', () => {
     pinchActive = false;
     pinchStartDistance = 0;
+    touchPanLast = null;
+    setGestureMode(false);
 }, { passive: false });
+
+/* ── MOUSE DRAG-TO-PAN (zoomed score view) ─────────────────────── */
+let panPointerId = null;
+let panStart = null;
+
+fbStage.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    if (fbZoom <= 1.01 || currentView !== 'score') return;
+    if (e.target.closest('.fb-nav-arrow')) return;
+    panPointerId = e.pointerId;
+    panStart = { x: e.clientX, y: e.clientY, panX, panY };
+    setGestureMode(true);
+    fbStage.setPointerCapture(e.pointerId);
+});
+
+fbStage.addEventListener('pointermove', (e) => {
+    if (panPointerId === null || e.pointerId !== panPointerId || !panStart) return;
+    panX = panStart.panX + (e.clientX - panStart.x);
+    panY = panStart.panY + (e.clientY - panStart.y);
+    applyZoomTransform(zoomOrigin.x, zoomOrigin.y);
+});
+
+function endMousePan(e) {
+    if (panPointerId === null || (e && e.pointerId !== panPointerId)) return;
+    panPointerId = null;
+    panStart = null;
+    setGestureMode(false);
+}
+fbStage.addEventListener('pointerup', endMousePan);
+fbStage.addEventListener('pointercancel', endMousePan);
+
+/* ── DOUBLE-CLICK QUICK ZOOM ───────────────────────────────────── */
+fbStage.addEventListener('dblclick', (e) => {
+    if (currentView !== 'score') return;
+    if (e.target.closest('.fb-nav-arrow')) return;
+    if (fbZoom > 1.01) {
+        setZoomLevel(1, 50, 50);
+    } else {
+        const origin = getZoomOriginFromPoint(getActiveZoomTarget(), e.clientX, e.clientY);
+        setZoomLevel(2, origin.x, origin.y);
+    }
+});
 
 /* ── WHEEL ZOOM ────────────────────────────────────────────────── */
 function handleWheelZoom(e) {
@@ -2777,6 +3134,24 @@ function loadTheaterPlaylist() {
 }
 
 window.openTheater = openTheater;
+
+/* ── COLLAPSIBLE PLAYER HANDLE ─────────────────────────────────── */
+const ccHandle    = document.getElementById('fb-cc-handle');
+const ccToggleIcon = document.getElementById('fb-cc-toggle-icon');
+const commandCenter = document.getElementById('fb-command-center');
+let ccCollapsed = false;
+
+if (ccHandle && commandCenter) {
+    ccHandle.addEventListener('click', () => {
+        ccCollapsed = !ccCollapsed;
+        commandCenter.classList.toggle('fb-cc-collapsed', ccCollapsed);
+        ccToggleIcon.className = ccCollapsed ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+        // Recalculate book size after layout shift
+        if (!ccCollapsed && fbPdfDoc) {
+            setTimeout(() => renderSpread(fbSpread, false), 300);
+        }
+    });
+}
 
 /* ── AUTO-OPEN & RESIZE ────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => { setTimeout(openTheater, 400); });

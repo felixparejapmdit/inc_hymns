@@ -215,64 +215,136 @@ public function search(Request $request)
     {
         $query = trim((string) $request->query('q', ''));
 
-        if ($query === '') {
+        if (mb_strlen($query) < 2) {
             return response()->json([
-                'data' => [],
                 'query' => $query,
+                'total' => 0,
+                'groups' => [],
             ]);
         }
 
-        $like = '%' . $query . '%';
+        // Escape LIKE wildcards so "100%" doesn't become a wildcard scan
+        $escaped = addcslashes($query, '\\%_');
+        $like = '%' . $escaped . '%';
+        $prefix = $escaped . '%';
 
-        $musics = Music::query()
-            ->with([
-                'language:id,name',
-                'churchHymn:id,name',
-            ])
+        /* ── Group 1: Hymn titles & numbers (prefix matches ranked first) ── */
+        $titleMatches = Music::query()
+            ->select('id', 'title', 'song_number', 'language_id')
+            ->with('language:id,name')
             ->where(function ($builder) use ($like) {
                 $builder->where('title', 'like', $like)
-                    ->orWhere('song_number', 'like', $like)
-                    ->orWhere('lyrics', 'like', $like)
-                    ->orWhereHas('categories', function ($categoryQuery) use ($like) {
-                        $categoryQuery->where('name', 'like', $like);
-                    })
-                    ->orWhereHas('lyricists', function ($creatorQuery) use ($like) {
-                        $creatorQuery->where('name', 'like', $like);
-                    })
-                    ->orWhereHas('composers', function ($creatorQuery) use ($like) {
-                        $creatorQuery->where('name', 'like', $like);
-                    })
-                    ->orWhereHas('arrangers', function ($creatorQuery) use ($like) {
-                        $creatorQuery->where('name', 'like', $like);
-                    })
-                    ->orWhereHas('churchHymn', function ($churchHymnQuery) use ($like) {
-                        $churchHymnQuery->where('name', 'like', $like);
-                    })
-                    ->orWhereHas('language', function ($languageQuery) use ($like) {
-                        $languageQuery->where('name', 'like', $like);
-                    });
+                    ->orWhere('song_number', 'like', $like);
             })
             ->orderByRaw(
-                'CASE WHEN title LIKE ? THEN 0 WHEN song_number LIKE ? THEN 1 ELSE 2 END',
-                [$like, $like]
+                'CASE WHEN title LIKE ? THEN 0 WHEN song_number LIKE ? THEN 1 ELSE 2 END, CAST(song_number AS UNSIGNED) ASC',
+                [$prefix, $prefix]
             )
-            ->limit(8)
-            ->get()
-            ->map(function (Music $music) {
-                return [
-                    'id' => $music->id,
+            ->limit(6)
+            ->get();
+
+        /* ── Group 2: Lyrics full-text (skip hymns already found by title) ── */
+        $lyricMatches = Music::query()
+            ->select('id', 'title', 'song_number', 'lyrics')
+            ->when($titleMatches->isNotEmpty(), function ($builder) use ($titleMatches) {
+                $builder->whereNotIn('id', $titleMatches->pluck('id'));
+            })
+            ->where('lyrics', 'like', $like)
+            ->limit(4)
+            ->get();
+
+        /* ── Group 3: Creators (composers, lyricists, arrangers) ── */
+        $creatorMatches = MusicCreator::query()
+            ->select('id', 'name', 'image')
+            ->where('name', 'like', $like)
+            ->withCount(['composerMusics', 'lyricistMusics', 'arrangerMusics'])
+            ->orderByRaw('CASE WHEN name LIKE ? THEN 0 ELSE 1 END, name ASC', [$prefix])
+            ->limit(5)
+            ->get();
+
+        $groups = [];
+
+        if ($titleMatches->isNotEmpty()) {
+            $groups[] = [
+                'key' => 'hymns',
+                'label' => 'Hymn Titles',
+                'icon' => 'fa-music',
+                'items' => $titleMatches->map(fn (Music $music) => [
                     'title' => $music->title,
-                    'song_number' => $music->song_number,
-                    'language' => $music->language?->name,
-                    'church_hymn' => $music->churchHymn?->name,
+                    'subtitle' => implode(' · ', array_filter([
+                        $music->song_number ? 'Hymn # ' . $music->song_number : null,
+                        $music->language?->name,
+                    ])),
                     'url' => route('musics.show', $music->id),
-                ];
-            });
+                ])->values(),
+            ];
+        }
+
+        if ($lyricMatches->isNotEmpty()) {
+            $groups[] = [
+                'key' => 'lyrics',
+                'label' => 'Lyrics',
+                'icon' => 'fa-align-left',
+                'items' => $lyricMatches->map(fn (Music $music) => [
+                    'title' => $music->title,
+                    'subtitle' => $this->lyricsSnippet($music->lyrics, $query),
+                    'url' => route('musics.show', $music->id),
+                ])->values(),
+            ];
+        }
+
+        if ($creatorMatches->isNotEmpty()) {
+            $groups[] = [
+                'key' => 'creators',
+                'label' => 'Composers & Creators',
+                'icon' => 'fa-user-pen',
+                'items' => $creatorMatches->map(function (MusicCreator $creator) {
+                    $roles = array_filter([
+                        $creator->composer_musics_count ? 'Composer' : null,
+                        $creator->lyricist_musics_count ? 'Lyricist' : null,
+                        $creator->arranger_musics_count ? 'Arranger' : null,
+                    ]);
+                    $hymnCount = $creator->composer_musics_count
+                        + $creator->lyricist_musics_count
+                        + $creator->arranger_musics_count;
+
+                    return [
+                        'title' => $creator->name,
+                        'subtitle' => implode(' · ', array_filter([
+                            implode(', ', $roles) ?: 'Creator',
+                            $hymnCount ? $hymnCount . ' hymn' . ($hymnCount === 1 ? '' : 's') : null,
+                        ])),
+                        'url' => route('creators.showinfo', $creator->id),
+                    ];
+                })->values(),
+            ];
+        }
 
         return response()->json([
-            'data' => $musics,
             'query' => $query,
+            'total' => collect($groups)->sum(fn ($group) => count($group['items'])),
+            'groups' => $groups,
         ]);
+    }
+
+    /**
+     * Short plain-text excerpt of the lyrics centred on the first match.
+     */
+    private function lyricsSnippet(?string $lyrics, string $query): string
+    {
+        // Strip LRC timestamps like [01:23.45] and collapse whitespace
+        $text = preg_replace('/\[\d{1,3}:\d{2}(?:\.\d{1,3})?\]/', ' ', (string) $lyrics);
+        $text = trim(preg_replace('/\s+/u', ' ', $text));
+
+        if ($text === '') {
+            return 'Matched in lyrics';
+        }
+
+        $position = mb_stripos($text, $query);
+        $start = $position === false ? 0 : max(0, $position - 30);
+        $snippet = mb_substr($text, $start, 90);
+
+        return ($start > 0 ? '…' : '') . $snippet . (mb_strlen($text) > $start + 90 ? '…' : '');
     }
     public function musicDetails($id, $language_id = null)
 {

@@ -359,6 +359,42 @@
                 background: rgba(255, 255, 255, 0.55);
             }
 
+            .global-hymn-search-group + .global-hymn-search-group {
+                margin-top: 1.1rem;
+            }
+
+            .global-hymn-search-group-label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin: 0 0 0.55rem;
+                padding: 0 0.35rem;
+                font-size: 0.68rem;
+                letter-spacing: 0.16em;
+                text-transform: uppercase;
+                font-weight: 900;
+                color: #5b84af;
+            }
+
+            .global-hymn-search-group-label i {
+                width: 1.4rem;
+                height: 1.4rem;
+                border-radius: 8px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(62, 109, 156, 0.1);
+                color: #3e6d9c;
+                font-size: 0.66rem;
+            }
+
+            .global-hymn-search-group-count {
+                margin-left: auto;
+                color: #94a3b8;
+                font-weight: 800;
+                letter-spacing: 0.04em;
+            }
+
             .global-hymn-search-result {
                 width: 100%;
                 display: flex;
@@ -690,47 +726,60 @@
                             .replace(/'/g, '&#39;');
                     }
 
-                    function renderResults(items, query) {
-                        lastResults = items || [];
+                    function renderResults(groups, query) {
+                        groups = Array.isArray(groups) ? groups : [];
+                        lastResults = groups.flatMap(group => group.items || []);
                         activeIndex = lastResults.length ? 0 : -1;
 
                         if (!lastResults.length) {
                             results.innerHTML = `
                                 <div class="global-hymn-search-empty">
-                                    No hymns matched “${escapeHtml(query)}”.
+                                    Nothing matched “${escapeHtml(query)}”.
                                 </div>
                             `;
-                            status.textContent = 'Try a different title, hymn number, lyric line, category, or creator.';
+                            status.textContent = 'Try a different title, hymn number, lyric line, or creator name.';
                             viewAllButton.disabled = false;
                             return;
                         }
 
-                        results.innerHTML = lastResults.map((item, index) => {
-                            const meta = [
-                                item.song_number ? `Hymn # ${escapeHtml(item.song_number)}` : null,
-                                item.language ? escapeHtml(item.language) : null,
-                                item.church_hymn ? escapeHtml(item.church_hymn) : null,
-                            ].filter(Boolean).join(' · ');
+                        let flatIndex = 0;
+                        results.innerHTML = groups.map(group => {
+                            const items = group.items || [];
+                            if (!items.length) return '';
+
+                            const rows = items.map(item => {
+                                const index = flatIndex++;
+                                return `
+                                    <a href="${escapeHtml(item.url)}" class="global-hymn-search-result ${index === activeIndex ? 'is-active' : ''}" data-index="${index}">
+                                        <div class="global-hymn-search-result-main">
+                                            <div class="global-hymn-search-chip">
+                                                <i class="fas ${escapeHtml(group.icon || 'fa-music')}"></i>
+                                            </div>
+                                            <div style="min-width: 0;">
+                                                <div class="global-hymn-search-result-title">${escapeHtml(item.title || 'Untitled')}</div>
+                                                <div class="global-hymn-search-result-meta">${escapeHtml(item.subtitle || 'Open details')}</div>
+                                            </div>
+                                        </div>
+                                        <div class="global-hymn-search-result-arrow">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                    </a>
+                                `;
+                            }).join('');
 
                             return `
-                                <a href="${escapeHtml(item.url)}" class="global-hymn-search-result ${index === activeIndex ? 'is-active' : ''}" data-index="${index}">
-                                    <div class="global-hymn-search-result-main">
-                                        <div class="global-hymn-search-chip">
-                                            <i class="fas fa-music"></i>
-                                        </div>
-                                        <div style="min-width: 0;">
-                                            <div class="global-hymn-search-result-title">${escapeHtml(item.title || 'Untitled hymn')}</div>
-                                            <div class="global-hymn-search-result-meta">${meta || 'Open hymn details'}</div>
-                                        </div>
-                                    </div>
-                                    <div class="global-hymn-search-result-arrow">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </div>
-                                </a>
+                                <div class="global-hymn-search-group">
+                                    <p class="global-hymn-search-group-label">
+                                        <i class="fas ${escapeHtml(group.icon || 'fa-music')}"></i>
+                                        ${escapeHtml(group.label || 'Results')}
+                                        <span class="global-hymn-search-group-count">${items.length}</span>
+                                    </p>
+                                    ${rows}
+                                </div>
                             `;
                         }).join('');
 
-                        status.textContent = `${lastResults.length} result${lastResults.length === 1 ? '' : 's'} found.`;
+                        status.textContent = `${lastResults.length} result${lastResults.length === 1 ? '' : 's'} across ${groups.length} categor${groups.length === 1 ? 'y' : 'ies'}.`;
                         viewAllButton.disabled = false;
                         syncActiveResult();
                     }
@@ -748,13 +797,13 @@
                             abortController.abort();
                         }
 
-                        if (!query) {
+                        if (query.length < 2) {
                             results.innerHTML = `
                                 <div class="global-hymn-search-empty">
-                                    Type to search the hymn library.
+                                    ${query ? 'Keep typing — at least 2 characters.' : 'Type to search the hymn library.'}
                                 </div>
                             `;
-                            status.textContent = 'Search across titles, hymn numbers, lyrics, categories, and creators.';
+                            status.textContent = 'Search across titles, hymn numbers, lyrics, and creators.';
                             viewAllButton.disabled = true;
                             lastResults = [];
                             activeIndex = -1;
@@ -773,7 +822,7 @@
                         })
                             .then(response => response.ok ? response.json() : Promise.reject(response))
                             .then(payload => {
-                                renderResults(Array.isArray(payload?.data) ? payload.data : [], query);
+                                renderResults(Array.isArray(payload?.groups) ? payload.groups : [], query);
                             })
                             .catch(error => {
                                 if (error?.name === 'AbortError') return;
@@ -851,6 +900,8 @@
                             }
                         });
                     }
+
+                    window.openGlobalHymnSearch = openSearch;
 
                     document.addEventListener('keydown', function (event) {
                         const isK = event.key.toLowerCase() === 'k';

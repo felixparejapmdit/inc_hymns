@@ -46,6 +46,76 @@
         font-weight: 800 !important;
     }
 
+    .nav-global-search-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        min-width: 220px;
+        max-width: 300px;
+        padding: 0.5rem 0.65rem 0.5rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(100, 116, 139, 0.18);
+        background: rgba(248, 250, 252, 0.9);
+        color: #64748b;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .nav-global-search-trigger:hover,
+    .nav-global-search-trigger:focus-visible {
+        border-color: rgba(62, 109, 156, 0.4);
+        background: #fff;
+        color: #3e6d9c;
+        box-shadow: 0 6px 18px rgba(62, 109, 156, 0.12);
+        outline: none;
+    }
+
+    .nav-global-search-trigger i {
+        color: #8aa0b8;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+
+    .nav-global-search-trigger .nav-search-placeholder {
+        flex: 1;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .nav-global-search-trigger kbd {
+        flex-shrink: 0;
+        padding: 0.18rem 0.45rem;
+        border-radius: 7px;
+        border: 1px solid rgba(100, 116, 139, 0.2);
+        background: #fff;
+        color: #94a3b8;
+        font-family: inherit;
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 1024px) {
+        .nav-global-search-trigger {
+            min-width: 0;
+        }
+        .nav-global-search-trigger .nav-search-placeholder,
+        .nav-global-search-trigger kbd {
+            display: none;
+        }
+        .nav-global-search-trigger {
+            width: 2.6rem;
+            height: 2.6rem;
+            justify-content: center;
+            padding: 0;
+        }
+    }
+
     .settings-dropdown-trigger {
         width: 2.6rem;
         height: 2.6rem;
@@ -312,6 +382,13 @@
                     </h2>
                 </div>
                 @endif
+                @auth
+                <button type="button" class="nav-global-search-trigger" onclick="window.openGlobalHymnSearch && window.openGlobalHymnSearch()" aria-label="Open advanced search">
+                    <i class="fas fa-search"></i>
+                    <span class="nav-search-placeholder">Search hymns, lyrics, composers…</span>
+                    <kbd>Ctrl K</kbd>
+                </button>
+                @endauth
                 @if ($canCreateHymn || $canCreateUser)
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -430,6 +507,14 @@
             </h2>
         </div>
         @endif
+        @auth
+        <div class="pt-3 pb-1 px-4">
+            <button type="button" class="nav-global-search-trigger" style="width:100%; max-width:none; height:auto; padding:0.6rem 0.9rem; justify-content:flex-start;" onclick="window.openGlobalHymnSearch && window.openGlobalHymnSearch()" aria-label="Open advanced search">
+                <i class="fas fa-search"></i>
+                <span class="nav-search-placeholder" style="display:inline;">Search hymns, lyrics, composers…</span>
+            </button>
+        </div>
+        @endauth
         <div class="pt-2 pb-3 space-y-1">
             <!-- Dashboard Link -->
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
