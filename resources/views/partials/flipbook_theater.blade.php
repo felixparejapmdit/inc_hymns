@@ -1525,6 +1525,7 @@ const PATHS = {
     organ:   @json($music->organ_mp3_path ? asset("storage/".$music->organ_mp3_path) : ""),
     preludes:@json($music->preludes_mp3_path ? asset("storage/".$music->preludes_mp3_path) : ""),
 };
+const MUSIC_INDEX_URL = @json(route('musics.index', ['church_hymn_id' => $music->church_hymn_id]));
 
 const TIMED_SYNC = {
     lyrics: @json($music->lyrics_sync ?? null),
@@ -2238,8 +2239,7 @@ closeBtn.addEventListener('click', () => {
     cancelPagePrefetch();
     audio.pause(); // fires 'pause' → updatePlayUI(false) handles icon + EQ
     if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-    // NOTE: fbPdfDoc, scoreDoc, lyricsDoc, lyricsLoaded intentionally preserved
-    // for instant re-render on reopen without any network call.
+    window.location.assign(MUSIC_INDEX_URL);
 });
 
 /* ── FULLSCREEN ────────────────────────────────────────────────── */
