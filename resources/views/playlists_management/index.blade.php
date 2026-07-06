@@ -90,8 +90,8 @@
     }
 
     .btn-icon {
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
         border-radius: 12px;
         display: inline-flex;
         align-items: center;
@@ -123,6 +123,8 @@
         border-radius: 20px;
         margin-top: -10px;
         margin-bottom: 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .table-inner {
@@ -442,6 +444,8 @@
         border-radius: 20px;
         margin-top: -10px;
         margin-bottom: 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .table-inner {

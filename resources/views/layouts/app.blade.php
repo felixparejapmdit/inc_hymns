@@ -22,6 +22,11 @@
             body {
                 padding-top: 100px; /* Adjust as necessary to match the combined height of Navigation and Page Heading */
             }
+            /* Guard against horizontal page scroll on small viewports —
+               wide content (tables, code) must scroll inside its own container */
+            html, body {
+                overflow-x: hidden;
+            }
             .fixed-header {
                 position: fixed;
                 top: 0;
@@ -523,12 +528,19 @@
                     min-width: 128px;
                     min-height: 44px;
                 }
+                /* 44x44px minimum touch targets (WCAG 2.5.8 / Apple HIG) */
                 .pagination-centered nav div:last-child a,
                 .pagination-centered nav div:last-child span,
                 .pagination-centered .page-link {
-                    min-width: 32px;
-                    height: 32px;
-                    font-size: 0.75rem;
+                    min-width: 44px;
+                    height: 44px;
+                    font-size: 0.8rem;
+                }
+
+                input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+                select,
+                textarea {
+                    min-height: 44px;
                 }
 
                 .global-hymn-search-overlay {

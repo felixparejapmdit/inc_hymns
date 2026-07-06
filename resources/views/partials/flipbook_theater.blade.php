@@ -155,6 +155,12 @@
         </div>
     </div>
 
+    <!-- Exit Transition Overlay: fades in over the theater before redirecting,
+         so the underlying show page never flashes through -->
+    <div id="fb-exit-overlay" class="fb-exit-overlay" aria-hidden="true">
+        <div class="fb-exit-spinner"></div>
+    </div>
+
     {{-- Hidden audio element --}}
     <audio id="fb-audio" preload="auto"></audio>
 
@@ -587,11 +593,16 @@
     width: var(--fb-page-width, 400px);
     height: var(--fb-page-height, 600px);
     box-sizing: border-box;
-    transition: opacity 0.16s ease, filter 0.16s ease;
+    /* translateZ(0) promotes each page to its own GPU layer; the width/height
+       ease smooths the one-shot snap to new page dimensions after a resize */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: width 0.22s ease, height 0.22s ease, opacity 0.16s ease, filter 0.16s ease;
 }
 .fb-page-left  { border-radius:3px 0 0 3px; }
 .fb-page-right { border-radius:0 5px 5px 0; }
-.fb-page-inner { width:100%; height:100%; position:relative; overflow:hidden; }
+.fb-page-inner { width:100%; height:100%; position:relative; overflow:hidden; contain: layout paint; }
 .fb-canvas { display:block; width:100% !important; height:auto !important; max-width: 100%; }
 
 /* Single page overrides (when fbTotal === 1) */
@@ -669,6 +680,48 @@
     transform: rotateY(180deg);
     box-shadow: inset 10px 0 24px rgba(0,0,0,0.05);
     border-radius: 0 5px 5px 0;
+}
+
+/* Dynamic curl shading: a light/shadow wash sweeps over the leaf faces while
+   they rotate — the visual cue that paper is bending, not a flat card.
+   Only opacity animates, so it stays on the compositor. */
+.fb-tp-front::after,
+.fb-tp-back::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: inherit;
+}
+.fb-tp-front::after {
+    background: linear-gradient(to left,
+        rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.05) 38%,
+        rgba(255,255,255,0.12) 68%, rgba(255,255,255,0) 100%);
+}
+.fb-tp-back::after {
+    background: linear-gradient(to right,
+        rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.04) 42%,
+        rgba(255,255,255,0.10) 72%, rgba(255,255,255,0) 100%);
+}
+.fb-turning-right .fb-tp-front::after,
+.fb-turning-right .fb-tp-back::after,
+.fb-turning-left .fb-tp-front::after,
+.fb-turning-left .fb-tp-back::after {
+    animation: fb-leaf-shade 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes fb-leaf-shade {
+    0%   { opacity: 0; }
+    30%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Promote the book to its own GPU layer only while an animation is live —
+   permanent will-change wastes compositor memory */
+.fb-book.is-flipping,
+.fb-book.fb-mobile-anim-next,
+.fb-book.fb-mobile-anim-prev {
+    will-change: transform;
 }
 
 @keyframes fb-turn-forward {
@@ -859,6 +912,40 @@
 .fb-start-icon { font-size:4rem; color:#3b82f6; margin-bottom:1rem; filter:drop-shadow(0 0 20px rgba(59,130,246,0.5)); }
 .fb-start-card h3 { font-family:'Outfit',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:2px; }
 @keyframes fb-fade-in { from{opacity:0} to{opacity:1} }
+
+/* ── EXIT TRANSITION OVERLAY ───────────────────────────────────── */
+.fb-exit-overlay {
+    position: absolute; inset: 0; z-index: 100000;
+    background: #0a0f1e; /* matches the theater backdrop for a seamless fade */
+    opacity: 0; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.28s ease;
+}
+#flipbook-theater.fb-exiting .fb-exit-overlay {
+    opacity: 1;
+    pointer-events: auto; /* swallow clicks while navigating */
+}
+.fb-exit-spinner {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 3px solid rgba(148,163,184,0.25);
+    border-top-color: #3b82f6;
+    animation: fb-exit-spin 0.7s linear infinite;
+    opacity: 0;
+    transition: opacity 0.2s ease 0.3s; /* only shows if the next page is slow */
+}
+#flipbook-theater.fb-exiting .fb-exit-spinner { opacity: 1; }
+@keyframes fb-exit-spin { to { transform: rotate(360deg); } }
+#flipbook-theater.fb-light-mode .fb-exit-overlay { background: #e8eef6; }
+
+/* ── RESIZE FREEZE: no transitions/animations while the window is being
+      dragged, so breakpoint/page-size recalcs can't produce mid-resize jitter */
+#flipbook-theater.fb-resizing .fb-page,
+#flipbook-theater.fb-resizing .fb-book,
+#flipbook-theater.fb-resizing .fb-turning-page,
+#flipbook-theater.fb-resizing .fb-zoom-surface {
+    transition: none !important;
+    animation: none !important;
+}
 
 /* ─── BOTTOM COMMAND CENTER ────────────────────────────── */
 .fb-command-center {
@@ -1074,7 +1161,7 @@
     }
     .fb-hymn-title { font-size:0.8rem !important; }
     .fb-nav-arrow {
-        width:42px; height:42px; font-size:.9rem;
+        width:44px; height:44px; font-size:.9rem;
         background: rgba(8,14,30,0.72); border-radius: 50%;
         backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     }
@@ -1098,8 +1185,12 @@
     .fb-hint {
         font-size: 0.56rem;
     }
-    .fb-ctrl-btn { width:31px; height:31px; border-radius:9px; }
-    .fb-view-btn { width:31px; height:31px; }
+    /* 40px touch targets: full 44px would wrap the dense toolbar to 3+ rows
+       and eat the reading stage — 40px is the compact-toolbar compromise */
+    .fb-ctrl-btn { width:40px; height:40px; border-radius:10px; }
+    .fb-view-btn { width:40px; height:40px; }
+    .fb-track-pill { min-height:40px; min-width:40px; justify-content:center; }
+    .fb-play-sphere { width:44px; height:44px; }
     .fb-zoom-label { min-width:28px; font-size:0.58rem; }
     #flipbook-theater { inset: 0; }
     .fb-book { box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05); }
@@ -2232,14 +2323,52 @@ function openTheater() {
     }
 }
 
-/* ── CLOSE ─────────────────────────────────────────────────────── */
-closeBtn.addEventListener('click', () => {
-    theater.style.display = 'none';
-    document.body.style.overflow = '';
+/* ── EXIT (seamless fade → redirect) ───────────────────────────── */
+/* The theater is never hidden on exit: the exit overlay fades in on top of
+   it, then we navigate. The browser keeps the last painted frame on screen
+   until the destination page renders, so the show page underneath never
+   flashes through. */
+let exitStarted = false;
+
+function exitTheater() {
+    if (exitStarted) return;
+    exitStarted = true;
+
     cancelPagePrefetch();
-    audio.pause(); // fires 'pause' → updatePlayUI(false) handles icon + EQ
     if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
-    window.location.assign(MUSIC_INDEX_URL);
+
+    // Quick audio fade so playback doesn't cut off abruptly mid-transition
+    const fadeStep = setInterval(() => {
+        audio.volume = Math.max(0, audio.volume - 0.15);
+        if (audio.volume <= 0.01) {
+            clearInterval(fadeStep);
+            audio.pause(); // fires 'pause' → updatePlayUI(false) handles icon + EQ
+        }
+    }, 40);
+
+    theater.classList.add('fb-exiting');
+
+    const overlay = document.getElementById('fb-exit-overlay');
+    let navigated = false;
+    const go = () => {
+        if (navigated) return;
+        navigated = true;
+        window.location.assign(MUSIC_INDEX_URL);
+    };
+    if (overlay) overlay.addEventListener('transitionend', go, { once: true });
+    setTimeout(go, 450); // safety net if transitionend never fires
+}
+
+closeBtn.addEventListener('click', exitTheater);
+
+/* If the user returns via the browser Back button, the page is usually
+   restored from the back/forward cache exactly as it was mid-fade —
+   reset the exit state so the theater is usable again. */
+window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    exitStarted = false;
+    theater.classList.remove('fb-exiting');
+    if (volSlider) audio.volume = Number(volSlider.value) || 1;
 });
 
 /* ── FULLSCREEN ────────────────────────────────────────────────── */
@@ -3157,8 +3286,15 @@ if (ccHandle && commandCenter) {
 document.addEventListener('DOMContentLoaded', () => { setTimeout(openTheater, 400); });
 let resizeTimer;
 window.addEventListener('resize', () => {
+    // Freeze all flip/zoom transitions while the window is actively being
+    // resized — layout recalcs mid-animation are what cause the jitter.
+    if (theater.style.display !== 'none') {
+        theater.classList.add('fb-resizing');
+    }
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
+        // Unfreeze first so the final size change eases in smoothly
+        theater.classList.remove('fb-resizing');
         if (theater.style.display === 'none') return;
         if (currentView === 'lyrics' && (lyricsDoc || lyricsTextCache)) {
             rerenderLyricsFromCache();

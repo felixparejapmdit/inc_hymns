@@ -19,6 +19,7 @@
             {{ $musics->appends(['query' => request()->query('query')])->links() }}
         </div>
         
+        <div class="overflow-x-auto" style="-webkit-overflow-scrolling: touch;">
         <table class="min-w-full mt-3 mb-3">
     <thead>
         <tr>
@@ -68,9 +69,9 @@
                 </td>
                 @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action') || \App\Helpers\AccessRightsHelper::checkPermission('musics.delete'))
                     <td style="width: 20% !important; white-space: normal;" class="px-4 py-2 text-center font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                        <div class="flex justify-center space-x-2">
+                        <div class="flex justify-center space-x-1">
                             @if (\App\Helpers\AccessRightsHelper::checkPermission('musics.action'))
-                                <a href="{{ route('musics.edit', ['music' => $music->id]) }}" class="text-blue-500 hover:text-blue-600">
+                                <a href="{{ route('musics.edit', ['music' => $music->id]) }}" class="text-blue-500 hover:text-blue-600 inline-flex items-center justify-center rounded-lg hover:bg-blue-50" style="min-width:44px; min-height:44px;" aria-label="Edit hymn">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             @endif
@@ -78,7 +79,7 @@
                                 <form action="{{ route('musics.destroy', ['music' => $music->id]) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this hymn?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-600">
+                                    <button type="submit" class="text-red-500 hover:text-red-600 inline-flex items-center justify-center rounded-lg hover:bg-red-50" style="min-width:44px; min-height:44px;" aria-label="Delete hymn">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -90,6 +91,7 @@
         @endforeach
     </tbody>
 </table>
+</div>
 <div class="container text-center pagination-centered">
             {{ $musics->appends(['query' => request()->query('query')])->links() }}
         </div>

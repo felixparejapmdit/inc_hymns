@@ -134,6 +134,8 @@
     .card-scroll-body {
         max-height: 400px;
         overflow-y: auto;
+        overflow-x: auto; /* tables inside scroll sideways on narrow screens */
+        -webkit-overflow-scrolling: touch;
         padding-right: 5px;
     }
 
