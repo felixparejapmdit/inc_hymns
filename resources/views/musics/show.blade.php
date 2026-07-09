@@ -4,6 +4,26 @@
 <!-- Include Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+<style>
+    #show-page-wrapper {
+        display: none !important;
+    }
+
+    html,
+    body {
+        background: #0a0f1e;
+    }
+
+    body {
+        padding-top: 0 !important;
+    }
+
+    .fixed-header,
+    .fixed-page-heading {
+        display: none !important;
+    }
+</style>
+
 <!-- Include jQuery before Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -2767,7 +2787,10 @@ body.night-mode .performance-control-plate {
     }
 </style>
 
-    </div> {{-- /show-page-wrapper --}}
+    </div> {{-- /px-6.pb-6.pt-3 --}}
+        </div> {{-- /main-glass-card --}}
+    </div> {{-- /max-w-[95%] mx-auto --}}
+</div> {{-- /show-page-wrapper --}}
 
 {{-- FLIPBOOK THEATER — Refactored to partial --}}
 @include('partials.flipbook_theater')

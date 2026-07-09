@@ -237,23 +237,105 @@
     }
 
     /* Custom Pagination */
-    .pagination nav div:last-child {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
+    .pagination-centered {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        padding-bottom: 0.25rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
     }
-    
-    .pagination .page-link {
-        border-radius: 10px !important;
-        margin: 0 2px;
+
+    .pagination-centered::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pagination-centered nav,
+    .pagination-centered .pagination {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pagination-centered nav > div:last-child,
+    .pagination-centered .pagination {
+        width: 100%;
+        min-width: 0;
+        margin-top: 1rem;
+    }
+
+    .pagination-centered nav > div:last-child > div {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pagination-centered nav > div:last-child > div > span,
+    .pagination-centered .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        gap: 6px;
+        width: max-content;
+        min-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .pagination-centered nav > div:last-child > div > span > a,
+    .pagination-centered nav > div:last-child > div > span > span,
+    .pagination-centered .page-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        min-width: 38px;
+        height: 38px;
+        border-radius: 12px;
         font-weight: 700;
+        font-size: 0.85rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none !important;
+        background: #f8fafc;
         color: #64748b;
         border: 1px solid #e2e8f0;
     }
 
-    .pagination .page-item.active .page-link {
-        background: var(--accent-blue);
-        border-color: var(--accent-blue);
+    .pagination-centered nav > div:last-child > div > span > a:hover,
+    .pagination-centered .page-link:hover {
+        background: #fff;
+        color: #22c55e;
+        border-color: #22c55e;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(34, 197, 94, 0.1);
+    }
+
+    .pagination-centered nav > div:last-child > div > span[aria-current="page"],
+    .pagination-centered .page-item.active .page-link,
+    .pagination-centered .active-page {
+        background: #22c55e !important;
+        color: #fff !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    .pagination-centered nav > div:last-child > div > span[aria-disabled="true"],
+    .pagination-centered .page-item.disabled .page-link {
+        background: transparent !important;
+        border: none !important;
+        color: #cbd5e1 !important;
+        box-shadow: none !important;
+        cursor: default;
+    }
+
+    .pagination-centered nav svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .pagination-centered nav > div:first-child {
+        display: none !important;
     }
 
     /* Drag and Drop Zone */

@@ -1,7 +1,8 @@
 {{-- ════════════════════════════════════════════════════════════════════ --}}
 {{-- FLIPBOOK THEATER — Integrated Multimedia Player Interface            --}}
 {{-- ════════════════════════════════════════════════════════════════════ --}}
-<div id="flipbook-theater" style="display:none;">
+
+<div id="flipbook-theater">
 
     {{-- ── TOP BAR ──────────────────────────────────────────────────── --}}
     <div class="fb-top-bar">
@@ -68,43 +69,68 @@
                 </button>
             </div>
 
-            <div class="fb-extra-ctrls" style="margin-right:12px; display:flex; gap:6px;">
-                <button id="fb-details-btn" class="fb-track-pill" title="Hymn Details"><i class="fas fa-info-circle"></i><span>Details</span></button>
-                <button id="fb-playlist-btn" 
-                    class="fb-track-pill {{ $music->playlists->count() === 0 ? 'fb-pill-disabled' : '' }}" 
-                    title="{{ $music->playlists->count() === 0 ? 'This music is not included in any playlist' : 'Current Playlist' }}"
-                    {{ $music->playlists->count() === 0 ? 'disabled' : '' }}>
-                    <i class="fas fa-list-ul"></i><span>Playlist</span>
-                </button>
-            </div>
-
-            <div class="fb-zoom-ctrl" style="margin-right:12px;">
-                <button id="fb-zoom-out" class="fb-ctrl-btn"><i class="fas fa-minus"></i></button>
-                <span id="fb-zoom-label">100%</span>
-                <button id="fb-zoom-in" class="fb-ctrl-btn"><i class="fas fa-plus"></i></button>
-                <button id="fb-zoom-reset" class="fb-ctrl-btn" title="Reset Zoom"><i class="fas fa-rotate-left"></i></button>
-            </div>
-            <div class="fb-dl-wrap" style="position:relative;">
-                <button id="fb-dl-toggle" class="fb-ctrl-btn" style="margin-right:12px;" title="Download"><i class="fas fa-download"></i></button>
-                <div id="fb-dropdown" class="fb-dropdown" style="display:none;">
-                    <a id="fb-dl-pdf" class="fb-dl-item" href="{{ !empty($music->music_score_path) ? asset('storage/'.$music->music_score_path) : '#' }}" download="{{ $music->title }} - Score.pdf" {{ empty($music->music_score_path) ? 'style=pointer-events:none;opacity:0.4;' : '' }}>
-                        <i class="fas fa-file-pdf"></i> Score (PDF)
-                    </a>
-                    <a id="fb-dl-mp3" class="fb-dl-item" href="#" download="{{ $music->title }}.mp3" style="{{ empty($music->vocals_mp3_path) && empty($music->organ_mp3_path) && empty($music->preludes_mp3_path) ? 'pointer-events:none;opacity:0.4;' : '' }}">
-                        <i class="fas fa-music"></i> Audio (MP3)
-                    </a>
-                    <a id="fb-dl-lyrics" class="fb-dl-item" href="{{ !empty($music->lyrics_path) ? asset('storage/'.$music->lyrics_path) : '#' }}" download="{{ $music->title }} - Lyrics.pdf" {{ empty($music->lyrics_path) ? 'style=pointer-events:none;opacity:0.4;' : '' }}>
-                        <i class="fas fa-align-center"></i> Lyrics
-                    </a>
+            {{-- On mobile this whole group collapses into the ⋮ "More" menu
+                 below, so the top bar doesn't overflow into multiple crowded
+                 rows. On desktop fb-more-panel lays out inline as normal. --}}
+            <button type="button" id="fb-more-toggle" class="fb-ctrl-btn fb-more-toggle-btn" title="More options">
+                <i class="fas fa-ellipsis-vertical"></i>
+            </button>
+            <div id="fb-more-panel" class="fb-more-panel">
+                <div class="fb-extra-ctrls" style="margin-right:12px; display:flex; gap:6px;">
+                    <button id="fb-details-btn" class="fb-track-pill" title="Hymn Details"><i class="fas fa-info-circle"></i><span>Details</span></button>
+                    <button id="fb-playlist-btn"
+                        class="fb-track-pill {{ $music->playlists->count() === 0 ? 'fb-pill-disabled' : '' }}"
+                        title="{{ $music->playlists->count() === 0 ? 'This music is not included in any playlist' : 'Current Playlist' }}"
+                        {{ $music->playlists->count() === 0 ? 'disabled' : '' }}>
+                        <i class="fas fa-list-ul"></i><span>Playlist</span>
+                    </button>
                 </div>
+
+                <div class="fb-zoom-ctrl" style="margin-right:12px;">
+                    <button id="fb-zoom-out" class="fb-ctrl-btn"><i class="fas fa-minus"></i></button>
+                    <span id="fb-zoom-label">100%</span>
+                    <button id="fb-zoom-in" class="fb-ctrl-btn"><i class="fas fa-plus"></i></button>
+                    <button id="fb-zoom-reset" class="fb-ctrl-btn" title="Reset Zoom"><i class="fas fa-rotate-left"></i></button>
+                </div>
+                <div class="fb-dl-wrap" style="position:relative;">
+                    <button id="fb-dl-toggle" class="fb-ctrl-btn" style="margin-right:12px;" title="Download"><i class="fas fa-download"></i><span class="fb-more-hide-desktop">Download</span></button>
+                    <div id="fb-dropdown" class="fb-dropdown" style="display:none;">
+                        <a id="fb-dl-pdf" class="fb-dl-item" href="{{ !empty($music->music_score_path) ? asset('storage/'.$music->music_score_path) : '#' }}" download="{{ $music->title }} - Score.pdf" {{ empty($music->music_score_path) ? 'style=pointer-events:none;opacity:0.4;' : '' }}>
+                            <i class="fas fa-file-pdf"></i> Score (PDF)
+                        </a>
+                        <a id="fb-dl-mp3" class="fb-dl-item" href="#" download="{{ $music->title }}.mp3" style="{{ empty($music->vocals_mp3_path) && empty($music->organ_mp3_path) && empty($music->preludes_mp3_path) ? 'pointer-events:none;opacity:0.4;' : '' }}">
+                            <i class="fas fa-music"></i> Audio (MP3)
+                        </a>
+                        <a id="fb-dl-lyrics" class="fb-dl-item" href="{{ !empty($music->lyrics_path) ? asset('storage/'.$music->lyrics_path) : '#' }}" download="{{ $music->title }} - Lyrics.pdf" {{ empty($music->lyrics_path) ? 'style=pointer-events:none;opacity:0.4;' : '' }}>
+                            <i class="fas fa-align-center"></i> Lyrics
+                        </a>
+                    </div>
+                </div>
+                <button id="fb-fullscreen" class="fb-ctrl-btn" style="margin-right:12px;" title="Fullscreen"><i class="fas fa-expand"></i><span class="fb-more-hide-desktop">Fullscreen</span></button>
             </div>
-            <button id="fb-fullscreen" class="fb-ctrl-btn" style="margin-right:12px;" title="Fullscreen"><i class="fas fa-expand"></i></button>
             <button id="fb-close" class="fb-ctrl-btn fb-close-btn" title="Close"><i class="fas fa-times"></i></button>
         </div>
     </div>
 
     {{-- ── STAGE ─────────────────────────────────────────────────────── --}}
     <div class="fb-stage" id="fb-stage">
+
+        {{-- LOAD ERROR STATE: shown if the score/lyrics PDF fails to fetch or
+             stalls, so a slow/blocked CDN never leaves a blank screen with no
+             way forward. --}}
+        <div id="fb-load-error" class="fb-load-error" hidden>
+            <div class="fb-load-error-icon"><i class="fas fa-triangle-exclamation"></i></div>
+            <h3>This hymn couldn't load</h3>
+            <p>The score may be taking too long to reach you, or the connection was interrupted.</p>
+            <div class="fb-load-error-actions">
+                <button type="button" id="fb-load-retry" class="fb-load-error-btn fb-load-error-btn-primary">
+                    <i class="fas fa-rotate-right"></i> Try again
+                </button>
+                <a href="{{ route('musics.index') }}" class="fb-load-error-btn">
+                    <i class="fas fa-arrow-left"></i> Back to hymn list
+                </a>
+            </div>
+        </div>
 
         {{-- SCORE VIEW (Flipbook) --}}
         <div id="fb-score-view" style="display:flex;width:100%;height:100%;min-width:100%;min-height:100%;align-items:center;justify-content:center;gap:12px;box-sizing:border-box;position:relative;">
@@ -359,20 +385,6 @@
 </div>{{-- /flipbook-theater --}}
 
 <style>
-/* ─── LAUNCH BUTTON ─────────────────────────────────────── */
-#fb-open-btn {
-    width:60px; height:60px; border-radius:50%;
-    background:linear-gradient(135deg,#1e3a5f,#0f172a);
-    border:none; color:#fff; font-size:1.15rem;
-    display:flex; align-items:center; justify-content:center;
-    transition:all .4s cubic-bezier(.175,.885,.32,1.275);
-    position:relative; box-shadow:0 10px 30px rgba(0,0,0,.3); cursor:pointer;
-}
-#fb-open-btn:hover { transform:scale(1.1); background:#2563eb; box-shadow:0 15px 35px rgba(37,99,235,.35); }
-#fb-open-btn .btn-tooltip { position:absolute; left:75px; background:#1e293b; color:#fff; padding:6px 12px; border-radius:8px; font-size:.75rem; font-weight:800; text-transform:uppercase; opacity:0; pointer-events:none; transform:translateX(-10px); transition:all .3s; white-space:nowrap; }
-#fb-open-btn:hover .btn-tooltip { opacity:1; transform:translateX(0); }
-@media(max-width:768px){ #fb-open-btn{width:50px;height:50px;font-size:1rem;} }
-
 /* ─── THEATER OVERLAY ──────────────────────────────────── */
 #flipbook-theater {
     position:fixed;
@@ -380,8 +392,6 @@
     z-index: 9999;
     --fb-turn-duration: 840ms;
     --fb-turn-ease: cubic-bezier(0.18, 0.88, 0.22, 1);
-    --fb-turn-mobile-duration: 500ms;
-    --fb-turn-mobile-ease: cubic-bezier(0.24, 0.82, 0.18, 1);
     background: radial-gradient(ellipse at 20% 10%, #1a2744 0%, #0c1628 55%, #0a0f1e 100%);
     display: flex;
     flex-direction: column;
@@ -495,6 +505,80 @@
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
 }
 
+/* ── "MORE" OVERFLOW MENU ─────────────────────────────────────────
+   Desktop: fb-more-panel lays out inline exactly like the controls used
+   to, and the kebab trigger is hidden — no visual change from before.
+   Mobile (≤768px): the kebab becomes the only trigger for Details,
+   Playlist, Zoom, Download and Fullscreen, collapsing what used to be
+   2-3 crowded rows into a single dropdown sheet. Score/Lyrics and Close
+   stay always visible since those are primary, frequently-used controls. */
+.fb-more-toggle-btn { display: none; }
+.fb-more-panel {
+    display: flex;
+    align-items: center;
+}
+.fb-more-hide-desktop { display: none; }
+
+@media(max-width:768px){
+    .fb-more-toggle-btn { display:flex; }
+    .fb-more-panel {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 8px;
+        z-index: 150;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        min-width: 220px;
+        max-width: calc(100vw - 24px);
+        padding: 12px;
+        border-radius: 18px;
+        background: rgba(10,18,38,0.97);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,.1);
+        box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+        display: none;
+    }
+    .fb-more-panel.open { display: flex; }
+    .fb-more-panel .fb-extra-ctrls,
+    .fb-more-panel .fb-zoom-ctrl,
+    .fb-more-panel .fb-dl-wrap {
+        background: transparent; border: none; box-shadow: none; padding: 0;
+        margin-right: 0 !important;
+    }
+    .fb-more-panel .fb-extra-ctrls,
+    .fb-more-panel .fb-zoom-ctrl {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    /* Full-width, labelled rows are easier to read/tap in a vertical sheet
+       than the icon-only pills used in the compact horizontal bar */
+    .fb-more-panel .fb-track-pill,
+    .fb-more-panel #fb-fullscreen,
+    .fb-more-panel #fb-dl-toggle {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 0 14px;
+    }
+    .fb-more-panel .fb-track-pill span,
+    .fb-more-panel .fb-more-hide-desktop {
+        display: inline;
+    }
+    .fb-more-panel .fb-zoom-ctrl {
+        flex-direction: row;
+        justify-content: center;
+    }
+    .fb-more-panel #fb-dropdown {
+        position: static;
+        margin-top: 8px;
+        width: 100%;
+        box-shadow: none;
+        border-color: rgba(255,255,255,.06);
+    }
+}
+
 /* Zoom control row */
 .fb-zoom-ctrl {
     display:flex; align-items:center; gap:3px;
@@ -605,14 +689,19 @@
 .fb-page-inner { width:100%; height:100%; position:relative; overflow:hidden; contain: layout paint; }
 .fb-canvas { display:block; width:100% !important; height:auto !important; max-width: 100%; }
 
-/* Single page overrides (when fbTotal === 1) */
+/* Single page overrides (mobile/tablet, or when fbTotal === 1) — the
+   turning leaf stays enabled here (unlike before) so single-page mode gets
+   the exact same true 3D content-flip as the desktop two-page spread; it
+   just spans the full page width instead of half. */
 .fb-book-wrap.fb-single-page .fb-page-right,
-.fb-book-wrap.fb-single-page .fb-spine,
-.fb-book-wrap.fb-single-page .fb-turning-page {
+.fb-book-wrap.fb-single-page .fb-spine {
     display: none !important;
 }
 .fb-book-wrap.fb-single-page .fb-page-left {
     border-radius: 4px 6px 6px 4px !important;
+}
+.fb-book-wrap.fb-single-page .fb-turning-page {
+    width: 100%;
 }
 .fb-page-num { position:absolute; bottom:9px; left:50%; transform:translateX(-50%); font-size:.58rem; font-weight:700; color:#b0b8c4; font-family:'Outfit',sans-serif; letter-spacing:.3px; }
 .fb-page-curl { position:absolute; width:40px; height:40px; pointer-events:none; z-index:10; opacity:0.7; }
@@ -718,9 +807,7 @@
 
 /* Promote the book to its own GPU layer only while an animation is live —
    permanent will-change wastes compositor memory */
-.fb-book.is-flipping,
-.fb-book.fb-mobile-anim-next,
-.fb-book.fb-mobile-anim-prev {
+.fb-book.is-flipping {
     will-change: transform;
 }
 
@@ -805,17 +892,6 @@
     100% { opacity: 0.06; transform: translateX(-1%) scaleX(0.98); }
 }
 
-/* Single page (Mobile) Slide Flip */
-@keyframes fb-mobile-flip-next {
-    0%   { transform: translateX(0) rotateY(0deg); opacity: 1; }
-    35%  { transform: translateX(-15%) rotateY(-18deg) scale(0.96); opacity: 0.85; }
-    100% { transform: translateX(-100%) rotateY(-50deg); opacity: 0; }
-}
-@keyframes fb-mobile-flip-prev {
-    0%   { transform: translateX(-100%) rotateY(50deg); opacity: 0; }
-    65%  { transform: translateX(-15%) rotateY(8deg) scale(0.97); opacity: 0.9; }
-    100% { transform: translateX(0) rotateY(0deg); opacity: 1; }
-}
 
 .fb-turning-right {
     right: 0; left: auto;
@@ -844,9 +920,39 @@
     animation: fb-turn-glow-backward var(--fb-turn-duration) var(--fb-turn-ease) forwards;
 }
 
-/* Mobile specific classes */
-.fb-mobile-anim-next { animation: fb-mobile-flip-next var(--fb-turn-mobile-duration) var(--fb-turn-mobile-ease) forwards; }
-.fb-mobile-anim-prev { animation: fb-mobile-flip-prev var(--fb-turn-mobile-duration) var(--fb-turn-mobile-ease) forwards; }
+/* ── MANUAL (pointer-driven) FLIP — drag-to-flip physics ─────────────
+   JS drives the leaf transform each frame via requestAnimationFrame; the
+   shadow/glow overlays follow drag progress through --fb-drag-shade
+   instead of a fixed keyframe timeline. */
+.fb-turning-page.fb-manual { will-change: transform; }
+.fb-manual-fwd  { right: 0; left: auto; transform-origin: left center; }
+.fb-manual-back { left: 0; right: auto; transform-origin: right center; }
+.fb-manual-fwd::before {
+    background: linear-gradient(to right, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 22%, rgba(0,0,0,0.06) 44%, transparent 78%);
+    opacity: calc(var(--fb-drag-shade, 0) * 0.82);
+}
+.fb-manual-back::before {
+    background: linear-gradient(to left, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 22%, rgba(0,0,0,0.06) 44%, transparent 78%);
+    opacity: calc(var(--fb-drag-shade, 0) * 0.82);
+}
+.fb-manual-fwd::after {
+    background: linear-gradient(to left, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 28%, transparent 74%);
+    opacity: calc(0.06 + var(--fb-drag-shade, 0) * 0.18);
+}
+.fb-manual-back::after {
+    background: linear-gradient(to right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.08) 28%, transparent 74%);
+    opacity: calc(0.06 + var(--fb-drag-shade, 0) * 0.18);
+}
+.fb-turning-page.fb-manual .fb-tp-front::after,
+.fb-turning-page.fb-manual .fb-tp-back::after {
+    animation: none;
+    opacity: var(--fb-drag-shade, 0);
+}
+.fb-stage.fb-drag-flipping {
+    cursor: grabbing;
+    user-select: none;
+    -webkit-user-select: none;
+}
 
 /* Nav arrows — Publuu-inspired: circular, ghost by default, reveal on hover */
 .fb-nav-arrow {
@@ -855,9 +961,9 @@
     transform: translateY(-50%);
     width: 48px; height: 48px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(10,16,34,0.62);
-    color: rgba(226,232,240,0.9);
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(15,23,42,0.68);
+    color: #f1f5f9;
     font-size: 1rem;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
@@ -865,13 +971,17 @@
                 box-shadow 0.22s ease, transform 0.18s cubic-bezier(0.4,0,0.2,1);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06);
+    /* Glassmorphism + a soft blue glow ring so the button reads clearly
+       against a dark backdrop without needing hover to become visible —
+       hover on a touchscreen never fires, so this can't be the resting state. */
+    box-shadow: 0 4px 18px rgba(0,0,0,0.35), 0 0 0 1px rgba(96,165,250,0.14),
+                inset 0 1px 0 rgba(255,255,255,0.1);
     z-index: 80;
-    opacity: 0.18;
+    opacity: 0.62;
 }
 #fb-prev { left: 16px; }
 #fb-next { right: 16px; }
-#fb-stage:hover .fb-nav-arrow:not(:disabled) { opacity: 0.82; }
+#fb-stage:hover .fb-nav-arrow:not(:disabled) { opacity: 0.95; }
 .fb-nav-arrow:hover:not(:disabled) {
     background: rgba(37,99,235,0.45);
     border-color: rgba(96,165,250,0.5);
@@ -912,6 +1022,41 @@
 .fb-start-icon { font-size:4rem; color:#3b82f6; margin-bottom:1rem; filter:drop-shadow(0 0 20px rgba(59,130,246,0.5)); }
 .fb-start-card h3 { font-family:'Outfit',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:2px; }
 @keyframes fb-fade-in { from{opacity:0} to{opacity:1} }
+
+/* ── LOAD ERROR STATE ──────────────────────────────────────────── */
+.fb-load-error {
+    position: absolute;
+    inset: 0;
+    z-index: 90000;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(6, 12, 26, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #e2e8f0;
+}
+.fb-load-error:not([hidden]) { display: flex; animation: fb-fade-in 0.3s ease; }
+.fb-load-error-icon { font-size: 2.75rem; color: #f59e0b; margin-bottom: 1rem; }
+.fb-load-error h3 { margin: 0 0 0.5rem; font-family:'Outfit',sans-serif; font-weight: 800; font-size: 1.2rem; color: #f8fafc; }
+.fb-load-error p { margin: 0 0 1.5rem; max-width: 32rem; color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
+.fb-load-error-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+.fb-load-error-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    min-height: 44px; padding: 0 1.25rem;
+    border-radius: 999px; font-weight: 800; font-size: 0.85rem;
+    text-decoration: none !important; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.06);
+    color: #e2e8f0;
+    transition: all 0.2s ease;
+}
+.fb-load-error-btn:hover { background: rgba(255,255,255,0.12); color: #fff; transform: translateY(-1px); }
+.fb-load-error-btn-primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); border-color: rgba(96,165,250,0.4); color: #fff; }
+.fb-load-error-btn-primary:hover { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; }
 
 /* ── EXIT TRANSITION OVERLAY ───────────────────────────────────── */
 .fb-exit-overlay {
@@ -1145,31 +1290,46 @@
 /* Extra-small screens */
 @media(max-width:768px){
     .fb-top-bar {
-        gap: 8px;
-        padding: 8px 10px;
-        flex-wrap: wrap;
+        gap: 4px;
+        padding: 6px 8px;
+        flex-wrap: nowrap;
     }
+    /* Keep left/center/right side-by-side in a single row instead of each
+       stacking onto its own full-width line — that's what turned this into
+       3 rows. Groups shrink to fit their content instead of stretching. */
     .fb-top-left,
     .fb-top-center,
     .fb-top-right {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
+        width: auto;
+        flex: 0 1 auto;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 4px !important;
     }
-    .fb-top-left {
-        justify-content: space-between;
-    }
+    .fb-top-left { flex-shrink: 0; }
+    .fb-top-center { justify-content: center; flex: 1 1 auto; min-width: 0; }
+    .fb-top-right { flex-shrink: 0; margin-right: 0 !important; }
+    .fb-view-toggle { margin-right: 4px !important; }
+    .fb-badge { white-space: nowrap; }
     .fb-hymn-title { font-size:0.8rem !important; }
     .fb-nav-arrow {
         width:44px; height:44px; font-size:.9rem;
-        background: rgba(8,14,30,0.72); border-radius: 50%;
+        background: rgba(15,23,42,0.82); border-radius: 50%;
+        border-color: rgba(255,255,255,0.28);
         backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        /* Touch has no :hover, so the arrows must be clearly visible at rest
+           — not dependent on #fb-stage:hover, which a touchscreen never fires. */
+        opacity: 0.9 !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(96,165,250,0.22),
+                    inset 0 1px 0 rgba(255,255,255,0.12);
     }
+    .fb-nav-arrow:active:not(:disabled) { opacity: 1 !important; }
+    .fb-nav-arrow:disabled { opacity: 0 !important; }
+    #flipbook-theater.fb-light-mode .fb-nav-arrow { opacity: 0.95 !important; }
     #fb-prev { left: 8px; }
     #fb-next { right: 8px; }
     .fb-stage { padding: 6px !important; }
     .fb-vol-wrap,
-    .fb-hint,
     .fb-now-playing {
         display: flex;
     }
@@ -1182,8 +1342,16 @@
     .fb-now-playing {
         padding: 3px 8px;
     }
+    /* "Spread 1-2/3" and the "← → · Swipe · +/-" hint are redundant on a
+       touchscreen (you're already swiping/scrubbing) — drop both so the
+       scrubber gets the full row width instead of being squeezed between them. */
+    .fb-page-counter,
     .fb-hint {
-        font-size: 0.56rem;
+        display: none;
+    }
+    .fb-page-row {
+        padding: 2px 14px 6px;
+        gap: 0;
     }
     /* 40px touch targets: full 44px would wrap the dense toolbar to 3+ rows
        and eat the reading stage — 40px is the compact-toolbar compromise */
@@ -1967,6 +2135,8 @@ const dlToggle    = document.getElementById('fb-dl-toggle');
 const dlDropdown  = document.getElementById('fb-dropdown');
 const fbStage     = document.getElementById('fb-stage');
 const themeToggle = document.getElementById('fb-theme-toggle');
+const loadErrorEl = document.getElementById('fb-load-error');
+const loadRetryBtn = document.getElementById('fb-load-retry');
 
 /* ── State ─────────────────────────────────────────────────────── */
 let fbPdfDoc = null, fbTotal = 0, fbSpread = 1, fbZoom = 1.0;
@@ -2264,17 +2434,6 @@ function paintRenderedPage(raster, canvas, numEl, pageNum) {
     return Promise.resolve();
 }
 
-/* ── Launch Button (inject into existing floating group) ── */
-const floatingGroup = document.querySelector('.floating-action-group');
-if (floatingGroup) {
-    const btn = document.createElement('button');
-    btn.id = 'fb-open-btn';
-    btn.title = 'Open Flipbook Theater';
-    btn.innerHTML = '<i class="fas fa-book-open"></i><span class="btn-tooltip">Flipbook</span>';
-    floatingGroup.appendChild(btn);
-    btn.addEventListener('click', openTheater);
-}
-
 /* ── OPEN ──────────────────────────────────────────────────────── */
 function openTheater() {
     const hasScore = !!PATHS.score;
@@ -2282,6 +2441,9 @@ function openTheater() {
         alert('No music score or lyrics file is available for this hymn.');
         return;
     }
+
+    const showWrapper = document.getElementById('show-page-wrapper');
+    if (showWrapper) showWrapper.style.display = 'none';
 
     theater.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -2372,13 +2534,14 @@ window.addEventListener('pageshow', (e) => {
 });
 
 /* ── FULLSCREEN ────────────────────────────────────────────────── */
+const fsBtnIcon = fsBtn.querySelector('i');
 fsBtn.addEventListener('click', () => {
     if (!document.fullscreenElement) {
         theater.requestFullscreen().catch(()=>{});
-        fsBtn.innerHTML = '<i class="fas fa-compress"></i>';
+        if (fsBtnIcon) fsBtnIcon.className = 'fas fa-compress';
     } else {
         document.exitFullscreen().catch(()=>{});
-        fsBtn.innerHTML = '<i class="fas fa-expand"></i>';
+        if (fsBtnIcon) fsBtnIcon.className = 'fas fa-expand';
     }
 });
 
@@ -2632,6 +2795,8 @@ function loadLyrics(path) {
     scoreView.style.display = 'none';
     pageRow.style.display = 'none';
     lyricsInner.innerHTML = '<div style="color:#64748b;padding:3rem;text-align:center;"><i class="fas fa-circle-notch fa-spin" style="font-size:2rem;display:block;margin-bottom:1rem;color:#3b82f6;"></i>Loading lyrics...</div>';
+    hideLoadError();
+    armLoadWatchdog();
     if (path.toLowerCase().endsWith('.pdf')) {
         loadLyricsPdf(path);
         return;
@@ -2639,16 +2804,21 @@ function loadLyrics(path) {
     fetch(path)
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
+            disarmLoadWatchdog();
             lyricsTextCache = text;
             renderLyricsTextContent(text);
             lyricsLoaded = true;
         })
-        .catch(() => { lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics.</div>'; });
+        .catch(() => {
+            disarmLoadWatchdog();
+            lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics.</div>';
+        });
 }
 
 function loadLyricsPdf(path) {
     path = normalizeMediaUrl(path);
     if (!path) {
+        disarmLoadWatchdog();
         lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics PDF.</div>';
         return;
     }
@@ -2661,12 +2831,14 @@ function loadLyricsPdf(path) {
         document.head.appendChild(s);
     };
     const showError = () => {
+        disarmLoadWatchdog();
         lyricsInner.innerHTML = '<div class="fb-lyrics-empty" style="color:#ef4444;">Failed to load lyrics PDF.</div>';
     };
     ensurePdfJs(() => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
         pdfjsLib.getDocument(path).promise
             .then(pdf => {
+                disarmLoadWatchdog();
                 lyricsDoc = pdf;
                 lyricsLoaded = true;
                 lyricsTextCache = '';
@@ -2677,13 +2849,65 @@ function loadLyricsPdf(path) {
 }
 
 /* ── PDF LOAD ──────────────────────────────────────────────────── */
+/* Loading a hymn score involves two network round-trips outside our control
+   (the pdf.js library from a CDN, then the PDF itself). Either can silently
+   hang or fail — a blocked CDN, a dropped connection, a slow proxy — and
+   without a visible fallback the theater just sits on its background color
+   forever. LOAD_STALL_MS + the .catch()/onerror below turn that into a
+   recoverable, visible error state instead of a dead screen. */
+const LOAD_STALL_MS = 15000;
+let loadWatchdog = null;
+let lastScoreLoadPath = null;
+
+function armLoadWatchdog() {
+    clearTimeout(loadWatchdog);
+    loadWatchdog = setTimeout(showLoadError, LOAD_STALL_MS);
+}
+
+function disarmLoadWatchdog() {
+    clearTimeout(loadWatchdog);
+    loadWatchdog = null;
+    // A slow-but-successful load can complete just after the watchdog
+    // already displayed the error state; clear it here too so success
+    // never renders silently behind a stuck error overlay.
+    hideLoadError();
+}
+
+function showLoadError() {
+    disarmLoadWatchdog();
+    const pctLabel = document.getElementById('fb-load-pct');
+    if (pctLabel) pctLabel.style.display = 'none';
+    if (loadErrorEl) loadErrorEl.hidden = false;
+}
+
+function hideLoadError() {
+    if (loadErrorEl) loadErrorEl.hidden = true;
+}
+
+if (loadRetryBtn) {
+    loadRetryBtn.addEventListener('click', () => {
+        hideLoadError();
+        if (lastScoreLoadPath) {
+            loadPdf(lastScoreLoadPath);
+        } else if (PATHS.score) {
+            loadPdf(PATHS.score);
+        } else if (PATHS.lyrics) {
+            loadLyrics(PATHS.lyrics);
+        }
+    });
+}
+
 function loadPdf(path) {
     path = normalizeMediaUrl(path);
     if (!path) return;
+    lastScoreLoadPath = path;
+    hideLoadError();
+    armLoadWatchdog();
     if (typeof pdfjsLib === 'undefined') {
         const s = document.createElement('script');
         s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js';
         s.onload = () => doLoadPdf(path);
+        s.onerror = showLoadError;
         document.head.appendChild(s);
     } else { doLoadPdf(path); }
 }
@@ -2695,10 +2919,14 @@ function doLoadPdf(path) {
     const loadingTask = pdfjsLib.getDocument(path);
     loadingTask.onProgress = (p) => { if (p.total > 0 && pctLabel) pctLabel.textContent = Math.round((p.loaded / p.total) * 100) + '%'; };
     loadingTask.promise.then(pdf => {
+        disarmLoadWatchdog();
         if (pctLabel) pctLabel.style.display = 'none';
         scoreDoc = pdf; fbPdfDoc = pdf; fbTotal = pdf.numPages; fbSpread = 1;
         syncViewButtons('score');
         totalLbl.textContent = fbTotal; scrubber.max = Math.max(1, fbTotal); renderSpread(1, false);
+    }).catch(err => {
+        console.error('[flipbook] score PDF failed to load:', err);
+        showLoadError();
     });
 }
 
@@ -2731,6 +2959,13 @@ let _lastSpread = 1;
 let _isAnimating = false;
 
 
+/* One true content-based 3D flip for every viewport — desktop's two-page
+   spread and mobile/tablet's single page use the exact same leaf, the same
+   keyframes, and the same physics. The only difference is geometry: in
+   single-page mode the turning leaf is the whole page (width:100%, see the
+   .fb-book-wrap.fb-single-page CSS override) instead of just the half that's
+   turning in a two-page spread. This is what makes the animation identical
+   across devices instead of mobile falling back to a simpler CSS slide. */
 async function flipAnim(targetSpread, onDone) {
     const turningPage = document.getElementById('fb-turning-page');
     const turnFront   = document.getElementById('fb-canvas-turn-front');
@@ -2740,24 +2975,7 @@ async function flipAnim(targetSpread, onDone) {
 
     if (!turningPage || _isAnimating) { if (onDone) onDone(); return; }
 
-    const isMobile = isMobileView();
-    // Mobile uses a simpler slide-flip for performant UX on phones
-    if (isMobile) {
-        _isAnimating = true;
-        const goingForward = targetSpread > _lastSpread;
-        _lastSpread = targetSpread;
-        const book = document.getElementById('fb-book');
-        book.classList.add(goingForward ? 'fb-mobile-anim-next' : 'fb-mobile-anim-prev');
-        setTimeout(() => {
-            schedulePagePrefetch(targetSpread);
-            if (onDone) onDone();
-            book.classList.remove('fb-mobile-anim-next', 'fb-mobile-anim-prev');
-            _isAnimating = false;
-        }, 550);
-        return;
-    }
-
-    // DESKTOP: True Content-Based 3D Flip
+    const singlePage = isMobileView() || fbTotal <= 1;
     _isAnimating = true;
     const goingForward = targetSpread > _lastSpread;
     _lastSpread = targetSpread;
@@ -2767,20 +2985,30 @@ async function flipAnim(targetSpread, onDone) {
     try {
         warmFlipTransition(targetSpread);
 
-        // Keep the old spread visible while the leaf turns, then swap in the
-        // destination spread once the motion completes.
-        copyCanvasContents(goingForward ? canvasR : canvasL, turnFront);
-        clearCanvasContents(turnBack);
-
-        const targetLeftPromise = getRenderedPage(targetSpread, { updateLayout: false });
-        const targetRightPromise = getRenderedPage(targetSpread + 1, { updateLayout: false });
-        const turnBackPageNum = goingForward ? targetSpread : targetSpread + 1;
-        const turnBackPromise = getRenderedPage(turnBackPageNum, { updateLayout: false });
-        turnBackPromise.then(turnBackRaster => {
-            if (turnBackRaster && _isAnimating) {
-                paintRenderedPage(turnBackRaster, turnBack, null, turnBackPageNum).catch(() => {});
-            }
-        }).catch(() => {});
+        // Keep the old page(s) visible while the leaf turns, then swap in the
+        // destination content once the motion completes.
+        let targetLeftPromise, targetRightPromise;
+        if (singlePage) {
+            // The leaf IS the page: front = what's currently shown, back =
+            // the page being revealed. There's no right-hand page at all.
+            copyCanvasContents(canvasL, turnFront);
+            clearCanvasContents(turnBack);
+            targetLeftPromise = getRenderedPage(targetSpread, { updateLayout: false });
+            targetRightPromise = Promise.resolve(null);
+            const backPageNum = targetSpread;
+            getRenderedPage(backPageNum, { updateLayout: false }).then(raster => {
+                if (raster && _isAnimating) paintRenderedPage(raster, turnBack, null, backPageNum).catch(() => {});
+            }).catch(() => {});
+        } else {
+            copyCanvasContents(goingForward ? canvasR : canvasL, turnFront);
+            clearCanvasContents(turnBack);
+            targetLeftPromise = getRenderedPage(targetSpread, { updateLayout: false });
+            targetRightPromise = getRenderedPage(targetSpread + 1, { updateLayout: false });
+            const turnBackPageNum = goingForward ? targetSpread : targetSpread + 1;
+            getRenderedPage(turnBackPageNum, { updateLayout: false }).then(raster => {
+                if (raster && _isAnimating) paintRenderedPage(raster, turnBack, null, turnBackPageNum).catch(() => {});
+            }).catch(() => {});
+        }
 
         if (fbBookEl) fbBookEl.classList.add('is-flipping');
 
@@ -2798,10 +3026,12 @@ async function flipAnim(targetSpread, onDone) {
             } else {
                 clearPageContents(canvasL, numL);
             }
-            if (rightRaster) {
-                await paintRenderedPage(rightRaster, canvasR, numR, targetSpread + 1);
-            } else {
-                clearPageContents(canvasR, numR);
+            if (!singlePage) {
+                if (rightRaster) {
+                    await paintRenderedPage(rightRaster, canvasR, numR, targetSpread + 1);
+                } else {
+                    clearPageContents(canvasR, numR);
+                }
             }
 
             fbSpread = targetSpread;
@@ -2877,17 +3107,10 @@ function goSpread(delta) {
     if (nextVal === fbSpread) return;
 
     warmFlipTransition(nextVal);
-
-    if (isMobile) {
-        fbSpread = nextVal;
-        updatePageUI();
-        flipAnim(fbSpread, () => {
-            renderPage(fbSpread, canvasL, numL);
-        });
-    } else {
-        // Desktop uses the content-based true 3D flip handled inside flipAnim
-        flipAnim(nextVal);
-    }
+    // Same true 3D flip on every viewport — flipAnim itself adapts the leaf
+    // geometry for single-page vs. two-page spreads and updates fbSpread/UI
+    // only once the animation actually completes.
+    flipAnim(nextVal);
 }
 
 function updatePageUI() {
@@ -2925,6 +3148,7 @@ scrubFill.parentElement.addEventListener('click', (e) => {
 });
 
 scrubber.addEventListener('input', () => {
+    if (_isAnimating) return; // don't repaint canvases mid-flip/drag
     let v = parseInt(scrubber.value);
     if (!isMobileView() && v > 1 && v % 2 === 0) v--;
     renderSpread(v, false);
@@ -3075,6 +3299,220 @@ fbStage.addEventListener('dblclick', (e) => {
     }
 });
 
+/* ── INTERACTIVE DRAG-TO-FLIP (Publuu-style page physics) ───────
+   Grab the outer third of either page with the mouse and drag: the leaf
+   follows the pointer 1:1 through a requestAnimationFrame loop, using the
+   same bend path (translateX/rotateY/translateZ/scaleX) as the keyframe
+   flips. Release past halfway — or flick with enough velocity — and the
+   page settles forward; otherwise it springs back. Desktop two-page mode
+   only; mobile keeps its swipe flip, zoomed mode keeps drag-to-pan. */
+const dragFlip = {
+    active: false, ready: false, engaged: false, settling: false,
+    pointerId: null, forward: true, targetSpread: 1,
+    startX: 0, lastX: 0, lastT: 0, velocity: 0, progress: 0,
+    raf: null, layoutSnapshot: null,
+};
+const DRAG_ZONE = 0.34;        // outer fraction of each page that grabs
+const DRAG_CLICK_SLOP = 8;     // px of movement before it counts as a drag
+const FLICK_VELOCITY = 0.45;   // px/ms toward the flip direction
+
+function dragLeafTransform(p) {
+    // Same shape as the fb-turn-* keyframes so drag and button flips match
+    const s = Math.sin(p * Math.PI);
+    const angle = dragFlip.forward ? (-180 * p) : (180 * p);
+    const tx = (dragFlip.forward ? -7 : 7) * s;
+    return `translateX(${tx.toFixed(2)}%) rotateY(${angle.toFixed(2)}deg)` +
+        ` translateZ(${(68 * s).toFixed(1)}px)` +
+        ` scaleX(${(1 - 0.042 * s).toFixed(4)}) scaleY(${(1 + 0.012 * s).toFixed(4)})`;
+}
+
+function paintDragFrame() {
+    const turningPage = document.getElementById('fb-turning-page');
+    if (!turningPage) return;
+    const s = Math.sin(dragFlip.progress * Math.PI);
+    turningPage.style.transform = dragLeafTransform(dragFlip.progress);
+    turningPage.style.filter = `brightness(${(1 - 0.13 * s).toFixed(3)}) saturate(${(1 - 0.016 * s).toFixed(3)})`;
+    turningPage.style.setProperty('--fb-drag-shade', s.toFixed(3));
+}
+
+function scheduleDragFrame() {
+    if (dragFlip.raf !== null) return;
+    dragFlip.raf = requestAnimationFrame(() => {
+        dragFlip.raf = null;
+        if (dragFlip.active && dragFlip.ready) paintDragFrame();
+    });
+}
+
+function finishDragCleanup(committed) {
+    const turningPage = document.getElementById('fb-turning-page');
+    if (committed) {
+        fbSpread = dragFlip.targetSpread;
+        _lastSpread = dragFlip.targetSpread;
+        updatePageUI();
+    }
+    // Repaint both static pages for the (possibly restored) current spread
+    // BEFORE hiding the leaf, so nothing flashes underneath.
+    Promise.all([
+        renderPage(fbSpread, canvasL, numL, { updateLayout: false }),
+        renderPage(fbSpread + 1, canvasR, numR, { updateLayout: false }),
+    ]).catch(() => {}).finally(() => {
+        if (turningPage) {
+            turningPage.style.display = 'none';
+            turningPage.style.transform = '';
+            turningPage.style.filter = '';
+            turningPage.style.removeProperty('--fb-drag-shade');
+            turningPage.classList.remove('fb-manual', 'fb-manual-fwd', 'fb-manual-back');
+        }
+        fbBook.classList.remove('is-flipping');
+        fbStage.classList.remove('fb-drag-flipping');
+        restoreBookLayout(dragFlip.layoutSnapshot);
+        dragFlip.layoutSnapshot = null;
+        dragFlip.active = false;
+        dragFlip.ready = false;
+        dragFlip.settling = false;
+        dragFlip.pointerId = null;
+        _isAnimating = false;
+        if (committed) schedulePagePrefetch(fbSpread);
+    });
+}
+
+function settleDragFlip(commit) {
+    dragFlip.settling = true;
+    const target = commit ? 1 : 0;
+    const step = () => {
+        const diff = target - dragFlip.progress;
+        if (Math.abs(diff) < 0.01) {
+            dragFlip.progress = target;
+            paintDragFrame();
+            finishDragCleanup(commit);
+            return;
+        }
+        dragFlip.progress += diff * 0.2; // exponential ease-out, ~300ms
+        paintDragFrame();
+        requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+}
+
+async function beginDragFlip(e) {
+    const book = fbBook.getBoundingClientRect();
+    if (!book.width || e.clientY < book.top || e.clientY > book.bottom) return;
+    const relX = (e.clientX - book.left) / book.width;
+
+    let forward;
+    if (relX >= 1 - DRAG_ZONE && fbSpread + 1 < fbTotal) forward = true;
+    else if (relX <= DRAG_ZONE && fbSpread > 1) forward = false;
+    else return;
+
+    dragFlip.active = true;
+    dragFlip.ready = false;
+    dragFlip.engaged = false;
+    dragFlip.settling = false;
+    dragFlip.pointerId = e.pointerId;
+    dragFlip.forward = forward;
+    dragFlip.targetSpread = forward
+        ? Math.min(fbTotal, fbSpread + 2)
+        : Math.max(1, fbSpread - 2);
+    dragFlip.startX = dragFlip.lastX = e.clientX;
+    dragFlip.lastT = performance.now();
+    dragFlip.velocity = 0;
+    dragFlip.progress = 0;
+    _isAnimating = true;
+    dragFlip.layoutSnapshot = freezeBookLayout();
+    fbStage.setPointerCapture(e.pointerId);
+
+    const turningPage = document.getElementById('fb-turning-page');
+    const turnFront = document.getElementById('fb-canvas-turn-front');
+    const turnBack = document.getElementById('fb-canvas-turn-back');
+
+    try {
+        warmFlipTransition(dragFlip.targetSpread);
+        // Leaf front = the page being grabbed (copied, so the static canvas
+        // underneath can be swapped to the destination content right away —
+        // the area revealed under the lifting leaf then shows the next page,
+        // which is what a real book does).
+        copyCanvasContents(forward ? canvasR : canvasL, turnFront);
+        clearCanvasContents(turnBack);
+        const backPageNum = forward ? dragFlip.targetSpread : dragFlip.targetSpread + 1;
+        await Promise.all([
+            getRenderedPage(backPageNum, { updateLayout: false }).then(raster => {
+                if (raster) return paintRenderedPage(raster, turnBack, null, backPageNum);
+            }),
+            forward
+                ? renderPage(dragFlip.targetSpread + 1, canvasR, numR, { updateLayout: false })
+                : renderPage(dragFlip.targetSpread, canvasL, numL, { updateLayout: false }),
+        ]);
+    } catch (err) {
+        finishDragCleanup(false);
+        return;
+    }
+
+    if (!dragFlip.active) {
+        // Pointer was released before the textures were ready
+        finishDragCleanup(false);
+        return;
+    }
+
+    fbBook.classList.add('is-flipping');
+    fbStage.classList.add('fb-drag-flipping');
+    turningPage.classList.remove('fb-turning-right', 'fb-turning-left');
+    turningPage.classList.add('fb-manual', forward ? 'fb-manual-fwd' : 'fb-manual-back');
+    turningPage.style.display = 'block';
+    dragFlip.ready = true;
+    paintDragFrame();
+}
+
+fbStage.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    if (dragFlip.active || _isAnimating) return;
+    if (fbZoom > 1.01 || currentView !== 'score') return;
+    if (isMobileView() || !fbPdfDoc || fbTotal <= 1) return;
+    if (e.target.closest('.fb-nav-arrow')) return;
+    beginDragFlip(e);
+});
+
+fbStage.addEventListener('pointermove', (e) => {
+    if (!dragFlip.active || dragFlip.settling || e.pointerId !== dragFlip.pointerId) return;
+    const now = performance.now();
+    const dt = Math.max(1, now - dragFlip.lastT);
+    dragFlip.velocity = dragFlip.velocity * 0.8 + ((e.clientX - dragFlip.lastX) / dt) * 0.2;
+    dragFlip.lastX = e.clientX;
+    dragFlip.lastT = now;
+
+    if (!dragFlip.engaged && Math.abs(e.clientX - dragFlip.startX) > DRAG_CLICK_SLOP) {
+        dragFlip.engaged = true;
+    }
+    if (!dragFlip.ready || !dragFlip.engaged) return;
+
+    e.preventDefault();
+    const book = fbBook.getBoundingClientRect();
+    const travel = dragFlip.forward
+        ? (dragFlip.startX - e.clientX)
+        : (e.clientX - dragFlip.startX);
+    dragFlip.progress = Math.min(1, Math.max(0, travel / Math.max(160, book.width * 0.85)));
+    scheduleDragFrame();
+});
+
+function releaseDragFlip(e) {
+    if (!dragFlip.active || dragFlip.settling || (e && e.pointerId !== dragFlip.pointerId)) return;
+    if (!dragFlip.ready) {
+        // Textures still rendering — mark inactive; beginDragFlip cleans up
+        dragFlip.active = false;
+        return;
+    }
+    if (!dragFlip.engaged) {
+        // Plain click on the page edge, not a drag
+        finishDragCleanup(false);
+        return;
+    }
+    const towardFlip = dragFlip.forward ? -dragFlip.velocity : dragFlip.velocity;
+    const commit = dragFlip.progress > 0.5 ||
+        (dragFlip.progress > 0.12 && towardFlip > FLICK_VELOCITY);
+    settleDragFlip(commit);
+}
+fbStage.addEventListener('pointerup', releaseDragFlip);
+fbStage.addEventListener('pointercancel', releaseDragFlip);
+
 /* ── WHEEL ZOOM ────────────────────────────────────────────────── */
 function handleWheelZoom(e) {
     if (!e.ctrlKey) return;
@@ -3110,6 +3548,29 @@ function changeZoom(d) {
 if (dlToggle) {
     dlToggle.addEventListener('click', e => { e.stopPropagation(); if (dlDropdown) dlDropdown.style.display = dlDropdown.style.display === 'none' ? 'block' : 'none'; });
     document.addEventListener('click', () => { if (dlDropdown) dlDropdown.style.display = 'none'; });
+}
+
+/* ── MOBILE "MORE" OVERFLOW MENU ────────────────────────────────── */
+/* On mobile, Details/Playlist/Zoom/Download/Fullscreen live behind a
+   single ⋮ trigger instead of crowding the top bar into several rows. */
+const moreToggleBtn = document.getElementById('fb-more-toggle');
+const morePanel = document.getElementById('fb-more-panel');
+if (moreToggleBtn && morePanel) {
+    moreToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        morePanel.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+        if (!morePanel.classList.contains('open')) return;
+        if (morePanel.contains(e.target) || e.target === moreToggleBtn) return;
+        morePanel.classList.remove('open');
+    });
+    // Single-action items close the sheet after use; zoom buttons and the
+    // download toggle (which opens its own nested dropdown) do not, since
+    // those are meant for repeated/follow-up taps.
+    morePanel.querySelectorAll('.fb-track-pill, #fb-fullscreen').forEach(el => {
+        el.addEventListener('click', () => morePanel.classList.remove('open'));
+    });
 }
 
 /* ── EXTRA BUTTONS (Theater Modals) ────────────────────────────── */
@@ -3283,7 +3744,11 @@ if (ccHandle && commandCenter) {
 }
 
 /* ── AUTO-OPEN & RESIZE ────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => { setTimeout(openTheater, 400); });
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', openTheater, { once: true });
+} else {
+    openTheater();
+}
 let resizeTimer;
 window.addEventListener('resize', () => {
     // Freeze all flip/zoom transitions while the window is actively being

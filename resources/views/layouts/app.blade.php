@@ -153,81 +153,16 @@
                 background: #f8fbff;
             }
 
-            .pagination-centered nav,
-            .pagination-centered .pagination {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+            /* Pagination wrapper — the widget itself (buttons, green active
+               state, mobile sizes) is fully styled by the shared paginator
+               view: resources/views/vendor/pagination/tailwind.blade.php.
+               Every ->links() call renders that one view, so the design is
+               identical on all pages. This wrapper only reserves the row. */
+            .pagination-centered {
+                display: block;
                 width: 100%;
-            }
-
-            .pagination-centered nav div:last-child,
-            .pagination-centered .pagination {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 6px;
-                width: 100%;
-                margin-top: 1rem;
-            }
-
-            .pagination-centered nav div:last-child a,
-            .pagination-centered nav div:last-child span,
-            .pagination-centered .page-link {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 38px;
-                height: 38px;
-                border-radius: 12px;
-                font-weight: 700;
-                font-size: 0.85rem;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                text-decoration: none !important;
-                background: #f8fafc;
-                color: #64748b;
-                border: 1px solid #e2e8f0;
-            }
-
-            .pagination-centered nav div:last-child a:hover,
-            .pagination-centered .page-link:hover {
-                background: #fff;
-                color: #22c55e;
-                border-color: #22c55e;
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(34, 197, 94, 0.1);
-            }
-
-            .pagination-centered nav div:last-child span[aria-current="page"] > span,
-            .pagination-centered .page-item.active .page-link,
-            .pagination-centered .active-page {
-                background: #22c55e !important;
-                color: #fff !important;
-                border: none !important;
-                box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-            }
-
-            .pagination-centered nav div:last-child span[aria-disabled="true"] > span,
-            .pagination-centered .page-item.disabled .page-link {
-                background: transparent !important;
-                border: none !important;
-                color: #cbd5e1 !important;
-                box-shadow: none !important;
-                cursor: default;
-            }
-
-            .pagination-centered nav svg {
-                width: 18px;
-                height: 18px;
-            }
-
-            .pagination-centered nav div:first-child {
-                display: none !important;
-            }
-
-            .pagination-centered .pagination {
-                margin-bottom: 0;
+                max-width: 100%;
+                padding-bottom: 0.25rem;
             }
 
             .global-hymn-search-overlay {
@@ -527,14 +462,6 @@
                 .page-action-btn {
                     min-width: 128px;
                     min-height: 44px;
-                }
-                /* 44x44px minimum touch targets (WCAG 2.5.8 / Apple HIG) */
-                .pagination-centered nav div:last-child a,
-                .pagination-centered nav div:last-child span,
-                .pagination-centered .page-link {
-                    min-width: 44px;
-                    height: 44px;
-                    font-size: 0.8rem;
                 }
 
                 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),

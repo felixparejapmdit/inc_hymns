@@ -656,34 +656,61 @@
         .filter-bar { padding: 1rem !important; border-radius: 20px !important; top: 84px; }
         .options-container { width: 100% !important; position: fixed !important; bottom: 0; left: 0; border-radius: 20px 20px 0 0 !important; max-height: 80vh !important; }
         .search-pill-container { margin-bottom: 0.5rem; }
-        .pagination-centered nav div:last-child { gap: 4px; }
         .container-fluid { max-width: 98% !important; padding-left: 1rem !important; padding-right: 1rem !important; }
         .dashboard-card { padding: 1rem !important; }
     }
 
     /* PAGINATION STYLES (DASHBOARD SYNC) */
+    .pagination-centered {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .pagination-centered::-webkit-scrollbar {
+        display: none;
+    }
+
     .pagination-centered nav {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
+        min-width: 0;
     }
 
-    .pagination-centered nav div:last-child {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 6px;
+    .pagination-centered nav > div:last-child {
         width: 100%;
+        min-width: 0;
         margin-top: 1rem;
     }
 
-    .pagination-centered nav div:last-child a,
-    .pagination-centered nav div:last-child span {
+    .pagination-centered nav > div:last-child > div {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pagination-centered nav > div:last-child > div > span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 6px;
+        width: max-content;
+        min-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .pagination-centered nav > div:last-child > div > span > a,
+    .pagination-centered nav > div:last-child > div > span > span {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex: 0 0 auto;
         min-width: 38px;
         height: 38px;
         border-radius: 12px;
@@ -691,34 +718,34 @@
         font-size: 0.85rem;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none !important;
-        background: #fff;
+        background: #f8fafc;
         color: #64748b;
         border: 1px solid #e2e8f0;
     }
 
-    .pagination-centered nav div:last-child a:hover {
-        background: #f8fafc;
-        color: var(--accent-blue);
-        border-color: var(--accent-blue);
+    .pagination-centered nav > div:last-child > div > span > a:hover {
+        background: #fff;
+        color: #22c55e;
+        border-color: #22c55e;
         transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(62, 109, 156, 0.1);
+        box-shadow: 0 5px 15px rgba(34, 197, 94, 0.1);
     }
 
-    .pagination-centered nav div:last-child span[aria-current="page"] > span {
-        background: var(--accent-blue) !important;
+    .pagination-centered nav > div:last-child > div > span[aria-current="page"] {
+        background: #22c55e !important;
         color: white !important;
         border: none !important;
-        box-shadow: 0 4px 12px rgba(62, 109, 156, 0.3);
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
-    .pagination-centered nav div:last-child span[aria-disabled="true"] > span {
+    .pagination-centered nav > div:last-child > div > span[aria-disabled="true"] {
         background: transparent !important;
         border: none !important;
         color: #cbd5e1 !important;
         cursor: default;
     }
 
-    .pagination-centered nav div:first-child { display: none !important; }
+    .pagination-centered nav > div:first-child { display: none !important; }
 </style>
 
 <x-app-layout>

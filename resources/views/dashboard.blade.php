@@ -1185,28 +1185,56 @@
     }
 
     /* Advanced Dynamic Pagination Styles */
+    .pagination-centered {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .pagination-centered::-webkit-scrollbar {
+        display: none;
+    }
+
     .pagination-centered nav {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
+        min-width: 0;
     }
 
-    .pagination-centered nav div:last-child {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 6px;
+    .pagination-centered nav > div:last-child {
         width: 100%;
+        min-width: 0;
         margin-top: 1rem;
     }
 
-    .pagination-centered nav div:last-child a,
-    .pagination-centered nav div:last-child span {
+    .pagination-centered nav > div:last-child > div {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pagination-centered nav > div:last-child > div > span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 6px;
+        width: max-content;
+        min-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .pagination-centered nav > div:last-child > div > span > a,
+    .pagination-centered nav > div:last-child > div > span > span {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex: 0 0 auto;
         min-width: 38px;
         height: 38px;
         border-radius: 12px;
@@ -1219,7 +1247,7 @@
         border: 1px solid #e2e8f0;
     }
 
-    .pagination-centered nav div:last-child a:hover {
+    .pagination-centered nav > div:last-child > div > span > a:hover {
         background: white;
         color: #22c55e;
         border-color: #22c55e;
@@ -1228,8 +1256,8 @@
     }
 
     /* Active Page (Green Highlight) */
-    .pagination-centered nav div:last-child span[aria-current="page"] > span,
-    .pagination-centered nav div:last-child .active-page {
+    .pagination-centered nav > div:last-child > div > span[aria-current="page"],
+    .pagination-centered nav > div:last-child > div > span .active-page {
         background: #22c55e !important;
         color: white !important;
         border: none !important;
@@ -1237,7 +1265,7 @@
     }
 
     /* Ellipsis Styling */
-    .pagination-centered nav div:last-child span[aria-disabled="true"] > span {
+    .pagination-centered nav > div:last-child > div > span[aria-disabled="true"] {
         background: transparent !important;
         border: none !important;
         color: #cbd5e1 !important;
@@ -1253,7 +1281,7 @@
     }
 
     /* Hide redundant Laravel text */
-    .pagination-centered nav div:first-child {
+    .pagination-centered nav > div:first-child {
         display: none !important;
     }
 
@@ -1299,12 +1327,6 @@
             width: 50px;
             height: 50px;
             font-size: 1.25rem;
-        }
-        .pagination-centered nav div:last-child a,
-        .pagination-centered nav div:last-child span {
-            min-width: 32px;
-            height: 32px;
-            font-size: 0.75rem;
         }
         .highlight-metric {
             flex-direction: column;
